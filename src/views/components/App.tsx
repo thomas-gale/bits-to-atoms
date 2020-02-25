@@ -1,15 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, IconButton, Toolbar, Button } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 
-import Link from '@material-ui/core/Link';
-
-import { ProTip } from './ProTip';
 import { Viewer } from './Viewer';
 
 const useStyles = makeStyles(theme => ({
@@ -24,34 +19,32 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export function App() {
+export function App(): JSX.Element {
   const classes = useStyles();
 
   return (
     <Grid container spacing={3}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Bits to Atoms
-        </Typography>
-        <ProTip />
+      <Grid item xs={12}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Bits to Atoms
+            </Typography>
+            <Button color="inherit">Login</Button>
+          </Toolbar>
+        </AppBar>
+      </Grid>
+      <Grid item xs={12}>
         <Viewer />
-      </Box>
+      </Grid>
     </Grid>
   );
 }

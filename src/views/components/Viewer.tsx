@@ -2,7 +2,9 @@ import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import { Mesh } from 'three';
 
-function Box(props: any) {
+type BoxProps = { position: number[] };
+
+function Box(props: BoxProps): JSX.Element {
   // This reference will give us direct access to the mesh
   const mesh = useRef<Mesh>();
 
@@ -23,9 +25,9 @@ function Box(props: any) {
       {...props}
       ref={mesh}
       scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
-      onClick={e => setActive(!active)}
-      onPointerOver={e => setHover(true)}
-      onPointerOut={e => setHover(false)}
+      onClick={_ => setActive(!active)}
+      onPointerOver={_ => setHover(true)}
+      onPointerOut={_ => setHover(false)}
     >
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
       <meshStandardMaterial

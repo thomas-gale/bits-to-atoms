@@ -12,27 +12,31 @@ import Link from '@material-ui/core/Link';
 import { ProTip } from './ProTip';
 import { Viewer } from './Viewer';
 
-
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   title: {
-    flexGrow: 1,
-  },
+    flexGrow: 1
+  }
 }));
 
 export function App() {
   const classes = useStyles();
 
   return (
-      <Grid container spacing={3}>
-            <AppBar position="static">
-            <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+    <Grid container spacing={3}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>

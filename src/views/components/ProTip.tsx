@@ -22,11 +22,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ProTip() {
+export function ProTip() {
   const classes = useStyles();
   return (
     <Typography className={classes.root} color="textSecondary">
       <LightBulbIcon className={classes.lightBulb} />
+      Under development!
       Pro tip: See more{' '}
       <Link href="https://material-ui.com/getting-started/templates/">templates</Link> on the
       Material-UI documentation.

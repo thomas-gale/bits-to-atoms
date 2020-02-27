@@ -18,10 +18,13 @@ const useStyles = makeStyles(_ => ({
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
+    pointerEvents: 'none'
   },
   uiPrimaryGridContainer: {
     justify: 'flex-start'
+  },
+  uiPrimaryGridElement: {
+    pointerEvents: 'auto'
   }
 }));
 
@@ -33,10 +36,10 @@ export function App(): JSX.Element {
       <Viewer />
       <Box className={classes.uiOverlay}>
         <Grid container className={classes.uiPrimaryGridContainer}>
-          <Grid item xs={12}>
+          <Grid item xs={12} className={classes.uiPrimaryGridElement}>
             <TopNav />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={3} className={classes.uiPrimaryGridElement}>
             <MarketPanel />
           </Grid>
         </Grid>

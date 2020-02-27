@@ -7,7 +7,7 @@ import { Viewer } from './Viewer';
 import { TopNav } from './TopNav';
 import { MarketPanel } from './MarketPanel';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(_ => ({
   fullScreen: {
     margin: 0,
     height: '100vh',

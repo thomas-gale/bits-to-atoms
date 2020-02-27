@@ -6,18 +6,18 @@ const marketSlice = createSlice({
   initialState: [] as BuildRequest[],
   reducers: {
     addBuildRequest(state, action: PayloadAction<BuildRequest>) {
-      state.push(action.payload)
+      state.push(action.payload);
     },
     removeBuildRequest(state, action: PayloadAction<string>) {
-      const indexToRemove = state.findIndex(el => el.id === action.payload)
+      const indexToRemove = state.findIndex(el => el.id === action.payload);
       if (indexToRemove === -1) {
         return; // Don't do anything if we can't find that element
-      } 
+      }
       state.splice(indexToRemove, 1); // Remove the element that has a matching index.
     }
   }
 });
 
-export const { addBuildRequest, removeBuildRequest } = marketSlice.actions
+export const { addBuildRequest, removeBuildRequest } = marketSlice.actions;
 
-export const marketReducer = marketSlice.reducer 
+export const marketReducer = marketSlice.reducer;

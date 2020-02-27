@@ -1,10 +1,11 @@
+import { Identity } from '../common/types';
+
 export enum PartType {
   CUBE
 }
 
 export interface BuildRequest {
-  id: string;
-  name: string;
+  identity: Identity;
   type: PartType;
   size: number;
 }

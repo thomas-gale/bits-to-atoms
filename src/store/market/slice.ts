@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BuildRequest } from './types';
+import { Identity } from '../common/types';
 
 const marketSlice = createSlice({
   name: 'market',
@@ -8,8 +9,8 @@ const marketSlice = createSlice({
     addBuildRequest(state, action: PayloadAction<BuildRequest>) {
       state.push(action.payload);
     },
-    removeBuildRequest(state, action: PayloadAction<string>) {
-      const indexToRemove = state.findIndex(el => el.id === action.payload);
+    removeBuildRequest(state, action: PayloadAction<Identity>) {
+      const indexToRemove = state.findIndex(el => el.identity.uuid === action.payload.uuid);
       if (indexToRemove === -1) {
         return; // Don't do anything if we can't find that element
       }

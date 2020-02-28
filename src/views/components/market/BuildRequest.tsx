@@ -40,7 +40,7 @@ export function BuildRequest(identity: Identity) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button color="secondary" size="small">
+        <Button color="primary" size="small">
           Bid
         </Button>
       </CardActions>

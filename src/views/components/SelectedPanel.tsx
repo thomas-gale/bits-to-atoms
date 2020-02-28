@@ -4,14 +4,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
   Typography,
-  CardActions,
   Button,
   CardContent
 } from '@material-ui/core';
 
-import { RootState } from '../../store';
+import { RootState, AppDispatch } from '../../store';
 import { selectedSelector } from '../../store/selected/selector';
 import { BasicParameter } from './parameter/BasicParameter';
+import { createExistingIdentity } from '../../store/common/types';
+import { setParameter } from '../../store/selected/slice';
+import { ParameterType } from '../../store/selected/types';
 
 function mapState(state: RootState) {
   return {
@@ -19,7 +21,27 @@ function mapState(state: RootState) {
   };
 }
 
-const connector = connect(mapState);
+function mapDispatch(dispatch: AppDispatch) {
+  return {
+    onSubmit: (event: any) => {
+      const xParam = {
+        identity: createExistingIdentity('X Length', 'id-test-length-x'),
+        type: ParameterType.NUMBER,
+        value: '10'
+      };
+      const yParam = {
+        identity: createExistingIdentity('Y Length', 'id-test-length-y'),
+        type: ParameterType.NUMBER,
+        value: '8'
+      };
+
+      dispatch(setParameter(xParam));
+      dispatch(setParameter(yParam));
+    }
+  }
+}
+
+const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -59,7 +81,7 @@ function SelectedPanel(props: Props): JSX.Element {
           autoComplete="off"
           onSubmit={e => {
             e.preventDefault();
-            console.log('Submit Clicked');
+            props.onSubmit(e)
           }}
         >
           {props.selected.parameters.map(parameter => {

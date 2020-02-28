@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
-import { Viewer } from './Viewer';
+import { Factory } from './Factory';
 import { TopNav } from './TopNav';
 import MarketPanel from './MarketPanel';
 import SelectedPanel from './SelectedPanel';
@@ -34,7 +34,7 @@ export function App(): JSX.Element {
 
   return (
     <Box className={classes.fullScreen}>
-      <Viewer />
+      <Factory />
       <Box className={classes.uiOverlay}>
         <Grid container className={classes.uiPrimaryGridContainer}>
           <Grid item xs={12}>

@@ -1,7 +1,13 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Card, Typography, CardActions, Button, CardContent } from '@material-ui/core';
+import {
+  Card,
+  Typography,
+  CardActions,
+  Button,
+  CardContent
+} from '@material-ui/core';
 
 import { RootState } from '../../store';
 
@@ -17,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(2),
     margin: theme.spacing(2),
-    flexGrow: 1,
+    flexGrow: 1
   },
   title: {
     fontSize: 14
@@ -39,12 +45,8 @@ function SelectedPanel(): JSX.Element {
         <Typography variant="h5" component="h2">
           Something Clicked On
         </Typography>
-        <Typography color="textSecondary">
-          Property 1
-        </Typography>
-        <Typography color="textSecondary">
-          Property 2
-        </Typography>
+        <Typography color="textSecondary">Property 1</Typography>
+        <Typography color="textSecondary">Property 2</Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Do Something</Button>

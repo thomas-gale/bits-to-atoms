@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import { Mesh } from 'three';
+import FloorSpace from './factory/FloorSpace';
+import { ReactReduxContext, Provider } from 'react-redux';
 
 type BoxProps = { position: number[] };
 
@@ -38,13 +40,20 @@ function Box(props: BoxProps): JSX.Element {
   );
 }
 
-export function Viewer() {
+export function Factory() {
   return (
-    <Canvas>
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
-    </Canvas>
+    <ReactReduxContext.Consumer>
+      {({ store }) => (
+        <Canvas>
+          <Provider store={store}>
+            <ambientLight />
+            <pointLight position={[10, 10, 10]} />
+            <Box position={[-1.2, 0, 0]} />
+            <Box position={[1.2, 0, 0]} />
+            <FloorSpace position={[0, 0, 0]} />
+          </Provider>
+        </Canvas>
+      )}
+    </ReactReduxContext.Consumer>
   );
 }

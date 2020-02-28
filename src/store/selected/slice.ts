@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Selected, ParameterType, Parameter } from './types';
-import { Identity, createExistingIdentity } from '../common/types';
+import { createExistingIdentity } from '../common/types';
 
 const selectedSlice = createSlice({
   name: 'selected',
   initialState: {
-    identity: createExistingIdentity('Floorspace', 'id-root-floorspace'),
+    identity: createExistingIdentity('Floorspace', 'id-root-floorspace'), // Testing
     parameters: [
       {
         identity: createExistingIdentity('X Length', 'id-test-length-x'),

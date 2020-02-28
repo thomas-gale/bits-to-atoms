@@ -22,7 +22,7 @@ function mapState(state: RootState) {
 
 function mapDispatch(dispatch: AppDispatch) {
   return {
-    onSubmit: (event: any) => {
+    onSubmit: () => {
       const xParam = {
         identity: createExistingIdentity('X Length', 'id-test-length-x'),
         type: ParameterType.NUMBER,
@@ -82,7 +82,7 @@ function SelectedPanel(props: Props): JSX.Element {
           autoComplete="off"
           onSubmit={e => {
             e.preventDefault();
-            props.onSubmit(e);
+            props.onSubmit();
           }}
         >
           {props.selected.parameters.map(parameter => {

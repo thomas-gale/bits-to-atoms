@@ -44,8 +44,12 @@ export function Factory() {
   return (
     <ReactReduxContext.Consumer>
       {({ store }) => (
-        <Canvas > {/* invalidateFrameloop */}
+        <Canvas>
+          {' '}
+          {/* invalidateFrameloop */}
           <Provider store={store}>
+            {' '}
+            {/* Pass the redux store into the THREE canvas */}
             <ambientLight />
             <pointLight position={[10, 10, 10]} />
             <Box position={[-1.2, 0, 0]} />

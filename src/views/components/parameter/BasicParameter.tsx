@@ -1,15 +1,6 @@
-import React, { ParamHTMLAttributes } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Card,
-  Typography,
-  CardActions,
-  Button,
-  CardContent,
-  Container,
-  TextField
-} from '@material-ui/core';
+import { Card, Typography, CardContent, TextField } from '@material-ui/core';
 import { Parameter } from '../../../store/selected/types';
 
 type Props = {

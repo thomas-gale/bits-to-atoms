@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Factory } from './types';
-import { Identity } from '../common/types';
+import { Identity, createExistingIdentity } from '../common/types';
 
 const factorySlice = createSlice({
   name: 'factory',
   initialState: {
-    id: { uuid: 'default', displayName: 'space1' },
+    id: createExistingIdentity('Factory', 'id-root-factory'),
     floorSpace: {
+      id: createExistingIdentity('Floorspace', 'id-root-floorspace'),
       xLength: 4,
       yLength: 4
     }

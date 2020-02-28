@@ -7,6 +7,7 @@ import { marketShortRunSaga } from './market/sagas';
 
 import { marketReducer } from './market/slice';
 import { factoryReducer } from './factory/slice';
+import { selectedReducer } from './selected/slice';
 
 function* rootSaga() {
   yield all([marketShortRunSaga()]);
@@ -16,7 +17,8 @@ const sagaMiddleware = createSagaMiddleware();
 
 export const rootReducer = combineReducers({
   market: marketReducer,
-  factory: factoryReducer
+  factory: factoryReducer,
+  selected: selectedReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

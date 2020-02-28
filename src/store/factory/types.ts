@@ -6,6 +6,7 @@ export interface Factory {
 }
 
 export interface FloorSpace {
+  id: Identity;
   xLength: number;
   yLength: number;
 }

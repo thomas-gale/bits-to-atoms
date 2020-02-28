@@ -5,7 +5,16 @@ export interface Identity {
   displayName: string;
 }
 
-// Generate an display
+export function createExistingIdentity(
+  displayName: string,
+  uuid: string
+): Identity {
+  return {
+    uuid,
+    displayName
+  };
+}
+
 export function createNewIdentity(displayName: string): Identity {
   return {
     uuid: uuidv4(),

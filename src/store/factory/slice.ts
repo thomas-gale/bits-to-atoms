@@ -5,7 +5,7 @@ import { Identity } from '../common/types';
 const factorySlice = createSlice({
   name: 'factory',
   initialState: {
-    id: { uuid: 'default', name: 'space1' },
+    id: { uuid: 'default', displayName: 'space1' },
     xLength: 4,
     yLength: 4
   } as FloorSpace,

@@ -1,12 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Card,
-  Typography,
-  Button,
-  CardContent
-} from '@material-ui/core';
+import { Card, Typography, Button, CardContent } from '@material-ui/core';
 
 import { RootState, AppDispatch } from '../../store';
 import { selectedSelector } from '../../store/selected/selector';
@@ -14,6 +9,10 @@ import { BasicParameter } from './parameter/BasicParameter';
 import { createExistingIdentity } from '../../store/common/types';
 import { setParameter } from '../../store/selected/slice';
 import { ParameterType } from '../../store/selected/types';
+import {
+  setFloorSpaceXLength,
+  setFloorSpaceYLength
+} from '../../store/factory/slice';
 
 function mapState(state: RootState) {
   return {
@@ -37,8 +36,10 @@ function mapDispatch(dispatch: AppDispatch) {
 
       dispatch(setParameter(xParam));
       dispatch(setParameter(yParam));
+      dispatch(setFloorSpaceXLength(Number(xParam.value)));
+      dispatch(setFloorSpaceYLength(Number(yParam.value)));
     }
-  }
+  };
 }
 
 const connector = connect(mapState, mapDispatch);
@@ -81,7 +82,7 @@ function SelectedPanel(props: Props): JSX.Element {
           autoComplete="off"
           onSubmit={e => {
             e.preventDefault();
-            props.onSubmit(e)
+            props.onSubmit(e);
           }}
         >
           {props.selected.parameters.map(parameter => {

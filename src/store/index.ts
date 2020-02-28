@@ -12,7 +12,7 @@ function* rootSaga() {
   yield all([marketShortRunSaga()]);
 }
 
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware();
 
 export const rootReducer = combineReducers({
   market: marketReducer,
@@ -23,9 +23,7 @@ export type RootState = ReturnType<typeof rootReducer>;
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: [
-    sagaMiddleware
-  ] as const
+  middleware: [sagaMiddleware] as const
 });
 
 sagaMiddleware.run(rootSaga);

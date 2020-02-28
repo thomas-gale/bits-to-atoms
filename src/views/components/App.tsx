@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 
 import { Viewer } from './Viewer';
 import { TopNav } from './TopNav';
-import { MarketPanel } from './MarketPanel';
+import MarketPanel from './MarketPanel';
 
 const useStyles = makeStyles(_ => ({
   fullScreen: {

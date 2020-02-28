@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Identity } from '../../../store/common/types';
 
 const useStyles = makeStyles({
   root: {
@@ -18,9 +19,9 @@ const useStyles = makeStyles({
   }
 });
 
-export default function DesignListing() {
+export function BuildRequest(identity: Identity) {
   const classes = useStyles();
-
+  const { uuid, displayName } = identity;
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -29,13 +30,13 @@ export default function DesignListing() {
           color="textSecondary"
           gutterBottom
         >
-          Design Listing
+          Build Request
         </Typography>
         <Typography variant="h5" component="h2">
-          Cube Part
+          {displayName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          part-id-12312asdf809fdsa
+          {uuid}
         </Typography>
       </CardContent>
       <CardActions>

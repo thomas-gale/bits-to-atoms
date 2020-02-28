@@ -10,5 +10,5 @@ export function createNewIdentity(displayName: string): Identity {
   return {
     uuid: uuidv4(),
     displayName: displayName
-  }
+  };
 }

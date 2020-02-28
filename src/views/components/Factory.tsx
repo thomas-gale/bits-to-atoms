@@ -44,7 +44,7 @@ export function Factory() {
   return (
     <ReactReduxContext.Consumer>
       {({ store }) => (
-        <Canvas>
+        <Canvas > {/* invalidateFrameloop */}
           <Provider store={store}>
             <ambientLight />
             <pointLight position={[10, 10, 10]} />

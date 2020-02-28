@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { Viewer } from './Viewer';
 import { TopNav } from './TopNav';
 import MarketPanel from './MarketPanel';
+import SelectedPanel from './SelectedPanel';
 
 const useStyles = makeStyles(_ => ({
   fullScreen: {
@@ -36,11 +37,21 @@ export function App(): JSX.Element {
       <Viewer />
       <Box className={classes.uiOverlay}>
         <Grid container className={classes.uiPrimaryGridContainer}>
-          <Grid item xs={12} className={classes.uiPrimaryGridElement}>
-            <TopNav />
+          <Grid item xs={12}>
+            <div className={classes.uiPrimaryGridElement}>
+              <TopNav />
+            </div>
           </Grid>
-          <Grid item xs={3} className={classes.uiPrimaryGridElement}>
-            <MarketPanel />
+          <Grid item xs={3}>
+            <div className={classes.uiPrimaryGridElement}>
+              <MarketPanel />
+            </div>
+          </Grid>
+          <Grid item xs={6}></Grid>
+          <Grid item xs={3}>
+            <div className={classes.uiPrimaryGridElement}>
+              <SelectedPanel />
+            </div>
           </Grid>
         </Grid>
       </Box>

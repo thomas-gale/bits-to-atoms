@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
-import SelectedForm, { SelectedParameters } from './parameter/SelectedForm';
+import SelectedForm from './parameter/SelectedForm';
 
 import { RootState, AppDispatch } from '../../store';
 import { selectedSelector } from '../../store/selected/selector';
@@ -13,9 +13,8 @@ import {
   setFloorSpaceXLength,
   setFloorSpaceYLength
 } from '../../store/factory/slice';
-import { Dispatch } from 'redux';
 
-interface FloorspaceParmeters {
+export interface FloorspaceParmeters {
   idtestlengthx: number;
   idtestlengthy: number;
 }
@@ -32,11 +31,7 @@ function mapState(state: RootState) {
 
 function mapDispatch(dispatch: AppDispatch) {
   return {
-    handleSubmit: (
-      values: {},
-      dispatch: Dispatch<any>,
-      props: SelectedParameters
-    ) => {
+    handleSubmit: (values: FloorspaceParmeters) => {
       const floorspaceParamValues = values as FloorspaceParmeters;
       const xParam = {
         identity: createExistingIdentity('X Length', 'idtestlengthx'),

@@ -4,13 +4,15 @@ import { Button } from '@material-ui/core';
 import { BasicParameter } from './BasicParameter';
 import { Selected } from '../../../store/selected/types';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
+import { FloorspaceParmeters } from '../SelectedPanel';
 
 export interface SelectedParameters {
   selected: Selected;
 }
 
 class SelectedForm extends React.Component<
-  SelectedParameters & InjectedFormProps<{}, SelectedParameters>
+  SelectedParameters &
+    InjectedFormProps<FloorspaceParmeters, SelectedParameters>
 > {
   render() {
     const {
@@ -39,6 +41,6 @@ class SelectedForm extends React.Component<
   }
 }
 
-export default reduxForm<{}, SelectedParameters>({
+export default reduxForm<FloorspaceParmeters, SelectedParameters>({
   form: 'selectedForm'
 })(SelectedForm);

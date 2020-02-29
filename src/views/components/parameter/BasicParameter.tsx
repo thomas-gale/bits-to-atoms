@@ -22,8 +22,6 @@ const useStyles = makeStyles(theme => ({
 
 export function BasicParameter({
   input,
-  label,
-  meta: { touched, error },
   parameter,
   ...custom
 }: any): JSX.Element {

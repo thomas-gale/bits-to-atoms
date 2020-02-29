@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import { marketShortRunSaga } from './market/sagas';
 
+import { reducer as formReducer } from 'redux-form';
 import { marketReducer } from './market/slice';
 import { factoryReducer } from './factory/slice';
 import { selectedReducer } from './selected/slice';
@@ -18,7 +19,8 @@ const sagaMiddleware = createSagaMiddleware();
 export const rootReducer = combineReducers({
   market: marketReducer,
   factory: factoryReducer,
-  selected: selectedReducer
+  selected: selectedReducer,
+  form: formReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

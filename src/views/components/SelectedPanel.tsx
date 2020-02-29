@@ -13,19 +13,13 @@ import {
   setFloorSpaceXLength,
   setFloorSpaceYLength
 } from '../../store/factory/slice';
-
-export interface FloorspaceParmeters {
-  idtestlengthx: number;
-  idtestlengthy: number;
-}
+import { FloorspaceParmeters } from '../../store/factory/types';
+import { floorSpaceFormParametersSelector } from '../../store/factory/selectors';
 
 function mapState(state: RootState) {
   return {
     selected: selectedSelector(state),
-    initialValues: {
-      idtestlengthx: 4.2,
-      idtestlengthy: 3.5
-    }
+    initialValues: floorSpaceFormParametersSelector(state)
   };
 }
 

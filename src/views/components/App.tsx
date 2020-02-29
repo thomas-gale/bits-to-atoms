@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
 import { Factory } from './Factory';
-import { TopNav } from './TopNav';
+import TopNav from './TopNav';
 import MarketPanel from './MarketPanel';
 import SelectedPanel from './SelectedPanel';
 

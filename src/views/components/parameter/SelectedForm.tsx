@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import { BasicParameter } from './BasicParameter';
 import { Selected } from '../../../store/selected/types';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
-import { FloorspaceParmeters } from '../SelectedPanel';
+import { FloorspaceParmeters } from '../../../store/factory/types';
 
 export interface SelectedParameters {
   selected: Selected;

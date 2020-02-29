@@ -10,3 +10,8 @@ export interface FloorSpace {
   xLength: number;
   yLength: number;
 }
+
+export interface FloorspaceParmeters {
+  idtestlengthx: number;
+  idtestlengthy: number;
+}

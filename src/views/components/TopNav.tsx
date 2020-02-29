@@ -9,6 +9,19 @@ import {
   Typography
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import { factorySelector } from '../../store/factory/selectors';
+import { connect, ConnectedProps } from 'react-redux';
+import { RootState } from '../../store';
+
+function mapState(state: RootState) {
+  return {
+    factory: factorySelector(state)
+  };
+}
+
+const connector = connect(mapState);
+
+type Props = ConnectedProps<typeof connector>;
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -23,8 +36,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export function TopNav(): JSX.Element {
+function TopNav(props: Props): JSX.Element {
   const classes = useStyles();
+  const { factory } = props;
 
   return (
     <Box className={classes.container}>
@@ -39,7 +53,7 @@ export function TopNav(): JSX.Element {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            bits-to-atoms
+            {factory.id.displayName} : {factory.id.uuid}
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
@@ -47,3 +61,5 @@ export function TopNav(): JSX.Element {
     </Box>
   );
 }
+
+export default connector(TopNav);

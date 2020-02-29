@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { SubmitHandler } from 'redux-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
-import SelectedForm, { SelectedParameters } from './parameter/SelectedForm';
+import SelectedForm, { SelectedParameters }  from './parameter/SelectedForm';
 
 import { RootState, AppDispatch } from '../../store';
 import { selectedSelector } from '../../store/selected/selector';
@@ -13,6 +14,7 @@ import {
   setFloorSpaceXLength,
   setFloorSpaceYLength
 } from '../../store/factory/slice';
+import { Dispatch } from 'redux';
 
 function mapState(state: RootState) {
   return {
@@ -22,23 +24,23 @@ function mapState(state: RootState) {
 
 function mapDispatch(dispatch: AppDispatch) {
   return {
-    handleSubmit: (parameters: any) => {
-      const xParam = {
-        identity: createExistingIdentity('X Length', 'id-test-length-x'),
-        type: ParameterType.NUMBER,
-        value: '10'
-      };
-      const yParam = {
-        identity: createExistingIdentity('Y Length', 'id-test-length-y'),
-        type: ParameterType.NUMBER,
-        value: '8'
-      };
+    handleSubmit: (values: {}, dispatch: Dispatch<any>, props: SelectedParameters) => {
+        const xParam = {
+          identity: createExistingIdentity('X Length', 'id-test-length-x'),
+          type: ParameterType.NUMBER,
+          value: '10'
+        };
+        const yParam = {
+          identity: createExistingIdentity('Y Length', 'id-test-length-y'),
+          type: ParameterType.NUMBER,
+          value: '8'
+        };
 
-      dispatch(setParameter(xParam));
-      dispatch(setParameter(yParam));
-      dispatch(setFloorSpaceXLength(Number(xParam.value)));
-      dispatch(setFloorSpaceYLength(Number(yParam.value)));
-    }
+        dispatch(setParameter(xParam));
+        dispatch(setParameter(yParam));
+        dispatch(setFloorSpaceXLength(Number(xParam.value)));
+        dispatch(setFloorSpaceYLength(Number(yParam.value)));
+      }
   };
 }
 
@@ -78,7 +80,6 @@ function SelectedPanel(props: Props): JSX.Element {
           {props.selected.identity.uuid}
         </Typography>
         <SelectedForm
-          testName="TestName"
           selected={props.selected}
           onSubmit={props.handleSubmit}
         />

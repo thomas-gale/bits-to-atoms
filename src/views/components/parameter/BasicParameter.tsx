@@ -20,19 +20,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export function BasicParameter({
-  input,
-  parameter,
-  ...custom
-}: any): JSX.Element {
+type BasicParameterProps = {
+  input: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  parameter: Parameter;
+};
+
+export function BasicParameter(props: BasicParameterProps): JSX.Element {
   const classes = useStyles();
+  const { input, parameter } = props;
   return (
     <Card className={classes.container}>
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
           {parameter.identity.displayName}
         </Typography>
-        <TextField {...input} {...custom} />
+        <TextField {...input} />
       </CardContent>
     </Card>
   );

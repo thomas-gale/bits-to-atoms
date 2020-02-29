@@ -8,12 +8,12 @@ const selectedSlice = createSlice({
     identity: createExistingIdentity('Floorspace', 'id-root-floorspace'), // Testing
     parameters: [
       {
-        identity: createExistingIdentity('X Length', 'id-test-length-x'),
+        identity: createExistingIdentity('X Length', 'idtestlengthx'),
         type: ParameterType.NUMBER,
         value: '8'
       },
       {
-        identity: createExistingIdentity('Y Length', 'id-test-length-y'),
+        identity: createExistingIdentity('Y Length', 'idtestlengthy'),
         type: ParameterType.NUMBER,
         value: '4'
       }

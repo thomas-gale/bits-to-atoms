@@ -20,18 +20,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export function BasicParameter(props: Props): JSX.Element {
+export function BasicParameter({
+  input,
+  label,
+  meta: { touched, error },
+  parameter,
+  ...custom
+}: any): JSX.Element {
   const classes = useStyles();
   return (
     <Card className={classes.container}>
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
-          {props.parameter.identity.displayName}
+          {parameter.identity.displayName}
         </Typography>
-        <TextField
-          id={props.parameter.identity.uuid}
-          value={props.parameter.value}
-        />
+        <TextField {...input} {...custom} />
       </CardContent>
     </Card>
   );

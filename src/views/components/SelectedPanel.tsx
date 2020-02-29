@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, Button, CardContent } from '@material-ui/core';
+import { Card, Typography, CardContent } from '@material-ui/core';
+import SelectedForm, { SelectedParameters } from './parameter/SelectedForm';
 
 import { RootState, AppDispatch } from '../../store';
 import { selectedSelector } from '../../store/selected/selector';
-import { BasicParameter } from './parameter/BasicParameter';
 import { createExistingIdentity } from '../../store/common/types';
 import { setParameter } from '../../store/selected/slice';
 import { ParameterType } from '../../store/selected/types';
@@ -22,7 +22,7 @@ function mapState(state: RootState) {
 
 function mapDispatch(dispatch: AppDispatch) {
   return {
-    onSubmit: () => {
+    handleSubmit: (parameters: any) => {
       const xParam = {
         identity: createExistingIdentity('X Length', 'id-test-length-x'),
         type: ParameterType.NUMBER,
@@ -77,26 +77,11 @@ function SelectedPanel(props: Props): JSX.Element {
         <Typography className={classes.pos} color="textSecondary">
           {props.selected.identity.uuid}
         </Typography>
-        <form
-          noValidate
-          autoComplete="off"
-          onSubmit={e => {
-            e.preventDefault();
-            props.onSubmit();
-          }}
-        >
-          {props.selected.parameters.map(parameter => {
-            return (
-              <BasicParameter
-                key={parameter.identity.uuid}
-                parameter={parameter}
-              />
-            );
-          })}
-          <Button type="submit" color="primary" size="small">
-            Update
-          </Button>
-        </form>
+        <SelectedForm
+          testName="TestName"
+          selected={props.selected}
+          onSubmit={props.handleSubmit}
+        />
       </CardContent>
     </Card>
   );

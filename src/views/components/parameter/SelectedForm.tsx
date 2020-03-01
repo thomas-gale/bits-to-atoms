@@ -11,8 +11,7 @@ export interface SelectedParameters {
 }
 
 class SelectedForm extends React.Component<
-  SelectedParameters &
-    InjectedFormProps<FloorSpace, SelectedParameters>
+  SelectedParameters & InjectedFormProps<FloorSpace, SelectedParameters>
 > {
   render() {
     const {

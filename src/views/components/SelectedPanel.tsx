@@ -6,7 +6,8 @@ import SelectedForm from './parameter/SelectedForm';
 
 import { RootState, AppDispatch } from '../../store';
 import { ParameterType, Parameter } from '../../store/selected/types';
-import { FloorSpace } from '../../store/factory/types';
+import { FloorSpace } from '../../store/factory/services/floorspace/types';
+
 import {
   setFloorSpaceXLength,
   setFloorSpaceYLength
@@ -14,7 +15,7 @@ import {
 import { setParameter } from '../../store/selected/slice';
 import { createExistingIdentity } from '../../store/common/factoryMethods';
 import { selectedSelector } from '../../store/selected/selectors';
-import { floorSpaceSelector } from '../../store/factory/selectors';
+import { floorSpaceSelector } from '../../store/factory/services/floorspace/selectors';
 
 function mapState(state: RootState) {
   return {

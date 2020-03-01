@@ -1,10 +1,10 @@
 import React from 'react';
+import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { Button } from '@material-ui/core';
 
 import { BasicParameter } from './BasicParameter';
+import { FloorSpace } from '../../../store/factory/services/floorspace/types';
 import { Selected } from '../../../store/selected/types';
-import { Field, InjectedFormProps, reduxForm } from 'redux-form';
-import { FloorSpace } from '../../../store/factory/types';
 
 export interface SelectedParameters {
   selected: Selected;

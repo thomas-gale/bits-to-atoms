@@ -1,35 +1,25 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, combineReducers } from '@reduxjs/toolkit';
 import { Factory } from './types';
 import { Identity } from '../common/types';
-import { createExistingIdentity } from '../common/factoryMethods';
+import { createExistingIdentity } from '../common/typeFactoryMethods';
+import { floorSpaceReducer } from './services/floorspace/slice';
 
 const factorySlice = createSlice({
   name: 'factory',
   initialState: {
-    id: createExistingIdentity('Factory', 'factory-default'),
-    floorSpace: {
-      id: createExistingIdentity('Floorspace', 'floorspace-default'),
-      xLength: 4,
-      yLength: 4
-    }
+    id: createExistingIdentity('Factory', 'factory-default')
   } as Factory,
   reducers: {
     setIdentity(state, action: PayloadAction<Identity>) {
       state.id = action.payload;
-    },
-    setFloorSpaceXLength(state, action: PayloadAction<number>) {
-      state.floorSpace.xLength = action.payload;
-    },
-    setFloorSpaceYLength(state, action: PayloadAction<number>) {
-      state.floorSpace.yLength = action.payload;
     }
   }
 });
 
-export const {
-  setIdentity,
-  setFloorSpaceXLength,
-  setFloorSpaceYLength
-} = factorySlice.actions;
+export const { setIdentity } = factorySlice.actions;
 
 export const factoryReducer = factorySlice.reducer;
+
+export const factoryServicesReducer = combineReducers({
+  floorSpace: floorSpaceReducer
+});

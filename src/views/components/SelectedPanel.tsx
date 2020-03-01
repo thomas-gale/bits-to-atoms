@@ -9,11 +9,11 @@ import { ParameterType, Parameter } from '../../store/selected/types';
 import { FloorSpace } from '../../store/factory/services/floorspace/types';
 
 import {
-  setFloorSpaceXLength,
-  setFloorSpaceYLength
-} from '../../store/factory/slice';
+  setXLength,
+  setYLength
+} from '../../store/factory/services/floorspace/slice';
 import { setParameter } from '../../store/selected/slice';
-import { createExistingIdentity } from '../../store/common/factoryMethods';
+import { createExistingIdentity } from '../../store/common/typeFactoryMethods';
 import { selectedSelector } from '../../store/selected/selectors';
 import { floorSpaceSelector } from '../../store/factory/services/floorspace/selectors';
 
@@ -40,8 +40,8 @@ function mapDispatch(dispatch: AppDispatch) {
 
       dispatch(setParameter(xParam));
       dispatch(setParameter(yParam));
-      dispatch(setFloorSpaceXLength(Number(xParam.value)));
-      dispatch(setFloorSpaceYLength(Number(yParam.value)));
+      dispatch(setXLength(Number(xParam.value)));
+      dispatch(setYLength(Number(yParam.value)));
     }
   };
 }

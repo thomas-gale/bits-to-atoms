@@ -1,5 +1,4 @@
 import { Identity, Vector3, Quaternion, Cuboid } from '../common/types';
-import { FloorSpace } from './services/floorspace/types';
 
 export interface Entity {
   id: Identity;
@@ -8,6 +7,4 @@ export interface Entity {
   bounds: Cuboid;
 }
 
-export interface Factory extends Entity {
-  floorSpace: FloorSpace;
-}
+export type Factory = Entity;

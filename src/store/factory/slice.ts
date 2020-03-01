@@ -5,9 +5,9 @@ import { Identity, createExistingIdentity } from '../common/types';
 const factorySlice = createSlice({
   name: 'factory',
   initialState: {
-    id: createExistingIdentity('Factory', 'id-root-factory'),
+    id: createExistingIdentity('Factory', 'factory-default'),
     floorSpace: {
-      id: createExistingIdentity('Floorspace', 'id-root-floorspace'),
+      id: createExistingIdentity('Floorspace', 'floorspace-default'),
       xLength: 4,
       yLength: 4
     }

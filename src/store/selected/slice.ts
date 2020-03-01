@@ -5,15 +5,15 @@ import { createExistingIdentity } from '../common/types';
 const selectedSlice = createSlice({
   name: 'selected',
   initialState: {
-    identity: createExistingIdentity('Floorspace', 'id-root-floorspace'), // Testing
+    identity: createExistingIdentity('Floorspace', 'floorspace-default'), // Testing
     parameters: [
       {
-        identity: createExistingIdentity('X Length', 'idtestlengthx'),
+        identity: createExistingIdentity('X Length', 'xLength'),
         type: ParameterType.NUMBER,
         value: '8'
       },
       {
-        identity: createExistingIdentity('Y Length', 'idtestlengthy'),
+        identity: createExistingIdentity('Y Length', 'yLength'),
         type: ParameterType.NUMBER,
         value: '4'
       }

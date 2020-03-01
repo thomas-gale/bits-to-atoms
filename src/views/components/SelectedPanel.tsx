@@ -13,29 +13,28 @@ import {
   setFloorSpaceXLength,
   setFloorSpaceYLength
 } from '../../store/factory/slice';
-import { FloorspaceParmeters } from '../../store/factory/types';
-import { floorSpaceFormParametersSelector } from '../../store/factory/selectors';
+import { FloorSpace } from '../../store/factory/types';
+import { floorSpaceSelector } from '../../store/factory/selectors';
 
 function mapState(state: RootState) {
   return {
     selected: selectedSelector(state),
-    initialValues: floorSpaceFormParametersSelector(state)
+    initialValues: floorSpaceSelector(state)
   };
 }
 
 function mapDispatch(dispatch: AppDispatch) {
   return {
-    handleSubmit: (values: FloorspaceParmeters) => {
-      const floorspaceParamValues = values as FloorspaceParmeters;
+    handleSubmit: (values: FloorSpace) => {
       const xParam = {
-        identity: createExistingIdentity('X Length', 'idtestlengthx'),
+        identity: createExistingIdentity('X Length', 'xLength'),
         type: ParameterType.NUMBER,
-        value: floorspaceParamValues.idtestlengthx.toString()
+        value: values.xLength.toString()
       } as Parameter;
       const yParam = {
-        identity: createExistingIdentity('Y Length', 'idtestlengthy'),
+        identity: createExistingIdentity('Y Length', 'yLength'),
         type: ParameterType.NUMBER,
-        value: floorspaceParamValues.idtestlengthy.toString()
+        value: values.yLength.toString()
       } as Parameter;
 
       dispatch(setParameter(xParam));

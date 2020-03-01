@@ -18,10 +18,7 @@ const factorySlice = createSlice({
 
 export const { setIdentity } = factorySlice.actions;
 
-
-
 export const factoryReducer = combineReducers({
   stats: factorySlice.reducer,
   services: factoryServicesReducer
 });
-

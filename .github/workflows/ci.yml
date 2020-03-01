@@ -1,0 +1,24 @@
+name: CI
+
+on: 
+  push:
+    branches:
+    - master
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Setup Node
+      uses: actions/setup-node@v1.1.0
+      
+    - name: Build
+      run: yarn build
+
+    - name: Deploy
+      run: yarn deploy
+    

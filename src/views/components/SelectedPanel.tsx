@@ -5,15 +5,15 @@ import { Card, Typography, CardContent } from '@material-ui/core';
 import SelectedForm from './parameter/SelectedForm';
 
 import { RootState, AppDispatch } from '../../store';
-import { selectedSelector } from '../../store/selected/selector';
-import { createExistingIdentity } from '../../store/common/types';
-import { setParameter } from '../../store/selected/slice';
 import { ParameterType, Parameter } from '../../store/selected/types';
+import { FloorSpace } from '../../store/factory/types';
 import {
   setFloorSpaceXLength,
   setFloorSpaceYLength
 } from '../../store/factory/slice';
-import { FloorSpace } from '../../store/factory/types';
+import { setParameter } from '../../store/selected/slice';
+import { createExistingIdentity } from '../../store/common/factoryMethods';
+import { selectedSelector } from '../../store/selected/selectors';
 import { floorSpaceSelector } from '../../store/factory/selectors';
 
 function mapState(state: RootState) {

@@ -1,7 +1,7 @@
 import { delay, put } from 'redux-saga/effects';
 import { addBuildRequest } from './slice';
 import { BuildRequest, PartType } from './types';
-import { createNewIdentity } from '../common/types';
+import { createNewIdentity } from '../common/factoryMethods';
 
 export function* marketShortRunSaga() {
   console.log('Starting short test market saga.');

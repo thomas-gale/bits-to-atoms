@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Selected, ParameterType, Parameter } from './types';
-import { createExistingIdentity } from '../common/types';
+import { createExistingIdentity } from '../common/factoryMethods';
 
 const selectedSlice = createSlice({
   name: 'selected',

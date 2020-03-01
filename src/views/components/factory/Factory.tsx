@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import { Mesh } from 'three';
-import FloorSpace from './factory/services/FloorSpace';
+import FloorSpace from './services/FloorSpace';
 import { ReactReduxContext, Provider } from 'react-redux';
-import HumanWorker from './factory/services/HumanWorker';
-import SimplePolymerSpool from './factory/material/SimplePolymerSpool';
+import HumanWorker from './services/HumanWorker';
+import SimplePolymerSpool from './material/SimplePolymerSpool';
 
 type BoxProps = { position: number[] };
 

@@ -3,8 +3,8 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { Button } from '@material-ui/core';
 
 import { BasicParameter } from './BasicParameter';
-import { FloorSpace } from '../../../store/factory/services/floorspace/types';
-import { Selected } from '../../../store/selected/types';
+import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
+import { Selected } from '../../../../store/selected/types';
 
 export interface SelectedParameters {
   selected: Selected;

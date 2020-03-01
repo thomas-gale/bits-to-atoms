@@ -4,18 +4,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
 import SelectedForm from './parameter/SelectedForm';
 
-import { RootState, AppDispatch } from '../../store';
-import { ParameterType, Parameter } from '../../store/selected/types';
-import { FloorSpace } from '../../store/factory/services/floorspace/types';
+import { RootState, AppDispatch } from '../../../store';
+import { ParameterType, Parameter } from '../../../store/selected/types';
+import { FloorSpace } from '../../../store/factory/services/floorspace/types';
 
 import {
   setXLength,
   setYLength
-} from '../../store/factory/services/floorspace/slice';
-import { setParameter } from '../../store/selected/slice';
-import { createExistingIdentity } from '../../store/common/typeFactoryMethods';
-import { selectedSelector } from '../../store/selected/selectors';
-import { floorSpaceSelector } from '../../store/factory/services/floorspace/selectors';
+} from '../../../store/factory/services/floorspace/slice';
+import { setParameter } from '../../../store/selected/slice';
+import { createExistingIdentity } from '../../../store/common/typeFactoryMethods';
+import { selectedSelector } from '../../../store/selected/selectors';
+import { floorSpaceSelector } from '../../../store/factory/services/floorspace/selectors';
 
 function mapState(state: RootState) {
   return {

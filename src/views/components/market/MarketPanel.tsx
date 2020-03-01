@@ -3,9 +3,9 @@ import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
 
-import { RootState } from '../../store';
-import { BuildRequest } from './market/BuildRequest';
-import { buildRequestsSelector } from '../../store/market/selectors';
+import { RootState } from '../../../store';
+import { BuildRequest } from './BuildRequest';
+import { buildRequestsSelector } from '../../../store/market/selectors';
 
 function mapState(state: RootState) {
   return {

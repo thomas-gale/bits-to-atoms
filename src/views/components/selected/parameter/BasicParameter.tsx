@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent, TextField } from '@material-ui/core';
-import { Parameter } from '../../../store/selected/types';
+import { Parameter } from '../../../../store/selected/types';
 
 const useStyles = makeStyles(theme => ({
   container: {

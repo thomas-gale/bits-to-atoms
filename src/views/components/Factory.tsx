@@ -1,8 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import { Mesh } from 'three';
-import FloorSpace from './factory/FloorSpace';
+import FloorSpace from './factory/services/FloorSpace';
 import { ReactReduxContext, Provider } from 'react-redux';
+import HumanWorker from './factory/services/HumanWorker';
+import SimplePolymerSpool from './factory/material/SimplePolymerSpool';
 
 type BoxProps = { position: number[] };
 
@@ -55,6 +57,8 @@ export function Factory() {
             <Box position={[-1.2, 0, 0]} />
             <Box position={[1.2, 0, 0]} />
             <FloorSpace position={[0, 0, 0]} />
+            <HumanWorker position={[2, 0, 0]} />
+            <SimplePolymerSpool position={[-1, 1, 0]} />
           </Provider>
         </Canvas>
       )}

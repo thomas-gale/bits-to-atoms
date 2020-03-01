@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Mesh } from 'three';
-import { RootState } from '../../../store';
-import { floorSpaceSelector } from '../../../store/factory/services/floorspace/selectors';
+import { RootState } from '../../../../store';
+import { floorSpaceSelector } from '../../../../store/factory/services/floorspace/selectors';
 
 function mapState(state: RootState) {
   return {

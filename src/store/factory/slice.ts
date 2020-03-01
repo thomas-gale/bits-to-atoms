@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction, combineReducers } from '@reduxjs/toolkit';
 import { Factory } from './types';
 import { Identity } from '../common/types';
+import { factoryServicesReducer } from './services/slice';
 import { createExistingIdentity } from '../common/typeFactoryMethods';
-import { floorSpaceReducer } from './services/floorspace/slice';
 
 const factorySlice = createSlice({
   name: 'factory',
@@ -18,8 +18,10 @@ const factorySlice = createSlice({
 
 export const { setIdentity } = factorySlice.actions;
 
-export const factoryReducer = factorySlice.reducer;
 
-export const factoryServicesReducer = combineReducers({
-  floorSpace: floorSpaceReducer
+
+export const factoryReducer = combineReducers({
+  stats: factorySlice.reducer,
+  services: factoryServicesReducer
 });
+

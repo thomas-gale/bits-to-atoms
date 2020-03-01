@@ -7,7 +7,7 @@ import { marketShortRunSaga } from './market/sagas';
 
 import { reducer as formReducer } from 'redux-form';
 import { marketReducer } from './market/slice';
-import { factoryReducer, factoryServicesReducer } from './factory/slice';
+import { factoryReducer } from './factory/slice';
 import { selectedReducer } from './selected/slice';
 
 function* rootSaga() {
@@ -19,7 +19,7 @@ const sagaMiddleware = createSagaMiddleware();
 export const rootReducer = combineReducers({
   market: marketReducer,
   factory: factoryReducer,
-  factoryServices: factoryServicesReducer,
+  //factoryServices: factoryServicesReducer,
   selected: selectedReducer,
   form: formReducer
 });

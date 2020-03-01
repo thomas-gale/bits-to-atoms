@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v1.1.0
 
-    - name: Resolve Dependenies
+    - name: Resolve Dependencies
       run: yarn
 
     - name: Build
@@ -24,4 +24,6 @@ jobs:
 
     - name: Deploy GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.3.0
+      with:
+        build_dir: build
     

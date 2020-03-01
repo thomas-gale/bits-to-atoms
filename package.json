@@ -1,5 +1,6 @@
 {
   "name": "bits-to-atoms",
+  "homepage": "https://thomasgale.github.io/bits-to-atoms",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -16,6 +17,7 @@
     "@types/react-redux": "^7.1.7",
     "@types/redux-form": "^8.2.2",
     "@types/uuid": "^7.0.0",
+    "gh-pages": "^2.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.0",
@@ -32,6 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",

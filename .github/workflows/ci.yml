@@ -22,11 +22,6 @@ jobs:
     - name: Build
       run: yarn build
 
-    - name: Configure Git for Deploy
-      run: |
-        git config --global user.email "gale.thomasjames@gmail.com "
-        git config --global user.name "Thomas Gale"
-
-    - name: Deploy
-      run: yarn deploy
+    - name: Deploy GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v1.3.0
     

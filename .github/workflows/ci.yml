@@ -6,16 +6,19 @@ on:
     - master
 
 jobs:
-  ci:
+  pipeline:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      
+
     - name: Setup Node
       uses: actions/setup-node@v1.1.0
-      
+
+    - name: Resolve Dependenies
+      run: yarn
+
     - name: Build
       run: yarn build
 

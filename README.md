@@ -1,3 +1,9 @@
+# bits-to-atoms
+Nimble, market driven, microfactories. 
+
+![CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg)
+
+# Development
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

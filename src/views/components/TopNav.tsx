@@ -7,10 +7,12 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import MenuIcon from '@material-ui/icons/Menu';
 import { factorySelector } from '../../store/factory/selectors';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../store';
+import { config } from '../../env/config';
 
 function mapState(state: RootState) {
   return {
@@ -54,7 +56,13 @@ function TopNav(props: Props): JSX.Element {
           <Typography variant="h6" className={classes.title}>
             {factory.stats.id.displayName} : {factory.stats.id.uuid}
           </Typography>
-          {/*<Button color="inherit">Login</Button>*/}
+          <IconButton
+            color="inherit"
+            aria-label="github"
+            href={config.GitHubURL}
+          >
+            <GitHubIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </Box>

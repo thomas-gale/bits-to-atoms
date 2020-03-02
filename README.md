@@ -1,9 +1,24 @@
 # bits-to-atoms
-Nimble, market driven, microfactories. 
+Nimble, market-driven, micro-factories. Pre-alpha!  
 
-![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")
+## Vision 1.0
+- Highly modular micro-markets for each service provider in a micro-factory.
+- Markets drive efficiency
+- Every component in the micro-factory is either *material* or a *service provider*. 
+- Current service providers types:
+    - Storage (e.g. shop floor)
+    - Transportation (e.g. human, conveyer, robot)
+    - Transformation (e.g. FFF printer, laser cutter, milling tool)
+- The whole system simulated in a *Game* like environment
+
+## Vision 2.0
+- Cryptographically sign a *runner* or *part passport* throughout the process
+- Services providers are financially autonomous entities using Ethereum tech stack
+- Enabling trustless, competitive and nimble micro-transactions in the micro-markets of the micro-factory!
 
 # Development
+![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

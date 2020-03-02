@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, combineReducers } from '@reduxjs/toolkit';
 import { Factory } from './types';
 import { Identity } from '../common/types';
 import { factoryServicesReducer } from './services/slice';
-import { createExistingIdentity } from '../common/typeFactoryMethods';
+import { createExistingIdentity } from '../common/factories';
 
 const factorySlice = createSlice({
   name: 'factory',

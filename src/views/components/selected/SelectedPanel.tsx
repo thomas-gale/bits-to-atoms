@@ -13,7 +13,7 @@ import {
   setYLength
 } from '../../../store/factory/services/floorspace/slice';
 import { setParameter } from '../../../store/selected/slice';
-import { createExistingIdentity } from '../../../store/common/typeFactoryMethods';
+import { createExistingIdentity } from '../../../store/common/factories';
 import { selectedSelector } from '../../../store/selected/selectors';
 import { floorSpaceSelector } from '../../../store/factory/services/floorspace/selectors';
 

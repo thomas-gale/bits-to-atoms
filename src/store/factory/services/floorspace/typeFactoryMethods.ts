@@ -5,7 +5,7 @@ import {
   createVector3,
   createQuaternion,
   createCuboid
-} from '../../../common/typeFactoryMethods';
+} from '../../../common/factories';
 
 export const createFloorSpace = (
   id: Identity = createExistingIdentity('Floorspace', 'floorspace-default'),

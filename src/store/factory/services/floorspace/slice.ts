@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FloorSpace } from './types';
-import { createExistingIdentity } from '../../../common/factories';
+import { createExistingIdentity } from '../../../common/primitive/factories';
 
 const floorSpaceSlice = createSlice({
   name: 'floorspace',

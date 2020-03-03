@@ -1,4 +1,4 @@
-import { Identity } from '../common/types';
+import { Identity } from '../common/primitive/types';
 
 export enum ParameterType {
   STRING,

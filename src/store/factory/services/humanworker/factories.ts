@@ -1,4 +1,9 @@
-import { Identity, Vector3, Quaternion, Cuboid } from '../../../common/types';
+import {
+  Identity,
+  Vector3,
+  Quaternion,
+  Cuboid
+} from '../../../common/primitive/types';
 import { ServiceType } from '../types';
 import { HumanWorker } from './types';
 import {
@@ -6,8 +11,8 @@ import {
   createVector3,
   createQuaternion,
   createCuboid
-} from '../../../common/factories';
-import { MaterialType } from '../../material/types';
+} from '../../../common/primitive/factories';
+import { MaterialType } from '../../../common/material/types';
 
 export function createHumanworker(
   id: Identity = createNewIdentity('default-humanworker'),

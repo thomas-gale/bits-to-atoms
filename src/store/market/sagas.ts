@@ -1,13 +1,15 @@
 import { delay, put } from 'redux-saga/effects';
 import { addBuildRequest } from './slice';
 import { BuildRequest, PartType } from './types';
-import { createNewIdentity } from '../common/factories';
+import { createNewIdentity } from '../common/primitive/factories';
+import { createSimplePolymer } from '../common/material/factories';
 
 export function* marketShortRunSaga() {
   console.log('Starting short test market saga.');
   yield delay(2000);
   const design1: BuildRequest = {
     identity: createNewIdentity('cube1'),
+    material: createSimplePolymer(),
     type: PartType.CUBE,
     size: 8
   };
@@ -15,6 +17,7 @@ export function* marketShortRunSaga() {
   yield delay(2000);
   const design2: BuildRequest = {
     identity: createNewIdentity('cube2'),
+    material: createSimplePolymer(),
     type: PartType.CUBE,
     size: 8
   };

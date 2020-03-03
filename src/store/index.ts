@@ -19,7 +19,6 @@ const sagaMiddleware = createSagaMiddleware();
 export const rootReducer = combineReducers({
   market: marketReducer,
   factory: factoryReducer,
-  //factoryServices: factoryServicesReducer,
   selected: selectedReducer,
   form: formReducer
 });

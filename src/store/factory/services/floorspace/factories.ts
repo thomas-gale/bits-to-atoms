@@ -1,11 +1,16 @@
-import { Identity, Vector3, Quaternion, Cuboid } from '../../../common/types';
+import {
+  Identity,
+  Vector3,
+  Quaternion,
+  Cuboid
+} from '../../../common/primitive/types';
 import { FloorSpace } from './types';
 import {
   createNewIdentity,
   createVector3,
   createQuaternion,
   createCuboid
-} from '../../../common/factories';
+} from '../../../common/primitive/factories';
 import { ServiceType } from '../types';
 
 export const createFloorSpace = (

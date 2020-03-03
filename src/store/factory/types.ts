@@ -1,4 +1,9 @@
-import { Identity, Vector3, Quaternion, Cuboid } from '../common/types';
+import {
+  Identity,
+  Vector3,
+  Quaternion,
+  Cuboid
+} from '../common/primitive/types';
 
 export interface Entity {
   id: Identity;

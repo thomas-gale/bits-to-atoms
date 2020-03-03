@@ -1,6 +1,6 @@
 import { Entity } from '../types';
-import { MaterialType } from '../material/types';
-import { Cuboid } from '../../common/types';
+import { MaterialType } from '../../common/material/types';
+import { Cuboid } from '../../common/primitive/types';
 import { FloorSpace } from './floorspace/types';
 import { HumanWorker } from './humanworker/types';
 import { FFFPrinter } from './fffprinter/types';

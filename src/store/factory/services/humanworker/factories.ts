@@ -14,11 +14,11 @@ export function createHumanworker(
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(),
-  costDollarPerSecond = 1e-4,
-  capactityKg = 5,
-  movementSpeedmps = 0.5,
+  costPerTime = 1e-4,
+  capactityMass = 5,
+  movementVelocity = 0.5,
   supportedMaterials: MaterialType[] = [MaterialType.SimplePolymer],
-  outputVolumem3: Cuboid = createCuboid()
+  outputVolume: Cuboid = createCuboid()
 ): HumanWorker {
   return {
     type: ServiceType.HumanWorker,
@@ -26,10 +26,10 @@ export function createHumanworker(
     location,
     orientation,
     bounds,
-    costDollarPerSecond: costDollarPerSecond,
-    capactityKg: capactityKg,
-    movementSpeedmps: movementSpeedmps,
+    costPerTime,
+    capactityMass,
+    movementVelocity,
     supportedMaterials,
-    outputVolumem3: outputVolumem3
+    outputVolume
   };
 }

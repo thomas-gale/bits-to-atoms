@@ -16,19 +16,19 @@ interface BaseServiceProvider extends Entity {
 }
 
 export interface StorageServiceProvider extends BaseServiceProvider {
-  costDollarPerm3PerSecond: number;
+  costPerVolPerTime: number;
 }
 
 export interface TransportServiceProvider extends BaseServiceProvider {
-  costDollarPerSecond: number;
-  capactityKg: number;
-  movementSpeedmps: number;
+  costPerTime: number;
+  capactityMass: number;
+  movementVelocity: number;
 }
 
 export interface TransmutationServiceProvider extends BaseServiceProvider {
-  costDollarPerSecond: number;
+  costPerTime: number;
   supportedMaterials: MaterialType[];
-  outputVolumem3: Cuboid;
+  outputVolume: Cuboid;
 }
 
 export type ServiceProvider = FloorSpace | HumanWorker | FFFPrinter;

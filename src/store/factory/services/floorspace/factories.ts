@@ -16,7 +16,7 @@ export const createFloorSpace = (
     createVector3(-2, -1, 0),
     createVector3(2, 1, 2)
   ),
-  costDollarPerm3PerSecond = 1e-6
+  costPerVolPerTime = 1e-6
 ): FloorSpace => {
   return {
     type: ServiceType.Floorspace,
@@ -24,7 +24,7 @@ export const createFloorSpace = (
     location,
     orientation,
     bounds,
-    costDollarPerm3PerSecond,
+    costPerVolPerTime,
     xLength: 4, // deprecated
     yLength: 2 // deprecated
   };

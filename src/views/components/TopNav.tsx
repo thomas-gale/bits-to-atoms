@@ -27,7 +27,7 @@ function mapDispatch(dispatch: AppDispatch) {
     toggleMarketVisible: () => {
       dispatch(toggleVisible());
     }
-  }
+  };
 }
 
 const connector = connect(mapState, mapDispatch);
@@ -61,7 +61,7 @@ function TopNav(props: Props): JSX.Element {
             color="inherit"
             aria-label="markets"
           >
-            <TimelineIcon onClick={(_) => props.toggleMarketVisible()} />
+            <TimelineIcon onClick={_ => props.toggleMarketVisible()} />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             {factory.stats.id.displayName} : {factory.stats.id.uuid}

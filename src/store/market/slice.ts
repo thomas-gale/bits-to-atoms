@@ -12,7 +12,7 @@ const marketSlice = createSlice({
     setVisible(state, action: PayloadAction<boolean>) {
       state.visible = action.payload;
     },
-    toggleVisible(state, action: PayloadAction) {
+    toggleVisible(state, _: PayloadAction) {
       state.visible = !state.visible;
     },
     addBuildRequest(state, action: PayloadAction<BuildRequest>) {

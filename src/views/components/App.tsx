@@ -58,7 +58,7 @@ function App(props: Props): JSX.Element {
           </Grid>
           {props.marketVisible ? (
             <Grid item xs={9}>
-              <Box width={1/3} className={classes.uiPrimaryGridElement}>
+              <Box width={1 / 3} className={classes.uiPrimaryGridElement}>
                 <MarketPanel />
               </Box>
             </Grid>

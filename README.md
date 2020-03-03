@@ -8,7 +8,7 @@ Nimble, market-driven, micro-factories. Pre-alpha!
 - Current service providers types:
     - Storage (e.g. shop floor)
     - Transportation (e.g. human, conveyer, robot)
-    - Transformation (e.g. FFF printer, laser cutter, milling tool)
+    - Transmutation (e.g. FFF printer, laser cutter, milling tool)
 - The whole system simulated in a *Game* like environment
 
 ## Vision 2.0

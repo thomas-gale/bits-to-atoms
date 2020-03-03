@@ -1,8 +1,8 @@
 import {
   TransportServiceProvider,
-  TransformationServiceProvider
+  TransmutationServiceProvider
 } from '../types';
 
 export interface HumanWorker
   extends TransportServiceProvider,
-    TransformationServiceProvider {}
+    TransmutationServiceProvider {}

@@ -1,6 +1,6 @@
-import { Entity } from '../../types';
+import { StorageServiceProvider } from '../types';
 
-export interface FloorSpace extends Entity {
+export interface FloorSpace extends StorageServiceProvider {
   xLength: number;
   yLength: number;
 }

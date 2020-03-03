@@ -1,6 +1,9 @@
 import { Entity } from '../types';
 import { MaterialType } from '../material/types';
 import { Cuboid } from '../../common/types';
+import { FloorSpace } from './floorspace/types';
+import { HumanWorker } from './humanworker/types';
+import { FFFPrinter } from './fffprinter/types';
 
 export enum ServiceType {
   Floorspace = 'Floorspace',
@@ -8,21 +11,24 @@ export enum ServiceType {
   FFFPrinter = 'FFFPrinter'
 }
 
-export interface ServiceProvider extends Entity {
+interface BaseServiceProvider extends Entity {
   type: ServiceType;
+}
+
+export interface StorageServiceProvider extends BaseServiceProvider {
+  costDollarPerm3PerSecond: number;
+}
+
+export interface TransportServiceProvider extends BaseServiceProvider {
   costDollarPerSecond: number;
-}
-
-export interface StorageServiceProvider extends ServiceProvider {
-  storageEntity: Entity;
-}
-
-export interface TransportServiceProvider extends ServiceProvider {
   capactityKg: number;
   movementSpeedmps: number;
 }
 
-export interface TransformationServiceProvider extends ServiceProvider {
+export interface TransmutationServiceProvider extends BaseServiceProvider {
+  costDollarPerSecond: number;
   supportedMaterials: MaterialType[];
   outputVolumem3: Cuboid;
 }
+
+export type ServiceProvider = FloorSpace | HumanWorker | FFFPrinter;

@@ -1,9 +1,16 @@
 import { Entity } from '../types';
-import { SimplePolymer } from '../material/types';
+import { MaterialType } from '../material/types';
 import { Cuboid } from '../../common/types';
 
+export enum ServiceType {
+  Floorspace = 'Floorspace',
+  HumanWorker = 'HumanWorker',
+  FFFPrinter = 'FFFPrinter'
+}
+
 export interface ServiceProvider extends Entity {
-  costPerSecond: number;
+  type: ServiceType;
+  costDollarPerSecond: number;
 }
 
 export interface StorageServiceProvider extends ServiceProvider {
@@ -11,11 +18,11 @@ export interface StorageServiceProvider extends ServiceProvider {
 }
 
 export interface TransportServiceProvider extends ServiceProvider {
-  capactity: number;
-  movementSpeed: number;
+  capactityKg: number;
+  movementSpeedmps: number;
 }
 
 export interface TransformationServiceProvider extends ServiceProvider {
-  rawMaterial: SimplePolymer;
-  outputVolume: Cuboid;
+  supportedMaterials: MaterialType[];
+  outputVolumem3: Cuboid;
 }

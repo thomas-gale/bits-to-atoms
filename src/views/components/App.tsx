@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -7,6 +8,19 @@ import { Factory } from './factory/Factory';
 import TopNav from './TopNav';
 import MarketPanel from './market/MarketPanel';
 import SelectedPanel from './selected/SelectedPanel';
+
+import { RootState } from '../../store';
+import { marketVisibleSelector } from '../../store/market/selectors';
+
+function mapState(state: RootState) {
+  return {
+    marketVisible: marketVisibleSelector(state)
+  };
+}
+
+const connector = connect(mapState);
+
+type Props = ConnectedProps<typeof connector>;
 
 const useStyles = makeStyles(_ => ({
   fullScreen: {
@@ -29,7 +43,7 @@ const useStyles = makeStyles(_ => ({
   }
 }));
 
-export function App(): JSX.Element {
+function App(props: Props): JSX.Element {
   const classes = useStyles();
 
   return (
@@ -42,12 +56,16 @@ export function App(): JSX.Element {
               <TopNav />
             </div>
           </Grid>
-          <Grid item xs={3}>
-            <div className={classes.uiPrimaryGridElement}>
-              <MarketPanel />
-            </div>
-          </Grid>
-          <Grid item xs={6}></Grid>
+          {props.marketVisible ? (
+            <Grid item xs={9}>
+              <Box width={1/3} className={classes.uiPrimaryGridElement}>
+                <MarketPanel />
+              </Box>
+            </Grid>
+          ) : (
+            <Grid item xs={9}></Grid>
+          )}
+
           <Grid item xs={3}>
             <div className={classes.uiPrimaryGridElement}>
               <SelectedPanel />
@@ -58,3 +76,5 @@ export function App(): JSX.Element {
     </Box>
   );
 }
+
+export default connector(App);

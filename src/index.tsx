@@ -7,7 +7,7 @@ import { store } from './store';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 
-import { App } from './views/components/App';
+import App from './views/components/App';
 import { theme } from './views/theme';
 import * as serviceWorker from './serviceWorker';
 

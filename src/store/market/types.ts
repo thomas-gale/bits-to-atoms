@@ -11,3 +11,8 @@ export interface BuildRequest {
   type: PartType;
   size: number;
 }
+
+export interface Market {
+  visible: boolean;
+  buildRequests: BuildRequest[];
+}

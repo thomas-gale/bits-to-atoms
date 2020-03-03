@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -8,11 +9,12 @@ import {
   Typography
 } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import MenuIcon from '@material-ui/icons/Menu';
-import { factorySelector } from '../../store/factory/selectors';
-import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../../store';
+import TimelineIcon from '@material-ui/icons/Timeline';
+
+import { RootState, AppDispatch } from '../../store';
 import { config } from '../../env/config';
+import { factorySelector } from '../../store/factory/selectors';
+import { toggleVisible } from '../../store/market/slice';
 
 function mapState(state: RootState) {
   return {
@@ -20,7 +22,15 @@ function mapState(state: RootState) {
   };
 }
 
-const connector = connect(mapState);
+function mapDispatch(dispatch: AppDispatch) {
+  return {
+    toggleMarketVisible: () => {
+      dispatch(toggleVisible());
+    }
+  }
+}
+
+const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -49,9 +59,9 @@ function TopNav(props: Props): JSX.Element {
             edge="start"
             className={classes.menuButton}
             color="inherit"
-            aria-label="menu"
+            aria-label="markets"
           >
-            <MenuIcon />
+            <TimelineIcon onClick={(_) => props.toggleMarketVisible()} />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             {factory.stats.id.displayName} : {factory.stats.id.uuid}

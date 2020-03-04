@@ -1,4 +1,3 @@
 import { StorageServiceProvider } from '../types';
 
-export interface FloorSpace extends StorageServiceProvider {
-}
+export type FloorSpace = StorageServiceProvider;

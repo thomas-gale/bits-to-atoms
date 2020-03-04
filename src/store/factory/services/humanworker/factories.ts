@@ -14,11 +14,14 @@ import {
 } from '../../../common/primitive/factories';
 import { MaterialType } from '../../../common/material/types';
 
-export function createHumanworker(
+export function createHumanWorker(
   id: Identity = createNewIdentity('default-humanworker'),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
-  bounds: Cuboid = createCuboid(),
+  bounds: Cuboid = createCuboid(
+    createVector3(-0.5, -0.5, 0),
+    createVector3(0.5, 0.5, 1.5)
+  ),
   costPerTime = 1e-4,
   capactityMass = 5,
   movementVelocity = 0.5,

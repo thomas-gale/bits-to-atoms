@@ -29,8 +29,6 @@ export const createFloorSpace = (
     location,
     orientation,
     bounds,
-    costPerVolPerTime,
-    //xLength: 4, // deprecated
-    //yLength: 2 // deprecated
+    costPerVolPerTime
   };
 };

@@ -19,23 +19,23 @@ import { selectedSelector } from '../../../store/selected/selectors';
 
 function mapState(state: RootState) {
   return {
-    selected: selectedSelector(state),
+    selected: selectedSelector(state)
     //initialValues: floorSpaceSelector(state)
   };
 }
 
 function mapDispatch(dispatch: AppDispatch) {
   return {
-    handleSubmit: (values: FloorSpace) => {
+    handleSubmit: (_: FloorSpace) => {
       const xParam = {
         identity: createExistingIdentity('X Length', 'xLength'),
         type: ParameterType.NUMBER,
-        value: ""//values.xLength.toString()
+        value: '' //values.xLength.toString()
       } as Parameter;
       const yParam = {
         identity: createExistingIdentity('Y Length', 'yLength'),
         type: ParameterType.NUMBER,
-        value: ""//values.yLength.toString()
+        value: '' //values.yLength.toString()
       } as Parameter;
 
       dispatch(setParameter(xParam));

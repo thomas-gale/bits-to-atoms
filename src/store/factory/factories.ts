@@ -12,6 +12,8 @@ import {
   createQuaternion,
   createCuboid
 } from '../common/primitive/factories';
+import { createFloorSpace } from './services/floorspace/factories';
+import { createHumanWorker } from './services/humanworker/factories';
 
 export function createEntity(
   id: Identity = createNewIdentity('default-entity'),
@@ -32,7 +34,10 @@ export function createFactory(
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(),
-  serviceProviders: ServiceProvider[] = []
+  serviceProviders: ServiceProvider[] = [
+    createFloorSpace(),
+    createHumanWorker()
+  ]
 ): Factory {
   return {
     id,

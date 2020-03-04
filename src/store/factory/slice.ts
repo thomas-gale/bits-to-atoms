@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, combineReducers } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Identity } from '../common/primitive/types';
 import { createFactory } from './factories';
 

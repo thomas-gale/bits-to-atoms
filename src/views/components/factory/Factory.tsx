@@ -7,8 +7,6 @@ import {
   connect,
   ConnectedProps
 } from 'react-redux';
-import HumanWorker from './services/HumanWorker';
-import SimplePolymerSpool from './material/SimplePolymerSpool';
 import { RootState } from '../../../store';
 import { factoryServicesSelector } from '../../../store/factory/selectors';
 import ServiceProvider from './services/ServiceProvider';
@@ -78,10 +76,12 @@ function Factory(props: Props) {
             <Box position={[1.2, 0, 0]} />
             {/* Render all the ServiceProviders */}
             {servicesProviders.map(servicesProvider => {
-              return (<ServiceProvider
-                key={servicesProvider.id.uuid}
-                serviceProvider={servicesProvider}
-              />)
+              return (
+                <ServiceProvider
+                  key={servicesProvider.id.uuid}
+                  serviceProvider={servicesProvider}
+                />
+              );
             })}
             {/* 
             <FloorSpace position={[0, 0, 0]} />

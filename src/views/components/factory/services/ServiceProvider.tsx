@@ -9,6 +9,8 @@ import {
 import { Identity } from '../../../../store/common/primitive/types';
 import { FloorSpaceElement } from './FloorSpace';
 import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
+import { HumanWorkerElement } from './HumanWorker';
+import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
 
 function mapState(_: RootState) {
   return {};
@@ -34,7 +36,7 @@ function ServiceProviderElement(props: Props): JSX.Element {
 
   // Pull out properties
   const { serviceProvider } = props;
-  const { id, location, bounds } = serviceProvider;
+  const { id, location } = serviceProvider;
 
   // Render generic things about service provider
   //  - Invisible bounding box at a location / Orientation
@@ -43,18 +45,17 @@ function ServiceProviderElement(props: Props): JSX.Element {
   switch (serviceProvider.type) {
     case ServiceType.Floorspace:
       return (
-        <FloorSpaceElement floorSpace={serviceProvider as FloorSpace} onSelected={props.onSelected} />
+        <FloorSpaceElement
+          floorSpace={serviceProvider as FloorSpace}
+          onSelected={props.onSelected}
+        />
       );
     case ServiceType.HumanWorker:
       return (
-        <mesh
-          position={[location.x, location.y, location.z]}
-          ref={mesh}
-          onClick={_ => props.onSelected(id)}
-        >
-          <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-          <meshStandardMaterial attach="material" color={'pink'} />
-        </mesh>
+        <HumanWorkerElement
+          humanWorker={serviceProvider as HumanWorker}
+          onSelected={props.onSelected}
+        />
       );
     default:
       return (

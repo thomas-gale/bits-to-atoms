@@ -1,31 +1,38 @@
 import React, { useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { Mesh } from 'three';
-import { RootState } from '../../../../store';
+import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
+import { Identity } from '../../../../store/common/primitive/types';
 
-function mapState(_: RootState) {
-  return {};
-}
-
-type OwnProps = {
-  position: number[];
+type OwnProp = {
+  humanWorker: HumanWorker;
 };
 
-const connector = connect(mapState);
+type OwnDispatch = {
+  onSelected: (id: Identity) => void;
+};
 
-type Props = ConnectedProps<typeof connector> & OwnProps;
+type Props = OwnProp & OwnDispatch;
 
-function HumanWorker(props: Props): JSX.Element {
+export function HumanWorkerElement(props: Props): JSX.Element {
   const mesh = useRef<Mesh>();
 
-  const { position } = props;
+  const { id, location, bounds } = props.humanWorker;
 
   return (
-    <mesh position={position} ref={mesh}>
-      <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
+    <mesh
+      position={[location.x, location.y, location.z]}
+      ref={mesh}
+      onClick={_ => props.onSelected(id)}
+    >
+      <boxBufferGeometry
+        attach="geometry"
+        args={[
+          bounds.max.x - bounds.min.x,
+          bounds.max.y - bounds.min.y,
+          bounds.max.z - bounds.min.z
+        ]}
+      />
       <meshStandardMaterial attach="material" color={'pink'} />
     </mesh>
   );
 }
-
-export default connector(HumanWorker);

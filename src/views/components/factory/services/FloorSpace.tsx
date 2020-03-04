@@ -4,8 +4,8 @@ import { Identity } from '../../../../store/common/primitive/types';
 import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
 
 type OwnProp = {
-  floorSpace: FloorSpace
-}
+  floorSpace: FloorSpace;
+};
 
 type OwnDispatch = {
   onSelected: (id: Identity) => void;

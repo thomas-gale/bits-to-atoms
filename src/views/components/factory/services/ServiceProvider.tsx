@@ -7,6 +7,8 @@ import {
   ServiceType
 } from '../../../../store/factory/services/types';
 import { Identity } from '../../../../store/common/primitive/types';
+import { FloorSpaceElement } from './FloorSpace';
+import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
 
 function mapState(_: RootState) {
   return {};
@@ -41,17 +43,7 @@ function ServiceProviderElement(props: Props): JSX.Element {
   switch (serviceProvider.type) {
     case ServiceType.Floorspace:
       return (
-        <mesh
-          position={[location.x, location.y, location.z]}
-          ref={mesh}
-          onClick={_ => props.onSelected(id)}
-        >
-          <planeBufferGeometry
-            attach="geometry"
-            args={[bounds.max.x - bounds.min.x, bounds.max.y - bounds.min.y]}
-          />
-          <meshStandardMaterial attach="material" color={'grey'} />
-        </mesh>
+        <FloorSpaceElement floorSpace={serviceProvider as FloorSpace} onSelected={props.onSelected} />
       );
     case ServiceType.HumanWorker:
       return (

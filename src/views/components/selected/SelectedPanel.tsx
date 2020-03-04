@@ -8,10 +8,10 @@ import { RootState, AppDispatch } from '../../../store';
 import { ParameterType, Parameter } from '../../../store/selected/types';
 import { FloorSpace } from '../../../store/factory/services/floorspace/types';
 
-import {
-  setXLength,
-  setYLength
-} from '../../../store/factory/services/floorspace/slice';
+//import {
+//  setXLength,
+//  setYLength
+//} from '../../../store/factory/services/floorspace/slice';
 import { setParameter } from '../../../store/selected/slice';
 import { createExistingIdentity } from '../../../store/common/primitive/factories';
 import { selectedSelector } from '../../../store/selected/selectors';
@@ -30,18 +30,18 @@ function mapDispatch(dispatch: AppDispatch) {
       const xParam = {
         identity: createExistingIdentity('X Length', 'xLength'),
         type: ParameterType.NUMBER,
-        value: values.xLength.toString()
+        value: ""//values.xLength.toString()
       } as Parameter;
       const yParam = {
         identity: createExistingIdentity('Y Length', 'yLength'),
         type: ParameterType.NUMBER,
-        value: values.yLength.toString()
+        value: ""//values.yLength.toString()
       } as Parameter;
 
       dispatch(setParameter(xParam));
       dispatch(setParameter(yParam));
-      dispatch(setXLength(Number(xParam.value)));
-      dispatch(setYLength(Number(yParam.value)));
+      //dispatch(setXLength(Number(xParam.value)));
+      //dispatch(setYLength(Number(yParam.value)));
     }
   };
 }

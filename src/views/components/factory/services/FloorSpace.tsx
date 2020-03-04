@@ -3,16 +3,20 @@ import { Mesh } from 'three';
 import { Identity } from '../../../../store/common/primitive/types';
 import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
 
+type OwnProp = {
+  floorSpace: FloorSpace
+}
+
 type OwnDispatch = {
   onSelected: (id: Identity) => void;
 };
 
-type Props = FloorSpace & OwnDispatch;
+type Props = OwnProp & OwnDispatch;
 
 export function FloorSpaceElement(props: Props): JSX.Element {
   const mesh = useRef<Mesh>();
 
-  const { id, location, bounds } = props;
+  const { id, location, bounds } = props.floorSpace;
 
   return (
     <mesh

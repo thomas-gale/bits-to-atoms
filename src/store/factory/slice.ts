@@ -1,14 +1,12 @@
 import { createSlice, PayloadAction, combineReducers } from '@reduxjs/toolkit';
-import { Factory } from './types';
 import { Identity } from '../common/primitive/types';
 import { factoryServicesReducer } from './services/slice';
-import { createExistingIdentity } from '../common/primitive/factories';
+import { createEntity } from './factories';
+import { createNewIdentity } from '../common/primitive/factories';
 
-const factorySlice = createSlice({
+const factoryEntitySlice = createSlice({
   name: 'factory',
-  initialState: {
-    id: createExistingIdentity('Factory', 'factory-default')
-  } as Factory,
+  initialState: createEntity(createNewIdentity('default-factory')),
   reducers: {
     setIdentity(state, action: PayloadAction<Identity>) {
       state.id = action.payload;
@@ -16,9 +14,11 @@ const factorySlice = createSlice({
   }
 });
 
-export const { setIdentity } = factorySlice.actions;
+export const { setIdentity } = factoryEntitySlice.actions;
 
 export const factoryReducer = combineReducers({
-  stats: factorySlice.reducer,
+  entity: factoryEntitySlice.reducer,
   services: factoryServicesReducer
 });
+
+export type Factory = ReturnType<typeof factoryReducer>;

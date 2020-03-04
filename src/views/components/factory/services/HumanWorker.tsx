@@ -5,9 +5,7 @@ import { RootState } from '../../../../store';
 import { floorSpaceSelector } from '../../../../store/factory/services/floorspace/selectors';
 
 function mapState(state: RootState) {
-  return {
-    floorSpace: floorSpaceSelector(state)
-  };
+  return {};
 }
 
 type OwnProps = {
@@ -18,7 +16,7 @@ const connector = connect(mapState);
 
 type Props = ConnectedProps<typeof connector> & OwnProps;
 
-function FloorSpace(props: Props): JSX.Element {
+function HumanWorker(props: Props): JSX.Element {
   const mesh = useRef<Mesh>();
 
   const { position } = props;
@@ -31,4 +29,4 @@ function FloorSpace(props: Props): JSX.Element {
   );
 }
 
-export default connector(FloorSpace);
+export default connector(HumanWorker);

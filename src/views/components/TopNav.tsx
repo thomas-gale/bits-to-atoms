@@ -64,7 +64,7 @@ function TopNav(props: Props): JSX.Element {
             <TimelineIcon onClick={_ => props.toggleMarketVisible()} />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            {factory.stats.id.displayName} : {factory.stats.id.uuid}
+            {factory.entity.id.displayName} : {factory.entity.id.uuid}
           </Typography>
           <IconButton
             color="inherit"

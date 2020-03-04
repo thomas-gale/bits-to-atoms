@@ -4,7 +4,8 @@ import {
   Quaternion,
   Cuboid
 } from '../common/primitive/types';
-import { Entity } from './types';
+import { ServiceProvider } from './services/types';
+import { Entity, Factory } from './types';
 import {
   createNewIdentity,
   createVector3,
@@ -23,5 +24,21 @@ export function createEntity(
     location,
     orientation,
     bounds
+  };
+}
+
+export function createFactory(
+  id: Identity = createNewIdentity('default-factory'),
+  location: Vector3 = createVector3(),
+  orientation: Quaternion = createQuaternion(),
+  bounds: Cuboid = createCuboid(),
+  serviceProviders: ServiceProvider[] = []
+): Factory {
+  return {
+    id,
+    location,
+    orientation,
+    bounds,
+    serviceProviders
   };
 }

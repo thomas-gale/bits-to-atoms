@@ -1,37 +1,30 @@
 import React, { useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { Mesh } from 'three';
-import { RootState } from '../../../../store';
-import { floorSpaceSelector } from '../../../../store/factory/services/floorspace/selectors';
+import { Identity } from '../../../../store/common/primitive/types';
+import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
 
-function mapState(state: RootState) {
-  return {
-    floorSpace: floorSpaceSelector(state)
-  };
-}
-
-type OwnProps = {
-  position: number[];
+type OwnDispatch = {
+  onSelected: (id: Identity) => void;
 };
 
-const connector = connect(mapState);
+type Props = FloorSpace & OwnDispatch;
 
-type Props = ConnectedProps<typeof connector> & OwnProps;
-
-function FloorSpace(props: Props): JSX.Element {
+export function FloorSpaceElement(props: Props): JSX.Element {
   const mesh = useRef<Mesh>();
 
-  const { position, floorSpace } = props;
+  const { id, location, bounds } = props;
 
   return (
-    <mesh position={position} ref={mesh}>
+    <mesh
+      position={[location.x, location.y, location.z]}
+      ref={mesh}
+      onClick={_ => props.onSelected(id)}
+    >
       <planeBufferGeometry
         attach="geometry"
-        args={[floorSpace.xLength, floorSpace.yLength]}
+        args={[bounds.max.x - bounds.min.x, bounds.max.y - bounds.min.y]}
       />
       <meshStandardMaterial attach="material" color={'grey'} />
     </mesh>
   );
 }
-
-export default connector(FloorSpace);

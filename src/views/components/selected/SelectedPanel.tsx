@@ -15,12 +15,12 @@ import {
 import { setParameter } from '../../../store/selected/slice';
 import { createExistingIdentity } from '../../../store/common/primitive/factories';
 import { selectedSelector } from '../../../store/selected/selectors';
-import { floorSpaceSelector } from '../../../store/factory/services/floorspace/selectors';
+//import { floorSpaceSelector } from '../../../store/factory/services/floorspace/selectors';
 
 function mapState(state: RootState) {
   return {
     selected: selectedSelector(state),
-    initialValues: floorSpaceSelector(state)
+    //initialValues: floorSpaceSelector(state)
   };
 }
 
@@ -82,7 +82,7 @@ function SelectedPanel(props: Props): JSX.Element {
           {props.selected.identity.uuid}
         </Typography>
         <SelectedForm
-          initialValues={props.initialValues}
+          //initialValues={props.initialValues}
           selected={props.selected}
           onSubmit={props.handleSubmit}
         />

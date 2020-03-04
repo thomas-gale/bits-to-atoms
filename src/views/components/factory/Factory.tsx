@@ -1,10 +1,17 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from 'react-three-fiber';
 import { Mesh } from 'three';
-import FloorSpace from './services/FloorSpace';
-import { ReactReduxContext, Provider } from 'react-redux';
+import {
+  ReactReduxContext,
+  Provider,
+  connect,
+  ConnectedProps
+} from 'react-redux';
 import HumanWorker from './services/HumanWorker';
 import SimplePolymerSpool from './material/SimplePolymerSpool';
+import { RootState } from '../../../store';
+import { factoryServicesSelector } from '../../../store/factory/selectors';
+import ServiceProvider from './services/ServiceProvider';
 
 type BoxProps = { position: number[] };
 
@@ -42,7 +49,19 @@ function Box(props: BoxProps): JSX.Element {
   );
 }
 
-export function Factory() {
+function mapState(state: RootState) {
+  return {
+    servicesProviders: factoryServicesSelector(state)
+  };
+}
+
+const connector = connect(mapState);
+
+type Props = ConnectedProps<typeof connector>;
+
+function Factory(props: Props) {
+  const { servicesProviders } = props;
+
   return (
     <ReactReduxContext.Consumer>
       {({ store }) => (
@@ -54,14 +73,26 @@ export function Factory() {
             {/* Pass the redux store into the THREE canvas */}
             <ambientLight />
             <pointLight position={[10, 10, 10]} />
+            {/* Test Boxes */}
             <Box position={[-1.2, 0, 0]} />
             <Box position={[1.2, 0, 0]} />
+            {/* Render all the ServiceProviders */}
+            {servicesProviders.map(servicesProvider => {
+              return (<ServiceProvider
+                key={servicesProvider.id.uuid}
+                serviceProvider={servicesProvider}
+              />)
+            })}
+            {/* 
             <FloorSpace position={[0, 0, 0]} />
             <HumanWorker position={[2, 0, 0]} />
             <SimplePolymerSpool position={[-1, 1, 0]} />
+            */}
           </Provider>
         </Canvas>
       )}
     </ReactReduxContext.Consumer>
   );
 }
+
+export default connector(Factory);

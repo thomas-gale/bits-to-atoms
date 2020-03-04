@@ -11,8 +11,6 @@ import {
   createQuaternion,
   createCuboid
 } from '../common/primitive/factories';
-import { ServiceProvider } from './services/types';
-import { Factory } from './slice';
 
 export function createEntity(
   id: Identity = createNewIdentity('default-entity'),

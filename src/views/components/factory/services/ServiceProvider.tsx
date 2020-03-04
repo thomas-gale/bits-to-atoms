@@ -8,11 +8,11 @@ import {
 } from '../../../../store/factory/services/types';
 import { Identity } from '../../../../store/common/primitive/types';
 
-function mapState(state: RootState) {
+function mapState(_: RootState) {
   return {};
 }
 
-function mapDispatch(dispatch: AppDispatch) {
+function mapDispatch(_: AppDispatch) {
   return {
     onSelected: (id: Identity) => {
       console.log(`Service provider: ${id.displayName} selected`);
@@ -32,7 +32,7 @@ function ServiceProviderElement(props: Props): JSX.Element {
 
   // Pull out properties
   const { serviceProvider } = props;
-  const { id, location, orientation, bounds } = serviceProvider;
+  const { id, location, bounds } = serviceProvider;
 
   // Render generic things about service provider
   //  - Invisible bounding box at a location / Orientation

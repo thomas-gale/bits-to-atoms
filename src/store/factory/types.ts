@@ -4,7 +4,6 @@ import {
   Quaternion,
   Cuboid
 } from '../common/primitive/types';
-import { ServiceProvider } from './services/types';
 
 export interface Entity {
   id: Identity;

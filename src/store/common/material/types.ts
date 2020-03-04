@@ -1,4 +1,5 @@
-import { Identity } from '../primitive/types';
+import { Identity } from '../identity/types';
+import { NumberParameter } from '../parameter/types';
 import { Entity } from '../../factory/types';
 
 export enum MaterialType {
@@ -10,8 +11,8 @@ export interface SimplePolymer {
 }
 
 export interface SimplePolymerSpool extends SimplePolymer, Entity {
-  spoolLength: number;
-  spoolDiameter: number;
+  spoolLength: NumberParameter;
+  spoolDiameter: NumberParameter;
 }
 
 export type Material = SimplePolymer;

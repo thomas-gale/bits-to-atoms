@@ -1,16 +1,10 @@
-import {
-  Identity,
-  Vector3,
-  Quaternion,
-  Cuboid
-} from '../common/primitive/types';
+import { Identity } from '../common/identity/types';
 import { ServiceProvider } from './services/types';
+import { Parameter } from '../common/parameter/types';
 
 export interface Entity {
   id: Identity;
-  location: Vector3;
-  orientation: Quaternion;
-  bounds: Cuboid;
+  parameter: Parameter[];
 }
 
 export interface Factory extends Entity {

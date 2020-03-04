@@ -1,13 +1,9 @@
-import {
-  Identity,
-  Vector3,
-  Quaternion,
-  Cuboid
-} from '../../../common/primitive/types';
+import { Identity } from '../../../common/identity/types';
+import { Vector3, Quaternion, Cuboid } from '../../../common/primitive/types';
 import { ServiceType } from '../types';
 import { HumanWorker } from './types';
+import { createNewIdentity } from '../../../common/identity/factories';
 import {
-  createNewIdentity,
   createVector3,
   createQuaternion,
   createCuboid

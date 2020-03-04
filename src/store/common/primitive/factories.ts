@@ -1,4 +1,5 @@
 import { Vector3, Quaternion, Cuboid } from './types';
+import { createNumberParameter } from '../parameter/factories';
 
 export function createVector3(x = 0, y = 0, z = 0): Vector3 {
   return {

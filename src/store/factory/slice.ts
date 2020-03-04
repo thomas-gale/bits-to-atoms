@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Identity } from '../common/primitive/types';
+import { Identity } from '../common/identity/types';
 import { createFactory } from './factories';
 
 const factorySlice = createSlice({

@@ -1,8 +1,3 @@
-export interface Identity {
-  uuid: string;
-  displayName: string;
-}
-
 export interface Vector3 {
   x: number;
   y: number;

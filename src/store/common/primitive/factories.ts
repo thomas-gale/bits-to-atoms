@@ -1,22 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Identity, Vector3, Quaternion, Cuboid } from './types';
-
-export function createExistingIdentity(
-  displayName: string,
-  uuid: string
-): Identity {
-  return {
-    uuid,
-    displayName
-  };
-}
-
-export function createNewIdentity(displayName = 'default'): Identity {
-  return {
-    uuid: uuidv4(),
-    displayName: displayName
-  };
-}
+import { Vector3, Quaternion, Cuboid } from './types';
 
 export function createVector3(x = 0, y = 0, z = 0): Vector3 {
   return {

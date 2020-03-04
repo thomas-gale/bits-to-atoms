@@ -5,15 +5,15 @@ import { Card, Typography, CardContent } from '@material-ui/core';
 import SelectedForm from './parameter/SelectedForm';
 
 import { RootState, AppDispatch } from '../../../store';
-import { ParameterType, Parameter } from '../../../store/selected/types';
+//import { ParameterType, Parameter } from '../../../store/selected/types';
 import { FloorSpace } from '../../../store/factory/services/floorspace/types';
 
 //import {
 //  setXLength,
 //  setYLength
 //} from '../../../store/factory/services/floorspace/slice';
-import { setParameter } from '../../../store/selected/slice';
-import { createExistingIdentity } from '../../../store/common/primitive/factories';
+//import { setParameter } from '../../../store/selected/slice';
+//import { createExistingIdentity } from '../../../store/common/primitive/factories';
 import { selectedSelector } from '../../../store/selected/selectors';
 //import { floorSpaceSelector } from '../../../store/factory/services/floorspace/selectors';
 
@@ -24,9 +24,11 @@ function mapState(state: RootState) {
   };
 }
 
-function mapDispatch(dispatch: AppDispatch) {
+function mapDispatch(_: AppDispatch) {
   return {
     handleSubmit: (_: FloorSpace) => {
+      console.log('Submit to be handled');
+      /*
       const xParam = {
         identity: createExistingIdentity('X Length', 'xLength'),
         type: ParameterType.NUMBER,
@@ -36,10 +38,10 @@ function mapDispatch(dispatch: AppDispatch) {
         identity: createExistingIdentity('Y Length', 'yLength'),
         type: ParameterType.NUMBER,
         value: '' //values.yLength.toString()
-      } as Parameter;
+      } as Parameter;*/
 
-      dispatch(setParameter(xParam));
-      dispatch(setParameter(yParam));
+      //dispatch(setParameter(xParam));
+      //dispatch(setParameter(yParam));
       //dispatch(setXLength(Number(xParam.value)));
       //dispatch(setYLength(Number(yParam.value)));
     }

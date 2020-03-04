@@ -1,13 +1,14 @@
 import { Identity } from '../../../common/identity/types';
 import { Vector3, Quaternion, Cuboid } from '../../../common/primitive/types';
-import { FloorSpace } from './types';
-import { createNewIdentity } from '../../../common/identity/factories';
+import { createNewIdentity, createExistingIdentity } from '../../../common/identity/factories';
 import {
   createVector3,
   createQuaternion,
   createCuboid
 } from '../../../common/primitive/factories';
-import { ServiceType } from '../types';
+import { ServiceType, ServiceProvider } from '../types';
+import { createEntity } from '../../entity/factories';
+import { createNumberParameter } from '../../../common/parameter/factories';
 
 export const createFloorSpace = (
   id: Identity = createNewIdentity('default-floorspace'),
@@ -18,13 +19,18 @@ export const createFloorSpace = (
     createVector3(2, 1, 2)
   ),
   costPerVolPerTime = 1e-6
-): FloorSpace => {
+): ServiceProvider => {
+  const entity = createEntity(id, location, orientation, bounds)
   return {
-    type: ServiceType.Floorspace,
     id,
-    location,
-    orientation,
-    bounds,
-    costPerVolPerTime
+    type: ServiceType.Floorspace,
+    parameters: [
+      ...entity.parameters,
+      createNumberParameter(
+        createExistingIdentity('cost Per Vol Per Time', 'costPerVolPerTime'),
+        '$/m^3/s',
+        costPerVolPerTime
+      ),
+    ]
   };
 };

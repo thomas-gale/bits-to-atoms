@@ -1,4 +1,4 @@
-import { Entity } from '../types';
+import { Entity } from '../entity/types';
 import { MaterialType } from '../../common/material/types';
 import { Cuboid } from '../../common/primitive/types';
 import { FloorSpace } from './floorspace/types';
@@ -15,6 +15,7 @@ interface BaseServiceProvider extends Entity {
   type: ServiceType;
 }
 
+/*
 export interface StorageServiceProvider extends BaseServiceProvider {
   costPerVolPerTime: number;
 }
@@ -30,5 +31,6 @@ export interface TransmutationServiceProvider extends BaseServiceProvider {
   supportedMaterials: MaterialType[];
   outputVolume: Cuboid;
 }
+*/
 
-export type ServiceProvider = FloorSpace | HumanWorker | FFFPrinter;
+export type ServiceProvider = BaseServiceProvider;

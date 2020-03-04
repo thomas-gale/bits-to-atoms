@@ -1,9 +1,9 @@
 import { Identity } from '../identity/types';
 import { NumberParameter } from '../parameter/types';
-import { Entity } from '../../factory/types';
+import { Entity } from '../../factory/entity/types';
 
 export enum MaterialType {
-  SimplePolymer = 'SimplePolymer'
+  SimplePolymer
 }
 
 export interface SimplePolymer {

@@ -80,6 +80,6 @@ class SelectedForm extends React.Component<
 export default connector(
   reduxForm<FloorSpace, Props>({
     form: 'selectedForm',
-    enableReinitialize : true 
+    enableReinitialize: true
   })(SelectedForm)
 );

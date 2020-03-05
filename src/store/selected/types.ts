@@ -1,5 +1,5 @@
 export interface LocationParameters {
-    locationX: number;
-    locationY: number;
-    locationZ: number;
+  locationX: number;
+  locationY: number;
+  locationZ: number;
 }

@@ -23,8 +23,6 @@ export const selectedServiceProviderSelector = createSelector(
   }
 );
 
-
-
 export const selectedParametersSelector = createSelector(
   [selectedServiceProviderSelector],
   (selected: ServiceProvider | undefined): Parameter[] => {
@@ -52,7 +50,7 @@ export const selectedParametersSelector = createSelector(
 export const selectedParameterInitialValuesSelector = createSelector(
   [selectedParametersSelector],
   (parameters: Parameter[]): LocationParameters => {
-    const initialParameterValues: any = {};
+    const initialParameterValues: any = {}; // eslint-disable-line @typescript-eslint/no-explicit-any
     parameters.forEach(parameter => {
       initialParameterValues[parameter.identity.uuid] = parameter.value;
     });

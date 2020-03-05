@@ -4,7 +4,7 @@ import { Factory } from './types';
 
 export const factorySelector = (state: RootState) => state.factory;
 
-export const factoryServicesSelector = createSelector(
+export const factoryServiceProvidersSelector = createSelector(
   [factorySelector],
   (factory: Factory) => {
     return factory.serviceProviders;

@@ -8,7 +8,7 @@ import {
   ConnectedProps
 } from 'react-redux';
 import { RootState } from '../../../store';
-import { factoryServicesSelector } from '../../../store/factory/selectors';
+import { factoryServiceProvidersSelector } from '../../../store/factory/selectors';
 import ServiceProvider from './services/ServiceProvider';
 
 type BoxProps = { position: number[] };
@@ -49,7 +49,7 @@ function Box(props: BoxProps): JSX.Element {
 
 function mapState(state: RootState) {
   return {
-    servicesProviders: factoryServicesSelector(state)
+    servicesProviders: factoryServiceProvidersSelector(state)
   };
 }
 

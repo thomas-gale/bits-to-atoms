@@ -1,14 +1,14 @@
 import React, { useRef } from 'react';
 import { Mesh } from 'three';
 import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
-import { ServiceProvider } from '../../../../store/factory/services/types';
+import { Identity } from '../../../../store/common/identity/types';
 
 type OwnProp = {
   floorSpace: FloorSpace;
 };
 
 type OwnDispatch = {
-  onSelected: (serviceProvider: ServiceProvider) => void;
+  onSelected: (id: Identity) => void;
 };
 
 type Props = OwnProp & OwnDispatch;
@@ -16,7 +16,7 @@ type Props = OwnProp & OwnDispatch;
 export function FloorSpaceElement(props: Props): JSX.Element {
   const mesh = useRef<Mesh>();
 
-  const { location, bounds } = props.floorSpace;
+  const { id, location, bounds } = props.floorSpace;
 
   return (
     <mesh
@@ -24,7 +24,7 @@ export function FloorSpaceElement(props: Props): JSX.Element {
       ref={mesh}
       onClick={e => {
         e.stopPropagation();
-        props.onSelected(props.floorSpace);
+        props.onSelected(id);
       }}
     >
       <planeBufferGeometry

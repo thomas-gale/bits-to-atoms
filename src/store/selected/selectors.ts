@@ -4,12 +4,21 @@ import { ServiceProvider } from '../factory/services/types';
 import { Parameter } from '../common/parameter/types';
 import { createNumberParameter } from '../common/parameter/factories';
 import { createExistingIdentity } from '../common/identity/factories';
+import { Identity } from '../common/identity/types';
+import { factoryServiceProvidersSelector } from '../factory/selectors';
 
-export const selectedSelector = (state: RootState) => state.selected;
+export const selectedServiceProviderIdSelector = (state: RootState) => state.selected.selectedServiceProviderId;
+
+export const selectedServiceProviderSelector = createSelector(
+  [factoryServiceProvidersSelector, selectedServiceProviderIdSelector],
+  (factoryServiceProviders: ServiceProvider[], selectedServiceProviderId: Identity): ServiceProvider | undefined => {
+    return factoryServiceProviders.find(sp => sp.id.uuid === selectedServiceProviderId.uuid)
+  }
+)
 
 export const getSelectedParametersSelector = createSelector(
-  [selectedSelector],
-  (selected: ServiceProvider): Parameter[] => {
+  [selectedServiceProviderSelector],
+  (selected: ServiceProvider | undefined): Parameter[] => {
     if (!selected) return [];
     return [
       createNumberParameter(

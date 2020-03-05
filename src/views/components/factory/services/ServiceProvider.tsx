@@ -14,6 +14,7 @@ import { FloorSpace } from '../../../../store/factory/services/floorspace/types'
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
 
 import { setSelected } from '../../../../store/selected/slice';
+import { Identity } from '../../../../store/common/identity/types';
 
 function mapState(_: RootState) {
   return {};
@@ -21,11 +22,11 @@ function mapState(_: RootState) {
 
 function mapDispatch(dispatch: AppDispatch) {
   return {
-    onSelected: (serviceProvider: ServiceProvider) => {
+    onSelected: (id: Identity) => {
       console.log(
-        `Service provider: ${serviceProvider.id.displayName} selected`
+        `Service provider: ${id.displayName} selected`
       );
-      dispatch(setSelected(serviceProvider));
+      dispatch(setSelected(id));
     }
   };
 }
@@ -42,7 +43,7 @@ function ServiceProviderElement(props: Props): JSX.Element {
 
   // Pull out properties
   const { serviceProvider } = props;
-  const { location } = serviceProvider;
+  const { id, location } = serviceProvider;
 
   // Render generic things about service provider
   //  - Invisible bounding box at a location / Orientation
@@ -70,7 +71,7 @@ function ServiceProviderElement(props: Props): JSX.Element {
           ref={mesh}
           onClick={e => {
             e.stopPropagation();
-            props.onSelected(serviceProvider);
+            props.onSelected(id);
           }}
         >
           <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />

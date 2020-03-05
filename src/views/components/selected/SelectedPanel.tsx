@@ -14,12 +14,12 @@ import { FloorSpace } from '../../../store/factory/services/floorspace/types';
 //} from '../../../store/factory/services/floorspace/slice';
 //import { setParameter } from '../../../store/selected/slice';
 //import { createExistingIdentity } from '../../../store/common/primitive/factories';
-import { selectedSelector } from '../../../store/selected/selectors';
+import { selectedServiceProviderSelector } from '../../../store/selected/selectors';
 //import { floorSpaceSelector } from '../../../store/factory/services/floorspace/selectors';
 
 function mapState(state: RootState) {
   return {
-    selected: selectedSelector(state)
+    selected: selectedServiceProviderSelector(state)
     //initialValues: floorSpaceSelector(state)
   };
 }
@@ -68,7 +68,9 @@ const useStyles = makeStyles(theme => ({
 function SelectedPanel(props: Props): JSX.Element {
   const classes = useStyles();
 
-  if (props.selected.id === undefined) {
+  const { selected } = props;
+
+  if (selected === undefined) {
     return <div />;
   }
 
@@ -83,10 +85,10 @@ function SelectedPanel(props: Props): JSX.Element {
           Properties
         </Typography>
         <Typography variant="h5" component="h2">
-          {props.selected.id.displayName}
+          {selected.id.displayName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {props.selected.id.uuid}
+          {selected.id.uuid}
         </Typography>
         <SelectedForm
         //initialValues={props.initialValues}

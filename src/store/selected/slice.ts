@@ -1,13 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ServiceProvider } from '../factory/services/types';
+import { createExistingIdentity } from '../common/identity/factories';
+import { Identity } from '../common/identity/types';
 
 const selectedSlice = createSlice({
   name: 'selected',
-  initialState: {} as ServiceProvider,
+  initialState: {
+    selectedServiceProviderId: createExistingIdentity("", "")
+  },
   reducers: {
-    setSelected(state, action: PayloadAction<ServiceProvider>) {
-      console.log(`Set Selected in Slice: ${action.payload.id.displayName}`);
-      state = action.payload;
+    setSelected(state, action: PayloadAction<Identity>) {
+      console.log(`Set Selected in Slice Id ${action.payload}`);
+      state.selectedServiceProviderId = action.payload;
+      console.log(`State updated: ${state.selectedServiceProviderId}`);
     }
   }
 });

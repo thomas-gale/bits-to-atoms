@@ -5,7 +5,7 @@ import { Identity } from '../common/identity/types';
 const selectedSlice = createSlice({
   name: 'selected',
   initialState: {
-    selectedServiceProviderId: createExistingIdentity("", "")
+    selectedServiceProviderId: createExistingIdentity('', '')
   },
   reducers: {
     setSelected(state, action: PayloadAction<Identity>) {

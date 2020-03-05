@@ -7,14 +7,20 @@ import { createExistingIdentity } from '../common/identity/factories';
 import { Identity } from '../common/identity/types';
 import { factoryServiceProvidersSelector } from '../factory/selectors';
 
-export const selectedServiceProviderIdSelector = (state: RootState) => state.selected.selectedServiceProviderId;
+export const selectedServiceProviderIdSelector = (state: RootState) =>
+  state.selected.selectedServiceProviderId;
 
 export const selectedServiceProviderSelector = createSelector(
   [factoryServiceProvidersSelector, selectedServiceProviderIdSelector],
-  (factoryServiceProviders: ServiceProvider[], selectedServiceProviderId: Identity): ServiceProvider | undefined => {
-    return factoryServiceProviders.find(sp => sp.id.uuid === selectedServiceProviderId.uuid)
+  (
+    factoryServiceProviders: ServiceProvider[],
+    selectedServiceProviderId: Identity
+  ): ServiceProvider | undefined => {
+    return factoryServiceProviders.find(
+      sp => sp.id.uuid === selectedServiceProviderId.uuid
+    );
   }
-)
+);
 
 export const getSelectedParametersSelector = createSelector(
   [selectedServiceProviderSelector],

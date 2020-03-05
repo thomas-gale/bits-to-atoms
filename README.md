@@ -19,8 +19,13 @@ Nimble, market-driven, micro-factories. Pre-alpha!
 # Development
 ![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Tech Stack
+- Typescript
+- React
+- Redux (redux-saga, reselect, redux-form)
+- Three (react-three-fiber)
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## Available Scripts
 
 In the project directory, you can run:

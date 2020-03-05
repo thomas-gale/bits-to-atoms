@@ -1,14 +1,14 @@
 import React, { useRef } from 'react';
 import { Mesh } from 'three';
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
-import { Identity } from '../../../../store/common/identity/types';
+import { ServiceProvider } from '../../../../store/factory/services/types';
 
 type OwnProp = {
   humanWorker: HumanWorker;
 };
 
 type OwnDispatch = {
-  onSelected: (id: Identity) => void;
+  onSelected: (serviceProvider: ServiceProvider) => void;
 };
 
 type Props = OwnProp & OwnDispatch;
@@ -16,13 +16,16 @@ type Props = OwnProp & OwnDispatch;
 export function HumanWorkerElement(props: Props): JSX.Element {
   const mesh = useRef<Mesh>();
 
-  const { id, location, bounds } = props.humanWorker;
+  const { location, bounds } = props.humanWorker;
 
   return (
     <mesh
       position={[location.x, location.y, location.z]}
       ref={mesh}
-      onClick={_ => props.onSelected(id)}
+      onClick={e => {
+        e.stopPropagation();
+        props.onSelected(props.humanWorker);
+      }}
     >
       <boxBufferGeometry
         attach="geometry"

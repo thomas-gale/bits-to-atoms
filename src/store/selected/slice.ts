@@ -6,16 +6,9 @@ const selectedSlice = createSlice({
   initialState: {} as ServiceProvider,
   reducers: {
     setSelected(state, action: PayloadAction<ServiceProvider>) {
+      console.log(`Set Selected in Slice: ${action.payload.id.displayName}`);
       state = action.payload;
     }
-    /*setParameter(state, action: PayloadAction<Parameter>) {
-      const parameterToSet = state.parameters.find(
-        p => p.identity.uuid === action.payload.identity.uuid
-      );
-      if (parameterToSet) {
-        parameterToSet.value = action.payload.value;
-      }
-    }*/
   }
 });
 

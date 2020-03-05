@@ -2,24 +2,30 @@ import React, { useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Mesh } from 'three';
 import { RootState, AppDispatch } from '../../../../store';
+
+import { FloorSpaceElement } from './FloorSpace';
+import { HumanWorkerElement } from './HumanWorker';
+
 import {
   ServiceProvider,
   ServiceType
 } from '../../../../store/factory/services/types';
-import { Identity } from '../../../../store/common/identity/types';
-import { FloorSpaceElement } from './FloorSpace';
 import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
-import { HumanWorkerElement } from './HumanWorker';
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
+
+import { setSelected } from '../../../../store/selected/slice';
 
 function mapState(_: RootState) {
   return {};
 }
 
-function mapDispatch(_: AppDispatch) {
+function mapDispatch(dispatch: AppDispatch) {
   return {
-    onSelected: (id: Identity) => {
-      console.log(`Service provider: ${id.displayName} selected`);
+    onSelected: (serviceProvider: ServiceProvider) => {
+      console.log(
+        `Service provider: ${serviceProvider.id.displayName} selected`
+      );
+      dispatch(setSelected(serviceProvider));
     }
   };
 }
@@ -36,7 +42,7 @@ function ServiceProviderElement(props: Props): JSX.Element {
 
   // Pull out properties
   const { serviceProvider } = props;
-  const { id, location } = serviceProvider;
+  const { location } = serviceProvider;
 
   // Render generic things about service provider
   //  - Invisible bounding box at a location / Orientation
@@ -62,7 +68,10 @@ function ServiceProviderElement(props: Props): JSX.Element {
         <mesh
           position={[location.x, location.y, location.z]}
           ref={mesh}
-          onClick={_ => props.onSelected(id)}
+          onClick={e => {
+            e.stopPropagation();
+            props.onSelected(serviceProvider);
+          }}
         >
           <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
           <meshStandardMaterial attach="material" color={'red'} />

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Mesh } from 'three';
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
-import { Identity } from '../../../../store/common/primitive/types';
+import { Identity } from '../../../../store/common/identity/types';
 
 type OwnProp = {
   humanWorker: HumanWorker;

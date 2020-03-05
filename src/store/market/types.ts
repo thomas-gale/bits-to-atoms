@@ -1,4 +1,4 @@
-import { Identity } from '../common/primitive/types';
+import { Identity } from '../common/identity/types';
 import { Material } from '../common/material/types';
 
 export enum PartType {

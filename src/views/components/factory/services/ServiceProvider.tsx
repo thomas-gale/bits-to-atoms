@@ -6,7 +6,7 @@ import {
   ServiceProvider,
   ServiceType
 } from '../../../../store/factory/services/types';
-import { Identity } from '../../../../store/common/primitive/types';
+import { Identity } from '../../../../store/common/identity/types';
 import { FloorSpaceElement } from './FloorSpace';
 import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
 import { HumanWorkerElement } from './HumanWorker';

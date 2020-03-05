@@ -1,16 +1,12 @@
 import { Identity } from '../../common/identity/types';
 import { Vector3, Quaternion, Cuboid } from '../../common/primitive/types';
 import { Entity } from './types';
-import {
-  createNewIdentity,
-  createExistingIdentity
-} from '../../common/identity/factories';
+import { createNewIdentity } from '../../common/identity/factories';
 import {
   createVector3,
   createQuaternion,
   createCuboid
 } from '../../common/primitive/factories';
-import { createNumberParameter } from '../../common/parameter/factories';
 
 export function createEntity(
   id: Identity = createNewIdentity('default-entity'),
@@ -20,7 +16,15 @@ export function createEntity(
 ): Entity {
   return {
     id,
-    parameters: [
+    location,
+    orientation,
+    bounds
+  };
+}
+
+/*  
+
+ parameters: [
       createNumberParameter(
         createExistingIdentity('Location X', 'locationX'),
         'm',
@@ -87,5 +91,5 @@ export function createEntity(
         bounds.max.z
       )
     ]
-  };
-}
+
+    */

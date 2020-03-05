@@ -1,7 +1,9 @@
 import { Identity } from '../../common/identity/types';
-import { Parameter } from '../../common/parameter/types';
+import { Vector3, Quaternion, Cuboid } from '../../common/primitive/types';
 
 export interface Entity {
   id: Identity;
-  parameters: Parameter[];
+  location: Vector3;
+  orientation: Quaternion;
+  bounds: Cuboid;
 }

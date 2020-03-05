@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Mesh } from 'three';
-import { Identity } from '../../../../store/common/primitive/types';
+import { Identity } from '../../../../store/common/identity/types';
 import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
 
 type OwnProp = {

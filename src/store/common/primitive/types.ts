@@ -1,5 +1,3 @@
-import { NumberParameter } from '../parameter/types';
-
 export interface Vector3 {
   x: number;
   y: number;

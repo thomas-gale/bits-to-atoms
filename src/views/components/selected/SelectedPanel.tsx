@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
-import SelectedForm from './parameter/SelectedForm';
+import SelectedForm from './SelectedForm';
 
 import { RootState, AppDispatch } from '../../../store';
 //import { ParameterType, Parameter } from '../../../store/selected/types';
@@ -67,6 +67,11 @@ const useStyles = makeStyles(theme => ({
 
 function SelectedPanel(props: Props): JSX.Element {
   const classes = useStyles();
+
+  if (props.selected.id === undefined) {
+    return <div />;
+  }
+
   return (
     <Card className={classes.container}>
       <CardContent>
@@ -78,15 +83,15 @@ function SelectedPanel(props: Props): JSX.Element {
           Properties
         </Typography>
         <Typography variant="h5" component="h2">
-          {props.selected.identity.displayName}
+          {props.selected.id.displayName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {props.selected.identity.uuid}
+          {props.selected.id.uuid}
         </Typography>
         <SelectedForm
-          //initialValues={props.initialValues}
-          selected={props.selected}
-          onSubmit={props.handleSubmit}
+        //initialValues={props.initialValues}
+        //selected={props.selected}
+        //handleSubmit={props.handleSubmit}
         />
       </CardContent>
     </Card>

@@ -7,7 +7,7 @@ const factorySlice = createSlice({
   initialState: createFactory(),
   reducers: {
     setIdentity(state, action: PayloadAction<Identity>) {
-      state.id = action.payload;
+      state.identity = action.payload;
     }
   }
 });

@@ -2,27 +2,42 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 
-import { Button } from '@material-ui/core';
 import { BasicParameter } from './parameter/BasicParameter';
 
 import { RootState, AppDispatch } from '../../../store';
 import { Parameter } from '../../../store/common/parameter/types';
 import { FloorSpace } from '../../../store/factory/services/floorspace/types';
-import { getSelectedParametersSelector } from '../../../store/selected/selectors';
+import {
+  selectedParametersSelector,
+  selectedParameterInitialValuesSelector
+} from '../../../store/selected/selectors';
+
+type ParameterUpdate = {
+  target: {
+    name: string;
+    value: string;
+  };
+};
 
 function mapState(state: RootState) {
   return {
-    parameters: getSelectedParametersSelector(state)
+    parameters: selectedParametersSelector(state),
+    initialValues: selectedParameterInitialValuesSelector(state)
   };
 }
 
 function mapDispatch(_: AppDispatch) {
   return {
-    handleSubmit: (_: FloorSpace) => {
+    /*handleSubmit: (_: FloorSpace) => {
       console.log('Submit to be handled');
     },
     setParameter: () => {
       console.log('Parameter Set');
+    },*/
+    onParameterChange: (update: ParameterUpdate) => {
+      console.log(
+        `Parameter ${update.target.name} Changed to ${update.target.value}`
+      );
     }
   };
 }
@@ -35,9 +50,11 @@ class SelectedForm extends React.Component<
   Props & InjectedFormProps<FloorSpace, Props>
 > {
   render() {
-    const { parameters, handleSubmit } = this.props;
+    const { parameters, onParameterChange } = this.props;
     return (
-      <form onSubmit={handleSubmit}>
+      <form>
+        {' '}
+        {/*onSubmit={handleSubmit}*/}
         {parameters.map((parameter: Parameter) => {
           return (
             <Field
@@ -46,13 +63,15 @@ class SelectedForm extends React.Component<
               component={BasicParameter}
               type="number"
               parse={(value: string) => Number(value)}
+              //onChange={() => onParameterChange()}
+              onChange={onParameterChange}
               parameter={parameter}
             />
           );
         })}
-        <Button type="submit" color="primary" size="small">
+        {/*<Button type="submit" color="primary" size="small">
           Update
-        </Button>
+      </Button>*/}
       </form>
     );
   }
@@ -60,6 +79,7 @@ class SelectedForm extends React.Component<
 
 export default connector(
   reduxForm<FloorSpace, Props>({
-    form: 'selectedForm'
+    form: 'selectedForm',
+    enableReinitialize : true 
   })(SelectedForm)
 );

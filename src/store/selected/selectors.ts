@@ -6,6 +6,7 @@ import { createNumberParameter } from '../common/parameter/factories';
 import { createExistingIdentity } from '../common/identity/factories';
 import { Identity } from '../common/identity/types';
 import { factoryServiceProvidersSelector } from '../factory/selectors';
+import { LocationParameters } from './types';
 
 export const selectedServiceProviderIdSelector = (state: RootState) =>
   state.selected.selectedServiceProviderId;
@@ -22,7 +23,9 @@ export const selectedServiceProviderSelector = createSelector(
   }
 );
 
-export const getSelectedParametersSelector = createSelector(
+
+
+export const selectedParametersSelector = createSelector(
   [selectedServiceProviderSelector],
   (selected: ServiceProvider | undefined): Parameter[] => {
     if (!selected) return [];
@@ -43,5 +46,16 @@ export const getSelectedParametersSelector = createSelector(
         selected.location.z
       )
     ];
+  }
+);
+
+export const selectedParameterInitialValuesSelector = createSelector(
+  [selectedParametersSelector],
+  (parameters: Parameter[]): LocationParameters => {
+    const initialParameterValues: any = {};
+    parameters.forEach(parameter => {
+      initialParameterValues[parameter.identity.uuid] = parameter.value;
+    });
+    return initialParameterValues as LocationParameters;
   }
 );

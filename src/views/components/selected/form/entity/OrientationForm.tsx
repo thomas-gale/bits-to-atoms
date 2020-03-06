@@ -69,7 +69,7 @@ function OrientationForm(props: Props & InjectedFormProps<{}, Props>) {
   const fixedProps = {
     title: 'Orientation',
     name: 'orientation',
-    units: 'm'
+    units: ''
   };
 
   return (
@@ -89,7 +89,7 @@ function OrientationForm(props: Props & InjectedFormProps<{}, Props>) {
                 <Grid key={key} item xs={3}>
                   <Field
                     name={key}
-                    displayName={`${key.toUpperCase()} (${fixedProps.units})`}
+                    displayName={`${key.toUpperCase()}`}
                     component={BasicParameter}
                     type="number"
                     parse={(value: string) => Number(value)}

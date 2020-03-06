@@ -12,8 +12,8 @@ export const selectedEntityCameraTargetSelector = createSelector(
 
     // First compute camera position (slightly offset from above)
     const cameraPosition = new THREE.Vector3(
-      selectedServiceProviderEntity.location.x + 1,
-      selectedServiceProviderEntity.location.y - 1,
+      selectedServiceProviderEntity.location.x,
+      selectedServiceProviderEntity.location.y,
       5
     );
 
@@ -28,10 +28,10 @@ export const selectedEntityCameraTargetSelector = createSelector(
     const cameraScreenSpaceBounds = new THREE.Box2(
       new THREE.Vector2(
         selectedServiceProviderEntity.bounds.min.x * 2,
-        selectedServiceProviderEntity.bounds.max.x * 2
+        selectedServiceProviderEntity.bounds.min.y * 2,
       ),
       new THREE.Vector2(
-        selectedServiceProviderEntity.bounds.min.y * 2,
+        selectedServiceProviderEntity.bounds.max.x * 2,
         selectedServiceProviderEntity.bounds.max.y * 2
       )
     );

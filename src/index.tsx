@@ -10,14 +10,10 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import App from './views/components/App';
 import { theme } from './views/theme';
 import * as serviceWorker from './serviceWorker';
+import Factory from './views/components/factory/Factory';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </Provider>,
+  <Factory />,
   document.getElementById('root')
 );
 

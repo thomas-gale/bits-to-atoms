@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
 import IdentityForm from './form/entity/IdentityForm';
 import LocationForm from './form/entity/LocationForm';
+import OrientationForm from './form/entity/OrientationForm';
 
 function mapState(state: RootState) {
   return {
@@ -53,6 +54,7 @@ function SelectedPanel(props: Props): JSX.Element {
         </Typography>
         <IdentityForm />
         <LocationForm />
+        <OrientationForm />
       </CardContent>
     </Card>
   );

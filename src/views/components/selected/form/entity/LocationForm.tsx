@@ -55,18 +55,11 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-/*const useStyles = makeStyles(_ => ({
-  pos: {
-    marginBottom: 12
-  }
-}));*/
-
 class LocationForm extends React.Component<
   Props & InjectedFormProps<{}, Props>
 > {
   render() {
     const { selectedId, onNumberParameterChange } = this.props;
-    //const classes = useStyles();
     return (
       <form>
         <Field

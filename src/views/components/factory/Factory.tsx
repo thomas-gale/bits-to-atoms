@@ -64,10 +64,8 @@ function Factory(props: Props) {
     <ReactReduxContext.Consumer>
       {({ store }) => (
         <Canvas>
-          {' '}
           {/* invalidateFrameloop */}
           <Provider store={store}>
-            {' '}
             {/* Pass the redux store into the THREE canvas */}
             <ambientLight />
             <pointLight position={[10, 10, 10]} />
@@ -83,11 +81,6 @@ function Factory(props: Props) {
                 />
               );
             })}
-            {/* 
-            <FloorSpace position={[0, 0, 0]} />
-            <HumanWorker position={[2, 0, 0]} />
-            <SimplePolymerSpool position={[-1, 1, 0]} />
-            */}
           </Provider>
         </Canvas>
       )}

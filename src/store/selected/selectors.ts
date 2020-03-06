@@ -1,12 +1,12 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../index';
 import { ServiceProvider } from '../factory/services/types';
-import { Parameter } from '../common/parameter/types';
-import { createNumberParameter } from '../common/parameter/factories';
-import { createExistingIdentity } from '../common/identity/factories';
+//import { Parameter } from '../common/parameter/types';
+//import { createNumberParameter } from '../common/parameter/factories';
+//import { createExistingIdentity } from '../common/identity/factories';
 import { Identity } from '../common/identity/types';
 import { factoryServiceProvidersSelector } from '../factory/selectors';
-import { LocationParameters } from './types';
+//import { LocationParameters } from './types';
 
 export const selectedServiceProviderIdSelector = (state: RootState) =>
   state.selected.selectedServiceProviderId;
@@ -23,7 +23,7 @@ export const selectedServiceProviderSelector = createSelector(
   }
 );
 
-export const selectedParametersSelector = createSelector(
+/*export const selectedParametersSelector = createSelector(
   [selectedServiceProviderSelector],
   (selected: ServiceProvider | undefined): Parameter[] => {
     if (!selected) return [];
@@ -56,4 +56,4 @@ export const selectedParameterInitialValuesSelector = createSelector(
     });
     return initialParameterValues as LocationParameters;
   }
-);
+);*/

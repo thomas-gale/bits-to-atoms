@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Field, InjectedFormProps, reduxForm } from 'redux-form';
+import { Field, InjectedFormProps, reduxForm, FormSection } from 'redux-form';
 
 import { BasicParameter } from './parameter/BasicParameter';
 
 import { RootState, AppDispatch } from '../../../store';
-import { Parameter } from '../../../store/common/parameter/types';
+//import { Parameter } from '../../../store/common/parameter/types';
 import { FloorSpace } from '../../../store/factory/services/floorspace/types';
 import {
-  selectedParametersSelector,
-  selectedParameterInitialValuesSelector
+  selectedServiceProviderSelector
+  //selectedParametersSelector,
+  //selectedParameterInitialValuesSelector
 } from '../../../store/selected/selectors';
 
 type ParameterUpdate = {
@@ -21,8 +22,8 @@ type ParameterUpdate = {
 
 function mapState(state: RootState) {
   return {
-    parameters: selectedParametersSelector(state),
-    initialValues: selectedParameterInitialValuesSelector(state)
+    //parameters: selectedServiceProviderSelector(state),
+    initialValues: selectedServiceProviderSelector(state)
   };
 }
 
@@ -50,12 +51,25 @@ class SelectedForm extends React.Component<
   Props & InjectedFormProps<FloorSpace, Props>
 > {
   render() {
-    const { parameters, onParameterChange } = this.props;
+    const { initialValues, onParameterChange } = this.props;
+    if (!initialValues) return <div />;
     return (
       <form>
-        {' '}
-        {/*onSubmit={handleSubmit}*/}
-        {parameters.map((parameter: Parameter) => {
+        {/*Location Section*/}
+        <FormSection name={'location'}>
+          <Field
+            key={'x'}
+            name={'x'}
+            component={BasicParameter}
+            type="number"
+            parse={(value: string) => Number(value)}
+            //onChange={() => onParameterChange()}
+            onChange={onParameterChange}
+            //parameter={parameter}
+          />
+        </FormSection>
+
+        {/*parameters.map((parameter: Parameter) => {
           return (
             <Field
               key={parameter.identity.uuid}
@@ -68,7 +82,7 @@ class SelectedForm extends React.Component<
               parameter={parameter}
             />
           );
-        })}
+        })*/}
         {/*<Button type="submit" color="primary" size="small">
           Update
       </Button>*/}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent, TextField } from '@material-ui/core';
-import { Parameter } from '../../../../store/common/parameter/types';
+//import { Parameter } from '../../../../store/common/parameter/types';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -18,17 +18,17 @@ const useStyles = makeStyles(theme => ({
 
 type BasicParameterProps = {
   input: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  parameter: Parameter;
+  name: string;
 };
 
 export function BasicParameter(props: BasicParameterProps): JSX.Element {
   const classes = useStyles();
-  const { input, parameter } = props;
+  const { input, name } = props;
   return (
     <Card className={classes.container}>
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
-          {parameter.identity.displayName}
+          {name}
         </Typography>
         <TextField {...input} />
       </CardContent>

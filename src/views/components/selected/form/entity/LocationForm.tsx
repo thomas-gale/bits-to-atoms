@@ -14,6 +14,7 @@ import { setServiceProviderParameter } from '../../../../../store/factory/slice'
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import { BasicParameter } from '../parameter/BasicParameter';
 import { createNumberParameter } from '../../../../../store/common/parameter/factories';
+import { Grid } from '@material-ui/core';
 
 function mapState(state: RootState) {
   return {
@@ -58,8 +59,7 @@ type Props = ConnectedProps<typeof connector>;
 function LocationForm(props: Props & InjectedFormProps<{}, Props>) {
   const { selectedServiceProvider, onNumberParameterChange } = props;
 
-  if (!selectedServiceProvider)
-    return <div>No Selected Service Provider for Location Form</div>;
+  if (!selectedServiceProvider) return <div />;
 
   const fixedProps = {
     name: 'location',
@@ -68,26 +68,29 @@ function LocationForm(props: Props & InjectedFormProps<{}, Props>) {
 
   return (
     <form>
-      {Object.keys(selectedServiceProvider.location).map(key => {
-        return (
-          <Field
-            key={key}
-            name={key}
-            displayName={`${key.toUpperCase()} (${fixedProps.units})`}
-            component={BasicParameter}
-            type="number"
-            parse={(value: string) => Number(value)}
-            onChange={(change: ReduxFormParameterUpdate) =>
-              onNumberParameterChange(
-                selectedServiceProvider.id,
-                [fixedProps.name, key],
-                change,
-                fixedProps.units
-              )
-            }
-          />
-        );
-      })}
+      <Grid container>
+        {Object.keys(selectedServiceProvider.location).map(key => {
+          return (
+            <Grid key={key} item xs={4}>
+              <Field
+                name={key}
+                displayName={`${key.toUpperCase()} (${fixedProps.units})`}
+                component={BasicParameter}
+                type="number"
+                parse={(value: string) => Number(value)}
+                onChange={(change: ReduxFormParameterUpdate) =>
+                  onNumberParameterChange(
+                    selectedServiceProvider.id,
+                    [fixedProps.name, key],
+                    change,
+                    fixedProps.units
+                  )
+                }
+              />
+            </Grid>
+          );
+        })}
+      </Grid>
     </form>
   );
 }

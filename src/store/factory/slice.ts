@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Identity } from '../common/identity/types';
 import { createFactory } from './factories';
-import { Parameter } from '../common/parameter/types';
+import { Parameter, ParameterType, NumberParameter } from '../common/parameter/types';
 //import { selectedServiceProviderIdSelector } from '../selected/selectors';
 
 const factorySlice = createSlice({
@@ -23,9 +23,13 @@ const factorySlice = createSlice({
       );
       if (!serviceProvider) return;
 
-      console.log(
+      const numberParameter = action.payload.parameter as NumberParameter;
+      serviceProvider.location.x = numberParameter.value;
+
+
+      /*console.log(
         'At this point we find the parameter inside the service provider somehow and update it.'
-      );
+      );*/
 
       //const parameter = serviceProvider.
     }

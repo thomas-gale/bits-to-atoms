@@ -11,7 +11,6 @@ import { ReduxFormParameterUpdate } from '../../../../../store/selected/types';
 import { createExistingIdentity } from '../../../../../store/common/identity/factories';
 import { setServiceProviderParameter } from '../../../../../store/factory/slice';
 
-//import { makeStyles } from '@material-ui/core';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import { BasicParameter } from '../parameter/BasicParameter';
 import { createNumberParameter } from '../../../../../store/common/parameter/factories';

@@ -1,12 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Identity } from '../common/identity/types';
 import { createFactory } from './factories';
-import {
-  //Parameter,
-  //ParameterType,
-  NumberParameter
-} from '../common/parameter/types';
-//import { selectedServiceProviderIdSelector } from '../selected/selectors';
+import { Parameter } from '../common/parameter/types';
 
 const factorySlice = createSlice({
   name: 'factory',
@@ -20,7 +15,7 @@ const factorySlice = createSlice({
       action: PayloadAction<{
         serviceProviderId: Identity;
         serviceProviderProperty: string[];
-        parameter: NumberParameter;
+        parameter: Parameter;
       }>
     ) {
       // Get the associated service provider from the application state.
@@ -38,6 +33,10 @@ const factorySlice = createSlice({
         serviceProvider[action.payload.serviceProviderProperty[0]][
           action.payload.serviceProviderProperty[1]
         ] = action.payload.parameter.value;
+      } else {
+        console.error(
+          'Unable to setServiceProviderParameter (serviceProviderProperty array unexpected depth)'
+        );
       }
     }
   }

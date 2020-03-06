@@ -14,10 +14,6 @@ import { setServiceProviderParameter } from '../../../../../store/factory/slice'
 //import { makeStyles } from '@material-ui/core';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import { BasicParameter } from '../parameter/BasicParameter';
-import {
-  ParameterType,
-  NumberParameter
-} from '../../../../../store/common/parameter/types';
 import { createNumberParameter } from '../../../../../store/common/parameter/factories';
 
 function mapState(state: RootState) {

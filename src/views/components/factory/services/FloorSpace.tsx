@@ -18,21 +18,20 @@ export function FloorSpaceElement(props: Props): JSX.Element {
 
   const { id, location, orientation, bounds } = props.floorSpace;
 
-    // React hooks for converting the Quaterion into Euler angles.
-    const [eulerRotation, setEulerRotation] = useState<Euler>(new Euler(0,0,0)); 
-    useEffect(() => {
-      const newEuler = new Euler(0,0,0);
-      newEuler.setFromQuaternion(
-        new ThreeQuaternion(
-          orientation.x,
-          orientation.y,
-          orientation.z,
-          orientation.w
-        ));
-        setEulerRotation(newEuler);
-          
-    }, [orientation]
-    )
+  // React hooks for converting the Quaterion into Euler angles.
+  const [eulerRotation, setEulerRotation] = useState<Euler>(new Euler(0, 0, 0));
+  useEffect(() => {
+    const newEuler = new Euler(0, 0, 0);
+    newEuler.setFromQuaternion(
+      new ThreeQuaternion(
+        orientation.x,
+        orientation.y,
+        orientation.z,
+        orientation.w
+      )
+    );
+    setEulerRotation(newEuler);
+  }, [orientation]);
 
   return (
     <mesh

@@ -19,20 +19,19 @@ export function HumanWorkerElement(props: Props): JSX.Element {
   const { id, location, orientation, bounds } = props.humanWorker;
 
   // React hooks for converting the Quaterion into Euler angles.
-  const [eulerRotation, setEulerRotation] = useState<Euler>(new Euler(0,0,0)); 
+  const [eulerRotation, setEulerRotation] = useState<Euler>(new Euler(0, 0, 0));
   useEffect(() => {
-    const newEuler = new Euler(0,0,0);
+    const newEuler = new Euler(0, 0, 0);
     newEuler.setFromQuaternion(
       new ThreeQuaternion(
         orientation.x,
         orientation.y,
         orientation.z,
         orientation.w
-      ));
-      setEulerRotation(newEuler);
-        
-  }, [orientation]
-  )
+      )
+    );
+    setEulerRotation(newEuler);
+  }, [orientation]);
 
   return (
     <mesh

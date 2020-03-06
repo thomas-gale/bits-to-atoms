@@ -6,6 +6,8 @@ import { ServiceProvider } from '../factory/services/types';
 //import { createExistingIdentity } from '../common/identity/factories';
 import { Identity } from '../common/identity/types';
 import { factoryServiceProvidersSelector } from '../factory/selectors';
+import { Entity } from '../factory/entity/types';
+import { Vector3, Quaternion, Cuboid } from '../common/primitive/types';
 //import { LocationParameters } from './types';
 
 export const selectedServiceProviderIdSelector = (state: RootState) =>
@@ -20,6 +22,42 @@ export const selectedServiceProviderSelector = createSelector(
     return factoryServiceProviders.find(
       sp => sp.id.uuid === selectedServiceProviderId.uuid
     );
+  }
+);
+
+export const selectedServiceProviderEntitySelector = createSelector(
+  [selectedServiceProviderSelector],
+  (
+    selectedServiceProvider: ServiceProvider | undefined
+  ): Entity | undefined => {
+    if (!selectedServiceProvider) return undefined;
+    return selectedServiceProvider as Entity;
+  }
+);
+
+export const selectedServiceProviderLocationSelector = createSelector(
+  [selectedServiceProviderEntitySelector],
+  (selectedServiceProviderEntity: Entity | undefined): Vector3 | undefined => {
+    if (!selectedServiceProviderEntity) return undefined;
+    return selectedServiceProviderEntity.location;
+  }
+);
+
+export const selectedServiceProviderOrientationSelector = createSelector(
+  [selectedServiceProviderEntitySelector],
+  (
+    selectedServiceProviderEntity: Entity | undefined
+  ): Quaternion | undefined => {
+    if (!selectedServiceProviderEntity) return undefined;
+    return selectedServiceProviderEntity.orientation;
+  }
+);
+
+export const selectedServiceProviderBoundsSelector = createSelector(
+  [selectedServiceProviderEntitySelector],
+  (selectedServiceProviderEntity: Entity | undefined): Cuboid | undefined => {
+    if (!selectedServiceProviderEntity) return undefined;
+    return selectedServiceProviderEntity.bounds;
   }
 );
 

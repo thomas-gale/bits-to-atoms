@@ -11,7 +11,7 @@ import {
 import GitHubIcon from '@material-ui/icons/GitHub';
 import TimelineIcon from '@material-ui/icons/Timeline';
 
-import { RootState, AppDispatch } from '../../store';
+import { RootState, RootDispatch } from '../../store';
 import { config } from '../../env/config';
 import { factorySelector } from '../../store/factory/selectors';
 import { toggleVisible } from '../../store/market/slice';
@@ -22,7 +22,7 @@ function mapState(state: RootState) {
   };
 }
 
-function mapDispatch(dispatch: AppDispatch) {
+function mapDispatch(dispatch: RootDispatch) {
   return {
     toggleMarketVisible: () => {
       dispatch(toggleVisible());

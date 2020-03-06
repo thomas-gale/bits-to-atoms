@@ -19,7 +19,7 @@ const factorySlice = createSlice({
       state,
       action: PayloadAction<{
         serviceProviderId: Identity;
-        parameter: Parameter;
+        parameter: NumberParameter;
       }>
     ) {
       // Get the associated service provider from the application state.
@@ -28,14 +28,12 @@ const factorySlice = createSlice({
       );
       if (!serviceProvider) return;
 
-      const numberParameter = action.payload.parameter as NumberParameter;
-      serviceProvider.location.x = numberParameter.value;
 
-      /*console.log(
-        'At this point we find the parameter inside the service provider somehow and update it.'
-      );*/
+      // Split the parameter identity value up.
 
-      //const parameter = serviceProvider.
+      // All Parameter types are number
+      serviceProvider.location[action.payload.parameter.identity.uuid] =
+        action.payload.parameter.value;
     }
   }
 });

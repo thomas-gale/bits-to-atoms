@@ -1,0 +1,11 @@
+import React from 'react';
+import { Field, reduxForm, FormSection } from 'redux-form';
+import LocationForm from './entity/LocationForm';
+
+export function EntityForm() {
+  return (
+    <div>
+      <LocationForm />
+    </div>
+  );
+}

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
 import SelectedForm from './SelectedForm';
 
-import { RootState, AppDispatch } from '../../../store';
+import { RootState, RootDispatch } from '../../../store';
 //import { ParameterType, Parameter } from '../../../store/selected/types';
 import { FloorSpace } from '../../../store/factory/services/floorspace/types';
 
@@ -15,16 +15,17 @@ import { FloorSpace } from '../../../store/factory/services/floorspace/types';
 //import { setParameter } from '../../../store/selected/slice';
 //import { createExistingIdentity } from '../../../store/common/primitive/factories';
 import { selectedServiceProviderSelector } from '../../../store/selected/selectors';
+import IdentityForm from './form/entity/IdentityForm';
+import LocationForm from './form/entity/LocationForm';
 //import { floorSpaceSelector } from '../../../store/factory/services/floorspace/selectors';
 
 function mapState(state: RootState) {
   return {
     selected: selectedServiceProviderSelector(state)
-    //initialValues: floorSpaceSelector(state)
   };
 }
 
-function mapDispatch(_: AppDispatch) {
+function mapDispatch(_: RootDispatch) {
   return {
     handleSubmit: (_: FloorSpace) => {
       console.log('Submit to be handled');
@@ -84,17 +85,15 @@ function SelectedPanel(props: Props): JSX.Element {
         >
           Properties
         </Typography>
-        <Typography variant="h5" component="h2">
-          {selected.id.displayName}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {selected.id.uuid}
-        </Typography>
-        <SelectedForm
+        <IdentityForm />
+        <LocationForm />
+
+        {/*
+        //<SelectedForm
         //initialValues={props.initialValues}
         //selected={props.selected}
         //handleSubmit={props.handleSubmit}
-        />
+        />*/}
       </CardContent>
     </Card>
   );

@@ -2,9 +2,9 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Field, InjectedFormProps, reduxForm, FormSection } from 'redux-form';
 
-import { BasicParameter } from './parameter/BasicParameter';
+import { BasicParameter } from './form/parameter/BasicParameter';
 
-import { RootState, AppDispatch } from '../../../store';
+import { RootState, RootDispatch } from '../../../store';
 //import { Parameter } from '../../../store/common/parameter/types';
 import { FloorSpace } from '../../../store/factory/services/floorspace/types';
 import {
@@ -34,7 +34,7 @@ function mapState(state: RootState) {
   };
 }
 
-function mapDispatch(dispatch: AppDispatch) {
+function mapDispatch(dispatch: RootDispatch) {
   return {
     /*handleSubmit: (_: FloorSpace) => {
       console.log('Submit to be handled');
@@ -76,8 +76,11 @@ class SelectedForm extends React.Component<
   Props & InjectedFormProps<FloorSpace, Props>
 > {
   render() {
-    const { initialValues, onNumberParameterChange } = this.props;
-    if (!initialValues) return <div />;
+    const {
+      initialValues: serviceProvider,
+      onNumberParameterChange
+    } = this.props;
+    if (!serviceProvider) return <div />;
     return (
       <form>
         {/*Location Section*/}
@@ -90,7 +93,7 @@ class SelectedForm extends React.Component<
             parse={(value: string) => Number(value)}
             //onChange={() => onParameterChange()}
             onChange={(change: ParameterUpdate) =>
-              onNumberParameterChange(change, initialValues.id, 'm')
+              onNumberParameterChange(change, serviceProvider.id, 'm')
             }
             //parameter={parameter}
           />

@@ -10,7 +10,9 @@ export interface SimplePolymer {
   id: Identity;
 }
 
-export interface SimplePolymerSpool extends SimplePolymer, Entity {
+export interface SimplePolymerSpool
+  extends SimplePolymer,
+    Entity<NumberParameter> {
   spoolLength: NumberParameter;
   spoolDiameter: NumberParameter;
 }

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Mesh } from 'three';
-import { RootState, AppDispatch } from '../../../../store';
+import { RootState, RootDispatch } from '../../../../store';
 
 import { FloorSpaceElement } from './FloorSpace';
 import { HumanWorkerElement } from './HumanWorker';
@@ -20,7 +20,7 @@ function mapState(_: RootState) {
   return {};
 }
 
-function mapDispatch(dispatch: AppDispatch) {
+function mapDispatch(dispatch: RootDispatch) {
   return {
     onSelected: (id: Identity) => {
       console.log(`Service provider: ${id.displayName} selected`);

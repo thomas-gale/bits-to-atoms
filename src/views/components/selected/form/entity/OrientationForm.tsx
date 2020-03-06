@@ -55,81 +55,57 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-class OrientationForm extends React.Component<
-  Props & InjectedFormProps<{}, Props>
-> {
-  render() {
-    const { selectedId, onNumberParameterChange } = this.props;
-    //const classes = useStyles();
-    return (
-      <form>
-        <Field
-          key={'x'}
-          name={'x'}
-          displayName="X"
-          component={BasicParameter}
-          type="number"
-          parse={(value: string) => Number(value)}
-          onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(
-              selectedId,
-              ['orientation', 'x'],
-              change,
-              ''
-            )
-          }
-        />
-        <Field
-          key={'y'}
-          name={'y'}
-          displayName="Y"
-          component={BasicParameter}
-          type="number"
-          parse={(value: string) => Number(value)}
-          onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(
-              selectedId,
-              ['orientation', 'y'],
-              change,
-              ''
-            )
-          }
-        />
-        <Field
-          key={'z'}
-          name={'z'}
-          displayName="Z"
-          component={BasicParameter}
-          type="number"
-          parse={(value: string) => Number(value)}
-          onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(
-              selectedId,
-              ['orientation', 'z'],
-              change,
-              ''
-            )
-          }
-        />
-        <Field
-          key={'w'}
-          name={'w'}
-          displayName="W"
-          component={BasicParameter}
-          type="number"
-          parse={(value: string) => Number(value)}
-          onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(
-              selectedId,
-              ['orientation', 'w'],
-              change,
-              ''
-            )
-          }
-        />
-      </form>
-    );
-  }
+function OrientationForm(props: Props & InjectedFormProps<{}, Props>) {
+  const { selectedId, onNumberParameterChange } = props;
+
+  return (
+    <form>
+      <Field
+        key={'x'}
+        name={'x'}
+        displayName="X"
+        component={BasicParameter}
+        type="number"
+        parse={(value: string) => Number(value)}
+        onChange={(change: ReduxFormParameterUpdate) =>
+          onNumberParameterChange(selectedId, ['orientation', 'x'], change, '')
+        }
+      />
+      <Field
+        key={'y'}
+        name={'y'}
+        displayName="Y"
+        component={BasicParameter}
+        type="number"
+        parse={(value: string) => Number(value)}
+        onChange={(change: ReduxFormParameterUpdate) =>
+          onNumberParameterChange(selectedId, ['orientation', 'y'], change, '')
+        }
+      />
+      <Field
+        key={'z'}
+        name={'z'}
+        displayName="Z"
+        component={BasicParameter}
+        type="number"
+        parse={(value: string) => Number(value)}
+        onChange={(change: ReduxFormParameterUpdate) =>
+          onNumberParameterChange(selectedId, ['orientation', 'z'], change, '')
+        }
+      />
+      <Field
+        key={'w'}
+        name={'w'}
+        displayName="W"
+        component={BasicParameter}
+        type="number"
+        parse={(value: string) => Number(value)}
+        onChange={(change: ReduxFormParameterUpdate) =>
+          onNumberParameterChange(selectedId, ['orientation', 'w'], change, '')
+        }
+      />
+    </form>
+  );
 }
 
 export default connector(

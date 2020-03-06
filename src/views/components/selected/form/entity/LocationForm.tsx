@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState, RootDispatch } from '../../../../../store';
 import {
-  selectedServiceProviderIdSelector,
+  selectedServiceProviderSelector,
   selectedServiceProviderLocationSelector
 } from '../../../../../store/selected/selectors';
 
@@ -17,7 +17,7 @@ import { createNumberParameter } from '../../../../../store/common/parameter/fac
 
 function mapState(state: RootState) {
   return {
-    selectedId: selectedServiceProviderIdSelector(state),
+    selectedServiceProvider: selectedServiceProviderSelector(state),
     initialValues: selectedServiceProviderLocationSelector(state)
   };
 }
@@ -55,49 +55,41 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-class LocationForm extends React.Component<
-  Props & InjectedFormProps<{}, Props>
-> {
-  render() {
-    const { selectedId, onNumberParameterChange } = this.props;
-    return (
-      <form>
-        <Field
-          key={'x'}
-          name={'x'}
-          displayName="X"
-          component={BasicParameter}
-          type="number"
-          parse={(value: string) => Number(value)}
-          onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(selectedId, ['location', 'x'], change, 'm')
-          }
-        />
-        <Field
-          key={'y'}
-          name={'y'}
-          displayName="Y"
-          component={BasicParameter}
-          type="number"
-          parse={(value: string) => Number(value)}
-          onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(selectedId, ['location', 'y'], change, 'm')
-          }
-        />
-        <Field
-          key={'z'}
-          name={'z'}
-          displayName="Z"
-          component={BasicParameter}
-          type="number"
-          parse={(value: string) => Number(value)}
-          onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(selectedId, ['location', 'z'], change, 'm')
-          }
-        />
-      </form>
-    );
-  }
+function LocationForm(props: Props & InjectedFormProps<{}, Props>) {
+  const { selectedServiceProvider, onNumberParameterChange } = props;
+
+  if (!selectedServiceProvider)
+    return <div>No Selected Service Provider for Location Form</div>;
+
+  const fixedProps = {
+    name: 'location',
+    units: 'm'
+  };
+
+  return (
+    <form>
+      {Object.keys(selectedServiceProvider.location).map(key => {
+        return (
+          <Field
+            key={key}
+            name={key}
+            displayName={`${key.toUpperCase()} (${fixedProps.units})`}
+            component={BasicParameter}
+            type="number"
+            parse={(value: string) => Number(value)}
+            onChange={(change: ReduxFormParameterUpdate) =>
+              onNumberParameterChange(
+                selectedServiceProvider.id,
+                [fixedProps.name, key],
+                change,
+                fixedProps.units
+              )
+            }
+          />
+        );
+      })}
+    </form>
+  );
 }
 
 export default connector(

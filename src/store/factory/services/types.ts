@@ -8,24 +8,22 @@ export enum ServiceType {
   FFFPrinter = 'FFFPrinter'
 }
 
-interface BaseServiceProvider<T = never> extends Entity<ServiceType | T> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface BaseServiceProvider<T = any> extends Entity<ServiceType | T> {
   type: ServiceType;
 }
 
-export interface StorageServiceProvider
-  extends BaseServiceProvider<number | any> {
+export interface StorageServiceProvider extends BaseServiceProvider {
   costPerVolPerTime: number;
 }
 
-export interface TransportServiceProvider
-  extends BaseServiceProvider<number | any> {
+export interface TransportServiceProvider extends BaseServiceProvider {
   costPerTime: number;
   capactityMass: number;
   movementVelocity: number;
 }
 
-export interface TransmutationServiceProvider
-  extends BaseServiceProvider<number | MaterialType[] | Cuboid | any> {
+export interface TransmutationServiceProvider extends BaseServiceProvider {
   costPerTime: number;
   supportedMaterials: MaterialType[];
   outputVolume: Cuboid;

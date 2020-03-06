@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Identity } from '../common/identity/types';
 import { createFactory } from './factories';
 import {
-  Parameter,
+  //Parameter,
   //ParameterType,
   NumberParameter
 } from '../common/parameter/types';
@@ -27,7 +27,6 @@ const factorySlice = createSlice({
         sp => sp.id.uuid === action.payload.serviceProviderId.uuid
       );
       if (!serviceProvider) return;
-
 
       // Split the parameter identity value up.
 

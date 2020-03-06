@@ -11,7 +11,7 @@ import { ReduxFormParameterUpdate } from '../../../../../store/selected/types';
 import { createExistingIdentity } from '../../../../../store/common/identity/factories';
 import { setServiceProviderParameter } from '../../../../../store/factory/slice';
 
-import { Typography, makeStyles } from '@material-ui/core';
+//import { makeStyles } from '@material-ui/core';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import { BasicParameter } from '../parameter/BasicParameter';
 import {
@@ -58,11 +58,11 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(_ => ({
+/*const useStyles = makeStyles(_ => ({
   pos: {
     marginBottom: 12
   }
-}));
+}));*/
 
 class LocationForm extends React.Component<
   Props & InjectedFormProps<{}, Props>

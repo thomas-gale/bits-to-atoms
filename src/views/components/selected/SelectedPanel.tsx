@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
-import SelectedForm from './SelectedForm';
+//import SelectedForm from './SelectedForm';
 
 import { RootState, RootDispatch } from '../../../store';
 //import { ParameterType, Parameter } from '../../../store/selected/types';

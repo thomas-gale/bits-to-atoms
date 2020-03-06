@@ -18,6 +18,7 @@ import {
   ParameterType,
   NumberParameter
 } from '../../../../../store/common/parameter/types';
+import { createNumberParameter } from '../../../../../store/common/parameter/factories';
 
 function mapState(state: RootState) {
   return {
@@ -29,8 +30,9 @@ function mapState(state: RootState) {
 function mapDispatch(dispatch: RootDispatch) {
   return {
     onNumberParameterChange: (
-      parameterUpdate: ReduxFormParameterUpdate,
       selectedServiceProviderId: Identity,
+      serviceProviderProperty: string[],
+      parameterUpdate: ReduxFormParameterUpdate,
       units: string
     ) => {
       console.log(
@@ -39,15 +41,15 @@ function mapDispatch(dispatch: RootDispatch) {
       dispatch(
         setServiceProviderParameter({
           serviceProviderId: selectedServiceProviderId,
-          parameter: {
-            identity: createExistingIdentity(
+          serviceProviderProperty,
+          parameter: createNumberParameter(
+            createExistingIdentity(
               parameterUpdate.target.name,
               parameterUpdate.target.name
             ),
-            type: ParameterType.Number,
             units,
-            value: Number(parameterUpdate.target.value)
-          } as NumberParameter
+            Number(parameterUpdate.target.value)
+          )
         })
       );
     }
@@ -80,7 +82,7 @@ class LocationForm extends React.Component<
           type="number"
           parse={(value: string) => Number(value)}
           onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(change, selectedId, 'm')
+            onNumberParameterChange(selectedId, ['location', 'x'], change, 'm')
           }
         />
         <Field
@@ -91,7 +93,7 @@ class LocationForm extends React.Component<
           type="number"
           parse={(value: string) => Number(value)}
           onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(change, selectedId, 'm')
+            onNumberParameterChange(selectedId, ['location', 'y'], change, 'm')
           }
         />
         <Field
@@ -102,7 +104,7 @@ class LocationForm extends React.Component<
           type="number"
           parse={(value: string) => Number(value)}
           onChange={(change: ReduxFormParameterUpdate) =>
-            onNumberParameterChange(change, selectedId, 'm')
+            onNumberParameterChange(selectedId, ['location', 'z'], change, 'm')
           }
         />
       </form>

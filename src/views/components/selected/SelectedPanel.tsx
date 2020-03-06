@@ -1,23 +1,13 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+
+import { RootState } from '../../../store';
+import { selectedServiceProviderSelector } from '../../../store/selected/selectors';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
-//import SelectedForm from './SelectedForm';
-
-import { RootState, RootDispatch } from '../../../store';
-//import { ParameterType, Parameter } from '../../../store/selected/types';
-import { FloorSpace } from '../../../store/factory/services/floorspace/types';
-
-//import {
-//  setXLength,
-//  setYLength
-//} from '../../../store/factory/services/floorspace/slice';
-//import { setParameter } from '../../../store/selected/slice';
-//import { createExistingIdentity } from '../../../store/common/primitive/factories';
-import { selectedServiceProviderSelector } from '../../../store/selected/selectors';
 import IdentityForm from './form/entity/IdentityForm';
 import LocationForm from './form/entity/LocationForm';
-//import { floorSpaceSelector } from '../../../store/factory/services/floorspace/selectors';
 
 function mapState(state: RootState) {
   return {
@@ -25,31 +15,7 @@ function mapState(state: RootState) {
   };
 }
 
-function mapDispatch(_: RootDispatch) {
-  return {
-    handleSubmit: (_: FloorSpace) => {
-      console.log('Submit to be handled');
-      /*
-      const xParam = {
-        identity: createExistingIdentity('X Length', 'xLength'),
-        type: ParameterType.NUMBER,
-        value: '' //values.xLength.toString()
-      } as Parameter;
-      const yParam = {
-        identity: createExistingIdentity('Y Length', 'yLength'),
-        type: ParameterType.NUMBER,
-        value: '' //values.yLength.toString()
-      } as Parameter;*/
-
-      //dispatch(setParameter(xParam));
-      //dispatch(setParameter(yParam));
-      //dispatch(setXLength(Number(xParam.value)));
-      //dispatch(setYLength(Number(yParam.value)));
-    }
-  };
-}
-
-const connector = connect(mapState, mapDispatch);
+const connector = connect(mapState);
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -71,7 +37,7 @@ function SelectedPanel(props: Props): JSX.Element {
 
   const { selected } = props;
 
-  if (selected === undefined) {
+  if (!selected) {
     return <div />;
   }
 
@@ -87,13 +53,6 @@ function SelectedPanel(props: Props): JSX.Element {
         </Typography>
         <IdentityForm />
         <LocationForm />
-
-        {/*
-        //<SelectedForm
-        //initialValues={props.initialValues}
-        //selected={props.selected}
-        //handleSubmit={props.handleSubmit}
-        />*/}
       </CardContent>
     </Card>
   );

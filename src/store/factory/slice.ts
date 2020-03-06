@@ -19,6 +19,7 @@ const factorySlice = createSlice({
       state,
       action: PayloadAction<{
         serviceProviderId: Identity;
+        serviceProviderProperty: string[];
         parameter: NumberParameter;
       }>
     ) {
@@ -28,11 +29,16 @@ const factorySlice = createSlice({
       );
       if (!serviceProvider) return;
 
-      // Split the parameter identity value up.
-
-      // All Parameter types are number
-      serviceProvider.location[action.payload.parameter.identity.uuid] =
-        action.payload.parameter.value;
+      // Make assumption that serviceProviderProperty are 1 or 2 layers deep.
+      // TODO: Replace this with a recursive structure.
+      if (action.payload.serviceProviderProperty.length === 1) {
+        serviceProvider[action.payload.serviceProviderProperty[0]] =
+          action.payload.parameter.value;
+      } else if (action.payload.serviceProviderProperty.length === 2) {
+        serviceProvider[action.payload.serviceProviderProperty[0]][
+          action.payload.serviceProviderProperty[1]
+        ] = action.payload.parameter.value;
+      }
     }
   }
 });

@@ -1,23 +1,29 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { RootState, RootDispatch } from '../../../../../store';
-import {
-  selectedServiceProviderIdSelector,
-  selectedServiceProviderOrientationSelector
-} from '../../../../../store/selected/selectors';
+import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 
+import { RootState, RootDispatch } from '../../../../../store';
 import { Identity } from '../../../../../store/common/identity/types';
 import { ReduxFormParameterUpdate } from '../../../../../store/selected/types';
 import { createExistingIdentity } from '../../../../../store/common/identity/factories';
+import { createNumberParameter } from '../../../../../store/common/parameter/factories';
+import {
+  selectedServiceProviderSelector,
+  selectedServiceProviderOrientationSelector
+} from '../../../../../store/selected/selectors';
 import { setServiceProviderParameter } from '../../../../../store/factory/slice';
 
-import { reduxForm, InjectedFormProps, Field } from 'redux-form';
+import { Grid } from '@material-ui/core';
 import { BasicParameter } from '../parameter/BasicParameter';
-import { createNumberParameter } from '../../../../../store/common/parameter/factories';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 function mapState(state: RootState) {
   return {
-    selectedId: selectedServiceProviderIdSelector(state),
+    selectedServiceProvider: selectedServiceProviderSelector(state),
     initialValues: selectedServiceProviderOrientationSelector(state)
   };
 }
@@ -56,55 +62,53 @@ const connector = connect(mapState, mapDispatch);
 type Props = ConnectedProps<typeof connector>;
 
 function OrientationForm(props: Props & InjectedFormProps<{}, Props>) {
-  const { selectedId, onNumberParameterChange } = props;
+  const { selectedServiceProvider, onNumberParameterChange } = props;
+
+  if (!selectedServiceProvider) return <div />;
+
+  const fixedProps = {
+    title: 'Orientation',
+    name: 'orientation',
+    units: 'm'
+  };
 
   return (
-    <form>
-      <Field
-        key={'x'}
-        name={'x'}
-        displayName="X"
-        component={BasicParameter}
-        type="number"
-        parse={(value: string) => Number(value)}
-        onChange={(change: ReduxFormParameterUpdate) =>
-          onNumberParameterChange(selectedId, ['orientation', 'x'], change, '')
-        }
-      />
-      <Field
-        key={'y'}
-        name={'y'}
-        displayName="Y"
-        component={BasicParameter}
-        type="number"
-        parse={(value: string) => Number(value)}
-        onChange={(change: ReduxFormParameterUpdate) =>
-          onNumberParameterChange(selectedId, ['orientation', 'y'], change, '')
-        }
-      />
-      <Field
-        key={'z'}
-        name={'z'}
-        displayName="Z"
-        component={BasicParameter}
-        type="number"
-        parse={(value: string) => Number(value)}
-        onChange={(change: ReduxFormParameterUpdate) =>
-          onNumberParameterChange(selectedId, ['orientation', 'z'], change, '')
-        }
-      />
-      <Field
-        key={'w'}
-        name={'w'}
-        displayName="W"
-        component={BasicParameter}
-        type="number"
-        parse={(value: string) => Number(value)}
-        onChange={(change: ReduxFormParameterUpdate) =>
-          onNumberParameterChange(selectedId, ['orientation', 'w'], change, '')
-        }
-      />
-    </form>
+    <ExpansionPanel>
+      <ExpansionPanelSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls={fixedProps.name}
+        id={fixedProps.name}
+      >
+        <Typography>{fixedProps.title}</Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <form>
+          <Grid container>
+            {Object.keys(selectedServiceProvider.orientation).map(key => {
+              return (
+                <Grid key={key} item xs={3}>
+                  <Field
+                    name={key}
+                    displayName={`${key.toUpperCase()} (${fixedProps.units})`}
+                    component={BasicParameter}
+                    type="number"
+                    parse={(value: string) => Number(value)}
+                    onChange={(change: ReduxFormParameterUpdate) =>
+                      onNumberParameterChange(
+                        selectedServiceProvider.id,
+                        [fixedProps.name, key],
+                        change,
+                        fixedProps.units
+                      )
+                    }
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </form>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 }
 

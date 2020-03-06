@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
-import { Canvas, useFrame } from 'react-three-fiber';
-import { Mesh } from 'three';
+import React, { useRef, useState, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from 'react-three-fiber';
+import { Mesh, OrthographicCamera, Camera } from 'three';
 import {
   ReactReduxContext,
   Provider,
@@ -10,6 +10,7 @@ import {
 import { RootState } from '../../../store';
 import { factoryServiceProvidersSelector } from '../../../store/factory/selectors';
 import ServiceProvider from './services/ServiceProvider';
+import { selectedEntityCameraTargetSelector } from '../../../store/factory/camera/selectors';
 
 type BoxProps = { position: number[] };
 
@@ -49,6 +50,7 @@ function Box(props: BoxProps): JSX.Element {
 
 function mapState(state: RootState) {
   return {
+    cameraTarget: selectedEntityCameraTargetSelector(state),
     servicesProviders: factoryServiceProvidersSelector(state)
   };
 }
@@ -58,12 +60,40 @@ const connector = connect(mapState);
 type Props = ConnectedProps<typeof connector>;
 
 function Factory(props: Props) {
-  const { servicesProviders } = props;
+  const { cameraTarget, servicesProviders } = props;
+
+  //const { camera } = useThree();
+  /*
+  const orthoCamera = useRef<OrthographicCamera>();
+  useEffect(() => {
+    if (orthoCamera && orthoCamera.current) {
+      orthoCamera.current.position.set(
+        cameraTarget.position.x,
+        cameraTarget.position.y,
+        cameraTarget.position.z
+      );
+      orthoCamera.current.lookAt(cameraTarget.lookAt);
+      orthoCamera.current.left = cameraTarget.screenSpaceBounds.min.x;
+      orthoCamera.current.right = cameraTarget.screenSpaceBounds.max.x;
+      orthoCamera.current.bottom = cameraTarget.screenSpaceBounds.min.y;
+      orthoCamera.current.top = cameraTarget.screenSpaceBounds.max.y;
+      orthoCamera.current.updateProjectionMatrix();
+    }
+  }, [cameraTarget]);*/
 
   return (
     <ReactReduxContext.Consumer>
       {({ store }) => (
-        <Canvas>
+        <Canvas
+          camera={{
+            position: cameraTarget.position,
+            up: cameraTarget.lookAt,
+            left: cameraTarget.screenSpaceBounds.min.x,
+            right: cameraTarget.screenSpaceBounds.max.x,
+            bottom: cameraTarget.screenSpaceBounds.max.y,
+            top: cameraTarget.screenSpaceBounds.min.y
+          }}
+        >
           {/* invalidateFrameloop */}
           <Provider store={store}>
             {/* Pass the redux store into the THREE canvas */}

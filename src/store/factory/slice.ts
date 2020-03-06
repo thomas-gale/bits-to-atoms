@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Identity } from '../common/identity/types';
 import { createFactory } from './factories';
-import { Parameter, ParameterType, NumberParameter } from '../common/parameter/types';
+import {
+  Parameter,
+  //ParameterType,
+  NumberParameter
+} from '../common/parameter/types';
 //import { selectedServiceProviderIdSelector } from '../selected/selectors';
 
 const factorySlice = createSlice({
@@ -18,6 +22,7 @@ const factorySlice = createSlice({
         parameter: Parameter;
       }>
     ) {
+      // Get the associated service provider from the application state.
       const serviceProvider = state.serviceProviders.find(
         sp => sp.id.uuid === action.payload.serviceProviderId.uuid
       );
@@ -25,7 +30,6 @@ const factorySlice = createSlice({
 
       const numberParameter = action.payload.parameter as NumberParameter;
       serviceProvider.location.x = numberParameter.value;
-
 
       /*console.log(
         'At this point we find the parameter inside the service provider somehow and update it.'

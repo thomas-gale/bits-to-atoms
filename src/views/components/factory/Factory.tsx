@@ -7,11 +7,13 @@ import {
   connect,
   ConnectedProps
 } from 'react-redux';
-import { RootState } from '../../../store';
+import { RootState, RootDispatch } from '../../../store';
 import { factoryServiceProvidersSelector } from '../../../store/factory/selectors';
 import ServiceProvider from './services/ServiceProvider';
 import { selectedEntityCameraTargetSelector } from '../../../store/factory/camera/selectors';
 import { OrthoCameraTarget } from '../../../store/factory/camera/types';
+import { BasePlane } from './base/BasePlane';
+import { unSelect } from '../../../store/selected/slice';
 
 type BoxProps = { position: number[] };
 
@@ -56,15 +58,15 @@ function mapState(state: RootState) {
   };
 }
 
-const connector = connect(mapState);
-
-function initialOrthoCamera(cameraTarget: OrthoCameraTarget ): OrthographicCamera {
-  const orthoCamera = new OrthographicCamera(cameraTarget.screenSpaceBounds.min.x, cameraTarget.screenSpaceBounds.max.x, cameraTarget.screenSpaceBounds.min.y, cameraTarget.screenSpaceBounds.max.y);
-  orthoCamera.position.set(cameraTarget.position.x, cameraTarget.position.y, cameraTarget.position.z);
-  orthoCamera.lookAt(cameraTarget.lookAt);
-  orthoCamera.updateProjectionMatrix();
-  return orthoCamera;
+function mapDispatch(dispatch: RootDispatch) {
+  return {
+    onBasePlaneSelected: () => {
+      dispatch(unSelect());
+    }
+  }
 }
+
+const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -76,35 +78,51 @@ function CameraElement(props: { cameraTarget: OrthoCameraTarget }) {
     //const orthoCamera = camera as OrthographicCamera;
     camera.position.set(cameraTarget.position.x, cameraTarget.position.y, cameraTarget.position.z);
     camera.lookAt(cameraTarget.lookAt);
-    //orthoCamera.left = cameraTarget.screenSpaceBounds.min.x;
-    //orthoCamera.right = cameraTarget.screenSpaceBounds.max.x;
-    //orthoCamera.bottom = cameraTarget.screenSpaceBounds.max.y;
-    //orthoCamera.top = cameraTarget.screenSpaceBounds.min.y;
     camera.updateProjectionMatrix();
   }, [cameraTarget]);
 
   return null;
 }
 
+function Lights() {
+  return (
+    <group>
+      <pointLight intensity={0.3} />
+      <ambientLight intensity={2} />
+      <spotLight
+        castShadow
+        intensity={0.2}
+        angle={Math.PI / 7}
+        position={[150, 150, 250]}
+        penumbra={1}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+      />
+    </group>
+  )
+}
+
 function Factory(props: Props) {
-  const { cameraTarget, servicesProviders } = props;
+  const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
 
   return (
     <ReactReduxContext.Consumer>
       {({ store }) => (
-        <Canvas
-          //orthographic={true}
-        >
-          {/* invalidateFrameloop */}
+        <Canvas shadowMap >
           <Provider store={store}>
-            {/* Pass the redux store into the THREE canvas */}
             <CameraElement cameraTarget={cameraTarget}/>
-            <ambientLight />
+            <ambientLight intensity={0.1} />
             <pointLight position={[10, 10, 10]} />
-            {/* Test Boxes 
-            <Box position={[-1.2, 0, 0]} />
-            <Box position={[1.2, 0, 0]} />*/}
-            {/* Render all the ServiceProviders */}
+            <spotLight
+              castShadow
+              intensity={0.2}
+              angle={Math.PI / 7}
+              position={[15, 15, 15]}
+              penumbra={2}
+              shadow-mapSize-width={2048}
+              shadow-mapSize-height={2048}
+            />
+            <BasePlane largeX={100} largeY={100} onSelected={onBasePlaneSelected} />
             {servicesProviders.map(servicesProvider => {
               return (
                 <ServiceProvider

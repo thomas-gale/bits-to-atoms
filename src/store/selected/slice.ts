@@ -5,17 +5,18 @@ import { Identity } from '../common/identity/types';
 const selectedSlice = createSlice({
   name: 'selected',
   initialState: {
-    selectedServiceProviderId: createExistingIdentity('', '')
+    selectedServiceProviderId: {}
   },
   reducers: {
+    unSelect(state, action: PayloadAction) {
+      state.selectedServiceProviderId = {};
+    },
     setSelected(state, action: PayloadAction<Identity>) {
-      console.log(`Set Selected in Slice Id ${action.payload}`);
       state.selectedServiceProviderId = action.payload;
-      console.log(`State updated: ${state.selectedServiceProviderId}`);
     }
   }
 });
 
-export const { setSelected } = selectedSlice.actions;
+export const { unSelect, setSelected } = selectedSlice.actions;
 
 export const selectedReducer = selectedSlice.reducer;

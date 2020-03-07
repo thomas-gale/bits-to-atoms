@@ -35,6 +35,8 @@ export function HumanWorkerElement(props: Props): JSX.Element {
 
   return (
     <mesh
+      castShadow 
+      receiveShadow
       position={[location.x, location.y, location.z]}
       rotation={eulerRotation}
       ref={mesh}

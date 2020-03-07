@@ -25,7 +25,7 @@ export function GridHoverCursor(props: Props): JSX.Element {
         0
       )
     );
-  }, [x, y]);
+  }, [gridSize, x, y]);
 
   const { snappedcursorPostion } = useSpring({
     snappedcursorPostion: [target.x, target.y, target.z]

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Mesh } from 'three';
-import { RootState } from '../../../../store';
+import { RootState } from '../../../../../store';
 
 function mapState(_: RootState) {
   return {

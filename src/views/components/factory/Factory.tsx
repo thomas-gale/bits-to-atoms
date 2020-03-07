@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { Canvas, useThree } from 'react-three-fiber';
-import { ACESFilmicToneMapping } from 'three';
+import React, { useEffect, useState } from 'react';
+import { Canvas, useThree, useFrame } from 'react-three-fiber';
+import {useSpring, animated} from 'react-spring'
+
 import {
   ReactReduxContext,
   Provider,
@@ -14,6 +15,8 @@ import { selectedEntityCameraTargetSelector } from '../../../store/factory/camer
 import { OrthoCameraTarget } from '../../../store/factory/camera/types';
 import { BasePlane } from './base/BasePlane';
 import { unSelect } from '../../../store/selected/slice';
+import { GridHoverCursor } from './cursor/GridHoverCursor';
+import { Vector3, Color } from 'three';
 
 function mapState(state: RootState) {
   return {
@@ -51,14 +54,14 @@ function CameraElement(props: { cameraTarget: OrthoCameraTarget }) {
   return null;
 }
 
-function SetUpLighting() {
-  const { gl } = useThree();
-  gl.toneMapping = ACESFilmicToneMapping;
-  return null;
-}
-
 function Factory(props: Props) {
-  const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
+  const {
+    cameraTarget,
+    servicesProviders,
+    onBasePlaneSelected
+  } = props;
+
+  const [ cursorPostion, setCursorPosition ] = useState(new Vector3(0, 0, 0))
 
   return (
     <ReactReduxContext.Consumer>
@@ -66,23 +69,28 @@ function Factory(props: Props) {
         <Canvas shadowMap>
           <Provider store={store}>
             <CameraElement cameraTarget={cameraTarget} />
-            <SetUpLighting />
             <ambientLight intensity={0.3} />
-            <pointLight position={[10, 10, 10]} />
             <spotLight
               castShadow
-              intensity={0.2}
+              color={new Color(0xffdddd)}
+              intensity={0.4}
               angle={Math.PI / 7}
               position={[10, 10, 15]}
               penumbra={2}
               shadow-mapSize-width={2048}
               shadow-mapSize-height={2048}
             />
+            <pointLight
+              color={new Color(0xddddff)}
+              intensity={0.2}
+            />
             <BasePlane
               largeX={100}
               largeY={100}
+              onHover={(args) => setCursorPosition(args.point)}
               onSelected={onBasePlaneSelected}
             />
+            <GridHoverCursor gridSize={1} position={cursorPostion} />
             {servicesProviders.map(servicesProvider => {
               return (
                 <ServiceProvider

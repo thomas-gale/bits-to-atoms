@@ -10,7 +10,7 @@ export function createFactory(
   identity: Identity = createNewIdentity('default-factory'),
   serviceProviders: ServiceProvider[] = [
     createFloorSpace(),
-    createHumanWorker(createNewIdentity('Human 1'), createVector3(1, 2, 0))
+    createHumanWorker(createNewIdentity('Human 1'), createVector3(2.5, 1, 0))
   ]
 ): Factory {
   return {

@@ -14,8 +14,8 @@ export const createFloorSpace = (
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(
-    createVector3(-2, -1, 0),
-    createVector3(2, 1, 2)
+    createVector3(-4, -2, 0),
+    createVector3(4, 2, 2)
   ),
   costPerVolPerTime = 1e-6
 ): FloorSpace => {
@@ -28,16 +28,3 @@ export const createFloorSpace = (
     costPerVolPerTime
   };
 };
-
-/*
-
- parameters: [
-      ...entity.parameters,
-      createNumberParameter(
-        createExistingIdentity('cost Per Vol Per Time', 'costPerVolPerTime'),
-        '$/m^3/s',
-        costPerVolPerTime
-      ),
-    ]
-
-*/

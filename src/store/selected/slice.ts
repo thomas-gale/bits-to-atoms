@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createExistingIdentity } from '../common/identity/factories';
 import { Identity } from '../common/identity/types';
 
 const selectedSlice = createSlice({
@@ -8,7 +7,7 @@ const selectedSlice = createSlice({
     selectedServiceProviderId: {}
   },
   reducers: {
-    unSelect(state, action: PayloadAction) {
+    unSelect(state, _: PayloadAction) {
       state.selectedServiceProviderId = {};
     },
     setSelected(state, action: PayloadAction<Identity>) {

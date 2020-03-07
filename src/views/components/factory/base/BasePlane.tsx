@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
-import { Mesh, } from 'three';
+import { Mesh } from 'three';
 
 type OwnProp = {
   largeX: number;
-  largeY: number
+  largeY: number;
 };
 
 type OwnDispatch = {
@@ -27,10 +27,7 @@ export function BasePlane(props: Props): JSX.Element {
         onSelected();
       }}
     >
-      <planeBufferGeometry
-        attach="geometry"
-        args={[largeX, largeY]}
-      />
+      <planeBufferGeometry attach="geometry" args={[largeX, largeY]} />
       <meshStandardMaterial attach="material" color={'#44444'} />
     </mesh>
   );

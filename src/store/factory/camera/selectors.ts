@@ -28,7 +28,7 @@ export const selectedEntityCameraTargetSelector = createSelector(
     const cameraScreenSpaceBounds = new THREE.Box2(
       new THREE.Vector2(
         selectedServiceProviderEntity.bounds.min.x * 2,
-        selectedServiceProviderEntity.bounds.min.y * 2,
+        selectedServiceProviderEntity.bounds.min.y * 2
       ),
       new THREE.Vector2(
         selectedServiceProviderEntity.bounds.max.x * 2,

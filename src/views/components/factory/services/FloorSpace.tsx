@@ -33,11 +33,13 @@ export function FloorSpaceElement(props: Props): JSX.Element {
     setEulerRotation(newEuler);
   }, [orientation]);
 
+  const thickness = 0.1;
+
   return (
     <mesh
       castShadow
       receiveShadow
-      position={[location.x, location.y, location.z]}
+      position={[location.x, location.y, location.z - thickness/2]}
       rotation={eulerRotation}
       ref={mesh}
       onClick={e => {
@@ -45,9 +47,9 @@ export function FloorSpaceElement(props: Props): JSX.Element {
         props.onSelected(id);
       }}
     >
-      <planeBufferGeometry
+      <boxBufferGeometry
         attach="geometry"
-        args={[bounds.max.x - bounds.min.x, bounds.max.y - bounds.min.y]}
+        args={[bounds.max.x - bounds.min.x, bounds.max.y - bounds.min.y, thickness]}
       />
       <meshStandardMaterial attach="material" color={'grey'} />
     </mesh>

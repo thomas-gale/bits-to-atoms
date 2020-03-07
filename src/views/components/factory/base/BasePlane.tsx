@@ -6,7 +6,7 @@ export interface OnPointerMoveArgs {
   ray: {
     origin: Vector3;
     direction: Vector3;
-  }
+  };
 }
 
 type OwnProp = {

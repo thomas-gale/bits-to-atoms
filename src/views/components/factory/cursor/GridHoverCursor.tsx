@@ -1,11 +1,10 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { Mesh, Euler, Quaternion as ThreeQuaternion, Vector3 } from 'three';
-import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
-import { Identity } from '../../../../store/common/identity/types';
+import React, { useRef, useState, useMemo } from 'react';
+import { Mesh, Vector3 } from 'three';
+import { useSpring, a } from '@react-spring/three';
 
 type OwnProp = {
-    gridSize: number;
-    position: Vector3
+  gridSize: number;
+  position: Vector3;
 };
 
 type OwnDispatch = {};
@@ -17,17 +16,25 @@ export function GridHoverCursor(props: Props): JSX.Element {
   const { x, y } = props.position;
   const mesh = useRef<Mesh>();
 
-  const [ snappedcursorPostion, setCursorPosition ] = useState(new Vector3(0, 0, 0))
-  
+  const [target, setTarget] = useState(new Vector3(0, 0, 0));
   useMemo(() => {
-    setCursorPosition(new Vector3(Math.floor(x/gridSize) + gridSize/2, Math.floor(y/gridSize) + gridSize/2, 0));
-  }, [x, y]
-  )
+    setTarget(
+      new Vector3(
+        Math.floor(x / gridSize) + gridSize / 2,
+        Math.floor(y / gridSize) + gridSize / 2,
+        0
+      )
+    );
+  }, [x, y]);
+
+  const { snappedcursorPostion } = useSpring({
+    snappedcursorPostion: [target.x, target.y, target.z]
+  });
 
   return (
-    <mesh position={snappedcursorPostion} ref={mesh}>
+    <a.mesh position={snappedcursorPostion} ref={mesh}>
       <boxBufferGeometry attach="geometry" args={[1, 1, 0.2]} />
       <meshBasicMaterial attach="material" color={'royalblue'} />
-    </mesh>
+    </a.mesh>
   );
 }

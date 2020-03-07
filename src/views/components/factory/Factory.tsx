@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Canvas, useThree, useFrame } from 'react-three-fiber';
-import {useSpring, animated} from 'react-spring'
+import { Canvas, useThree } from 'react-three-fiber';
 
 import {
   ReactReduxContext,
@@ -55,13 +54,9 @@ function CameraElement(props: { cameraTarget: OrthoCameraTarget }) {
 }
 
 function Factory(props: Props) {
-  const {
-    cameraTarget,
-    servicesProviders,
-    onBasePlaneSelected
-  } = props;
+  const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
 
-  const [ cursorPostion, setCursorPosition ] = useState(new Vector3(0, 0, 0))
+  const [cursorPostion, setCursorPosition] = useState(new Vector3(0, 0, 0));
 
   return (
     <ReactReduxContext.Consumer>
@@ -80,14 +75,11 @@ function Factory(props: Props) {
               shadow-mapSize-width={2048}
               shadow-mapSize-height={2048}
             />
-            <pointLight
-              color={new Color(0xddddff)}
-              intensity={0.2}
-            />
+            <pointLight color={new Color(0xddddff)} intensity={0.2} />
             <BasePlane
               largeX={100}
               largeY={100}
-              onHover={(args) => setCursorPosition(args.point)}
+              onHover={args => setCursorPosition(args.point)}
               onSelected={onBasePlaneSelected}
             />
             <GridHoverCursor gridSize={1} position={cursorPostion} />

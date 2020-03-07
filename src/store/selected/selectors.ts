@@ -17,8 +17,9 @@ export const selectedServiceProviderSelector = createSelector(
   [factoryServiceProvidersSelector, selectedServiceProviderIdSelector],
   (
     factoryServiceProviders: ServiceProvider[],
-    selectedServiceProviderId: Identity
+    selectedServiceProviderId: Identity | undefined
   ): ServiceProvider | undefined => {
+    if (!selectedServiceProviderId) return undefined;
     return factoryServiceProviders.find(
       sp => sp.id.uuid === selectedServiceProviderId.uuid
     );

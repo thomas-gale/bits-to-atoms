@@ -39,7 +39,7 @@ export function FloorSpaceElement(props: Props): JSX.Element {
     <mesh
       castShadow
       receiveShadow
-      position={[location.x, location.y, location.z - thickness/2]}
+      position={[location.x, location.y, location.z - thickness / 2]}
       rotation={eulerRotation}
       ref={mesh}
       onClick={e => {
@@ -49,7 +49,11 @@ export function FloorSpaceElement(props: Props): JSX.Element {
     >
       <boxBufferGeometry
         attach="geometry"
-        args={[bounds.max.x - bounds.min.x, bounds.max.y - bounds.min.y, thickness]}
+        args={[
+          bounds.max.x - bounds.min.x,
+          bounds.max.y - bounds.min.y,
+          thickness
+        ]}
       />
       <meshStandardMaterial attach="material" color={'grey'} />
     </mesh>

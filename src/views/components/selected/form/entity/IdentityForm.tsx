@@ -24,6 +24,7 @@ const useStyles = makeStyles(_ => ({
 function IdentityForm(props: Props) {
   const { selectedId } = props;
   const classes = useStyles();
+  if (!selectedId) return null;
   return (
     <div>
       <Typography variant="h5" component="h2">

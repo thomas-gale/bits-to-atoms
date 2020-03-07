@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Canvas, useFrame, useThree } from 'react-three-fiber';
-import { Mesh, ACESFilmicToneMapping } from 'three';
+import React, { useEffect } from 'react';
+import { Canvas, useThree } from 'react-three-fiber';
+import { ACESFilmicToneMapping } from 'three';
 import {
   ReactReduxContext,
   Provider,
@@ -46,7 +46,7 @@ function CameraElement(props: { cameraTarget: OrthoCameraTarget }) {
     );
     camera.lookAt(cameraTarget.lookAt);
     camera.updateProjectionMatrix();
-  }, [cameraTarget]);
+  }, [camera, cameraTarget]);
 
   return null;
 }

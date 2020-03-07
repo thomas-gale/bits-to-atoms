@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Canvas, useThree } from 'react-three-fiber';
+import React, { useEffect, useState, useRef } from 'react';
+import { Vector3, Color } from 'three';
+import { Canvas, useThree, extend, useFrame, ReactThreeFiber } from 'react-three-fiber';
+import { animated, useSpring } from '@react-spring/three';
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import {
   ReactReduxContext,
@@ -15,7 +18,7 @@ import { OrthoCameraTarget } from '../../../store/factory/camera/types';
 import { BasePlane } from './base/BasePlane';
 import { unSelect } from '../../../store/selected/slice';
 import { GridHoverCursor } from './cursor/GridHoverCursor';
-import { Vector3, Color } from 'three';
+
 
 function mapState(state: RootState) {
   return {
@@ -36,22 +39,73 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-function CameraElement(props: { cameraTarget: OrthoCameraTarget }) {
+/*
+
+
+  const { springyCameraTarget } = useSpring(
+    { springyCameraTarget: cameraTarget, config: { tension: 100 } }
+  );
+
+
+*/
+
+extend({ OrbitControls });
+
+declare global {
+  namespace JSX {
+      interface IntrinsicElements {
+        orbitControls: ReactThreeFiber.Node<OrbitControls, typeof OrbitControls>;
+      }
+  }
+}
+
+const Controls = () => {
+  const { gl, camera } = useThree()
+  const ref = useRef<OrbitControls>()
+  const [dollyFinished, setDollyFinished] = useState(false)
+  const [rotationSpeed, setRotationSpeed] = useState(0)
+
+  const { z } = useSpring({
+    from: { z: 20 },
+    z: 10,
+    config: {
+      mass: 0.1,
+      tension: 200,
+      friction: 180
+    },
+    onRest: () => setDollyFinished(true)
+  })
+
+  useFrame(() => {
+    if (camera.position.z > 10) camera.position.z = z.getValue()
+    if (ref.current !== undefined) {
+      ref.current.update();
+    }
+  })
+
+  return (
+  <orbitControls ref={ref} args={[camera, gl.domElement]} autoRotate autoRotateSpeed={rotationSpeed} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} />
+  );
+}
+
+
+function CameraElement (props: { cameraTarget: OrthoCameraTarget }) {
   const { cameraTarget } = props;
   const { camera } = useThree();
 
   useEffect(() => {
+    const target = cameraTarget;
     camera.position.set(
-      cameraTarget.position.x,
-      cameraTarget.position.y,
-      cameraTarget.position.z
+      target.position.x,
+      target.position.y,
+      target.position.z
     );
-    camera.lookAt(cameraTarget.lookAt);
+    camera.lookAt(target.lookAt);
     camera.updateProjectionMatrix();
   }, [camera, cameraTarget]);
 
   return null;
-}
+};
 
 function Factory(props: Props) {
   const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
@@ -63,6 +117,7 @@ function Factory(props: Props) {
       {({ store }) => (
         <Canvas shadowMap>
           <Provider store={store}>
+            <Controls />
             <CameraElement cameraTarget={cameraTarget} />
             <ambientLight intensity={0.3} />
             <spotLight

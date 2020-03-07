@@ -27,12 +27,12 @@ export function GridHoverCursor(props: Props): JSX.Element {
     );
   }, [gridSize, x, y]);
 
-  const { snappedcursorPostion } = useSpring({
-    snappedcursorPostion: [target.x, target.y, target.z]
+  const { springycursorPostion } = useSpring({
+    springycursorPostion: [target.x, target.y, target.z]
   });
 
   return (
-    <a.mesh position={snappedcursorPostion} ref={mesh}>
+    <a.mesh position={springycursorPostion} ref={mesh}>
       <boxBufferGeometry attach="geometry" args={[1, 1, 0.2]} />
       <meshBasicMaterial attach="material" color={'royalblue'} />
     </a.mesh>

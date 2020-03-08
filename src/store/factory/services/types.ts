@@ -9,9 +9,9 @@ export enum ServiceType {
   FFFPrinter = 'FFFPrinter'
 }
 
+// This any is required to allow arbitary mapping from Serivce provider parameters in UI forms to object values.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface BaseServiceProvider<T = any>
-  extends Entity<ServiceType | LiquidAsset | T> {
+interface BaseServiceProvider extends Entity<any> {
   type: ServiceType;
   currentCostPerTime: LiquidAsset;
 }

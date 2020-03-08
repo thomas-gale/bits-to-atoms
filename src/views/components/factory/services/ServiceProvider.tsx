@@ -15,6 +15,8 @@ import { HumanWorker } from '../../../../store/factory/services/humanworker/type
 
 import { setSelected } from '../../../../store/selected/slice';
 import { Identity } from '../../../../store/common/identity/types';
+import { FFFPrinterElement } from './FFFPrinter';
+import { FFFPrinter } from '../../../../store/factory/services/fffprinter/types';
 
 function mapState(_: RootState) {
   return {};
@@ -59,6 +61,13 @@ function ServiceProviderElement(props: Props): JSX.Element {
       return (
         <HumanWorkerElement
           humanWorker={serviceProvider as HumanWorker}
+          onSelected={props.onSelected}
+        />
+      );
+    case ServiceType.FFFPrinter:
+      return (
+        <FFFPrinterElement
+          fffPrinter={serviceProvider as FFFPrinter}
           onSelected={props.onSelected}
         />
       );

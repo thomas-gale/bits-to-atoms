@@ -20,20 +20,16 @@ export function createFFFPrinter(
     createVector3(0.5, 0.5, 1.0)
   ),
   currentCostPerTime = createLiquidAsset(1e-4),
-  capactityMass = 5,
-  movementVelocity = 0.5,
   supportedMaterials: MaterialType[] = [MaterialType.SimplePolymer],
   outputVolume: Cuboid = createCuboid()
 ): FFFPrinter {
   return {
-    type: ServiceType.HumanWorker,
+    type: ServiceType.FFFPrinter,
     id,
     location,
     orientation,
     bounds,
     currentCostPerTime,
-    capactityMass,
-    movementVelocity,
     supportedMaterials,
     outputVolume
   };

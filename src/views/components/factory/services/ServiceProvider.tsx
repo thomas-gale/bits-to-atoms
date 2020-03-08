@@ -25,7 +25,6 @@ function mapState(_: RootState) {
 function mapDispatch(dispatch: RootDispatch) {
   return {
     onSelected: (id: Identity) => {
-      console.log(`Service provider: ${id.displayName} selected`);
       dispatch(setSelected(id));
     }
   };

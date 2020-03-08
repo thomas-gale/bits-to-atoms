@@ -41,7 +41,7 @@ export function BasePlane(props: Props): JSX.Element {
       }}
     >
       <planeBufferGeometry attach="geometry" args={[largeX, largeY]} />
-      <meshStandardMaterial attach="material" color={'#44444'} />
+      <meshStandardMaterial attach="material" color={'lightgrey'} />
     </mesh>
   );
 }

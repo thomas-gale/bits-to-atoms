@@ -8,3 +8,5 @@ export interface InputRegion<T = never> extends Entity<FixedAsset[] | T> {
 export interface OutputRegion<T = never> extends Entity<FixedAsset[] | T> {
   assetsOut: FixedAsset[];
 }
+
+export type Boundary = InputRegion | OutputRegion;

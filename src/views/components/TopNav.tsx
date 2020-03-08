@@ -60,8 +60,9 @@ function TopNav(props: Props): JSX.Element {
             className={classes.menuButton}
             color="inherit"
             aria-label="markets"
+            onClick={_ => props.toggleMarketVisible()}
           >
-            <TimelineIcon onClick={_ => props.toggleMarketVisible()} />
+            <TimelineIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             {factory.identity.displayName} : {factory.identity.uuid}

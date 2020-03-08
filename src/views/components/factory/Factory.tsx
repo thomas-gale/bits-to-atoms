@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Vector3, Color } from 'three';
+import { Vector3 } from 'three';
 import { Canvas } from 'react-three-fiber';
 
 import {
@@ -10,17 +10,26 @@ import {
 } from 'react-redux';
 import { RootState, RootDispatch } from '../../../store';
 import { unSelect } from '../../../store/selected/slice';
-import { factoryServiceProvidersSelector } from '../../../store/factory/selectors';
+import {
+  factoryServiceProvidersSelector,
+  factoryInputRegionSelector,
+  factoryOutputRegionSelector
+} from '../../../store/factory/selectors';
 import { selectedEntityCameraTargetSelector } from '../../../store/factory/camera/selectors';
 
 import { SmoothOrbitCamera } from './camera/SmoothOrbitCamera';
 import { GridHoverCursor } from './cursor/GridHoverCursor';
+import { Lighting } from './base/Lighting';
 import { BasePlane } from './base/BasePlane';
+import { InputRegionElement } from './boundaries/InputRegion';
+import { OutputRegionElement } from './boundaries/OutputRegion';
 import ServiceProvider from './services/ServiceProvider';
 
 function mapState(state: RootState) {
   return {
     cameraTarget: selectedEntityCameraTargetSelector(state),
+    inputRegion: factoryInputRegionSelector(state),
+    outputRegion: factoryOutputRegionSelector(state),
     servicesProviders: factoryServiceProvidersSelector(state)
   };
 }
@@ -29,6 +38,12 @@ function mapDispatch(dispatch: RootDispatch) {
   return {
     onBasePlaneSelected: () => {
       dispatch(unSelect());
+    },
+    onInputRegionSelected: () => {
+      console.log('Input region selected');
+    },
+    onOutputRegionSelected: () => {
+      console.log('Output region selected');
     }
   };
 }
@@ -38,7 +53,15 @@ const connector = connect(mapState, mapDispatch);
 type Props = ConnectedProps<typeof connector>;
 
 function Factory(props: Props) {
-  const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
+  const {
+    cameraTarget,
+    inputRegion,
+    outputRegion,
+    servicesProviders,
+    onBasePlaneSelected,
+    onInputRegionSelected,
+    onOutputRegionSelected
+  } = props;
 
   const [cursorPostion, setCursorPosition] = useState(new Vector3(0, 0, 0));
 
@@ -48,18 +71,7 @@ function Factory(props: Props) {
         <Canvas shadowMap>
           <Provider store={store}>
             <SmoothOrbitCamera cameraTarget={cameraTarget} />
-            <ambientLight intensity={0.3} />
-            <spotLight
-              castShadow
-              color={new Color(0xffdddd)}
-              intensity={0.4}
-              angle={Math.PI / 7}
-              position={[10, 10, 15]}
-              penumbra={2}
-              shadow-mapSize-width={2048}
-              shadow-mapSize-height={2048}
-            />
-            <pointLight color={new Color(0xddddff)} intensity={0.2} />
+            <Lighting />
             <BasePlane
               largeX={100}
               largeY={100}
@@ -67,6 +79,14 @@ function Factory(props: Props) {
               onSelected={onBasePlaneSelected}
             />
             <GridHoverCursor gridSize={1} position={cursorPostion} />
+            <InputRegionElement
+              inputRegion={inputRegion}
+              onSelected={onInputRegionSelected}
+            />
+            <OutputRegionElement
+              outputRegion={outputRegion}
+              onSelected={onOutputRegionSelected}
+            />
             {servicesProviders.map(servicesProvider => {
               return (
                 <ServiceProvider

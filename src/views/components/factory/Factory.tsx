@@ -17,7 +17,6 @@ import { SmoothOrbitCamera } from './camera/SmoothOrbitCamera';
 import { GridHoverCursor } from './cursor/GridHoverCursor';
 import { BasePlane } from './base/BasePlane';
 import ServiceProvider from './services/ServiceProvider';
-import { CreateDefaultCameraTarget } from '../../../store/factory/camera/factories';
 
 function mapState(state: RootState) {
   return {
@@ -40,7 +39,7 @@ type Props = ConnectedProps<typeof connector>;
 
 function Factory(props: Props) {
   const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
-  
+
   const [cursorPostion, setCursorPosition] = useState(new Vector3(0, 0, 0));
 
   return (
@@ -48,8 +47,7 @@ function Factory(props: Props) {
       {({ store }) => (
         <Canvas shadowMap>
           <Provider store={store}>
-            <SmoothOrbitCamera cameraTarget={cameraTarget} initialCameraTarget={CreateDefaultCameraTarget()} />
-            {/*<CameraElement cameraTarget={cameraTarget} />*/}
+            <SmoothOrbitCamera cameraTarget={cameraTarget} />
             <ambientLight intensity={0.3} />
             <spotLight
               castShadow

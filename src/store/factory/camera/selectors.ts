@@ -3,12 +3,13 @@ import { createSelector } from 'reselect';
 import { Entity } from '../entity/types';
 import { selectedServiceProviderEntitySelector } from '../../selected/selectors';
 import { CameraTarget } from './types';
-import { CreateDefaultCameraTarget } from './factories';
 
 export const selectedEntityCameraTargetSelector = createSelector(
   [selectedServiceProviderEntitySelector],
-  (selectedServiceProviderEntity: Entity | undefined): CameraTarget => {
-    if (!selectedServiceProviderEntity) return CreateDefaultCameraTarget();
+  (
+    selectedServiceProviderEntity: Entity | undefined
+  ): CameraTarget | undefined => {
+    if (!selectedServiceProviderEntity) return undefined; // return CreateDefaultCameraTarget();
 
     // First compute camera position (slightly offset from above)
     const cameraPosition = new THREE.Vector3(

@@ -24,8 +24,8 @@ function FloorSpace(props: Props): JSX.Element {
 
   return (
     <mesh position={position} ref={mesh}>
-      <cylinderBufferGeometry attach="geometry" args={[1, 1, 1]} />
-      <meshStandardMaterial attach="material" color={'black'} />
+      <cylinderBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
+      <meshStandardMaterial attach="material" color={'darkgrey'} />
     </mesh>
   );
 }

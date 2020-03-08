@@ -1,4 +1,5 @@
 import { Identity } from '../../common/identity/types';
+import { Entity } from '../../factory/entity/types';
 import { InputRegion, OutputRegion } from './types';
 import { Vector3, Quaternion, Cuboid } from '../../common/primitive/types';
 import { FixedAsset } from '../../economic/types';
@@ -9,22 +10,22 @@ import {
   createQuaternion,
   createCuboid
 } from '../../common/primitive/factories';
+import { createEntity } from '../entity/factories';
 
 export function createInputRegion(
-  id: Identity = createNewIdentity('default-input-region'),
-  location: Vector3 = createVector3(),
-  orientation: Quaternion = createQuaternion(),
-  bounds: Cuboid = createCuboid(
-    createVector3(-0.5, -0.5, 0),
-    createVector3(0.5, 0.5, 0.1)
-  ),
-  assetsIn: FixedAsset[] = []
+  assetsIn: FixedAsset[] = [],
+  entity: Entity = createEntity(
+    createNewIdentity('default-input-region'),
+    createVector3(),
+    createQuaternion(),
+    createCuboid(createVector3(-1, -0.5, 0), createVector3(1, 0.5, 0.1))
+  )
 ): InputRegion {
   return {
-    id,
-    location,
-    orientation,
-    bounds,
+    id: entity.id,
+    location: entity.location,
+    orientation: entity.orientation,
+    bounds: entity.bounds,
     assetsIn
   };
 }
@@ -34,8 +35,8 @@ export function createOutputRegion(
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(
-    createVector3(-0.5, -0.5, 0),
-    createVector3(0.5, 0.5, 0.1)
+    createVector3(-1, -0.5, 0),
+    createVector3(1, 0.5, 0.1)
   ),
   assetsOut: FixedAsset[] = []
 ): OutputRegion {

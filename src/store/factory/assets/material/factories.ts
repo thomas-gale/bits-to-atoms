@@ -12,6 +12,7 @@ import { Material } from '../../../material/types';
 import { createSimplePolymerMaterial } from '../../../material/factories';
 import { NumberParameter } from '../../../common/parameter/types';
 import { createNumberParameter } from '../../../common/parameter/factories';
+import { FixedAssetType } from '../../../economic/types';
 
 export function createSimplePolymerSpool(
   id: Identity = createNewIdentity('default-simple-polymer-spool'),
@@ -33,6 +34,7 @@ export function createSimplePolymerSpool(
   dollars = 10
 ): SimplePolymerSpool {
   return {
+    type: FixedAssetType.SimplePolymerSpool,
     id,
     location,
     orientation,

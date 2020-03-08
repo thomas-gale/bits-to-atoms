@@ -4,7 +4,12 @@ export interface LiquidAsset {
   dollars: number;
 }
 
+export enum FixedAssetType {
+  SimplePolymerSpool
+}
+
 export interface FixedAsset<T = never> extends LiquidAsset, Entity<number | T> {
+  type: FixedAssetType;
   depreciationRate: number;
 }
 

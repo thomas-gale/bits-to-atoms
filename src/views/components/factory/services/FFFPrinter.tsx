@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import { Mesh, Euler, Quaternion as ThreeQuaternion } from 'three';
 import { Identity } from '../../../../store/common/identity/types';
 import { FFFPrinter } from '../../../../store/factory/services/fffprinter/types';
@@ -20,7 +20,7 @@ export function FFFPrinterElement(props: Props): JSX.Element {
 
   // React hooks for converting the Quaterion into Euler angles.
   const [eulerRotation, setEulerRotation] = useState<Euler>(new Euler(0, 0, 0));
-  useEffect(() => {
+  useMemo(() => {
     const newEuler = new Euler(0, 0, 0);
     newEuler.setFromQuaternion(
       new ThreeQuaternion(

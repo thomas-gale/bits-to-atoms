@@ -21,6 +21,8 @@ export const SmoothOrbitCamera = () => {
   const [dollyFinished, setDollyFinished] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(0);
 
+  camera.up.set(0, 0, 1);
+
   const { z } = useSpring({
     from: { z: 20 },
     z: 10,
@@ -39,8 +41,8 @@ export const SmoothOrbitCamera = () => {
     }
   });
 
-  //  autoRotate autoRotateSpeed={rotationSpeed}  maxAzimuthAngle={Math.PI/2} minAzimuthAngle={-Math.PI}  maxPolarAngle={Math.PI} minPolarAngle={Math.PI/2}
-  return <orbitControls ref={ref} args={[camera, gl.domElement]} />;
+  //  autoRotate autoRotateSpeed={rotationSpeed}  maxAzimuthAngle={Math.PI/2} minAzimuthAngle={-Math.PI}  maxPolarAngle={Math.PI}
+  return <orbitControls ref={ref} args={[camera, gl.domElement]}  maxPolarAngle={Math.PI/2} />;
 };
 
 /*

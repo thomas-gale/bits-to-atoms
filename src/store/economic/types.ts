@@ -5,7 +5,7 @@ export interface LiquidAsset {
 }
 
 export interface FixedAsset<T = never> extends LiquidAsset, Entity<number | T> {
-  depreciatedRate: number;
+  depreciationRate: number;
 }
 
 export type Asset = LiquidAsset | FixedAsset;

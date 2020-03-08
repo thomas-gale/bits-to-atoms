@@ -1,14 +1,15 @@
 import { Identity } from '../../../common/identity/types';
 import { Vector3, Quaternion, Cuboid } from '../../../common/primitive/types';
+import { MaterialType } from '../../../material/types';
 import { ServiceType } from '../types';
 import { FFFPrinter } from './types';
+
 import { createNewIdentity } from '../../../common/identity/factories';
 import {
   createVector3,
   createQuaternion,
   createCuboid
 } from '../../../common/primitive/factories';
-import { MaterialType } from '../../assets/material/types';
 import { createLiquidAsset } from '../../../economic/factories';
 
 export function createFFFPrinter(

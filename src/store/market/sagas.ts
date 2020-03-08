@@ -2,7 +2,7 @@ import { delay, put } from 'redux-saga/effects';
 import { addBuildRequest } from './slice';
 import { BuildRequest, PartType } from './types';
 import { createNewIdentity } from '../common/identity/factories';
-import { createSimplePolymer } from '../factory/assets/material/factories';
+import { createSimplePolymerMaterial } from '../material/factories';
 import { createLiquidAsset } from '../economic/factories';
 
 export function* marketShortRunSaga() {
@@ -10,7 +10,7 @@ export function* marketShortRunSaga() {
   yield delay(2000);
   const design1: BuildRequest = {
     identity: createNewIdentity('cube1'),
-    material: createSimplePolymer(),
+    material: createSimplePolymerMaterial(),
     fixedValue: createLiquidAsset(10),
     type: PartType.CUBE,
     size: 8
@@ -19,7 +19,7 @@ export function* marketShortRunSaga() {
   yield delay(2000);
   const design2: BuildRequest = {
     identity: createNewIdentity('cube2'),
-    material: createSimplePolymer(),
+    material: createSimplePolymerMaterial(),
     fixedValue: createLiquidAsset(15),
     type: PartType.CUBE,
     size: 10

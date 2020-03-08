@@ -1,20 +1,10 @@
-import { Identity } from '../../../common/identity/types';
 import { NumberParameter } from '../../../common/parameter/types';
-import { Entity } from '../../entity/types';
-
-export enum MaterialType {
-  SimplePolymer
-}
-
-export interface SimplePolymer {
-  id: Identity;
-}
+import { FixedAsset } from '../../../economic/types';
+import { Material } from '../../../material/types';
 
 export interface SimplePolymerSpool
-  extends SimplePolymer,
-    Entity<NumberParameter> {
+  extends FixedAsset<Material | NumberParameter> {
+  material: Material;
   spoolLength: NumberParameter;
   spoolDiameter: NumberParameter;
 }
-
-export type Material = SimplePolymer;

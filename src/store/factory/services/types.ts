@@ -1,5 +1,5 @@
 import { Entity } from '../entity/types';
-import { MaterialType } from '../../common/material/types';
+import { MaterialType } from '../assets/material/types';
 import { Cuboid } from '../../common/primitive/types';
 import { LiquidAsset } from '../../economic/types';
 

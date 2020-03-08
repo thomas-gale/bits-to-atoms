@@ -1,5 +1,5 @@
 import { Identity } from '../common/identity/types';
-import { Material } from '../common/material/types';
+import { Material } from '../factory/assets/material/types';
 import { LiquidAsset } from '../economic/types';
 
 export enum PartType {

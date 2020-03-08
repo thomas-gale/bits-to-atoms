@@ -1,6 +1,6 @@
-import { Identity } from '../identity/types';
-import { NumberParameter } from '../parameter/types';
-import { Entity } from '../../factory/entity/types';
+import { Identity } from '../../../common/identity/types';
+import { NumberParameter } from '../../../common/parameter/types';
+import { Entity } from '../../entity/types';
 
 export enum MaterialType {
   SimplePolymer

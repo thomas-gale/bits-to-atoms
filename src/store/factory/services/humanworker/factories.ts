@@ -8,7 +8,7 @@ import {
   createQuaternion,
   createCuboid
 } from '../../../common/primitive/factories';
-import { MaterialType } from '../../../common/material/types';
+import { MaterialType } from '../../assets/material/types';
 import { createLiquidAsset } from '../../../economic/factories';
 
 export function createHumanWorker(

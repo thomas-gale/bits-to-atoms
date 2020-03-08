@@ -3,6 +3,7 @@ import { addBuildRequest } from './slice';
 import { BuildRequest, PartType } from './types';
 import { createNewIdentity } from '../common/identity/factories';
 import { createSimplePolymer } from '../common/material/factories';
+import { createLiquidAsset } from '../economic/factories';
 
 export function* marketShortRunSaga() {
   console.log('Starting short test market saga.');
@@ -10,6 +11,7 @@ export function* marketShortRunSaga() {
   const design1: BuildRequest = {
     identity: createNewIdentity('cube1'),
     material: createSimplePolymer(),
+    fixedValue: createLiquidAsset(10),
     type: PartType.CUBE,
     size: 8
   };
@@ -18,8 +20,9 @@ export function* marketShortRunSaga() {
   const design2: BuildRequest = {
     identity: createNewIdentity('cube2'),
     material: createSimplePolymer(),
+    fixedValue: createLiquidAsset(15),
     type: PartType.CUBE,
-    size: 8
+    size: 10
   };
   yield put(addBuildRequest(design2));
   console.log('Completed short test market saga.');

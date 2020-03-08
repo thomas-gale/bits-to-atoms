@@ -8,6 +8,7 @@ import {
 } from '../../../common/primitive/factories';
 import { ServiceType } from '../types';
 import { FloorSpace } from './types';
+import { createLiquidAsset } from '../../../economic/factories';
 
 export const createFloorSpace = (
   id: Identity = createNewIdentity('default-floorspace'),
@@ -17,7 +18,7 @@ export const createFloorSpace = (
     createVector3(-4, -2, 0),
     createVector3(4, 2, 2)
   ),
-  costPerVolPerTime = 1e-6
+  currentCostPerTime = createLiquidAsset(1e-6)
 ): FloorSpace => {
   return {
     type: ServiceType.Floorspace,
@@ -25,6 +26,6 @@ export const createFloorSpace = (
     location,
     orientation,
     bounds,
-    costPerVolPerTime
+    currentCostPerTime
   };
 };

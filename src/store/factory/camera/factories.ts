@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { OrthoCameraTarget } from './types';
+import { CameraTarget } from './types';
 
-export function CreateDefaultOrthoCameraTarget(): OrthoCameraTarget {
+export function CreateDefaultCameraTarget(): CameraTarget {
   return {
     position: new THREE.Vector3(0, 0, 5),
     lookAt: new THREE.Vector3(0, 0, 0),

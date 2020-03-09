@@ -1,4 +1,3 @@
-import { Identity } from '../identity/types';
 import { NumberParameter, ParameterType, StringParameter } from './types';
 import { createNewIdentity } from '../identity/factories';
 
@@ -8,11 +7,7 @@ export function createNumberParameter({
   }),
   units = '',
   value = 0
-}: {
-  identity: Identity;
-  units: string;
-  value: number;
-}): NumberParameter {
+} = {}): NumberParameter {
   return {
     identity,
     type: ParameterType.Number,
@@ -27,11 +22,7 @@ export function createStringParameter({
   }),
   units = '',
   value = ''
-}: {
-  identity: Identity;
-  units: string;
-  value: string;
-}): StringParameter {
+} = {}): StringParameter {
   return {
     identity,
     type: ParameterType.String,

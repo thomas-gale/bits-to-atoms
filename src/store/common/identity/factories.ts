@@ -4,21 +4,14 @@ import { Identity } from './types';
 export function createExistingIdentity({
   displayName = '',
   uuid = ''
-}: {
-  displayName: string;
-  uuid: string;
-}): Identity {
+} = {}): Identity {
   return {
     uuid,
     displayName
   };
 }
 
-export function createNewIdentity({
-  displayName = 'default'
-}: {
-  displayName: string;
-}): Identity {
+export function createNewIdentity({ displayName = 'default' } = {}): Identity {
   return {
     uuid: uuidv4(),
     displayName: displayName

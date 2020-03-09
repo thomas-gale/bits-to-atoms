@@ -36,10 +36,12 @@ export function createFactory(
       })
     })
   }),
-  outputRegion: OutputRegion = createOutputRegion(
-    createNewIdentity({ displayName: 'Output Region' }),
-    createVector3({ x: 3, y: 2.5 })
-  ),
+  outputRegion: OutputRegion = createOutputRegion({
+    entity: createEntity({
+      id: createNewIdentity({ displayName: 'Output Region' }),
+      location: createVector3({ x: 3, y: 2.5 })
+    })
+  }),
   assets: Asset[] = [createLiquidAsset()],
   serviceProviders: ServiceProvider[] = [
     createFloorSpace(createNewIdentity({ displayName: 'Floorspace 1' })),

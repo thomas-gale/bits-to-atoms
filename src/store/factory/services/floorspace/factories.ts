@@ -14,10 +14,10 @@ export const createFloorSpace = (
   id: Identity = createNewIdentity({ displayName: 'default-floorspace' }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
-  bounds: Cuboid = createCuboid(
-    createVector3({ x: -4, y: -2 }),
-    createVector3({ x: 4, y: 2, z: 2 })
-  ),
+  bounds: Cuboid = createCuboid({
+    min: createVector3({ x: -4, y: -2 }),
+    max: createVector3({ x: 4, y: 2, z: 2 })
+  }),
   currentCostPerTime = createLiquidAsset(1e-6)
 ): FloorSpace => {
   return {

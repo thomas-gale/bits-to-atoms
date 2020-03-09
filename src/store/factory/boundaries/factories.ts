@@ -18,10 +18,10 @@ export function createInputRegion(
     createNewIdentity({ displayName: 'default-input-region' }),
     createVector3(),
     createQuaternion(),
-    createCuboid(
-      createVector3({ x: -1, y: -0.5, z: 0 }),
-      createVector3({ x: 1, y: 0.5, z: 0.1 })
-    )
+    createCuboid({
+      min: createVector3({ x: -1, y: -0.5, z: 0 }),
+      max: createVector3({ x: 1, y: 0.5, z: 0.1 })
+    })
   )
 ): InputRegion {
   return {
@@ -37,10 +37,10 @@ export function createOutputRegion(
   id: Identity = createNewIdentity({ displayName: 'default-output-region' }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
-  bounds: Cuboid = createCuboid(
-    createVector3({ x: -1, y: -0.5, z: 0 }),
-    createVector3({ x: 1, y: 0.5, z: 0.1 })
-  ),
+  bounds: Cuboid = createCuboid({
+    min: createVector3({ x: -1, y: -0.5, z: 0 }),
+    max: createVector3({ x: 1, y: 0.5, z: 0.1 })
+  }),
   assetsOut: FixedAsset[] = []
 ): OutputRegion {
   return {

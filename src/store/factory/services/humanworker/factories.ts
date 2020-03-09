@@ -16,10 +16,10 @@ export function createHumanWorker(
   id: Identity = createNewIdentity({ displayName: 'default-humanworker' }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
-  bounds: Cuboid = createCuboid(
-    createVector3({ x: -0.2, y: -0.2 }),
-    createVector3({ x: 0.2, y: 0.2, z: 1.5 })
-  ),
+  bounds: Cuboid = createCuboid({
+    min: createVector3({ x: -0.2, y: -0.2 }),
+    max: createVector3({ x: 0.2, y: 0.2, z: 1.5 })
+  }),
   currentCostPerTime = createLiquidAsset(1e-4),
   capactityMass = 5,
   movementVelocity = 0.5,

@@ -38,10 +38,10 @@ export function createFactory(
       createNewIdentity({ displayName: 'Input Region' }),
       createVector3({ x: -3, y: 2.5 }),
       createQuaternion(),
-      createCuboid(
-        createVector3({ x: -1, y: -0.5 }),
-        createVector3({ x: 1, y: 0.5, z: 0.1 })
-      )
+      createCuboid({
+        min: createVector3({ x: -1, y: -0.5 }),
+        max: createVector3({ x: 1, y: 0.5, z: 0.1 })
+      })
     )
   ),
   outputRegion: OutputRegion = createOutputRegion(

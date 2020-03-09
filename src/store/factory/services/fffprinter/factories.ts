@@ -13,7 +13,7 @@ import {
 import { createLiquidAsset } from '../../../economic/factories';
 
 export function createFFFPrinter(
-  id: Identity = createNewIdentity('default-fff-printer'),
+  id: Identity = createNewIdentity({ displayName: 'default-fff-printer' }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(

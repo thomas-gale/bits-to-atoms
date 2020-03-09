@@ -13,7 +13,7 @@ import {
 import { createLiquidAsset } from '../../../economic/factories';
 
 export function createHumanWorker(
-  id: Identity = createNewIdentity('default-humanworker'),
+  id: Identity = createNewIdentity({ displayName: 'default-humanworker' }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(

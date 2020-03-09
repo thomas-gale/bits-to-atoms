@@ -11,7 +11,7 @@ import { FloorSpace } from './types';
 import { createLiquidAsset } from '../../../economic/factories';
 
 export const createFloorSpace = (
-  id: Identity = createNewIdentity('default-floorspace'),
+  id: Identity = createNewIdentity({ displayName: 'default-floorspace' }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(

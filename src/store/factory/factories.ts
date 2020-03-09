@@ -18,7 +18,7 @@ import { createInputRegion, createOutputRegion } from './boundaries/factories';
 import { createEntity } from './entity/factories';
 
 export function createFactory(
-  identity: Identity = createNewIdentity('default-factory'),
+  identity: Identity = createNewIdentity({ displayName: 'default-factory' }),
   inputRegion: InputRegion = createInputRegion(
     [
       createFixedAsset(
@@ -27,7 +27,7 @@ export function createFactory(
         0,
         20,
         createEntity(
-          createNewIdentity('Polymer 1'),
+          createNewIdentity({ displayName: 'Polymer 1' }),
           createVector3(-2.5, 2.5, 0.2),
           createQuaternion(),
           createCuboid()
@@ -35,21 +35,27 @@ export function createFactory(
       )
     ],
     createEntity(
-      createNewIdentity('Input Region'),
+      createNewIdentity({ displayName: 'Input Region' }),
       createVector3(-3, 2.5, 0),
       createQuaternion(),
       createCuboid(createVector3(-1, -0.5, 0), createVector3(1, 0.5, 0.1))
     )
   ),
   outputRegion: OutputRegion = createOutputRegion(
-    createNewIdentity('Output Region'),
+    createNewIdentity({ displayName: 'Output Region' }),
     createVector3(3, 2.5, 0)
   ),
   assets: Asset[] = [createLiquidAsset()],
   serviceProviders: ServiceProvider[] = [
-    createFloorSpace(createNewIdentity('Floorspace 1')),
-    createHumanWorker(createNewIdentity('Human 1'), createVector3(3, 1, 0)),
-    createFFFPrinter(createNewIdentity('Printer 1'), createVector3(0, -1, 0))
+    createFloorSpace(createNewIdentity({ displayName: 'Floorspace 1' })),
+    createHumanWorker(
+      createNewIdentity({ displayName: 'Human 1' }),
+      createVector3(3, 1, 0)
+    ),
+    createFFFPrinter(
+      createNewIdentity({ displayName: 'Printer 1' }),
+      createVector3(0, -1, 0)
+    )
   ]
 ): Factory {
   return {

@@ -3,7 +3,9 @@ import { NumberParameter, ParameterType, StringParameter } from './types';
 import { createNewIdentity } from '../identity/factories';
 
 export function createNumberParameter(
-  identity: Identity = createNewIdentity('default-number-parameter'),
+  identity: Identity = createNewIdentity({
+    displayName: 'default-number-parameter'
+  }),
   units = '',
   value = 0
 ): NumberParameter {
@@ -16,7 +18,9 @@ export function createNumberParameter(
 }
 
 export function createStringParameter(
-  identity: Identity = createNewIdentity('default-number-parameter'),
+  identity: Identity = createNewIdentity({
+    displayName: 'default-string-parameter'
+  }),
   units = '',
   value = ''
 ): StringParameter {

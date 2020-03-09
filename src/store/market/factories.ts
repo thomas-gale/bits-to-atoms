@@ -4,7 +4,9 @@ import { PartType, BuildRequest } from './types';
 import { createLiquidAsset } from '../economic/factories';
 
 export function createBuildRequest({
-  Identity: identity = createNewIdentity('default-build-request'),
+  Identity: identity = createNewIdentity({
+    displayName: 'default-build-request'
+  }),
   Material: material = createSimplePolymerMaterial(),
   PartType: type = PartType.Cube,
   number: size = 10,

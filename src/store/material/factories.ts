@@ -5,7 +5,7 @@ import { LiquidAsset } from '../economic/types';
 import { createLiquidAsset } from '../economic/factories';
 
 export function createSimplePolymerMaterial(
-  id: Identity = createNewIdentity('default-simple-polymer'),
+  id: Identity = createNewIdentity({ displayName: 'default-simple-polymer' }),
   costPerMass: LiquidAsset = createLiquidAsset(10)
 ): Material {
   return {

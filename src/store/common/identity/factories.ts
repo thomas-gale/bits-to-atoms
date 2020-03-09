@@ -14,7 +14,11 @@ export function createExistingIdentity({
   };
 }
 
-export function createNewIdentity(displayName = 'default'): Identity {
+export function createNewIdentity({
+  displayName = 'default'
+}: {
+  displayName: string;
+}): Identity {
   return {
     uuid: uuidv4(),
     displayName: displayName

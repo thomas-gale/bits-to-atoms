@@ -9,7 +9,7 @@ export function* marketShortRunSaga() {
   console.log('Starting short test market saga.');
   yield delay(2000);
   const design1: BuildRequest = {
-    identity: createNewIdentity('cube1'),
+    identity: createNewIdentity({ displayName: 'cube1' }),
     material: createSimplePolymerMaterial(),
     fixedValue: createLiquidAsset(10),
     type: PartType.Cube,
@@ -18,7 +18,7 @@ export function* marketShortRunSaga() {
   yield put(addBuildRequest(design1));
   yield delay(2000);
   const design2: BuildRequest = {
-    identity: createNewIdentity('cube2'),
+    identity: createNewIdentity({ displayName: 'cube2' }),
     material: createSimplePolymerMaterial(),
     fixedValue: createLiquidAsset(15),
     type: PartType.Cube,

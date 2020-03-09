@@ -15,18 +15,20 @@ import { createNumberParameter } from '../../../common/parameter/factories';
 import { FixedAssetType } from '../../../economic/types';
 
 export function createSimplePolymerSpool(
-  id: Identity = createNewIdentity('default-simple-polymer-spool'),
+  id: Identity = createNewIdentity({
+    displayName: 'default-simple-polymer-spool'
+  }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(),
   material: Material = createSimplePolymerMaterial(),
   spoolLength: NumberParameter = createNumberParameter(
-    createNewIdentity('Spool Length'),
+    createNewIdentity({ displayName: 'Spool Length' }),
     'm',
     10
   ),
   spoolDiameter: NumberParameter = createNumberParameter(
-    createNewIdentity('Spool Diameter'),
+    createNewIdentity({ displayName: 'Spool Diameter' }),
     'mm',
     1
   ),

@@ -15,7 +15,7 @@ import { createEntity } from '../entity/factories';
 export function createInputRegion(
   assetsIn: FixedAsset[] = [],
   entity: Entity = createEntity(
-    createNewIdentity('default-input-region'),
+    createNewIdentity({ displayName: 'default-input-region' }),
     createVector3(),
     createQuaternion(),
     createCuboid(createVector3(-1, -0.5, 0), createVector3(1, 0.5, 0.1))
@@ -31,7 +31,7 @@ export function createInputRegion(
 }
 
 export function createOutputRegion(
-  id: Identity = createNewIdentity('default-output-region'),
+  id: Identity = createNewIdentity({ displayName: 'default-output-region' }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(

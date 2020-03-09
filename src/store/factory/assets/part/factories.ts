@@ -13,7 +13,7 @@ import { BuildRequest } from '../../../market/types';
 import { createBuildRequest } from '../../../market/factories';
 
 export function createOutputComponent(
-  id: Identity = createNewIdentity('default-output-component'),
+  id: Identity = createNewIdentity({ displayName: 'default-output-component' }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(),

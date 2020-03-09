@@ -9,7 +9,7 @@ import {
 } from '../../common/primitive/factories';
 
 export function createEntity(
-  id: Identity = createNewIdentity('default-entity'),
+  id: Identity = createNewIdentity({ displayName: 'default-entity' }),
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid()

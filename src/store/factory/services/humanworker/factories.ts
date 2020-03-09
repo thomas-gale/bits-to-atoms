@@ -20,7 +20,7 @@ export function createHumanWorker(
     min: createVector3({ x: -0.2, y: -0.2 }),
     max: createVector3({ x: 0.2, y: 0.2, z: 1.5 })
   }),
-  currentCostPerTime = createLiquidAsset(1e-4),
+  currentCostPerTime = createLiquidAsset({ dollars: 1e-4 }),
   capactityMass = 5,
   movementVelocity = 0.5,
   supportedMaterials: MaterialType[] = [MaterialType.SimplePolymer],

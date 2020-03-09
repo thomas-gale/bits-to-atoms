@@ -52,8 +52,10 @@ export const factoryEconomicSummarySelector = createSelector(
 
     return {
       currentAssetsValue,
-      totalOut: createLiquidAsset(currentServiceProvidersCostPerSecond),
-      totalIn: createLiquidAsset(0)
+      totalOut: createLiquidAsset({
+        dollars: currentServiceProvidersCostPerSecond
+      }),
+      totalIn: createLiquidAsset({ dollars: 0 })
     };
   }
 );

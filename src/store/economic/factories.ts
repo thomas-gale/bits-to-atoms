@@ -2,7 +2,7 @@ import { FixedAssetType, LiquidAsset, FixedAsset } from './types';
 import { Entity } from '../factory/entity/types';
 import { createEntity } from '../factory/entity/factories';
 
-export function createLiquidAsset(dollars = 500): LiquidAsset {
+export function createLiquidAsset({ dollars = 500 } = {}): LiquidAsset {
   return {
     dollars
   };

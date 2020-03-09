@@ -11,7 +11,7 @@ export function* marketShortRunSaga() {
   const design1: BuildRequest = {
     identity: createNewIdentity({ displayName: 'cube1' }),
     material: createSimplePolymerMaterial(),
-    fixedValue: createLiquidAsset(10),
+    fixedValue: createLiquidAsset({ dollars: 10 }),
     type: PartType.Cube,
     size: 8
   };
@@ -20,7 +20,7 @@ export function* marketShortRunSaga() {
   const design2: BuildRequest = {
     identity: createNewIdentity({ displayName: 'cube2' }),
     material: createSimplePolymerMaterial(),
-    fixedValue: createLiquidAsset(15),
+    fixedValue: createLiquidAsset({ dollars: 15 }),
     type: PartType.Cube,
     size: 10
   };

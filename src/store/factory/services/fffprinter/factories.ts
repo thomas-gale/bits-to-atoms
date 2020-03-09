@@ -20,7 +20,7 @@ export function createFFFPrinter(
     min: createVector3({ x: -0.5, y: -0.5 }),
     max: createVector3({ x: 0.5, y: 0.5, z: 1.0 })
   }),
-  currentCostPerTime = createLiquidAsset(1e-4),
+  currentCostPerTime = createLiquidAsset({ dollars: 1e-4 }),
   supportedMaterials: MaterialType[] = [MaterialType.SimplePolymer],
   outputVolume: Cuboid = createCuboid()
 ): FFFPrinter {

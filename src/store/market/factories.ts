@@ -10,7 +10,7 @@ export function createBuildRequest({
   Material: material = createSimplePolymerMaterial(),
   PartType: type = PartType.Cube,
   number: size = 10,
-  LiquidAsset: fixedValue = createLiquidAsset(20)
+  LiquidAsset: fixedValue = createLiquidAsset({ dollars: 20 })
 } = {}): BuildRequest {
   return {
     identity,

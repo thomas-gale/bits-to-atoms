@@ -13,6 +13,12 @@ import { createEntity } from './entity/factories';
 export function createFactory({
   identity = createNewIdentity({ displayName: 'default-factory' }),
   inputRegion = createInputRegion({
+    id: createNewIdentity({ displayName: 'Input Region' }),
+    location: createVector3({ x: -3, y: 2.5 }),
+    bounds: createCuboid({
+      min: createVector3({ x: -1, y: -0.5 }),
+      max: createVector3({ x: 1, y: 0.5, z: 0.1 })
+    }),
     assetsIn: [
       createFixedAsset({
         type: FixedAssetType.SimplePolymerSpool,
@@ -23,24 +29,14 @@ export function createFactory({
           location: createVector3({ x: -2.5, y: 2.5, z: 0.2 })
         })
       })
-    ],
-    entity: createEntity({
-      id: createNewIdentity({ displayName: 'Input Region' }),
-      location: createVector3({ x: -3, y: 2.5 }),
-      bounds: createCuboid({
-        min: createVector3({ x: -1, y: -0.5 }),
-        max: createVector3({ x: 1, y: 0.5, z: 0.1 })
-      })
-    })
+    ]
   }),
   outputRegion = createOutputRegion({
-    entity: createEntity({
-      id: createNewIdentity({ displayName: 'Output Region' }),
-      location: createVector3({ x: 3, y: 2.5 }),
-      bounds: createCuboid({
-        min: createVector3({ x: -1, y: -0.5 }),
-        max: createVector3({ x: 1, y: 0.5, z: 0.1 })
-      })
+    id: createNewIdentity({ displayName: 'Output Region' }),
+    location: createVector3({ x: 3, y: 2.5 }),
+    bounds: createCuboid({
+      min: createVector3({ x: -1, y: -0.5 }),
+      max: createVector3({ x: 1, y: 0.5, z: 0.1 })
     })
   }),
   assets = [createLiquidAsset()],

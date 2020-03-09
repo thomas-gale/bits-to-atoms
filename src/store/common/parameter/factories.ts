@@ -21,13 +21,17 @@ export function createNumberParameter({
   };
 }
 
-export function createStringParameter(
-  identity: Identity = createNewIdentity({
+export function createStringParameter({
+  identity = createNewIdentity({
     displayName: 'default-string-parameter'
   }),
   units = '',
   value = ''
-): StringParameter {
+}: {
+  identity: Identity;
+  units: string;
+  value: string;
+}): StringParameter {
   return {
     identity,
     type: ParameterType.String,

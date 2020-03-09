@@ -28,7 +28,7 @@ export function createFactory(
         20,
         createEntity(
           createNewIdentity({ displayName: 'Polymer 1' }),
-          createVector3(-2.5, 2.5, 0.2),
+          createVector3({ x: -2.5, y: 2.5, z: 0.2 }),
           createQuaternion(),
           createCuboid()
         )
@@ -36,25 +36,28 @@ export function createFactory(
     ],
     createEntity(
       createNewIdentity({ displayName: 'Input Region' }),
-      createVector3(-3, 2.5, 0),
+      createVector3({ x: -3, y: 2.5 }),
       createQuaternion(),
-      createCuboid(createVector3(-1, -0.5, 0), createVector3(1, 0.5, 0.1))
+      createCuboid(
+        createVector3({ x: -1, y: -0.5 }),
+        createVector3({ x: 1, y: 0.5, z: 0.1 })
+      )
     )
   ),
   outputRegion: OutputRegion = createOutputRegion(
     createNewIdentity({ displayName: 'Output Region' }),
-    createVector3(3, 2.5, 0)
+    createVector3({ x: 3, y: 2.5 })
   ),
   assets: Asset[] = [createLiquidAsset()],
   serviceProviders: ServiceProvider[] = [
     createFloorSpace(createNewIdentity({ displayName: 'Floorspace 1' })),
     createHumanWorker(
       createNewIdentity({ displayName: 'Human 1' }),
-      createVector3(3, 1, 0)
+      createVector3({ x: 3, y: 1 })
     ),
     createFFFPrinter(
       createNewIdentity({ displayName: 'Printer 1' }),
-      createVector3(0, -1, 0)
+      createVector3({ x: 0, y: -1 })
     )
   ]
 ): Factory {

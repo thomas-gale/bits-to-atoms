@@ -17,8 +17,8 @@ export function createFFFPrinter(
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(
-    createVector3(-0.5, -0.5, 0),
-    createVector3(0.5, 0.5, 1.0)
+    createVector3({ x: -0.5, y: -0.5 }),
+    createVector3({ x: 0.5, y: 0.5, z: 1.0 })
   ),
   currentCostPerTime = createLiquidAsset(1e-4),
   supportedMaterials: MaterialType[] = [MaterialType.SimplePolymer],

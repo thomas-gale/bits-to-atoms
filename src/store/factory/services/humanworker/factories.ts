@@ -17,8 +17,8 @@ export function createHumanWorker(
   location: Vector3 = createVector3(),
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(
-    createVector3(-0.2, -0.2, 0),
-    createVector3(0.2, 0.2, 1.5)
+    createVector3({ x: -0.2, y: -0.2 }),
+    createVector3({ x: 0.2, y: 0.2, z: 1.5 })
   ),
   currentCostPerTime = createLiquidAsset(1e-4),
   capactityMass = 5,

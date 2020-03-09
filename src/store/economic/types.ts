@@ -5,6 +5,7 @@ export interface LiquidAsset {
 }
 
 export enum FixedAssetType {
+  Undefined,
   SimplePolymerSpool,
   OutputComponent
 }

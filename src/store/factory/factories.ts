@@ -17,16 +17,15 @@ export function createFactory(
   identity: Identity = createNewIdentity({ displayName: 'default-factory' }),
   inputRegion: InputRegion = createInputRegion(
     [
-      createFixedAsset(
-        FixedAssetType.SimplePolymerSpool,
-        10,
-        0,
-        20,
-        createEntity({
+      createFixedAsset({
+        type: FixedAssetType.SimplePolymerSpool,
+        depreciationRate: 0,
+        dollars: 20,
+        entity: createEntity({
           id: createNewIdentity({ displayName: 'Polymer 1' }),
           location: createVector3({ x: -2.5, y: 2.5, z: 0.2 })
         })
-      )
+      })
     ],
     createEntity({
       id: createNewIdentity({ displayName: 'Input Region' }),

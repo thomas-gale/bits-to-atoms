@@ -48,7 +48,9 @@ export function createFactory(
   }),
   assets: Asset[] = [createLiquidAsset()],
   serviceProviders: ServiceProvider[] = [
-    createFloorSpace(createNewIdentity({ displayName: 'Floorspace 1' })),
+    createFloorSpace({
+      id: createNewIdentity({ displayName: 'Floorspace 1' })
+    }),
     createHumanWorker(
       createNewIdentity({ displayName: 'Human 1' }),
       createVector3({ x: 3, y: 1 })

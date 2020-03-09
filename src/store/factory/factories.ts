@@ -49,10 +49,10 @@ export function createFactory(
       createNewIdentity({ displayName: 'Human 1' }),
       createVector3({ x: 3, y: 1 })
     ),
-    createFFFPrinter(
-      createNewIdentity({ displayName: 'Printer 1' }),
-      createVector3({ x: 0, y: -1 })
-    )
+    createFFFPrinter({
+      id: createNewIdentity({ displayName: 'Printer 1' }),
+      location: createVector3({ x: 0, y: -1 })
+    })
   ]
 ): Factory {
   return {

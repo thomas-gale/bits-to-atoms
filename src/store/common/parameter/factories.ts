@@ -2,13 +2,17 @@ import { Identity } from '../identity/types';
 import { NumberParameter, ParameterType, StringParameter } from './types';
 import { createNewIdentity } from '../identity/factories';
 
-export function createNumberParameter(
-  identity: Identity = createNewIdentity({
+export function createNumberParameter({
+  identity = createNewIdentity({
     displayName: 'default-number-parameter'
   }),
   units = '',
   value = 0
-): NumberParameter {
+}: {
+  identity: Identity;
+  units: string;
+  value: number;
+}): NumberParameter {
   return {
     identity,
     type: ParameterType.Number,

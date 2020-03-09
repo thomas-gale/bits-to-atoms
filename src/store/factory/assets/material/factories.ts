@@ -22,16 +22,16 @@ export function createSimplePolymerSpool(
   orientation: Quaternion = createQuaternion(),
   bounds: Cuboid = createCuboid(),
   material: Material = createSimplePolymerMaterial(),
-  spoolLength: NumberParameter = createNumberParameter(
-    createNewIdentity({ displayName: 'Spool Length' }),
-    'm',
-    10
-  ),
-  spoolDiameter: NumberParameter = createNumberParameter(
-    createNewIdentity({ displayName: 'Spool Diameter' }),
-    'mm',
-    1
-  ),
+  spoolLength: NumberParameter = createNumberParameter({
+    identity: createNewIdentity({ displayName: 'Spool Length' }),
+    units: 'm',
+    value: 10
+  }),
+  spoolDiameter: NumberParameter = createNumberParameter({
+    identity: createNewIdentity({ displayName: 'Spool Diameter' }),
+    units: 'mm',
+    value: 1
+  }),
   depreciationRate = 0,
   dollars = 10
 ): SimplePolymerSpool {

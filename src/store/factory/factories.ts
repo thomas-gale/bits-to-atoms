@@ -7,11 +7,7 @@ import { Factory } from './types';
 import { createNewIdentity } from '../common/identity/factories';
 import { createFloorSpace } from './services/floorspace/factories';
 import { createHumanWorker } from './services/humanworker/factories';
-import {
-  createVector3,
-  createQuaternion,
-  createCuboid
-} from '../common/primitive/factories';
+import { createVector3, createCuboid } from '../common/primitive/factories';
 import { createFFFPrinter } from './services/fffprinter/factories';
 import { createLiquidAsset, createFixedAsset } from '../economic/factories';
 import { createInputRegion, createOutputRegion } from './boundaries/factories';
@@ -26,23 +22,20 @@ export function createFactory(
         10,
         0,
         20,
-        createEntity(
-          createNewIdentity({ displayName: 'Polymer 1' }),
-          createVector3({ x: -2.5, y: 2.5, z: 0.2 }),
-          createQuaternion(),
-          createCuboid()
-        )
+        createEntity({
+          id: createNewIdentity({ displayName: 'Polymer 1' }),
+          location: createVector3({ x: -2.5, y: 2.5, z: 0.2 })
+        })
       )
     ],
-    createEntity(
-      createNewIdentity({ displayName: 'Input Region' }),
-      createVector3({ x: -3, y: 2.5 }),
-      createQuaternion(),
-      createCuboid({
+    createEntity({
+      id: createNewIdentity({ displayName: 'Input Region' }),
+      location: createVector3({ x: -3, y: 2.5 }),
+      bounds: createCuboid({
         min: createVector3({ x: -1, y: -0.5 }),
         max: createVector3({ x: 1, y: 0.5, z: 0.1 })
       })
-    )
+    })
   ),
   outputRegion: OutputRegion = createOutputRegion(
     createNewIdentity({ displayName: 'Output Region' }),

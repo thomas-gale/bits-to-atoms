@@ -14,15 +14,13 @@ import { createEntity } from '../entity/factories';
 
 export function createInputRegion(
   assetsIn: FixedAsset[] = [],
-  entity: Entity = createEntity(
-    createNewIdentity({ displayName: 'default-input-region' }),
-    createVector3(),
-    createQuaternion(),
-    createCuboid({
+  entity: Entity = createEntity({
+    id: createNewIdentity({ displayName: 'default-input-region' }),
+    bounds: createCuboid({
       min: createVector3({ x: -1, y: -0.5, z: 0 }),
       max: createVector3({ x: 1, y: 0.5, z: 0.1 })
     })
-  )
+  })
 ): InputRegion {
   return {
     id: entity.id,

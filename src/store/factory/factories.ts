@@ -51,10 +51,10 @@ export function createFactory(
     createFloorSpace({
       id: createNewIdentity({ displayName: 'Floorspace 1' })
     }),
-    createHumanWorker(
-      createNewIdentity({ displayName: 'Human 1' }),
-      createVector3({ x: 3, y: 1 })
-    ),
+    createHumanWorker({
+      id: createNewIdentity({ displayName: 'Human 1' }),
+      location: createVector3({ x: 3, y: 1 })
+    }),
     createFFFPrinter({
       id: createNewIdentity({ displayName: 'Printer 1' }),
       location: createVector3({ x: 0, y: -1 })

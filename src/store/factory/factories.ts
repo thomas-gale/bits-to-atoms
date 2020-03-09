@@ -1,7 +1,4 @@
-import { Identity } from '../common/identity/types';
-import { InputRegion, OutputRegion } from './boundaries/types';
-import { Asset, FixedAssetType } from '../economic/types';
-import { ServiceProvider } from './services/types';
+import { FixedAssetType } from '../economic/types';
 import { Factory } from './types';
 
 import { createNewIdentity } from '../common/identity/factories';
@@ -13,9 +10,9 @@ import { createLiquidAsset, createFixedAsset } from '../economic/factories';
 import { createInputRegion, createOutputRegion } from './boundaries/factories';
 import { createEntity } from './entity/factories';
 
-export function createFactory(
-  identity: Identity = createNewIdentity({ displayName: 'default-factory' }),
-  inputRegion: InputRegion = createInputRegion({
+export function createFactory({
+  identity = createNewIdentity({ displayName: 'default-factory' }),
+  inputRegion = createInputRegion({
     assetsIn: [
       createFixedAsset({
         type: FixedAssetType.SimplePolymerSpool,
@@ -36,7 +33,7 @@ export function createFactory(
       })
     })
   }),
-  outputRegion: OutputRegion = createOutputRegion({
+  outputRegion = createOutputRegion({
     entity: createEntity({
       id: createNewIdentity({ displayName: 'Output Region' }),
       location: createVector3({ x: 3, y: 2.5 }),
@@ -46,8 +43,8 @@ export function createFactory(
       })
     })
   }),
-  assets: Asset[] = [createLiquidAsset()],
-  serviceProviders: ServiceProvider[] = [
+  assets = [createLiquidAsset()],
+  serviceProviders = [
     createFloorSpace({
       id: createNewIdentity({ displayName: 'Floorspace 1' })
     }),
@@ -60,7 +57,7 @@ export function createFactory(
       location: createVector3({ x: 0, y: -1 })
     })
   ]
-): Factory {
+} = {}): Factory {
   return {
     identity,
     inputRegion,

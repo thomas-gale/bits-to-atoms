@@ -16,7 +16,7 @@ export function createOutputComponent({
   buildRequest = createBuildRequest(),
   depreciationRate = 0,
   dollars = 50
-}): OutputComponent {
+} = {}): OutputComponent {
   return {
     type: FixedAssetType.OutputComponent,
     id,

@@ -30,7 +30,7 @@ export function createSimplePolymerSpool({
   }),
   depreciationRate = 0,
   dollars = 10
-}): SimplePolymerSpool {
+} = {}): SimplePolymerSpool {
   return {
     type: FixedAssetType.SimplePolymerSpool,
     id,

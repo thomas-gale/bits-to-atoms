@@ -15,8 +15,8 @@ import { createEntity } from './entity/factories';
 
 export function createFactory(
   identity: Identity = createNewIdentity({ displayName: 'default-factory' }),
-  inputRegion: InputRegion = createInputRegion(
-    [
+  inputRegion: InputRegion = createInputRegion({
+    assetsIn: [
       createFixedAsset({
         type: FixedAssetType.SimplePolymerSpool,
         depreciationRate: 0,
@@ -27,7 +27,7 @@ export function createFactory(
         })
       })
     ],
-    createEntity({
+    entity: createEntity({
       id: createNewIdentity({ displayName: 'Input Region' }),
       location: createVector3({ x: -3, y: 2.5 }),
       bounds: createCuboid({
@@ -35,7 +35,7 @@ export function createFactory(
         max: createVector3({ x: 1, y: 0.5, z: 0.1 })
       })
     })
-  ),
+  }),
   outputRegion: OutputRegion = createOutputRegion(
     createNewIdentity({ displayName: 'Output Region' }),
     createVector3({ x: 3, y: 2.5 })

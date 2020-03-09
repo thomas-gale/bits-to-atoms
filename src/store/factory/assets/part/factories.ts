@@ -8,8 +8,6 @@ import {
   createQuaternion,
   createCuboid
 } from '../../../common/primitive/factories';
-import { Material } from '../../../material/types';
-import { createSimplePolymerMaterial } from '../../../material/factories';
 import { FixedAssetType } from '../../../economic/types';
 import { BuildRequest } from '../../../market/types';
 import { createBuildRequest } from '../../../market/factories';

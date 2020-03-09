@@ -20,13 +20,20 @@ import { createEntity } from './entity/factories';
 export function createFactory(
   identity: Identity = createNewIdentity('default-factory'),
   inputRegion: InputRegion = createInputRegion(
-    [createFixedAsset(FixedAssetType.SimplePolymerSpool, 10, 0, 20, 
-      createEntity(
-        createNewIdentity('Polymer 1'),
-        createVector3(-2.5, 2.5, 0.2),
-        createQuaternion(),
-        createCuboid()
-      ))],
+    [
+      createFixedAsset(
+        FixedAssetType.SimplePolymerSpool,
+        10,
+        0,
+        20,
+        createEntity(
+          createNewIdentity('Polymer 1'),
+          createVector3(-2.5, 2.5, 0.2),
+          createQuaternion(),
+          createCuboid()
+        )
+      )
+    ],
     createEntity(
       createNewIdentity('Input Region'),
       createVector3(-3, 2.5, 0),

@@ -44,10 +44,10 @@ function mapDispatch(dispatch: RootDispatch) {
           serviceProviderId: selectedServiceProviderId,
           serviceProviderProperty,
           parameter: createNumberParameter(
-            createExistingIdentity(
-              parameterUpdate.target.name,
-              parameterUpdate.target.name
-            ),
+            createExistingIdentity({
+              displayName: parameterUpdate.target.name,
+              uuid: parameterUpdate.target.name
+            }),
             units,
             Number(parameterUpdate.target.value)
           )

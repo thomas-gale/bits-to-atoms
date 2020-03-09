@@ -12,7 +12,7 @@ export function* marketShortRunSaga() {
     identity: createNewIdentity('cube1'),
     material: createSimplePolymerMaterial(),
     fixedValue: createLiquidAsset(10),
-    type: PartType.CUBE,
+    type: PartType.Cube,
     size: 8
   };
   yield put(addBuildRequest(design1));
@@ -21,7 +21,7 @@ export function* marketShortRunSaga() {
     identity: createNewIdentity('cube2'),
     material: createSimplePolymerMaterial(),
     fixedValue: createLiquidAsset(15),
-    type: PartType.CUBE,
+    type: PartType.Cube,
     size: 10
   };
   yield put(addBuildRequest(design2));

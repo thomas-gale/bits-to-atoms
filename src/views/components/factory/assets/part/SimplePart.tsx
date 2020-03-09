@@ -17,17 +17,17 @@ const connector = connect(mapState);
 
 type Props = ConnectedProps<typeof connector> & OwnProps;
 
-function SimplePolymerSpool(props: Props): JSX.Element {
+function SimplePart(props: Props): JSX.Element {
   const mesh = useRef<Mesh>();
 
   const { position } = props;
 
   return (
     <mesh position={position} ref={mesh}>
-      <cylinderBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
+      <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
       <meshStandardMaterial attach="material" color={'darkgrey'} />
     </mesh>
   );
 }
 
-export default connector(SimplePolymerSpool);
+export default connector(SimplePart);

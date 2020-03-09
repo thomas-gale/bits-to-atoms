@@ -29,20 +29,20 @@ export function createFactory(
       ))],
     createEntity(
       createNewIdentity('Input Region'),
-      createVector3(-2.5, 2.5, 0),
+      createVector3(-3, 2.5, 0),
       createQuaternion(),
       createCuboid(createVector3(-1, -0.5, 0), createVector3(1, 0.5, 0.1))
     )
   ),
   outputRegion: OutputRegion = createOutputRegion(
     createNewIdentity('Output Region'),
-    createVector3(2.5, 2.5, 0)
+    createVector3(3, 2.5, 0)
   ),
   assets: Asset[] = [createLiquidAsset()],
   serviceProviders: ServiceProvider[] = [
     createFloorSpace(createNewIdentity('Floorspace 1')),
-    createHumanWorker(createNewIdentity('Human 1'), createVector3(2.5, 1, 0)),
-    createFFFPrinter(createNewIdentity('Printer 1'), createVector3(-2.5, 1, 0))
+    createHumanWorker(createNewIdentity('Human 1'), createVector3(3, 1, 0)),
+    createFFFPrinter(createNewIdentity('Printer 1'), createVector3(0, -1, 0))
   ]
 ): Factory {
   return {

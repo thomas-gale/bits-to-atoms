@@ -5,7 +5,8 @@ export interface LiquidAsset {
 }
 
 export enum FixedAssetType {
-  SimplePolymerSpool
+  SimplePolymerSpool,
+  OutputComponent
 }
 
 export interface FixedAsset<T = never> extends LiquidAsset, Entity<number | T> {

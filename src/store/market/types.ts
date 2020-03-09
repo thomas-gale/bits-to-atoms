@@ -3,7 +3,7 @@ import { LiquidAsset } from '../economic/types';
 import { Material } from '../material/types';
 
 export enum PartType {
-  CUBE
+  Cube
 }
 
 export interface BuildRequest {

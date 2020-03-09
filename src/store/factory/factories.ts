@@ -39,7 +39,11 @@ export function createFactory(
   outputRegion: OutputRegion = createOutputRegion({
     entity: createEntity({
       id: createNewIdentity({ displayName: 'Output Region' }),
-      location: createVector3({ x: 3, y: 2.5 })
+      location: createVector3({ x: 3, y: 2.5 }),
+      bounds: createCuboid({
+        min: createVector3({ x: -1, y: -0.5 }),
+        max: createVector3({ x: 1, y: 0.5, z: 0.1 })
+      })
     })
   }),
   assets: Asset[] = [createLiquidAsset()],

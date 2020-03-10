@@ -1,7 +1,7 @@
 # bits-to-atoms
 🤏🏭 Nimble, market-driven, micro-factories. 🚧 Pre-alpha!
 
-## Vision 1.0
+## Vision 1.0 (Virtual)
 - Highly modular micro-markets for each service provider in a micro-factory.
 - Markets drive efficiency
 - Every component in the micro-factory is either *material* or a *service provider*. 
@@ -11,17 +11,25 @@
     - Transmutation (e.g. FFF printer, laser cutter, milling tool)
 - The whole system simulated in a *Game* like environment
 
-## Vision 2.0
-- Cryptographically sign a *runner* or *part passport* throughout the process
-- Services providers are financially autonomous entities using Ethereum tech stack
-- Enabling trustless, competitive and nimble micro-transactions in the micro-markets of the micro-factory!
+## Vision 2.0+ (Real)
+- Cryptographically sign a *runner* or *build request identity* throughout the process building a history
+- Services providers could become financially autonomous competitive *objective maximising* entities
+- Desired emergent behaviour: trustless, competitive and nimble micro-transactions in the micro-markets of the micro-factory!
+- Can we interface with:
+	- Payments API (fiat / crypto)
+	- Autonomous organisation systems (Aragon)
+	- Factory 'boundary services':
+		- Delivery services (DHL/UPS API etc.)
+		- Energy providers
+
+## Vision Todo: Add a nice infographic
 
 # Development
 ![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")
 
 ## Tech Stack
 - Typescript
-- React
+- React (react-spring)
 - Redux (redux-saga, reselect, redux-form)
 - Three (react-three-fiber)
 

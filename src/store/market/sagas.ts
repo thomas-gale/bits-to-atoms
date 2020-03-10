@@ -18,8 +18,8 @@ function getRandomPartName() {
   return partNames[Math.floor(Math.random() * partNames.length)];
 }
 
-function getRandomSizeValue({ min = 5, max = 10} = {}) {
-  return Math.floor(Math.random() *(max - min) + min);
+function getRandomSizeValue({ min = 5, max = 10 } = {}) {
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 /**
@@ -28,21 +28,24 @@ function getRandomSizeValue({ min = 5, max = 10} = {}) {
  */
 export function* simpleMarketSaga() {
   console.log('Starting Simple Market');
+  //return;
   while (true) {
     // Check size of market, if greater than some threshold, start simulating the removal of the oldest ones.
     // TODO.
 
     // Add a new build request to the market.
     const sizeAndValue = getRandomSizeValue();
-    yield put(addBuildRequest(
-      createBuildRequest({
-        identity: createNewIdentity({ displayName: getRandomPartName() }),
-        material: createSimplePolymerMaterial(),
-        fixedValue: createLiquidAsset({ dollars: sizeAndValue }),
-        type: PartType.Cube,
-        size: sizeAndValue
-      })
-    ));
+    yield put(
+      addBuildRequest(
+        createBuildRequest({
+          identity: createNewIdentity({ displayName: getRandomPartName() }),
+          material: createSimplePolymerMaterial(),
+          fixedValue: createLiquidAsset({ dollars: sizeAndValue }),
+          type: PartType.Cube,
+          size: sizeAndValue
+        })
+      )
+    );
 
     // Delay for a short while.
     yield delay(2000);

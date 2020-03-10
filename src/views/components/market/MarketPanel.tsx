@@ -20,7 +20,9 @@ type Props = ConnectedProps<typeof connector>;
 const useStyles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(2),
-    flexGrow: 1
+    flexGrow: 1,
+    overflow: 'auto',
+    maxHeight: '80vh' // Couldn't find a nicer way. Be cool if I could reference the max height of
   }
 }));
 

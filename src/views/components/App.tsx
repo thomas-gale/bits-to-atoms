@@ -23,6 +23,18 @@ const connector = connect(mapState);
 type Props = ConnectedProps<typeof connector>;
 
 const useStyles = makeStyles(_ => ({
+  '@global': {
+    '*::-webkit-scrollbar': {
+      width: '0.4em'
+    },
+    '*::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+    },
+    '*::-webkit-scrollbar-thumb': {
+      backgroundColor: 'rgba(0,0,0,.1)',
+      outline: '1px solid slategrey'
+    }
+  },
   fullScreen: {
     margin: 0,
     height: '100vh',
@@ -33,7 +45,9 @@ const useStyles = makeStyles(_ => ({
     top: 0,
     left: 0,
     right: 0,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+    height: '100vh',
+    maxHeight: '100vh'
   },
   uiPrimaryGridContainer: {
     justify: 'flex-start'

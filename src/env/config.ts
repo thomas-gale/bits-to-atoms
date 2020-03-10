@@ -22,6 +22,6 @@ export const config = {
     }
   },
   factory: {
-    maxNumberActiveBuilds: 1
+    maxNumberActiveBuilds: 2
   }
 };

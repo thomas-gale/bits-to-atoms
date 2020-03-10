@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState } from '../../../store';
 import { buildRequestsSelector } from '../../../store/market/selectors';
+import { isAllowedToBidSelector } from '../../../store/factory/selectors';
 
 import { Box, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,7 +11,8 @@ import BuildRequest from './BuildRequest';
 
 function mapState(state: RootState) {
   return {
-    buildRequests: buildRequestsSelector(state)
+    buildRequests: buildRequestsSelector(state),
+    isAllowedToBid: isAllowedToBidSelector(state)
   };
 }
 
@@ -29,14 +31,17 @@ const useStyles = makeStyles(theme => ({
 
 function MarketPanel(props: Props): JSX.Element {
   const classes = useStyles();
-  const { buildRequests } = props;
+  const { buildRequests, isAllowedToBid } = props;
 
   return (
     <Box className={classes.container}>
       <Grid container spacing={3}>
         {buildRequests.map(buildRequest => (
           <Grid item xs={12} key={buildRequest.identity.uuid}>
-            <BuildRequest buildRequest={buildRequest} />
+            <BuildRequest
+              isAllowedToBid={isAllowedToBid}
+              buildRequest={buildRequest}
+            />
           </Grid>
         ))}
       </Grid>

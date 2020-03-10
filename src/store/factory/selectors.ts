@@ -6,6 +6,7 @@ import { EconomicSummary, Asset } from '../economic/types';
 import { ServiceProvider } from './services/types';
 import { createLiquidAsset } from '../economic/factories';
 import { BuildRequest } from '../market/types';
+import { config } from '../../env/config';
 
 export const factorySelector = (state: RootState) => state.factory;
 
@@ -13,6 +14,15 @@ export const factoryActiveBuildRequestsSelector = createSelector(
   [factorySelector],
   (factory: Factory): BuildRequest[] => {
     return factory.activeBuildRequests;
+  }
+);
+
+export const isAllowedToBidSelector = createSelector(
+  [factoryActiveBuildRequestsSelector],
+  (factoryActiveBuildRequests: BuildRequest[]) => {
+    return (
+      factoryActiveBuildRequests.length < config.factory.maxNumberActiveBuilds
+    );
   }
 );
 

@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { RootDispatch } from '../../../store';
-import { Identity } from '../../../store/common/identity/types';
 import { BuildRequest } from '../../../store/market/types';
+import { addActiveBuildRequest } from '../../../store/factory/slice';
 import { Button, Card, Grid, Grow } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 function mapDispatch(dispatch: RootDispatch) {
   return {
-    onBidClicked: (id: Identity) => {
-      console.log(`Bid clicked for BuildRequest: ${id.uuid}`);
+    onBidClicked: (buildRequest: BuildRequest) => {
+      dispatch(addActiveBuildRequest(buildRequest));
     }
   };
 }
@@ -19,6 +18,7 @@ function mapDispatch(dispatch: RootDispatch) {
 const connector = connect(null, mapDispatch);
 
 interface OwnProps {
+  isAllowedToBid: boolean;
   buildRequest: BuildRequest;
 }
 
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 
 function BuildRequestElement(props: Props) {
   const classes = useStyles();
-  const { onBidClicked } = props;
+  const { isAllowedToBid, onBidClicked } = props;
   const { identity, created, fixedValue } = props.buildRequest;
 
   return (
@@ -78,7 +78,8 @@ function BuildRequestElement(props: Props) {
               variant="contained"
               color="primary"
               size="small"
-              onClick={_ => onBidClicked(identity)}
+              onClick={_ => onBidClicked(props.buildRequest)}
+              disabled={!isAllowedToBid}
             >
               Bid
             </Button>
@@ -89,6 +90,11 @@ function BuildRequestElement(props: Props) {
             </Typography>
           </Grid>
         </Grid>
+        {!isAllowedToBid && (
+          <Typography color="textSecondary">
+            Bidding disabled - factory at max capacity
+          </Typography>
+        )}
       </Card>
     </Grow>
   );

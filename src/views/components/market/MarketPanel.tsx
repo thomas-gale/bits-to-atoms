@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
 
 import { RootState } from '../../../store';
-import { BuildRequest } from './BuildRequest';
+import { BuildRequestElement } from './BuildRequest';
 import { buildRequestsSelector } from '../../../store/market/selectors';
 
 function mapState(state: RootState) {
@@ -35,10 +35,7 @@ function MarketPanel(props: Props): JSX.Element {
         {buildRequests.map(request => {
           return (
             <Grid item xs={12} key={request.identity.uuid}>
-              <BuildRequest
-                uuid={request.identity.uuid}
-                displayName={request.identity.displayName}
-              />
+              <BuildRequestElement buildRequest={request} />
             </Grid>
           );
         })}

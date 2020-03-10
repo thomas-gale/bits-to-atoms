@@ -1,49 +1,74 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { BuildRequest } from '../../../store/market/types';
+
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Identity } from '../../../store/common/identity/types';
+import { Grid } from '@material-ui/core';
 
-const useStyles = makeStyles({
+interface Props {
+  buildRequest: BuildRequest;
+}
+
+const useStyles = makeStyles(theme => ({
   root: {
-    minWidth: 275
+    minWidth: 275,
+    padding: theme.spacing(2)
   },
   title: {
     fontSize: 14
   },
-  pos: {
-    marginBottom: 12
+  subTitle: {
+    marginBottom: theme.spacing(2)
+  },
+  footer: {
+    marginTop: theme.spacing(2)
   }
-});
+}));
 
-export function BuildRequest(identity: Identity) {
+export function BuildRequestElement(props: Props) {
   const classes = useStyles();
-  const { uuid, displayName } = identity;
+  const { identity, created, fixedValue } = props.buildRequest;
+
   return (
     <Card className={classes.root}>
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          Build Request
-        </Typography>
-        <Typography variant="h5" component="h2">
-          {displayName}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {uuid}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button color="primary" size="small">
-          Bid
-        </Button>
-      </CardActions>
+      <Typography className={classes.title} color="textSecondary" gutterBottom>
+        Build Request
+      </Typography>
+      <Typography variant="h5" component="h2">
+        {identity.displayName}
+      </Typography>
+      <Typography className={classes.subTitle} color="textSecondary">
+        {identity.uuid}
+      </Typography>
+      <Typography color="textSecondary">
+        Created: {created.toLocaleTimeString()}
+      </Typography>
+
+      <Grid
+        className={classes.footer}
+        container
+        spacing={2}
+        direction="row"
+        justify="flex-start"
+        alignItems="center"
+      >
+        <Grid item>
+          <Button variant="contained" color="primary" size="small">
+            Bid
+          </Button>
+        </Grid>
+        <Grid item>
+          <Typography color="textSecondary">
+            Value: ${fixedValue.dollars}
+          </Typography>
+        </Grid>
+      </Grid>
     </Card>
   );
 }

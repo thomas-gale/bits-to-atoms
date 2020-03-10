@@ -4,13 +4,13 @@ import { PartType, BuildRequest } from './types';
 import { createLiquidAsset } from '../economic/factories';
 
 export function createBuildRequest({
-  Identity: identity = createNewIdentity({
+  identity = createNewIdentity({
     displayName: 'default-build-request'
   }),
-  Material: material = createSimplePolymerMaterial(),
-  PartType: type = PartType.Cube,
-  number: size = 10,
-  LiquidAsset: fixedValue = createLiquidAsset({ dollars: 20 })
+  material = createSimplePolymerMaterial(),
+  type = PartType.Cube,
+  size = 10,
+  fixedValue = createLiquidAsset({ dollars: 20 })
 } = {}): BuildRequest {
   return {
     identity,

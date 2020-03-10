@@ -44,6 +44,7 @@ export function InputRegionElement(props: Props): JSX.Element {
           case FixedAssetType.SimplePolymerSpool:
             return (
               <SimplePolymerSpool
+                key={asset.id.uuid}
                 position={[
                   asset.location.x,
                   asset.location.y,

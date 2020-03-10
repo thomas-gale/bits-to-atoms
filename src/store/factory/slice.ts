@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Identity } from '../common/identity/types';
 import { createFactory } from './factories';
 import { Parameter } from '../common/parameter/types';
+import { BuildRequest } from '../market/types';
 
 const factorySlice = createSlice({
   name: 'factory',
@@ -9,6 +10,9 @@ const factorySlice = createSlice({
   reducers: {
     setIdentity(state, action: PayloadAction<Identity>) {
       state.identity = action.payload;
+    },
+    addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
+      state.activeBuildRequests.push(action.payload);
     },
     setServiceProviderParameter(
       state,
@@ -44,6 +48,7 @@ const factorySlice = createSlice({
 
 export const {
   setIdentity,
+  addActiveBuildRequest,
   setServiceProviderParameter
 } = factorySlice.actions;
 

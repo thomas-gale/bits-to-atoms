@@ -5,9 +5,10 @@ export const config = {
       partNames: [
         'widget',
         'thingy',
-        'whatchamacallits',
+        'whatchamacallit',
         'thingamajig',
-        'doohickey'
+        'doohickey',
+        'doofery'
       ],
       partValueRange: {
         min: 5,
@@ -19,5 +20,8 @@ export const config = {
         max: 2000
       }
     }
+  },
+  factory: {
+    maxNumberActiveBuilds: 1
   }
 };

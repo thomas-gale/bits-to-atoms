@@ -9,9 +9,11 @@ import { createFFFPrinter } from './services/fffprinter/factories';
 import { createLiquidAsset, createFixedAsset } from '../economic/factories';
 import { createInputRegion, createOutputRegion } from './boundaries/factories';
 import { createEntity } from './entity/factories';
+import { BuildRequest } from '../market/types';
 
 export function createFactory({
   identity = createNewIdentity({ displayName: 'default-factory' }),
+  activeBuildRequests = [] as BuildRequest[],
   inputRegion = createInputRegion({
     id: createNewIdentity({ displayName: 'Input Region' }),
     location: createVector3({ x: -3, y: 2.5 }),
@@ -56,6 +58,7 @@ export function createFactory({
 } = {}): Factory {
   return {
     identity,
+    activeBuildRequests,
     inputRegion,
     outputRegion,
     assets,

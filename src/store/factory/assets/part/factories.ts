@@ -6,14 +6,13 @@ import {
   createCuboid
 } from '../../../common/primitive/factories';
 import { FixedAssetType } from '../../../economic/types';
-import { createBuildRequest } from '../../../market/factories';
 
 export function createOutputComponent({
   id = createNewIdentity({ displayName: 'default-output-component' }),
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid(),
-  buildRequest = createBuildRequest(),
+  buildRequestUuid = '',
   depreciationRate = 0,
   dollars = 50
 } = {}): OutputComponent {
@@ -23,7 +22,7 @@ export function createOutputComponent({
     location,
     orientation,
     bounds,
-    buildRequest,
+    buildRequestUuid,
     depreciationRate,
     dollars
   };

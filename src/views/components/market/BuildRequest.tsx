@@ -1,13 +1,28 @@
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { RootDispatch } from '../../../store';
+import { Identity } from '../../../store/common/identity/types';
 import { BuildRequest } from '../../../store/market/types';
 import { Button, Card, Grid, Grow } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
-interface Props {
+function mapDispatch(dispatch: RootDispatch) {
+  return {
+    onBidClicked: (id: Identity) => {
+      console.log(`Bid clicked for BuildRequest: ${id.uuid}`);
+    }
+  };
+}
+
+const connector = connect(null, mapDispatch);
+
+interface OwnProps {
   buildRequest: BuildRequest;
 }
+
+type Props = ConnectedProps<typeof connector> & OwnProps;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,8 +40,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export function BuildRequestElement(props: Props) {
+function BuildRequestElement(props: Props) {
   const classes = useStyles();
+  const { onBidClicked } = props;
   const { identity, created, fixedValue } = props.buildRequest;
 
   return (
@@ -58,7 +74,12 @@ export function BuildRequestElement(props: Props) {
           alignItems="center"
         >
           <Grid item>
-            <Button variant="contained" color="primary" size="small">
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={_ => onBidClicked(identity)}
+            >
               Bid
             </Button>
           </Grid>
@@ -72,3 +93,5 @@ export function BuildRequestElement(props: Props) {
     </Grow>
   );
 }
+
+export default connector(BuildRequestElement);

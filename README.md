@@ -1,5 +1,5 @@
 # bits-to-atoms
-🤏🏭 Nimble, market-driven, micro-factories. 🚧 Pre-alpha!
+🏭📈 Nimble, market-driven, micro-factories. 🚧 Pre-alpha!
 
 ## Vision 1.0 (Virtual)
 - Highly modular micro-markets for each service provider in a micro-factory.

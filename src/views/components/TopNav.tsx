@@ -70,7 +70,7 @@ function TopNav(props: Props): JSX.Element {
           <IconButton
             color="inherit"
             aria-label="github"
-            href={config.GitHubURL}
+            href={config.gitHubURL}
           >
             <GitHubIcon />
           </IconButton>

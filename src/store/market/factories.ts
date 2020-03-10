@@ -7,6 +7,7 @@ export function createBuildRequest({
   identity = createNewIdentity({
     displayName: 'default-build-request'
   }),
+  created = new Date(),
   material = createSimplePolymerMaterial(),
   type = PartType.Cube,
   size = 10,
@@ -14,6 +15,7 @@ export function createBuildRequest({
 } = {}): BuildRequest {
   return {
     identity,
+    created,
     material,
     type,
     size,

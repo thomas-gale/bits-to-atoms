@@ -1,24 +1,28 @@
-import { delay, put } from 'redux-saga/effects';
-import { addBuildRequest } from './slice';
-import { PartType } from './types';
+import { delay, put, select } from 'redux-saga/effects';
+import { addBuildRequest, removeBuildRequest } from './slice';
+import { PartType, BuildRequest } from './types';
 import { createNewIdentity } from '../common/identity/factories';
 import { createSimplePolymerMaterial } from '../material/factories';
 import { createLiquidAsset } from '../economic/factories';
 import { createBuildRequest } from './factories';
+import { config } from '../../env/config';
+import { buildRequestsSelector } from './selectors';
 
-const partNames = [
-  'widget',
-  'thingy',
-  'whatchamacallits',
-  'thingamajig',
-  'doohickey'
-];
-
-function getRandomPartName() {
+/**
+ * Helper function to sample randomly part names.
+ * @param partNames
+ */
+function getRandomPartName({
+  partNames = config.market.simpleMarketSaga.partNames
+} = {}) {
   return partNames[Math.floor(Math.random() * partNames.length)];
 }
 
-function getRandomSizeValue({ min = 5, max = 10 } = {}) {
+/**
+ * Helper function to sample randomly ints from a range.
+ * @param range
+ */
+function getRandomFromIntRange({ min = 5, max = 10 } = {}) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
@@ -30,24 +34,40 @@ export function* simpleMarketSaga() {
   console.log('Starting Simple Market');
   //return;
   while (true) {
-    // Check size of market, if greater than some threshold, start simulating the removal of the oldest ones.
-    // TODO.
+    // Check size of build requests open on the market
+    const buildRequests = (yield select(
+      buildRequestsSelector
+    )) as BuildRequest[];
+    if (
+      buildRequests.length >=
+      config.market.simpleMarketSaga.maxNumberOpenRequests
+    ) {
+      // Remove the oldest one.
+      const oldestBuildRequest = buildRequests.reduce((prev, curr) => {
+        return prev.created < curr.created ? prev : curr;
+      });
+      yield put(removeBuildRequest(oldestBuildRequest.identity));
+    } else {
+      // Add a new build request to the market.
+      const sizeAndValue = getRandomFromIntRange(
+        config.market.simpleMarketSaga.partValueRange
+      );
+      yield put(
+        addBuildRequest(
+          createBuildRequest({
+            identity: createNewIdentity({ displayName: getRandomPartName() }),
+            material: createSimplePolymerMaterial(),
+            fixedValue: createLiquidAsset({ dollars: sizeAndValue }),
+            type: PartType.Cube,
+            size: sizeAndValue
+          })
+        )
+      );
+    }
 
-    // Add a new build request to the market.
-    const sizeAndValue = getRandomSizeValue();
-    yield put(
-      addBuildRequest(
-        createBuildRequest({
-          identity: createNewIdentity({ displayName: getRandomPartName() }),
-          material: createSimplePolymerMaterial(),
-          fixedValue: createLiquidAsset({ dollars: sizeAndValue }),
-          type: PartType.Cube,
-          size: sizeAndValue
-        })
-      )
+    // Random ranged delay for a short while after each update.
+    yield delay(
+      getRandomFromIntRange(config.market.simpleMarketSaga.processingDelayRange)
     );
-
-    // Delay for a short while.
-    yield delay(2000);
   }
 }

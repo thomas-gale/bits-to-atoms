@@ -8,6 +8,7 @@ export enum PartType {
 
 export interface BuildRequest {
   identity: Identity;
+  created: Date;
   material: Material;
   type: PartType;
   size: number;

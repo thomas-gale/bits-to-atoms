@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, Grid } from '@material-ui/core';
 
 import { RootState } from '../../../store';
-import { BuildRequestElement } from './BuildRequest';
 import { buildRequestsSelector } from '../../../store/market/selectors';
+
+import { Box, Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { BuildRequestElement } from './BuildRequest';
 
 function mapState(state: RootState) {
   return {
@@ -29,16 +30,15 @@ const useStyles = makeStyles(theme => ({
 function MarketPanel(props: Props): JSX.Element {
   const classes = useStyles();
   const { buildRequests } = props;
+
   return (
     <Box className={classes.container}>
       <Grid container spacing={3}>
-        {buildRequests.map(request => {
-          return (
-            <Grid item xs={12} key={request.identity.uuid}>
-              <BuildRequestElement buildRequest={request} />
-            </Grid>
-          );
-        })}
+        {buildRequests.map(buildRequest => (
+          <Grid item xs={12} key={buildRequest.identity.uuid}>
+            <BuildRequestElement buildRequest={buildRequest} />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

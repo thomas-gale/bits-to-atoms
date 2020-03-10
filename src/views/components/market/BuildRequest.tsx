@@ -2,10 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { BuildRequest } from '../../../store/market/types';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
+import { Button, Card, Grid, Grow } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import { Grid } from '@material-ui/core';
 
 interface Props {
   buildRequest: BuildRequest;
@@ -32,39 +30,45 @@ export function BuildRequestElement(props: Props) {
   const { identity, created, fixedValue } = props.buildRequest;
 
   return (
-    <Card className={classes.root}>
-      <Typography className={classes.title} color="textSecondary" gutterBottom>
-        Build Request
-      </Typography>
-      <Typography variant="h5" component="h2">
-        {identity.displayName}
-      </Typography>
-      <Typography className={classes.subTitle} color="textSecondary">
-        {identity.uuid}
-      </Typography>
-      <Typography color="textSecondary">
-        Created: {created.toLocaleTimeString()}
-      </Typography>
+    <Grow in={true}>
+      <Card className={classes.root}>
+        <Typography
+          className={classes.title}
+          color="textSecondary"
+          gutterBottom
+        >
+          Build Request
+        </Typography>
+        <Typography variant="h5" component="h2">
+          {identity.displayName}
+        </Typography>
+        <Typography className={classes.subTitle} color="textSecondary">
+          {identity.uuid}
+        </Typography>
+        <Typography color="textSecondary">
+          Created: {created.toLocaleTimeString()}
+        </Typography>
 
-      <Grid
-        className={classes.footer}
-        container
-        spacing={2}
-        direction="row"
-        justify="flex-start"
-        alignItems="center"
-      >
-        <Grid item>
-          <Button variant="contained" color="primary" size="small">
-            Bid
-          </Button>
+        <Grid
+          className={classes.footer}
+          container
+          spacing={2}
+          direction="row"
+          justify="flex-start"
+          alignItems="center"
+        >
+          <Grid item>
+            <Button variant="contained" color="primary" size="small">
+              Bid
+            </Button>
+          </Grid>
+          <Grid item>
+            <Typography color="textSecondary">
+              Value: ${fixedValue.dollars}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Typography color="textSecondary">
-            Value: ${fixedValue.dollars}
-          </Typography>
-        </Grid>
-      </Grid>
-    </Card>
+      </Card>
+    </Grow>
   );
 }

@@ -1,17 +1,23 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../index';
+
 import { ServiceProvider } from '../factory/services/types';
-//import { Parameter } from '../common/parameter/types';
-//import { createNumberParameter } from '../common/parameter/factories';
-//import { createExistingIdentity } from '../common/identity/factories';
 import { Identity } from '../common/identity/types';
-import { factoryServiceProvidersSelector } from '../factory/selectors';
 import { Entity } from '../factory/entity/types';
 import { Vector3, Quaternion, Cuboid } from '../common/primitive/types';
-//import { LocationParameters } from './types';
+import { factoryServiceProvidersSelector } from '../factory/selectors';
 
-export const selectedServiceProviderIdSelector = (state: RootState) =>
-  state.selected.selectedServiceProviderId;
+export const selectedSelector = (state: RootState) => state.selected;
+
+export const marketFactoryPanelVisibiltySelector = createSelector(
+  [selectedSelector],
+  selected => selected.marketFactoryPanelVisibilty
+);
+
+export const selectedServiceProviderIdSelector = createSelector(
+  [selectedSelector],
+  selected => selected.selectedServiceProviderId
+);
 
 export const selectedServiceProviderSelector = createSelector(
   [factoryServiceProvidersSelector, selectedServiceProviderIdSelector],

@@ -14,19 +14,29 @@ import BusinessIcon from '@material-ui/icons/Business';
 
 import { RootState, RootDispatch } from '../../store';
 import { config } from '../../env/config';
+import { MarketFactoryPanelVisibilty } from '../../store/selected/types';
+import { setMarketFactoryPanelVisibilty } from '../../store/selected/slice';
 import { factorySelector } from '../../store/factory/selectors';
-import { toggleVisible } from '../../store/market/slice';
+import { marketFactoryPanelVisibiltySelector } from '../../store/selected/selectors';
 
 function mapState(state: RootState) {
   return {
+    marketFactoryPanelVisibilty: marketFactoryPanelVisibiltySelector(state),
     factory: factorySelector(state)
   };
 }
 
 function mapDispatch(dispatch: RootDispatch) {
   return {
-    toggleMarketVisible: () => {
-      dispatch(toggleVisible());
+    onFactoryClicked: () => {
+      dispatch(
+        setMarketFactoryPanelVisibilty(MarketFactoryPanelVisibilty.Factory)
+      );
+    },
+    onMarketClicked: () => {
+      dispatch(
+        setMarketFactoryPanelVisibilty(MarketFactoryPanelVisibilty.Market)
+      );
     }
   };
 }
@@ -61,9 +71,11 @@ function TopNav(props: Props): JSX.Element {
             className={classes.menuButton}
             color="inherit"
             aria-label="factory"
-            onClick={_ => {
-              console.log('Factory info selected.');
-            }}
+            disabled={
+              props.marketFactoryPanelVisibilty ===
+              MarketFactoryPanelVisibilty.Factory
+            }
+            onClick={props.onFactoryClicked}
           >
             <BusinessIcon />
           </IconButton>
@@ -71,8 +83,12 @@ function TopNav(props: Props): JSX.Element {
             edge="start"
             className={classes.menuButton}
             color="inherit"
-            aria-label="markets"
-            onClick={_ => props.toggleMarketVisible()}
+            aria-label="market"
+            disabled={
+              props.marketFactoryPanelVisibilty ===
+              MarketFactoryPanelVisibilty.Market
+            }
+            onClick={props.onMarketClicked}
           >
             <TimelineIcon />
           </IconButton>

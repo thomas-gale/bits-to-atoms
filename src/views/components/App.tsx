@@ -8,13 +8,15 @@ import Factory from './factory/Factory';
 import TopNav from './TopNav';
 import MarketPanel from './market/MarketPanel';
 import SelectedPanel from './selected/SelectedPanel';
+import FactoryPanel from './factory/FactoryPanel';
 
 import { RootState } from '../../store';
-import { marketVisibleSelector } from '../../store/market/selectors';
+import { marketFactoryPanelVisibiltySelector } from '../../store/selected/selectors';
+import { MarketFactoryPanelVisibilty } from '../../store/selected/types';
 
 function mapState(state: RootState) {
   return {
-    marketVisible: marketVisibleSelector(state)
+    marketFactoryPanelVisibilty: marketFactoryPanelVisibiltySelector(state)
   };
 }
 
@@ -60,6 +62,31 @@ const useStyles = makeStyles(_ => ({
 function App(props: Props): JSX.Element {
   const classes = useStyles();
 
+  const { marketFactoryPanelVisibilty } = props;
+
+  const MarketFactoryPanel = () => {
+    switch (marketFactoryPanelVisibilty) {
+      case MarketFactoryPanelVisibilty.Factory:
+        return (
+          <Grid item xs={9}>
+            <Box width={1 / 3} className={classes.uiPrimaryGridElement}>
+              <FactoryPanel />
+            </Box>
+          </Grid>
+        );
+      case MarketFactoryPanelVisibilty.Market:
+        return (
+          <Grid item xs={9}>
+            <Box width={1 / 3} className={classes.uiPrimaryGridElement}>
+              <MarketPanel />
+            </Box>
+          </Grid>
+        );
+      default:
+        return <Grid item xs={9}></Grid>;
+    }
+  };
+
   return (
     <Box className={classes.fullScreen}>
       <Factory />
@@ -70,16 +97,7 @@ function App(props: Props): JSX.Element {
               <TopNav />
             </div>
           </Grid>
-          {props.marketVisible ? (
-            <Grid item xs={9}>
-              <Box width={1 / 3} className={classes.uiPrimaryGridElement}>
-                <MarketPanel />
-              </Box>
-            </Grid>
-          ) : (
-            <Grid item xs={9}></Grid>
-          )}
-
+          <MarketFactoryPanel />
           <Grid item xs={3}>
             <div className={classes.uiPrimaryGridElement}>
               <SelectedPanel />

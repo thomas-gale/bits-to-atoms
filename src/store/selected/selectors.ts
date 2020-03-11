@@ -5,13 +5,35 @@ import { ServiceProvider } from '../factory/services/types';
 import { Identity } from '../common/identity/types';
 import { Entity } from '../factory/entity/types';
 import { Vector3, Quaternion, Cuboid } from '../common/primitive/types';
-import { factoryServiceProvidersSelector } from '../factory/selectors';
+import {
+  factoryServiceProvidersSelector,
+  factoryActiveBuildRequestsSelector
+} from '../factory/selectors';
+import { BuildRequest } from '../market/types';
 
 export const selectedSelector = (state: RootState) => state.selected;
 
 export const marketFactoryPanelVisibiltySelector = createSelector(
   [selectedSelector],
   selected => selected.marketFactoryPanelVisibilty
+);
+
+export const primaryFocusBuildRequestIdSelector = createSelector(
+  [selectedSelector],
+  selected => selected.primaryFocusBuildRequestId
+);
+
+export const primaryFocusBuildRequestSelector = createSelector(
+  [factoryActiveBuildRequestsSelector, primaryFocusBuildRequestIdSelector],
+  (
+    factoryActiveBuildRequests: BuildRequest[],
+    primaryFocusBuildRequestId: Identity | undefined
+  ): BuildRequest | undefined => {
+    if (!primaryFocusBuildRequestId) return undefined;
+    return factoryActiveBuildRequests.find(
+      br => br.identity.uuid === primaryFocusBuildRequestId.uuid
+    );
+  }
 );
 
 export const selectedServiceProviderIdSelector = createSelector(

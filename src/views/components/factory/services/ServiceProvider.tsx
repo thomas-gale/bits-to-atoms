@@ -13,7 +13,7 @@ import {
 import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
 
-import { setSelected } from '../../../../store/selected/slice';
+import { setSelectedServiceProvider } from '../../../../store/selected/slice';
 import { Identity } from '../../../../store/common/identity/types';
 import { FFFPrinterElement } from './FFFPrinter';
 import { FFFPrinter } from '../../../../store/factory/services/fffprinter/types';
@@ -25,7 +25,7 @@ function mapState(_: RootState) {
 function mapDispatch(dispatch: RootDispatch) {
   return {
     onSelected: (id: Identity) => {
-      dispatch(setSelected(id));
+      dispatch(setSelectedServiceProvider(id));
     }
   };
 }

@@ -6,6 +6,7 @@ const selectedSlice = createSlice({
   name: 'selected',
   initialState: {
     marketFactoryPanelVisibilty: MarketFactoryPanelVisibilty.Factory,
+    primaryFocusBuildRequestId: undefined as Identity | undefined,
     selectedServiceProviderId: undefined as Identity | undefined
   },
   reducers: {
@@ -15,10 +16,19 @@ const selectedSlice = createSlice({
     ) {
       state.marketFactoryPanelVisibilty = action.payload;
     },
-    unSelect(state, _: PayloadAction) {
+    unSelectPrimaryFocusBuildRequest(state, _: PayloadAction) {
+      state.primaryFocusBuildRequestId = undefined;
+    },
+    setSelectedPrimaryFocusBuildRequest(
+      state,
+      action: PayloadAction<Identity>
+    ) {
+      state.primaryFocusBuildRequestId = action.payload;
+    },
+    unSelectServiceProvider(state, _: PayloadAction) {
       state.selectedServiceProviderId = undefined;
     },
-    setSelected(state, action: PayloadAction<Identity>) {
+    setSelectedServiceProvider(state, action: PayloadAction<Identity>) {
       state.selectedServiceProviderId = action.payload;
     }
   }
@@ -26,8 +36,10 @@ const selectedSlice = createSlice({
 
 export const {
   setMarketFactoryPanelVisibilty,
-  unSelect,
-  setSelected
+  unSelectPrimaryFocusBuildRequest,
+  setSelectedPrimaryFocusBuildRequest,
+  unSelectServiceProvider,
+  setSelectedServiceProvider
 } = selectedSlice.actions;
 
 export const selectedReducer = selectedSlice.reducer;

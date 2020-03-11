@@ -3,10 +3,12 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import { config } from '../../../../env/config';
 import { RootState, RootDispatch } from '../../../../store';
+import { Identity } from '../../../../store/common/identity/types';
+import { setSelectedPrimaryFocusBuildRequest } from '../../../../store/selected/slice';
 import { factoryActiveBuildRequestsSelector } from '../../../../store/factory/selectors';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, CardContent } from '@material-ui/core';
+import { Button, Card, Typography, CardContent } from '@material-ui/core';
 
 function mapState(state: RootState) {
   return {
@@ -14,8 +16,12 @@ function mapState(state: RootState) {
   };
 }
 
-function mapDispatch(_dispatch: RootDispatch) {
-  return {};
+function mapDispatch(dispatch: RootDispatch) {
+  return {
+    onActiveBuildRequestSelected: (id: Identity) => {
+      dispatch(setSelectedPrimaryFocusBuildRequest(id));
+    }
+  };
 }
 
 const connector = connect(mapState, mapDispatch);
@@ -37,7 +43,7 @@ const useStyles = makeStyles(_theme => ({
 function ActiveBuildRequestsSummary(props: Props): JSX.Element {
   const classes = useStyles();
 
-  const { activeBuildRequests } = props;
+  const { activeBuildRequests, onActiveBuildRequestSelected } = props;
 
   return (
     <Card className={classes.container}>
@@ -59,15 +65,25 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
               <Typography color="textSecondary" gutterBottom>
                 {activeBuildRequest.identity.uuid}
               </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={_ =>
+                  onActiveBuildRequestSelected(activeBuildRequest.identity)
+                }
+              >
+                Details
+              </Button>
             </div>
           ))
         ) : (
           <Typography
             className={classes.comment}
-            color="textSecondary"
+            color="textPrimary"
             gutterBottom
           >
-            No active build requests... Check the market panel?
+            No active build requests... Bid from the market panel?
           </Typography>
         )}
       </CardContent>

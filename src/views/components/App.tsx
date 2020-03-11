@@ -11,12 +11,17 @@ import SelectedPanel from './selected/SelectedPanel';
 import FactoryPanel from './factory/FactoryPanel';
 
 import { RootState } from '../../store';
-import { marketFactoryPanelVisibiltySelector } from '../../store/selected/selectors';
+import {
+  marketFactoryPanelVisibiltySelector,
+  primaryFocusBuildRequestSelector
+} from '../../store/selected/selectors';
 import { MarketFactoryPanelVisibilty } from '../../store/selected/types';
+import BuildRequestDetails from './buildrequest/BuildRequestDetails';
 
 function mapState(state: RootState) {
   return {
-    marketFactoryPanelVisibilty: marketFactoryPanelVisibiltySelector(state)
+    marketFactoryPanelVisibilty: marketFactoryPanelVisibiltySelector(state),
+    primaryFocusBuildRequest: primaryFocusBuildRequestSelector(state)
   };
 }
 
@@ -62,28 +67,42 @@ const useStyles = makeStyles(_ => ({
 function App(props: Props): JSX.Element {
   const classes = useStyles();
 
-  const { marketFactoryPanelVisibilty } = props;
+  const { marketFactoryPanelVisibilty, primaryFocusBuildRequest } = props;
 
   const MarketFactoryPanel = () => {
     switch (marketFactoryPanelVisibilty) {
       case MarketFactoryPanelVisibilty.Factory:
         return (
-          <Grid item xs={9}>
-            <Box width={1 / 3} className={classes.uiPrimaryGridElement}>
+          <Grid item xs={3}>
+            <Box className={classes.uiPrimaryGridElement}>
               <FactoryPanel />
             </Box>
           </Grid>
         );
       case MarketFactoryPanelVisibilty.Market:
         return (
-          <Grid item xs={9}>
-            <Box width={1 / 3} className={classes.uiPrimaryGridElement}>
+          <Grid item xs={3}>
+            <Box className={classes.uiPrimaryGridElement}>
               <MarketPanel />
             </Box>
           </Grid>
         );
       default:
-        return <Grid item xs={9}></Grid>;
+        return <Grid item xs={3}></Grid>;
+    }
+  };
+
+  const PrimaryFocusPanel = () => {
+    if (primaryFocusBuildRequest) {
+      return (
+        <Grid item xs={6}>
+          <Box className={classes.uiPrimaryGridElement}>
+            <BuildRequestDetails buildRequest={primaryFocusBuildRequest} />
+          </Box>
+        </Grid>
+      );
+    } else {
+      return <Grid item xs={6}></Grid>;
     }
   };
 
@@ -98,6 +117,7 @@ function App(props: Props): JSX.Element {
             </div>
           </Grid>
           <MarketFactoryPanel />
+          <PrimaryFocusPanel />
           <Grid item xs={3}>
             <div className={classes.uiPrimaryGridElement}>
               <SelectedPanel />

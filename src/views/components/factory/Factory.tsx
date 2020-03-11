@@ -9,7 +9,7 @@ import {
   ConnectedProps
 } from 'react-redux';
 import { RootState, RootDispatch } from '../../../store';
-import { unSelect } from '../../../store/selected/slice';
+import { unSelectServiceProvider } from '../../../store/selected/slice';
 import {
   factoryServiceProvidersSelector,
   factoryInputRegionSelector,
@@ -37,7 +37,7 @@ function mapState(state: RootState) {
 function mapDispatch(dispatch: RootDispatch) {
   return {
     onBasePlaneSelected: () => {
-      dispatch(unSelect());
+      dispatch(unSelectServiceProvider());
     },
     onInputRegionSelected: () => {
       console.log('Input region selected');

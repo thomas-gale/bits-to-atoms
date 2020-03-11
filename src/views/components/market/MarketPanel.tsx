@@ -8,7 +8,7 @@ import { isAllowedToBidSelector } from '../../../store/factory/selectors';
 
 import { Box, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import BuildRequest from './BuildRequest';
+import BuildRequest from './BuildRequestSummary';
 
 function mapState(state: RootState) {
   return {

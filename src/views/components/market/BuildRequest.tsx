@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { RootDispatch } from '../../../store';
 import { BuildRequest } from '../../../store/market/types';
 import { addActiveBuildRequest } from '../../../store/factory/slice';
-import { Button, Card, Grid, Grow } from '@material-ui/core';
+import { Button, Card, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 function mapDispatch(dispatch: RootDispatch) {

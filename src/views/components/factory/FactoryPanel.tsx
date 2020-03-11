@@ -2,12 +2,20 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState, RootDispatch } from '../../../store';
+import { setMarketFactoryPanelVisibilty } from '../../../store/selected/slice';
 import { factorySelector } from '../../../store/factory/selectors';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, CardContent } from '@material-ui/core';
+import {
+  Button,
+  Card,
+  Typography,
+  CardContent,
+  CardActions
+} from '@material-ui/core';
 import FactoryEconomicSummary from './panel/FactoryEconomicSummary';
 import ActiveBuildRequestsSummary from './panel/ActiveBuildRequestsSummary';
+import { MarketFactoryPanelVisibilty } from '../../../store/selected/types';
 
 function mapState(state: RootState) {
   return {
@@ -15,8 +23,14 @@ function mapState(state: RootState) {
   };
 }
 
-function mapDispatch(_dispatch: RootDispatch) {
-  return {};
+function mapDispatch(dispatch: RootDispatch) {
+  return {
+    onCloseClicked: () => {
+      dispatch(
+        setMarketFactoryPanelVisibilty(MarketFactoryPanelVisibilty.None)
+      );
+    }
+  };
 }
 
 const connector = connect(mapState, mapDispatch);
@@ -41,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 function FactoryPanel(props: Props): JSX.Element {
   const classes = useStyles();
 
-  const { factory } = props;
+  const { factory, onCloseClicked } = props;
 
   return (
     <Card className={classes.container}>
@@ -62,6 +76,11 @@ function FactoryPanel(props: Props): JSX.Element {
         <FactoryEconomicSummary />
         <ActiveBuildRequestsSummary />
       </CardContent>
+      <CardActions>
+        <Button color="primary" size="small" onClick={onCloseClicked}>
+          Close
+        </Button>
+      </CardActions>
     </Card>
   );
 }

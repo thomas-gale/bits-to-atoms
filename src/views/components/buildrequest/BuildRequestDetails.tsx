@@ -2,17 +2,28 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState, RootDispatch } from '../../../store';
+import { BuildRequest } from '../../../store/market/types';
+import { unSelectPrimaryFocusBuildRequest } from '../../../store/selected/slice';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, Typography, CardContent } from '@material-ui/core';
-import { BuildRequest } from '../../../store/market/types';
+import {
+  Button,
+  Card,
+  Typography,
+  CardContent,
+  CardActions
+} from '@material-ui/core';
 
 function mapState(_state: RootState) {
   return {};
 }
 
-function mapDispatch(_dispatch: RootDispatch) {
-  return {};
+function mapDispatch(dispatch: RootDispatch) {
+  return {
+    onCloseClicked: () => {
+      dispatch(unSelectPrimaryFocusBuildRequest());
+    }
+  };
 }
 
 const connector = connect(mapState, mapDispatch);
@@ -41,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 function BuildRequestDetails(props: Props): JSX.Element {
   const classes = useStyles();
 
-  const { buildRequest } = props;
+  const { buildRequest, onCloseClicked } = props;
 
   return (
     <Card className={classes.container}>
@@ -66,6 +77,11 @@ function BuildRequestDetails(props: Props): JSX.Element {
           Summary of Factory Auto Assigned Workflow (With current status)
         </Typography>
       </CardContent>
+      <CardActions>
+        <Button color="primary" size="small" onClick={onCloseClicked}>
+          Close
+        </Button>
+      </CardActions>
     </Card>
   );
 }

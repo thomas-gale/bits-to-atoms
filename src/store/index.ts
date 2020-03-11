@@ -3,7 +3,10 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
-import { simpleMarketSaga } from './market/sagas';
+import {
+  simpleMarketSaga,
+  watchRequestAddBuildRequestSaga
+} from './market/sagas';
 
 import { reducer as formReducer } from 'redux-form';
 import { marketReducer } from './market/slice';
@@ -11,7 +14,7 @@ import { factoryReducer } from './factory/slice';
 import { selectedReducer } from './selected/slice';
 
 function* rootSaga() {
-  yield all([simpleMarketSaga()]);
+  yield all([simpleMarketSaga(), watchRequestAddBuildRequestSaga()]);
 }
 
 const sagaMiddleware = createSagaMiddleware();

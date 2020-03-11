@@ -3,14 +3,14 @@ import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { RootDispatch } from '../../../store';
 import { BuildRequest } from '../../../store/market/types';
-import { addActiveBuildRequest } from '../../../store/factory/slice';
+import { requestBidBuildRequest } from '../../../store/market/slice';
 import { Button, Card, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 function mapDispatch(dispatch: RootDispatch) {
   return {
     onBidClicked: (buildRequest: BuildRequest) => {
-      dispatch(addActiveBuildRequest(buildRequest));
+      dispatch(requestBidBuildRequest(buildRequest));
     }
   };
 }

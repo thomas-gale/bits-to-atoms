@@ -12,8 +12,11 @@ const marketSlice = createSlice({
     setVisible(state, action: PayloadAction<boolean>) {
       state.visible = action.payload;
     },
-    toggleVisible(state, _: PayloadAction) {
+    toggleVisible(state, _action: PayloadAction) {
       state.visible = !state.visible;
+    },
+    requestBidBuildRequest(_state, _action: PayloadAction<BuildRequest>) {
+      // This action is picked up by middlewear saga for verification first.
     },
     addBuildRequest(state, action: PayloadAction<BuildRequest>) {
       state.buildRequests.push(action.payload);
@@ -33,6 +36,7 @@ const marketSlice = createSlice({
 export const {
   setVisible,
   toggleVisible,
+  requestBidBuildRequest,
   addBuildRequest,
   removeBuildRequest
 } = marketSlice.actions;

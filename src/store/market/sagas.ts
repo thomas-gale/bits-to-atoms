@@ -1,12 +1,23 @@
-import { delay, put, select } from 'redux-saga/effects';
-import { addBuildRequest, removeBuildRequest } from './slice';
+import { delay, put, select, takeEvery } from 'redux-saga/effects';
+import { PayloadAction } from '@reduxjs/toolkit';
+
+import { config } from '../../env/config';
 import { PartType, BuildRequest } from './types';
+
 import { createNewIdentity } from '../common/identity/factories';
 import { createSimplePolymerMaterial } from '../material/factories';
 import { createLiquidAsset } from '../economic/factories';
 import { createBuildRequest } from './factories';
-import { config } from '../../env/config';
+
 import { buildRequestsSelector } from './selectors';
+import { isAllowedToBidSelector } from '../factory/selectors';
+
+import {
+  requestBidBuildRequest,
+  addBuildRequest,
+  removeBuildRequest
+} from './slice';
+import { addActiveBuildRequest } from '../factory/slice';
 
 /**
  * Helper function to sample randomly part names.
@@ -70,4 +81,27 @@ export function* simpleMarketSaga() {
       getRandomFromIntRange(config.market.simpleMarketSaga.processingDelayRange)
     );
   }
+}
+
+export function* buildRequestBidSaga(
+  requestBidBuildRequest: PayloadAction<BuildRequest>
+) {
+  const buildRequest = requestBidBuildRequest.payload;
+
+  // First Check that the factory is able to make this request (the UI should be disabled if that's the case)
+  // E.g is the number of active build requests more than maximum.
+  const isAllowedToBid = (yield select(isAllowedToBidSelector)) as boolean;
+
+  // If the factory entity was allowed to bid
+  if (isAllowedToBid) {
+    // Remove the build request from the list in the Market
+    yield put(removeBuildRequest(buildRequest.identity));
+
+    // Add the Build Request to the Factory's active build requests.
+    yield put(addActiveBuildRequest(buildRequest));
+  }
+}
+
+export function* watchRequestAddBuildRequestSaga() {
+  yield takeEvery(requestBidBuildRequest.type, buildRequestBidSaga);
 }

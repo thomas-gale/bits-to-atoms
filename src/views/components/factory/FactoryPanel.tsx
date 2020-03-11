@@ -2,16 +2,17 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState, RootDispatch } from '../../../store';
-//import { selectedServiceProviderSelector } from '../../../store/selected/selectors';
+import { factorySelector } from '../../../store/factory/selectors';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
-//import IdentityForm from './form/entity/IdentityForm';
-//import LocationForm from './form/entity/LocationForm';
-//import OrientationForm from './form/entity/OrientationForm';
+import FactoryEconomicSummary from './panel/FactoryEconomicSummary';
+import ActiveBuildRequestsSummary from './panel/ActiveBuildRequestsSummary';
 
-function mapState(_state: RootState) {
-  return {};
+function mapState(state: RootState) {
+  return {
+    factory: factorySelector(state)
+  };
 }
 
 function mapDispatch(_dispatch: RootDispatch) {
@@ -37,10 +38,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function FactoryPanel(_props: Props): JSX.Element {
+function FactoryPanel(props: Props): JSX.Element {
   const classes = useStyles();
 
-  //const { selected } = props;
+  const { factory } = props;
 
   return (
     <Card className={classes.container}>
@@ -50,13 +51,16 @@ function FactoryPanel(_props: Props): JSX.Element {
           color="textSecondary"
           gutterBottom
         >
-          Factory
+          Factory Overview
         </Typography>
-        {/* 
-        <IdentityForm />
-        <LocationForm />
-        <OrientationForm />
-        */}
+        <Typography variant="h5" component="h2">
+          {factory.identity.displayName}
+        </Typography>
+        <Typography className={classes.pos} color="textSecondary">
+          {factory.identity.uuid}
+        </Typography>
+        <FactoryEconomicSummary />
+        <ActiveBuildRequestsSummary />
       </CardContent>
     </Card>
   );

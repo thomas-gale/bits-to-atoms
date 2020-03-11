@@ -5,7 +5,7 @@ import { MarketFactoryPanelVisibilty } from './types';
 const selectedSlice = createSlice({
   name: 'selected',
   initialState: {
-    marketFactoryPanelVisibilty: MarketFactoryPanelVisibilty.None,
+    marketFactoryPanelVisibilty: MarketFactoryPanelVisibilty.Factory,
     selectedServiceProviderId: undefined as Identity | undefined
   },
   reducers: {

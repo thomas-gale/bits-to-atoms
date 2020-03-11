@@ -1,4 +1,5 @@
 # bits-to-atoms
+[![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")](https://github.com/ThomasGale/bits-to-atoms/actions?query=workflow%3ACI) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ThomasGale_bits-to-atoms&metric=alert_status)](https://sonarcloud.io/dashboard?id=ThomasGale_bits-to-atoms) [![license](https://img.shields.io/github/license/thomasgale/bits-to-atoms)](https://github.com/ThomasGale/bits-to-atoms/blob/master/LICENSE)  
 🏭📈 Nimble, market-driven, micro-factories. 🚧 Pre-alpha!
 
 ## Vision 1.0 (Virtual)
@@ -25,13 +26,16 @@
 ## Vision Todo: Add a nice infographic
 
 # Development
-![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")
 
 ## Tech Stack
 - Typescript
 - React (react-spring)
 - Redux (redux-saga, reselect, redux-form)
 - Three (react-three-fiber)
+
+## Contributing
+Everything is subject to radical change... (the ultimate vision of the project is still forming)  
+Issues, ideas and PRs welcome nevertheless.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## Available Scripts

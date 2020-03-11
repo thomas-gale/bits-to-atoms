@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import TimelineIcon from '@material-ui/icons/Timeline';
+import BusinessIcon from '@material-ui/icons/Business';
 
 import { RootState, RootDispatch } from '../../store';
 import { config } from '../../env/config';
@@ -59,11 +60,21 @@ function TopNav(props: Props): JSX.Element {
             edge="start"
             className={classes.menuButton}
             color="inherit"
+            aria-label="factory"
+            onClick={_ => { console.log('Factory info selected.')}}
+          >
+            <BusinessIcon />
+          </IconButton>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
             aria-label="markets"
             onClick={_ => props.toggleMarketVisible()}
           >
             <TimelineIcon />
           </IconButton>
+
           <Typography variant="h6" className={classes.title}>
             {factory.identity.displayName} : {factory.identity.uuid}
           </Typography>

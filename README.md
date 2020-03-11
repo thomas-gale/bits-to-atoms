@@ -25,7 +25,7 @@
 ## Vision Todo: Add a nice infographic
 
 # Development
-![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")
+[![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")](https://github.com/ThomasGale/bits-to-atoms/actions?query=workflow%3ACI)
 
 ## Tech Stack
 - Typescript

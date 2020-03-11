@@ -61,7 +61,9 @@ function TopNav(props: Props): JSX.Element {
             className={classes.menuButton}
             color="inherit"
             aria-label="factory"
-            onClick={_ => { console.log('Factory info selected.')}}
+            onClick={_ => {
+              console.log('Factory info selected.');
+            }}
           >
             <BusinessIcon />
           </IconButton>
@@ -81,7 +83,7 @@ function TopNav(props: Props): JSX.Element {
           <IconButton
             color="inherit"
             aria-label="github"
-            href={config.gitHubURL}
+            href={config.topNav.gitHubURL}
           >
             <GitHubIcon />
           </IconButton>

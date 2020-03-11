@@ -1,5 +1,7 @@
 export const config = {
-  gitHubURL: 'https://github.com/ThomasGale/bits-to-atoms',
+  topNav: {
+    gitHubURL: 'https://github.com/ThomasGale/bits-to-atoms'
+  },
   market: {
     simpleMarketSaga: {
       partNames: [

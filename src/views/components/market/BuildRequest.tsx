@@ -46,57 +46,51 @@ function BuildRequestElement(props: Props) {
   const { identity, created, fixedValue } = props.buildRequest;
 
   return (
-    <Grow in={true}>
-      <Card className={classes.root}>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          Build Request
-        </Typography>
-        <Typography variant="h5" component="h2">
-          {identity.displayName}
-        </Typography>
-        <Typography className={classes.subTitle} color="textSecondary">
-          {identity.uuid}
-        </Typography>
-        <Typography color="textSecondary">
-          Created: {created.toLocaleTimeString()}
-        </Typography>
+    <Card className={classes.root}>
+      <Typography className={classes.title} color="textSecondary" gutterBottom>
+        Build Request
+      </Typography>
+      <Typography variant="h5" component="h2">
+        {identity.displayName}
+      </Typography>
+      <Typography className={classes.subTitle} color="textSecondary">
+        {identity.uuid}
+      </Typography>
+      <Typography color="textSecondary">
+        Created: {created.toLocaleTimeString()}
+      </Typography>
 
-        <Grid
-          className={classes.footer}
-          container
-          spacing={2}
-          direction="row"
-          justify="flex-start"
-          alignItems="center"
-        >
-          <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={_ => onBidClicked(props.buildRequest)}
-              disabled={!isAllowedToBid}
-            >
-              Bid
-            </Button>
-          </Grid>
-          <Grid item>
-            <Typography color="textSecondary">
-              Value: ${fixedValue.dollars}
-            </Typography>
-          </Grid>
+      <Grid
+        className={classes.footer}
+        container
+        spacing={2}
+        direction="row"
+        justify="flex-start"
+        alignItems="center"
+      >
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={_ => onBidClicked(props.buildRequest)}
+            disabled={!isAllowedToBid}
+          >
+            Bid
+          </Button>
         </Grid>
-        {!isAllowedToBid && (
+        <Grid item>
           <Typography color="textSecondary">
-            Bidding disabled - factory at max capacity
+            Value: ${fixedValue.dollars}
           </Typography>
-        )}
-      </Card>
-    </Grow>
+        </Grid>
+      </Grid>
+      {!isAllowedToBid && (
+        <Typography color="textSecondary">
+          Bidding disabled - factory at max capacity
+        </Typography>
+      )}
+    </Card>
   );
 }
 

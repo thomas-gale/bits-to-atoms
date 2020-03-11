@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { animated, useTransition } from 'react-spring';
 
 import { RootState } from '../../../store';
 import { buildRequestsSelector } from '../../../store/market/selectors';
@@ -33,16 +34,25 @@ function MarketPanel(props: Props): JSX.Element {
   const classes = useStyles();
   const { buildRequests, isAllowedToBid } = props;
 
+  const transBuildRequests = useTransition(
+    buildRequests,
+    buildRequests => buildRequests.identity.uuid,
+    {
+      initial: { transform: 'translate3d(0%, 0%,0) scale(1)' },
+      from: { transform: 'translate3d(0%,-50%,0) scale(0)' },
+      enter: { transform: 'translate3d(0%, 0%,0) scale(1)' },
+      leave: { transform: 'translate3d(0%,-50%,0) scale(0)' }
+    }
+  );
+  const AnimatedGrid = animated(Grid);
+
   return (
     <Box className={classes.container}>
       <Grid container spacing={3}>
-        {buildRequests.map(buildRequest => (
-          <Grid item xs={12} key={buildRequest.identity.uuid}>
-            <BuildRequest
-              isAllowedToBid={isAllowedToBid}
-              buildRequest={buildRequest}
-            />
-          </Grid>
+        {transBuildRequests.map(({ item, props, key }) => (
+          <AnimatedGrid item xs={12} key={key} style={props}>
+            <BuildRequest isAllowedToBid={isAllowedToBid} buildRequest={item} />
+          </AnimatedGrid>
         ))}
       </Grid>
     </Box>

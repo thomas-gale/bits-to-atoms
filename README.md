@@ -27,6 +27,9 @@
 # Development
 [![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")](https://github.com/ThomasGale/bits-to-atoms/actions?query=workflow%3ACI)
 
+## Licence 
+[![license](https://img.shields.io/github/license/thomasgale/bits-to-atoms)](https://github.com/ThomasGale/bits-to-atoms/blob/master/LICENSE)
+
 ## Tech Stack
 - Typescript
 - React (react-spring)

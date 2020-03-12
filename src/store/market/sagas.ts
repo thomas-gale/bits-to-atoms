@@ -2,7 +2,7 @@ import { delay, put, select, takeEvery } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import { config } from '../../env/config';
-import { PartType, BuildRequest } from '../buildrequest/types';
+import { BuildRequest } from '../buildrequest/types';
 
 import { createNewIdentity } from '../common/identity/factories';
 import { createSimplePolymerMaterial } from '../material/factories';
@@ -60,7 +60,7 @@ export function* simpleMarketSaga() {
       yield put(removeBuildRequest(oldestBuildRequest.identity));
     } else {
       // Add a new build request to the market.
-      const sizeAndValue = getRandomFromIntRange(
+      const value = getRandomFromIntRange(
         config.market.simpleMarketSaga.partValueRange
       );
       yield put(
@@ -68,9 +68,8 @@ export function* simpleMarketSaga() {
           createBuildRequest({
             identity: createNewIdentity({ displayName: getRandomPartName() }),
             material: createSimplePolymerMaterial(),
-            fixedValue: createLiquidAsset({ dollars: sizeAndValue }),
-            type: PartType.Cube,
-            size: sizeAndValue
+            fixedValue: createLiquidAsset({ dollars: value }),
+            scale: value * 0.01
           })
         )
       );

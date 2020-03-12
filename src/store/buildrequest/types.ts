@@ -1,16 +1,13 @@
 import { Identity } from '../common/identity/types';
 import { Material } from '../material/types';
 import { LiquidAsset } from '../economic/types';
-
-export enum PartType {
-  Cube
-}
+import { BasicShape } from '../common/topology/types';
 
 export interface BuildRequest {
   identity: Identity;
   created: Date;
   material: Material;
-  type: PartType;
-  size: number;
+  endShape: BasicShape;
+  scale: number;
   fixedValue: LiquidAsset;
 }

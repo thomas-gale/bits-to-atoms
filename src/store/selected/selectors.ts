@@ -9,7 +9,7 @@ import {
   factoryServiceProvidersSelector,
   factoryActiveBuildRequestsSelector
 } from '../factory/selectors';
-import { BuildRequest } from '../market/types';
+import { BuildRequest } from '../buildrequest/types';
 
 export const selectedSelector = (state: RootState) => state.selected;
 

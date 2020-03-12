@@ -9,7 +9,7 @@ import { createFFFPrinter } from './services/fffprinter/factories';
 import { createLiquidAsset, createFixedAsset } from '../economic/factories';
 import { createInputRegion, createOutputRegion } from './boundaries/factories';
 import { createEntity } from './entity/factories';
-import { BuildRequest } from '../market/types';
+import { BuildRequest } from '../buildrequest/types';
 
 export function createFactory({
   identity = createNewIdentity({ displayName: 'default-factory' }),

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Identity } from '../common/identity/types';
 import { createFactory } from './factories';
 import { Parameter } from '../common/parameter/types';
-import { BuildRequest } from '../market/types';
+import { BuildRequest } from '../buildrequest/types';
 
 const factorySlice = createSlice({
   name: 'factory',

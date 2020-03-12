@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState, RootDispatch } from '../../../store';
-import { BuildRequest } from '../../../store/market/types';
+import { BuildRequest } from '../../../store/buildrequest/types';
 import { unSelectPrimaryFocusBuildRequest } from '../../../store/selected/slice';
 
 import { makeStyles } from '@material-ui/core/styles';

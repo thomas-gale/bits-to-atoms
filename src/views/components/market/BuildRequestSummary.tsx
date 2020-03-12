@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { RootDispatch } from '../../../store';
-import { BuildRequest } from '../../../store/market/types';
+import { BuildRequest } from '../../../store/buildrequest/types';
 import { requestBidBuildRequest } from '../../../store/market/slice';
 import { Button, Card, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';

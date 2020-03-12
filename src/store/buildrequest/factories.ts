@@ -1,6 +1,6 @@
+import { PartType, BuildRequest } from './types';
 import { createNewIdentity } from '../common/identity/factories';
 import { createSimplePolymerMaterial } from '../material/factories';
-import { PartType, BuildRequest } from './types';
 import { createLiquidAsset } from '../economic/factories';
 
 export function createBuildRequest({

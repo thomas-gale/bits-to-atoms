@@ -5,7 +5,7 @@ import { InputRegion, OutputRegion } from './boundaries/types';
 import { EconomicSummary, Asset } from '../economic/types';
 import { ServiceProvider } from './services/types';
 import { createLiquidAsset } from '../economic/factories';
-import { BuildRequest } from '../market/types';
+import { BuildRequest } from '../buildrequest/types';
 import { config } from '../../env/config';
 
 export const factorySelector = (state: RootState) => state.factory;

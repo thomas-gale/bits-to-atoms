@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { BuildRequest, Market } from './types';
+import { Market } from './types';
+import { BuildRequest } from '../buildrequest/types';
 import { Identity } from '../common/identity/types';
 
 const marketSlice = createSlice({

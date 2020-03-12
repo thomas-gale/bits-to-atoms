@@ -2,12 +2,12 @@ import { delay, put, select, takeEvery } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import { config } from '../../env/config';
-import { PartType, BuildRequest } from './types';
+import { PartType, BuildRequest } from '../buildrequest/types';
 
 import { createNewIdentity } from '../common/identity/factories';
 import { createSimplePolymerMaterial } from '../material/factories';
 import { createLiquidAsset } from '../economic/factories';
-import { createBuildRequest } from './factories';
+import { createBuildRequest } from '../buildrequest/factories';
 
 import { buildRequestsSelector } from './selectors';
 import { isAllowedToBidSelector } from '../factory/selectors';

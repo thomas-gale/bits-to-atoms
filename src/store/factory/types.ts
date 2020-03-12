@@ -1,5 +1,5 @@
 import { Identity } from '../common/identity/types';
-import { BuildRequest } from '../market/types';
+import { BuildRequest } from '../buildrequest/types';
 import { OutputRegion, InputRegion } from './boundaries/types';
 import { Asset } from '../economic/types';
 import { ServiceProvider } from './services/types';

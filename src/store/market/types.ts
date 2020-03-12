@@ -1,19 +1,4 @@
-import { Identity } from '../common/identity/types';
-import { LiquidAsset } from '../economic/types';
-import { Material } from '../material/types';
-
-export enum PartType {
-  Cube
-}
-
-export interface BuildRequest {
-  identity: Identity;
-  created: Date;
-  material: Material;
-  type: PartType;
-  size: number;
-  fixedValue: LiquidAsset;
-}
+import { BuildRequest } from '../buildrequest/types';
 
 export interface Market {
   visible: boolean;

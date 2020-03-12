@@ -5,14 +5,18 @@ import { config } from '../../../../env/config';
 import { RootState, RootDispatch } from '../../../../store';
 import { Identity } from '../../../../store/common/identity/types';
 import { setSelectedPrimaryFocusBuildRequest } from '../../../../store/selected/slice';
-import { factoryActiveBuildRequestsSelector } from '../../../../store/factory/selectors';
+import {
+  factoryActiveBuildRequestsSelector,
+  isAllowedToBidSelector
+} from '../../../../store/factory/selectors';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Card, Typography, CardContent } from '@material-ui/core';
 
 function mapState(state: RootState) {
   return {
-    activeBuildRequests: factoryActiveBuildRequestsSelector(state)
+    activeBuildRequests: factoryActiveBuildRequestsSelector(state),
+    isAllowedToBid: isAllowedToBidSelector(state)
   };
 }
 
@@ -43,7 +47,11 @@ const useStyles = makeStyles(_theme => ({
 function ActiveBuildRequestsSummary(props: Props): JSX.Element {
   const classes = useStyles();
 
-  const { activeBuildRequests, onActiveBuildRequestSelected } = props;
+  const {
+    activeBuildRequests,
+    isAllowedToBid,
+    onActiveBuildRequestSelected
+  } = props;
 
   return (
     <Card className={classes.container}>
@@ -53,9 +61,19 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
           color="textSecondary"
           gutterBottom
         >
-          Active Build Requests (max factory capacity{' '}
-          {config.factory.maxNumberActiveBuilds})
+          Active Build Requests
         </Typography>
+        {!isAllowedToBid ? (
+          <Typography
+            className={classes.title}
+            color="textPrimary"
+            gutterBottom
+          >
+            at max factory capacity ({config.factory.maxNumberActiveBuilds})
+          </Typography>
+        ) : (
+          <div />
+        )}
         {activeBuildRequests.length > 0 ? (
           activeBuildRequests.map(activeBuildRequest => (
             <div key={activeBuildRequest.identity.uuid}>

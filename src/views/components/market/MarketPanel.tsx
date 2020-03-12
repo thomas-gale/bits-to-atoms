@@ -38,21 +38,25 @@ function MarketPanel(props: Props): JSX.Element {
     buildRequests,
     buildRequests => buildRequests.identity.uuid,
     {
-      initial: { transform: 'translate3d(0%, 0%,0) scale(1)' },
-      from: { transform: 'translate3d(0%,-50%,0) scale(0)' },
-      enter: { transform: 'translate3d(0%, 0%,0) scale(1)' },
-      leave: { transform: 'translate3d(0%,-50%,0) scale(0)' }
+      initial: { transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
+      from: { transform: 'translate3d(0%,-50%,0) scale(0)', opacity: 0 },
+      enter: { transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
+      leave: { transform: 'translate3d(0%,-50%,0) scale(0)', opacity: 0 }
     }
   );
-  const AnimatedGrid = animated(Grid);
 
   return (
     <Box className={classes.container}>
       <Grid container spacing={3}>
         {transBuildRequests.map(({ item, props, key }) => (
-          <AnimatedGrid item xs={12} key={key} style={props}>
-            <BuildRequest isAllowedToBid={isAllowedToBid} buildRequest={item} />
-          </AnimatedGrid>
+          <Grid item xs={12} key={key}>
+            <animated.div key={key} style={props}>
+              <BuildRequest
+                isAllowedToBid={isAllowedToBid}
+                buildRequest={item}
+              />
+            </animated.div>
+          </Grid>
         ))}
       </Grid>
     </Box>

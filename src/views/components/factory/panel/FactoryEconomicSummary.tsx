@@ -45,8 +45,7 @@ function FactoryEconomicSummary(props: Props): JSX.Element {
           Economic Summary
         </Typography>
         <Typography color="textPrimary">
-          Current Assets Total Value: $
-          {factoryEconomicSummary.currentAssetsValue.dollars}
+          Liquid Assets: ${factoryEconomicSummary.currentAssetsValue.dollars}
         </Typography>
         <Typography color="textPrimary">
           Total In: ${factoryEconomicSummary.totalIn.dollars}

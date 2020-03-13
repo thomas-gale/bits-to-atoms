@@ -9,12 +9,10 @@ import {
 import { config } from '../../env/config';
 import {
   factoryLiquidAssetSelector,
-  currentServiceProviderCostPerTimeSelector,
-  factoryTransmutationServiceProvidersSelector
+  currentServiceProviderCostPerTimeSelector
 } from './selectors';
 import { LiquidAsset } from '../economic/types';
 import { createLiquidAsset } from '../economic/factories';
-import { TransmutationServiceProvider } from './services/types';
 import {
   createWorkflow,
   createTransmutationActivity
@@ -73,16 +71,16 @@ function* processAddActiveBuildRequestSaga(
   console.log(
     'Computing the required workflow for this build request (given the current active transmutation service providers in the factory)'
   );
-  const factoryTransmutationServiceProviders = (yield select(
-    factoryTransmutationServiceProvidersSelector
-  )) as TransmutationServiceProvider[];
-
-  // Filter the service providers to the ones with compatible materials. examine the build request desired end shape and material.
-  //const materialCompatableTransSPs = factoryTransmutationServiceProviders.filter(sp => sp.supportedMaterials.find(m => m === buildRequest.material.type));
 
   // TODO: Perform a depth first tree search for transmutation path looking at compatible states.
+  //
+  //    const factoryTransmutationServiceProviders = (yield select(
+  //      factoryTransmutationServiceProvidersSelector
+  //    )) as TransmutationServiceProvider[];
+  //    E.g. Filter the service providers to the ones with compatible materials. examine the build request desired end shape and material.
+  //         const materialCompatableTransSPs = factoryTransmutationServiceProviders.filter(sp => sp.supportedMaterials.find(m => m === buildRequest.material.type));
 
-  // Hack for now - to a know flow for the basic polymer cube part (which is the only thing the simulated market is requesting for now.)
+  // Hack for now - to a known hardcoded flow for the basic polymer cube part (which is the only thing the simulated market is requesting for now.)
   if (
     !(
       buildRequest.material.type === MaterialType.SimplePolymer &&
@@ -112,18 +110,19 @@ function* processAddActiveBuildRequestSaga(
     ]
   });
 
-  // Send out this new workflow.
+  console.log(
+    `Workflow computed Id: ${computedWorkflow.identity.uuid} with ${computedWorkflow.activities.length} steps`
+  );
+
+  // Send out this workflow update.
   yield put(
     updateActiveBuildRequestWorkflow({
       buildRequestId: buildRequest.identity,
       workflow: computedWorkflow
     })
   );
-
-  // This will involve updating the workflow / actions
-  // Service providers are automatically looking out for compatible un-allocated actions from the factory.
 }
 
-export function* watchAddActiveBuildRequestSaga() {
+export function* factoryWatchAddActiveBuildRequestSaga() {
   yield takeEvery(addActiveBuildRequest.type, processAddActiveBuildRequestSaga);
 }

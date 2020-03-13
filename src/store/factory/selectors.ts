@@ -10,7 +10,7 @@ import {
 import { createLiquidAsset } from '../economic/factories';
 import { BuildRequest } from '../buildrequest/types';
 import { config } from '../../env/config';
-import { ActivityType } from '../workflow/types';
+import { ActivityType, Activity } from '../workflow/types';
 
 export const factorySelector = (state: RootState) => state.factory;
 
@@ -18,6 +18,22 @@ export const factoryActiveBuildRequestsSelector = createSelector(
   [factorySelector],
   (factory: Factory): BuildRequest[] => {
     return factory.activeBuildRequests;
+  }
+);
+
+export const factoryUnAllocatedActivitiesSelector = createSelector(
+  [factoryActiveBuildRequestsSelector],
+  (activeBuildRequests: BuildRequest[]): Activity[] => {
+    // Loop over active build request and each workflow.
+    const unAllocatedActivities = [] as Activity[];
+    activeBuildRequests.forEach(activeBuildRequest => {
+      activeBuildRequest.workflow?.activities.forEach(activity => {
+        if (activity.serviceProviderId === undefined) {
+          unAllocatedActivities.push(activity);
+        }
+      });
+    });
+    return unAllocatedActivities;
   }
 );
 

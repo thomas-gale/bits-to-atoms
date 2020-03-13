@@ -1,6 +1,10 @@
-//import { delay, takeEvery } from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
+import { fffPrinterWatchWorkflowUpdatesSaga } from './fffprinter/sagas';
+import { humanWorkerWatchWorkflowUpdatesSaga } from './humanworker/sagas';
 
-export function* watchNewRequiredWorkflowsSaga() {
-  // Service providers are automatically looking out for compatible un-allocated workflows / actions from the factory.
-  //yield takeEvery(requestBidBuildRequest.type, buildRequestBidSaga);
+export function* serviceProvidersWatchWorkflowUpdatesSaga() {
+  yield all([
+    fffPrinterWatchWorkflowUpdatesSaga(),
+    humanWorkerWatchWorkflowUpdatesSaga()
+  ]);
 }

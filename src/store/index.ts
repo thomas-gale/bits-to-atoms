@@ -14,15 +14,17 @@ import { factoryReducer } from './factory/slice';
 import { selectedReducer } from './selected/slice';
 import {
   factoryUpdateTickSaga,
-  watchAddActiveBuildRequestSaga
+  factoryWatchAddActiveBuildRequestSaga
 } from './factory/sagas';
+import { serviceProvidersWatchWorkflowUpdatesSaga } from './factory/services/sagas';
 
 function* rootSaga() {
   yield all([
     simpleMarketSaga(),
     watchRequestAddBuildRequestSaga(),
     factoryUpdateTickSaga(),
-    watchAddActiveBuildRequestSaga()
+    factoryWatchAddActiveBuildRequestSaga(),
+    serviceProvidersWatchWorkflowUpdatesSaga()
   ]);
 }
 

@@ -2,6 +2,7 @@ import { Entity } from '../entity/types';
 import { MaterialType } from '../../material/types';
 import { Cuboid } from '../../common/primitive/types';
 import { LiquidAsset } from '../../economic/types';
+import { BasicShape } from '../../common/topology/types';
 
 export enum ServiceType {
   Floorspace = 'Floorspace',
@@ -24,6 +25,8 @@ export interface TransportServiceProvider extends BaseServiceProvider {
 }
 
 export interface TransmutationServiceProvider extends BaseServiceProvider {
+  supportedInputTopologies: BasicShape[];
+  supportedOutputTopologies: BasicShape[];
   supportedMaterials: MaterialType[];
   outputVolume: Cuboid;
 }

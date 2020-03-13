@@ -9,6 +9,7 @@ import {
   createCuboid
 } from '../../../common/primitive/factories';
 import { createLiquidAsset } from '../../../economic/factories';
+import { BasicShape } from '../../../common/topology/types';
 
 export function createHumanWorker({
   id = createNewIdentity({ displayName: 'default-humanworker' }),
@@ -21,6 +22,8 @@ export function createHumanWorker({
   currentCostPerTime = createLiquidAsset({ dollars: 1e-4 }),
   capactityMass = 5,
   movementVelocity = 0.5,
+  supportedInputTopologies = [BasicShape.RoughCube, BasicShape.RoughCylinder],
+  supportedOutputTopologies = [BasicShape.Cube, BasicShape.Cylinder],
   supportedMaterials = [MaterialType.SimplePolymer],
   outputVolume = createCuboid()
 } = {}): HumanWorker {
@@ -33,6 +36,8 @@ export function createHumanWorker({
     currentCostPerTime,
     capactityMass,
     movementVelocity,
+    supportedInputTopologies,
+    supportedOutputTopologies,
     supportedMaterials,
     outputVolume
   };

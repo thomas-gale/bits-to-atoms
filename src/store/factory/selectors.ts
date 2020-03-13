@@ -7,6 +7,7 @@ import { ServiceProvider } from './services/types';
 import { createLiquidAsset } from '../economic/factories';
 import { BuildRequest } from '../buildrequest/types';
 import { config } from '../../env/config';
+import { ActivityType } from '../workflow/types';
 
 export const factorySelector = (state: RootState) => state.factory;
 
@@ -51,6 +52,17 @@ export const factoryServiceProvidersSelector = createSelector(
   [factorySelector],
   (factory: Factory): ServiceProvider[] => {
     return factory.serviceProviders;
+  }
+);
+
+export const factoryTransmutationServiceProvidersSelector = createSelector(
+  [factoryServiceProvidersSelector],
+  (factoryServiceProviders: ServiceProvider[]): ServiceProvider[] => {
+    return factoryServiceProviders.filter(
+      sp =>
+        sp.capabilities.find(cap => cap === ActivityType.Transmutation) !==
+        undefined
+    );
   }
 );
 

@@ -5,10 +5,12 @@ import { addActiveBuildRequest, setLiquidAsset } from './slice';
 import { config } from '../../env/config';
 import {
   factoryLiquidAssetSelector,
-  currentServiceProviderCostPerTimeSelector
+  currentServiceProviderCostPerTimeSelector,
+  factoryTransmutationServiceProvidersSelector
 } from './selectors';
 import { LiquidAsset } from '../economic/types';
 import { createLiquidAsset } from '../economic/factories';
+import { ServiceProvider } from './services/types';
 
 export function* factoryUpdateTickSaga() {
   const updateDelayMs = config.factory.updatePeriodMs;
@@ -55,11 +57,15 @@ function* processAddActiveBuildRequestSaga(
     `Processing recently added active build request ${buildRequest.identity.uuid}`
   );
 
-  console.log(
-    'Check / take any new build requests added to active build request list by user'
-  );
+  // Examine the build request desired end shape and material.
 
-  yield delay(1000);
+  // Perform a nice tree search for transmutation path. (hacked for now) to match current service providers to the
+  const factoryTransmutationServiceProviders = (yield select(
+    factoryTransmutationServiceProvidersSelector
+  )) as ServiceProvider[];
+
+  
+
   console.log(
     'Compute the required workflow for this build request (given the current active service providers in the factory'
   );

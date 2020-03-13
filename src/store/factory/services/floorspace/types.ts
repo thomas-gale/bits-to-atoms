@@ -1,3 +1,5 @@
-import { StorageServiceProvider } from '../types';
+import { StorageServiceProvider, ServiceType } from '../types';
 
-export type FloorSpace = StorageServiceProvider;
+export interface FloorSpace extends StorageServiceProvider {
+  type: ServiceType.Floorspace;
+}

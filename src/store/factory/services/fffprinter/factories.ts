@@ -10,8 +10,10 @@ import {
 } from '../../../common/primitive/factories';
 import { createLiquidAsset } from '../../../economic/factories';
 import { BasicShape } from '../../../common/topology/types';
+import { ActivityType } from '../../../workflow/types';
 
 export function createFFFPrinter({
+  capabilities = [ActivityType.Transmutation],
   id = createNewIdentity({ displayName: 'default-fff-printer' }),
   location = createVector3(),
   orientation = createQuaternion(),
@@ -27,6 +29,7 @@ export function createFFFPrinter({
 } = {}): FFFPrinter {
   return {
     type: ServiceType.FFFPrinter,
+    capabilities,
     id,
     location,
     orientation,

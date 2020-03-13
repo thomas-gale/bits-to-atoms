@@ -1,8 +1,11 @@
 import {
   TransportServiceProvider,
-  TransmutationServiceProvider
+  TransmutationServiceProvider,
+  ServiceType
 } from '../types';
 
 export interface HumanWorker
   extends TransportServiceProvider,
-    TransmutationServiceProvider {}
+    TransmutationServiceProvider {
+  type: ServiceType.HumanWorker;
+}

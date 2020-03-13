@@ -10,8 +10,10 @@ import {
 } from '../../../common/primitive/factories';
 import { createLiquidAsset } from '../../../economic/factories';
 import { BasicShape } from '../../../common/topology/types';
+import { ActivityType } from '../../../workflow/types';
 
 export function createHumanWorker({
+  capabilities = [ActivityType.Transportation, ActivityType.Transmutation],
   id = createNewIdentity({ displayName: 'default-humanworker' }),
   location = createVector3(),
   orientation = createQuaternion(),
@@ -29,6 +31,7 @@ export function createHumanWorker({
 } = {}): HumanWorker {
   return {
     type: ServiceType.HumanWorker,
+    capabilities,
     id,
     location,
     orientation,

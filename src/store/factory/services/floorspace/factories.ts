@@ -7,8 +7,10 @@ import {
 import { ServiceType } from '../types';
 import { FloorSpace } from './types';
 import { createLiquidAsset } from '../../../economic/factories';
+import { ActivityType } from '../../../workflow/types';
 
 export const createFloorSpace = ({
+  capabilities = [ActivityType.Storage],
   id = createNewIdentity({ displayName: 'default-floorspace' }),
   location = createVector3(),
   orientation = createQuaternion(),
@@ -20,6 +22,7 @@ export const createFloorSpace = ({
 } = {}): FloorSpace => {
   return {
     type: ServiceType.Floorspace,
+    capabilities,
     id,
     location,
     orientation,

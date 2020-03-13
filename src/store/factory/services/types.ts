@@ -3,6 +3,7 @@ import { MaterialType } from '../../material/types';
 import { Cuboid } from '../../common/primitive/types';
 import { LiquidAsset } from '../../economic/types';
 import { BasicShape } from '../../common/topology/types';
+import { ActivityType } from '../../workflow/types';
 
 export enum ServiceType {
   Floorspace = 'Floorspace',
@@ -14,6 +15,7 @@ export enum ServiceType {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface BaseServiceProvider extends Entity<any> {
   type: ServiceType;
+  capabilities: ActivityType[];
   currentCostPerTime: LiquidAsset;
 }
 

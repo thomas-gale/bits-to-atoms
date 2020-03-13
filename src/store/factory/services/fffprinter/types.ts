@@ -1,3 +1,5 @@
-import { TransmutationServiceProvider } from '../types';
+import { TransmutationServiceProvider, ServiceType } from '../types';
 
-export type FFFPrinter = TransmutationServiceProvider;
+export interface FFFPrinter extends TransmutationServiceProvider {
+  type: ServiceType.FFFPrinter;
+}

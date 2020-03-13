@@ -1,21 +1,21 @@
 import { Identity } from '../common/identity/types';
-import { ServiceProvider } from '../factory/services/types';
-import { Vector3 } from 'three/src/math/Vector3';
-import { Material } from 'three';
+import { Vector3 } from '../common/primitive/types';
+import { BasicShape } from '../common/topology/types';
+import { Material } from '../material/types';
 
 export enum ActivityType {
   MaterialAquisition,
   Transportation,
   Transmutation,
-  Preparation
+  Storage
 }
 
 interface BaseActivity {
   identity: Identity;
   type: ActivityType;
-  serviceProvider: ServiceProvider;
-  started: Date;
-  completed: Date;
+  serviceProviderId: Identity | undefined;
+  started: Date | undefined;
+  completed: Date | undefined;
 }
 
 export interface MaterialAquisitionActivity extends BaseActivity {
@@ -29,11 +29,19 @@ export interface TransportationActivity extends BaseActivity {
 }
 
 export interface TransmutationActivity extends BaseActivity {
-  startTopology: number;
-  endShape: number;
+  startTopology: BasicShape;
+  endTopology: BasicShape;
 }
 
-export type Activity = TransportationActivity;
+export interface StorageActivity extends BaseActivity {
+  location: Vector3;
+}
+
+export type Activity =
+  | MaterialAquisitionActivity
+  | TransportationActivity
+  | TransmutationActivity
+  | StorageActivity;
 
 export interface Workflow {
   identity: Identity;

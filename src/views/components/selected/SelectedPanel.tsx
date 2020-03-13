@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     flexGrow: 1,
     overflow: 'auto',
-    maxHeight: '90vh' // Couldn't find a nicer way. Be cool if I could reference the max height of
+    maxHeight: '80vh' // Couldn't find a nicer way. Be cool if I could reference the max height of
   },
   title: {
     fontSize: 14

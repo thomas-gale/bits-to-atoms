@@ -15,7 +15,10 @@ import { LiquidAsset } from '../economic/types';
 import { createLiquidAsset } from '../economic/factories';
 import {
   createWorkflow,
-  createTransmutationActivity
+  createTransmutationActivity,
+  createMaterialAquisitionActivity,
+  createTransportationActivity,
+  createDispatchActivity
 } from '../workflow/factories';
 import { createNewIdentity } from '../common/identity/factories';
 import { BasicShape } from '../common/topology/types';
@@ -92,20 +95,37 @@ function* processAddActiveBuildRequestSaga(
   }
 
   // This is the hard coded workflow.
+
+  // Get location of Input Region
+  // Get location of single FFF printer
+  // Get locatino of Output Region.
+
   const computedWorkflow = createWorkflow({
     identity: createNewIdentity({ displayName: 'Basic Generated Workflow' }),
     activities: [
+      createMaterialAquisitionActivity({
+        identity: createNewIdentity({ displayName: 'Purchase Material' })
+      }),
+      createTransportationActivity({
+        identity: createNewIdentity({ displayName: 'Move to Printer' })
+      }),
       createTransmutationActivity({
-        identity: createNewIdentity({ displayName: 'Basic Printing Op' }),
+        identity: createNewIdentity({ displayName: 'Printing' }),
         material: MaterialType.SimplePolymer,
         startTopology: BasicShape.Spool,
         endTopology: BasicShape.RoughCube
       }),
       createTransmutationActivity({
-        identity: createNewIdentity({ displayName: 'Basic Finishing Op' }),
+        identity: createNewIdentity({ displayName: 'Hand Finishing' }),
         material: MaterialType.SimplePolymer,
         startTopology: BasicShape.RoughCube,
         endTopology: BasicShape.Cube
+      }),
+      createTransportationActivity({
+        identity: createNewIdentity({ displayName: 'Move to Output Bay' })
+      }),
+      createDispatchActivity({
+        identity: createNewIdentity({ displayName: 'Dispatch Part' })
       })
     ]
   });

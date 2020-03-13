@@ -6,7 +6,8 @@ import {
   TransmutationActivity,
   StorageActivity,
   Activity,
-  Workflow
+  Workflow,
+  DispatchActivity
 } from './types';
 import { createNewIdentity } from '../common/identity/factories';
 import { createSimplePolymerMaterial } from '../material/factories';
@@ -94,6 +95,23 @@ export function createStorageActivity({
     started,
     completed,
     location
+  };
+}
+
+export function createDispatchActivity({
+  identity = createNewIdentity({
+    displayName: 'default-dispatch-activity'
+  }),
+  serviceProviderId = undefined,
+  started = undefined,
+  completed = undefined
+} = {}): DispatchActivity {
+  return {
+    identity,
+    type: ActivityType.Dispatch,
+    serviceProviderId,
+    started,
+    completed
   };
 }
 

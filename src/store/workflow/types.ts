@@ -7,7 +7,8 @@ export enum ActivityType {
   MaterialAquisition = 'MaterialAquisition',
   Transportation = 'Transportation',
   Transmutation = 'Transmutation',
-  Storage = 'Storage'
+  Storage = 'Storage',
+  Dispatch = 'Dispatch'
 }
 
 interface BaseActivity {
@@ -42,11 +43,16 @@ export interface StorageActivity extends BaseActivity {
   location: Vector3;
 }
 
+export interface DispatchActivity extends BaseActivity {
+  type: ActivityType.Dispatch;
+}
+
 export type Activity =
   | MaterialAquisitionActivity
   | TransportationActivity
   | TransmutationActivity
-  | StorageActivity;
+  | StorageActivity
+  | DispatchActivity;
 
 export interface Workflow {
   identity: Identity;

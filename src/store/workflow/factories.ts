@@ -4,11 +4,14 @@ import {
   MaterialAquisitionActivity,
   TransportationActivity,
   TransmutationActivity,
-  StorageActivity
+  StorageActivity,
+  Activity,
+  Workflow
 } from './types';
 import { createNewIdentity } from '../common/identity/factories';
 import { createSimplePolymerMaterial } from '../material/factories';
 import { createVector3 } from '../common/primitive/factories';
+import { MaterialType } from '../material/types';
 
 export function createMaterialAquisitionActivity({
   identity = createNewIdentity({
@@ -59,6 +62,7 @@ export function createTransmutationActivity({
   serviceProviderId = undefined,
   started = undefined,
   completed = undefined,
+  material = MaterialType.SimplePolymer,
   startTopology = BasicShape.Spool,
   endTopology = BasicShape.Cube
 } = {}): TransmutationActivity {
@@ -68,6 +72,7 @@ export function createTransmutationActivity({
     serviceProviderId,
     started,
     completed,
+    material,
     startTopology,
     endTopology
   };
@@ -89,5 +94,17 @@ export function createStorageActivity({
     started,
     completed,
     location
+  };
+}
+
+export function createWorkflow({
+  identity = createNewIdentity({
+    displayName: 'default-workflow'
+  }),
+  activities = [] as Activity[]
+} = {}): Workflow {
+  return {
+    identity,
+    activities
   };
 }

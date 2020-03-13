@@ -1,7 +1,7 @@
 import { Identity } from '../common/identity/types';
 import { Vector3 } from '../common/primitive/types';
 import { BasicShape } from '../common/topology/types';
-import { Material } from '../material/types';
+import { Material, MaterialType } from '../material/types';
 
 export enum ActivityType {
   MaterialAquisition = 'MaterialAquisition',
@@ -32,6 +32,7 @@ export interface TransportationActivity extends BaseActivity {
 
 export interface TransmutationActivity extends BaseActivity {
   type: ActivityType.Transmutation;
+  material: MaterialType;
   startTopology: BasicShape;
   endTopology: BasicShape;
 }

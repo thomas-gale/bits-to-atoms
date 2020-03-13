@@ -4,6 +4,7 @@ import { createFactory } from './factories';
 import { Parameter } from '../common/parameter/types';
 import { BuildRequest } from '../buildrequest/types';
 import { LiquidAsset } from '../economic/types';
+import { Workflow } from '../workflow/types';
 
 const factorySlice = createSlice({
   name: 'factory',
@@ -14,6 +15,18 @@ const factorySlice = createSlice({
     },
     setLiquidAsset(state, action: PayloadAction<LiquidAsset>) {
       state.liquidAsset = action.payload;
+    },
+    updateActiveBuildRequestWorkflow(
+      state,
+      action: PayloadAction<{ buildRequestId: Identity; workflow: Workflow }>
+    ) {
+      const activeBuildRequestIndex = state.activeBuildRequests.findIndex(
+        br => br.identity.uuid === action.payload.buildRequestId.uuid
+      );
+      if (activeBuildRequestIndex === -1) return;
+
+      state.activeBuildRequests[activeBuildRequestIndex].workflow =
+        action.payload.workflow;
     },
     addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
       state.activeBuildRequests.push(action.payload);
@@ -53,6 +66,7 @@ const factorySlice = createSlice({
 export const {
   setIdentity,
   setLiquidAsset,
+  updateActiveBuildRequestWorkflow,
   addActiveBuildRequest,
   setServiceProviderParameter
 } = factorySlice.actions;

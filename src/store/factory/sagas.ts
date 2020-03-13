@@ -1,7 +1,11 @@
 import { delay, takeEvery, select, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { BuildRequest } from '../buildrequest/types';
-import { addActiveBuildRequest, setLiquidAsset } from './slice';
+import {
+  addActiveBuildRequest,
+  setLiquidAsset,
+  updateActiveBuildRequestWorkflow
+} from './slice';
 import { config } from '../../env/config';
 import {
   factoryLiquidAssetSelector,
@@ -11,6 +15,13 @@ import {
 import { LiquidAsset } from '../economic/types';
 import { createLiquidAsset } from '../economic/factories';
 import { TransmutationServiceProvider } from './services/types';
+import {
+  createWorkflow,
+  createTransmutationActivity
+} from '../workflow/factories';
+import { createNewIdentity } from '../common/identity/factories';
+import { BasicShape } from '../common/topology/types';
+import { MaterialType } from '../material/types';
 
 export function* factoryUpdateTickSaga() {
   const updateDelayMs = config.factory.updatePeriodMs;
@@ -59,13 +70,54 @@ function* processAddActiveBuildRequestSaga(
 
   // Examine the build request desired end shape and material.
 
-  // Perform a nice tree search for transmutation path. (hacked for now) to match current service providers to the
+  console.log(
+    'Computing the required workflow for this build request (given the current active transmutation service providers in the factory)'
+  );
   const factoryTransmutationServiceProviders = (yield select(
     factoryTransmutationServiceProvidersSelector
   )) as TransmutationServiceProvider[];
 
-  console.log(
-    'Compute the required workflow for this build request (given the current active service providers in the factory'
+  // Filter the service providers to the ones with compatible materials. examine the build request desired end shape and material.
+  //const materialCompatableTransSPs = factoryTransmutationServiceProviders.filter(sp => sp.supportedMaterials.find(m => m === buildRequest.material.type));
+
+  // TODO: Perform a depth first tree search for transmutation path looking at compatible states.
+
+  // Hack for now - to a know flow for the basic polymer cube part (which is the only thing the simulated market is requesting for now.)
+  if (
+    !(
+      buildRequest.material.type === MaterialType.SimplePolymer &&
+      buildRequest.endShape === BasicShape.Cube
+    )
+  ) {
+    console.error('Unable to compute workflow for this shape.');
+    return;
+  }
+
+  // This is the hard coded workflow.
+  const computedWorkflow = createWorkflow({
+    identity: createNewIdentity({ displayName: 'Basic Generated Workflow' }),
+    activities: [
+      createTransmutationActivity({
+        identity: createNewIdentity({ displayName: 'Basic Printing Op' }),
+        material: MaterialType.SimplePolymer,
+        startTopology: BasicShape.Spool,
+        endTopology: BasicShape.RoughCube
+      }),
+      createTransmutationActivity({
+        identity: createNewIdentity({ displayName: 'Basic Finishing Op' }),
+        material: MaterialType.SimplePolymer,
+        startTopology: BasicShape.RoughCube,
+        endTopology: BasicShape.Cube
+      })
+    ]
+  });
+
+  // Send out this new workflow.
+  yield put(
+    updateActiveBuildRequestWorkflow({
+      buildRequestId: buildRequest.identity,
+      workflow: computedWorkflow
+    })
   );
 
   // This will involve updating the workflow / actions

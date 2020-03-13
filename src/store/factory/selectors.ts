@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { RootState } from '../index';
 import { Factory } from './types';
 import { InputRegion, OutputRegion } from './boundaries/types';
-import { EconomicSummary, Asset, LiquidAsset } from '../economic/types';
+import { EconomicSummary, LiquidAsset } from '../economic/types';
 import { ServiceProvider } from './services/types';
 import { createLiquidAsset } from '../economic/factories';
 import { BuildRequest } from '../buildrequest/types';
@@ -61,13 +61,16 @@ export const currentServiceProviderCostPerTimeSelector = createSelector(
     serviceProviders.forEach(p => {
       currentServiceProvidersCostPerSecond += p.currentCostPerTime.dollars;
     });
-    return createLiquidAsset({ dollars: currentServiceProvidersCostPerSecond});
+    return createLiquidAsset({ dollars: currentServiceProvidersCostPerSecond });
   }
 );
 
 export const factoryEconomicSummarySelector = createSelector(
   [factoryLiquidAssetSelector, factoryServiceProvidersSelector],
-  (liquidAsset: LiquidAsset, serviceProviders: ServiceProvider[]): EconomicSummary => {
+  (
+    liquidAsset: LiquidAsset,
+    serviceProviders: ServiceProvider[]
+  ): EconomicSummary => {
     // Compute total asset value
     /*const currentAssetsValue = assets.reduce((prev, curr) => {
       return { dollars: prev.dollars + curr.dollars };

@@ -12,13 +12,17 @@ import { reducer as formReducer } from 'redux-form';
 import { marketReducer } from './market/slice';
 import { factoryReducer } from './factory/slice';
 import { selectedReducer } from './selected/slice';
-import { factoryTickSaga } from './factory/sagas';
+import {
+  factoryUpdateTickSaga,
+  watchAddActiveBuildRequestSaga
+} from './factory/sagas';
 
 function* rootSaga() {
   yield all([
     simpleMarketSaga(),
     watchRequestAddBuildRequestSaga(),
-    factoryTickSaga()
+    factoryUpdateTickSaga(),
+    watchAddActiveBuildRequestSaga()
   ]);
 }
 

@@ -11,8 +11,10 @@ import {
   Card,
   Typography,
   CardContent,
-  CardActions
+  CardActions,
+  Box
 } from '@material-ui/core';
+import ActivityDetails from './ActivityDetails';
 
 function mapState(_state: RootState) {
   return {};
@@ -41,6 +43,10 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     maxHeight: '90vh' // Couldn't find a nicer way. Be cool if I could reference the max height of
   },
+  internalContainer: {
+    margin: theme.spacing(1),
+    padding: theme.spacing(1)
+  },
   title: {
     fontSize: 14
   },
@@ -53,6 +59,37 @@ function BuildRequestDetails(props: Props): JSX.Element {
   const classes = useStyles();
 
   const { buildRequest, onCloseClicked } = props;
+  const {
+    identity,
+    created,
+    material,
+    endShape,
+    scale,
+    fixedValue,
+    workflow
+  } = buildRequest;
+
+  const WorkflowsCardContent = () => {
+    if (workflow && workflow.activities.length > 0) {
+      return (
+        <Card className={classes.internalContainer}>
+          <Typography variant="h5" component="h2" className={classes.pos}>
+            {workflow.identity.displayName}
+          </Typography>
+          {workflow.activities.map(activity => {
+            return (
+              <ActivityDetails
+                key={activity.identity.uuid}
+                activity={activity}
+              />
+            );
+          })}
+        </Card>
+      );
+    } else {
+      return <Typography color="textSecondary">Generating...</Typography>;
+    }
+  };
 
   return (
     <Card className={classes.container}>
@@ -65,17 +102,27 @@ function BuildRequestDetails(props: Props): JSX.Element {
           Build Request Details
         </Typography>
         <Typography variant="h5" component="h2">
-          {buildRequest.identity.displayName}
+          {identity.displayName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {buildRequest.identity.uuid}
+          {identity.uuid}
         </Typography>
-        <Typography color="textPrimary">
-          Summary of Build Request Value / Age
-        </Typography>
-        <Typography color="textPrimary">
-          Summary of Factory Auto Assigned Workflow (With current status)
-        </Typography>
+        <Box>
+          <Typography color="textPrimary">
+            Created: {created.toLocaleTimeString()}
+          </Typography>
+          <Typography color="textPrimary">
+            Value: ${fixedValue.dollars}
+          </Typography>
+          <Typography color="textPrimary">
+            Material: {material.type.toString()}
+          </Typography>
+          <Typography color="textPrimary">
+            Shape: {endShape.toString()}
+          </Typography>
+          <Typography color="textPrimary">Scale: {scale}m</Typography>
+        </Box>
+        <WorkflowsCardContent />
       </CardContent>
       <CardActions>
         <Button color="primary" size="small" onClick={onCloseClicked}>

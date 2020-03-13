@@ -7,10 +7,12 @@ export const config = {
       partNames: [
         'widget',
         'thingy',
+        'thingybob',
         'whatchamacallit',
         'thingamajig',
         'doohickey',
-        'doofery'
+        'doofery',
+        'thatthing'
       ],
       partValueRange: {
         min: 5,

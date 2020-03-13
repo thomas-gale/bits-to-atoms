@@ -26,7 +26,6 @@ type Props = ConnectedProps<typeof connector> & OwnProps;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    minWidth: 275,
     padding: theme.spacing(2)
   },
   title: {

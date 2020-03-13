@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "private": true,
   "release": {
-    "branches": [{"name": "master",  "prerelease": true}]
+    "branches": [{"name": "master",  "prerelease": true}],
+    "tagFormat": "v${version}-alpha"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.4",

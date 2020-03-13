@@ -34,7 +34,7 @@
 - Three (react-three-fiber)
 
 ## Semantic Release
-Following ESLint convention (listed in the [default release rules](https://github.com/semantic-release/commit-analyzer/blob/master/lib/default-release-rules.js))  
+Following [eslint conventions](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-eslint)  
 
 - Major: `Breaking(XYZ): Description of XYZ`  
 - Minor: `New(XYZ): Description of XYZ.` or `Update(XYZ): Description of XYZ`  

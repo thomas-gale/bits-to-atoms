@@ -35,12 +35,10 @@
 
 ## Semantic Release
 Following ESLint convention (listed in the [default release rules](https://github.com/semantic-release/commit-analyzer/blob/master/lib/default-release-rules.js))  
-Commit message sample for Major:  
-`Breaking(XYZ): Description of XYZ.`  
-Commit message sample for Minor:  
-`New(XYZ): Description of XYZ.` or `Update(XYZ): Description of XYZ.`  
-Commit message sample for Patch:  
-`Fix(XYZ): Description of XYZ.`  
+
+- Major: `Breaking(XYZ): Description of XYZ.`  
+- Minor: `New(XYZ): Description of XYZ.` or `Update(XYZ): Description of XYZ.`  
+- Patch: `Fix(XYZ): Description of XYZ.`  
 
 ## Contributing
 Everything is subject to radical change... (the ultimate vision of the project is still forming)  

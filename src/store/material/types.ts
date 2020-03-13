@@ -2,7 +2,7 @@ import { Identity } from '../common/identity/types';
 import { LiquidAsset } from '../economic/types';
 
 export enum MaterialType {
-  SimplePolymer
+  SimplePolymer = "SimplePolymer"
 }
 
 export interface Material {

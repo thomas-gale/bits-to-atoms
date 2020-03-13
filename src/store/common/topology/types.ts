@@ -3,9 +3,9 @@
  * for factory MVP 1.0
  */
 export enum BasicShape {
-  Spool,
-  RoughCube,
-  Cube,
-  RoughCylinder,
-  Cylinder
+  Spool = 'Spool',
+  RoughCube = 'RoughCube',
+  Cube = 'Cube',
+  RoughCylinder = 'RoughCylinder',
+  Cylinder = 'Cylinder'
 }

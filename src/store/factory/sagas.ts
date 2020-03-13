@@ -10,7 +10,7 @@ import {
 } from './selectors';
 import { LiquidAsset } from '../economic/types';
 import { createLiquidAsset } from '../economic/factories';
-import { ServiceProvider } from './services/types';
+import { TransmutationServiceProvider } from './services/types';
 
 export function* factoryUpdateTickSaga() {
   const updateDelayMs = config.factory.updatePeriodMs;
@@ -62,9 +62,7 @@ function* processAddActiveBuildRequestSaga(
   // Perform a nice tree search for transmutation path. (hacked for now) to match current service providers to the
   const factoryTransmutationServiceProviders = (yield select(
     factoryTransmutationServiceProvidersSelector
-  )) as ServiceProvider[];
-
-  
+  )) as TransmutationServiceProvider[];
 
   console.log(
     'Compute the required workflow for this build request (given the current active service providers in the factory'

@@ -43,7 +43,7 @@ export function createTransportationActivity({
 } = {}): TransportationActivity {
   return {
     identity,
-    type: ActivityType.MaterialAquisition,
+    type: ActivityType.Transportation,
     serviceProviderId,
     started,
     completed,
@@ -64,7 +64,7 @@ export function createTransmutationActivity({
 } = {}): TransmutationActivity {
   return {
     identity,
-    type: ActivityType.MaterialAquisition,
+    type: ActivityType.Transmutation,
     serviceProviderId,
     started,
     completed,
@@ -84,7 +84,7 @@ export function createStorageActivity({
 } = {}): StorageActivity {
   return {
     identity,
-    type: ActivityType.MaterialAquisition,
+    type: ActivityType.Storage,
     serviceProviderId,
     started,
     completed,

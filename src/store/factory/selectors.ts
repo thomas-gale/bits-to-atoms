@@ -3,7 +3,10 @@ import { RootState } from '../index';
 import { Factory } from './types';
 import { InputRegion, OutputRegion } from './boundaries/types';
 import { EconomicSummary, LiquidAsset } from '../economic/types';
-import { ServiceProvider } from './services/types';
+import {
+  ServiceProvider,
+  TransmutationServiceProvider
+} from './services/types';
 import { createLiquidAsset } from '../economic/factories';
 import { BuildRequest } from '../buildrequest/types';
 import { config } from '../../env/config';
@@ -57,12 +60,14 @@ export const factoryServiceProvidersSelector = createSelector(
 
 export const factoryTransmutationServiceProvidersSelector = createSelector(
   [factoryServiceProvidersSelector],
-  (factoryServiceProviders: ServiceProvider[]): ServiceProvider[] => {
+  (
+    factoryServiceProviders: ServiceProvider[]
+  ): TransmutationServiceProvider[] => {
     return factoryServiceProviders.filter(
       sp =>
         sp.capabilities.find(cap => cap === ActivityType.Transmutation) !==
         undefined
-    );
+    ) as TransmutationServiceProvider[];
   }
 );
 

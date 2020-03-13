@@ -4,10 +4,10 @@ import { BasicShape } from '../common/topology/types';
 import { Material } from '../material/types';
 
 export enum ActivityType {
-  MaterialAquisition,
-  Transportation,
-  Transmutation,
-  Storage
+  MaterialAquisition = 'MaterialAquisition',
+  Transportation = 'Transportation',
+  Transmutation = 'Transmutation',
+  Storage = 'Storage'
 }
 
 interface BaseActivity {
@@ -19,21 +19,25 @@ interface BaseActivity {
 }
 
 export interface MaterialAquisitionActivity extends BaseActivity {
+  type: ActivityType.MaterialAquisition;
   material: Material;
   quantity: number;
 }
 
 export interface TransportationActivity extends BaseActivity {
+  type: ActivityType.Transportation;
   startLocation: Vector3;
   endLocation: Vector3;
 }
 
 export interface TransmutationActivity extends BaseActivity {
+  type: ActivityType.Transmutation;
   startTopology: BasicShape;
   endTopology: BasicShape;
 }
 
 export interface StorageActivity extends BaseActivity {
+  type: ActivityType.Storage;
   location: Vector3;
 }
 

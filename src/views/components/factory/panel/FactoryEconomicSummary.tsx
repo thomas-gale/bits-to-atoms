@@ -6,6 +6,7 @@ import { factoryEconomicSummarySelector } from '../../../../store/factory/select
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, Typography, CardContent } from '@material-ui/core';
+import { dollarFormatter } from '../../../../store/economic/factories';
 
 function mapState(state: RootState) {
   return {
@@ -45,13 +46,18 @@ function FactoryEconomicSummary(props: Props): JSX.Element {
           Economic Summary
         </Typography>
         <Typography color="textPrimary">
-          Liquid Assets: ${factoryEconomicSummary.currentAssetsValue.dollars}
+          Liquid Assets:{' '}
+          {dollarFormatter.format(
+            factoryEconomicSummary.currentAssetsValue.dollars
+          )}
         </Typography>
         <Typography color="textPrimary">
-          Total In: ${factoryEconomicSummary.totalIn.dollars}
+          Total In:{' '}
+          {dollarFormatter.format(factoryEconomicSummary.totalIn.dollars)}
         </Typography>
         <Typography color="textPrimary">
-          Total Out: ${factoryEconomicSummary.totalOut.dollars}
+          Total Out:{' '}
+          {dollarFormatter.format(factoryEconomicSummary.totalOut.dollars)}
         </Typography>
       </CardContent>
     </Card>

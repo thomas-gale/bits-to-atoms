@@ -27,7 +27,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}
 
-    - name: Configure the CNAME
+    - name: Configure the CNAME for custom domain
       run: yarn config-cname
 
     - name: Deploy GitHub Pages

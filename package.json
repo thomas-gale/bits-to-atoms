@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "release": {
-    "branches": ["master"]
+    "branches": [{"name": "master",  "prerelease": true}]
   },
   "dependencies": {
     "@material-ui/core": "^4.9.4",

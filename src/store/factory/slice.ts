@@ -3,6 +3,7 @@ import { Identity } from '../common/identity/types';
 import { createFactory } from './factories';
 import { Parameter } from '../common/parameter/types';
 import { BuildRequest } from '../buildrequest/types';
+import { LiquidAsset } from '../economic/types';
 
 const factorySlice = createSlice({
   name: 'factory',
@@ -10,6 +11,9 @@ const factorySlice = createSlice({
   reducers: {
     setIdentity(state, action: PayloadAction<Identity>) {
       state.identity = action.payload;
+    },
+    setLiquidAsset(state, action: PayloadAction<LiquidAsset>) {
+      state.liquidAsset = action.payload;
     },
     addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
       state.activeBuildRequests.push(action.payload);
@@ -48,6 +52,7 @@ const factorySlice = createSlice({
 
 export const {
   setIdentity,
+  setLiquidAsset,
   addActiveBuildRequest,
   setServiceProviderParameter
 } = factorySlice.actions;

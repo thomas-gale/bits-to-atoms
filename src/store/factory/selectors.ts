@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { RootState } from '../index';
 import { Factory } from './types';
 import { InputRegion, OutputRegion } from './boundaries/types';
-import { EconomicSummary, Asset } from '../economic/types';
+import { EconomicSummary, Asset, LiquidAsset } from '../economic/types';
 import { ServiceProvider } from './services/types';
 import { createLiquidAsset } from '../economic/factories';
 import { BuildRequest } from '../buildrequest/types';
@@ -40,10 +40,10 @@ export const factoryOutputRegionSelector = createSelector(
   }
 );
 
-export const factoryAssetsSelector = createSelector(
+export const factoryLiquidAssetSelector = createSelector(
   [factorySelector],
-  (factory: Factory): Asset[] => {
-    return factory.assets;
+  (factory: Factory): LiquidAsset => {
+    return factory.liquidAsset;
   }
 );
 
@@ -54,13 +54,24 @@ export const factoryServiceProvidersSelector = createSelector(
   }
 );
 
-export const factoryEconomicSummarySelector = createSelector(
-  [factoryAssetsSelector, factoryServiceProvidersSelector],
-  (assets: Asset[], serviceProviders: ServiceProvider[]): EconomicSummary => {
-    // Compute total asset value
-    const currentAssetsValue = assets.reduce((prev, curr) => {
-      return { dollars: prev.dollars + curr.dollars };
+export const currentServiceProviderCostPerTimeSelector = createSelector(
+  [factoryServiceProvidersSelector],
+  (serviceProviders: ServiceProvider[]): LiquidAsset => {
+    let currentServiceProvidersCostPerSecond = 0;
+    serviceProviders.forEach(p => {
+      currentServiceProvidersCostPerSecond += p.currentCostPerTime.dollars;
     });
+    return createLiquidAsset({ dollars: currentServiceProvidersCostPerSecond});
+  }
+);
+
+export const factoryEconomicSummarySelector = createSelector(
+  [factoryLiquidAssetSelector, factoryServiceProvidersSelector],
+  (liquidAsset: LiquidAsset, serviceProviders: ServiceProvider[]): EconomicSummary => {
+    // Compute total asset value
+    /*const currentAssetsValue = assets.reduce((prev, curr) => {
+      return { dollars: prev.dollars + curr.dollars };
+    });*/
 
     // Compute total service provider cost per second
     let currentServiceProvidersCostPerSecond = 0;
@@ -69,7 +80,7 @@ export const factoryEconomicSummarySelector = createSelector(
     });
 
     return {
-      currentAssetsValue,
+      currentAssetsValue: liquidAsset,
       totalOut: createLiquidAsset({
         dollars: currentServiceProvidersCostPerSecond
       }),

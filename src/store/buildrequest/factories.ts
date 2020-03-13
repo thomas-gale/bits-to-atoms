@@ -12,7 +12,8 @@ export function createBuildRequest({
   material = createSimplePolymerMaterial(),
   endShape = BasicShape.Cube,
   scale = 1e-2,
-  fixedValue = createLiquidAsset({ dollars: 20 })
+  fixedValue = createLiquidAsset({ dollars: 20 }),
+  workflow = undefined
 } = {}): BuildRequest {
   return {
     identity,
@@ -20,6 +21,7 @@ export function createBuildRequest({
     material,
     endShape,
     scale,
-    fixedValue
+    fixedValue,
+    workflow
   };
 }

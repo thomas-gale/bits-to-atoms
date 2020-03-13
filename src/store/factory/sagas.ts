@@ -1,13 +1,32 @@
-import { delay, takeEvery } from 'redux-saga/effects';
+import { delay, takeEvery, select, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { BuildRequest } from '../buildrequest/types';
-import { addActiveBuildRequest } from './slice';
+import { addActiveBuildRequest, setLiquidAsset } from './slice';
+import { config } from '../../env/config';
+import { factoryLiquidAssetSelector, currentServiceProviderCostPerTimeSelector } from './selectors';
+import { EconomicSummary, LiquidAsset } from '../economic/types';
+import { createLiquidAsset } from '../economic/factories';
 
 export function* factoryUpdateTickSaga() {
-  console.log('Starting endless factory tick saga.');
+  const updateDelayMs = config.factory.updatePeriodMs;
+  console.log(`Starting endless factory tick saga (with period length of ${updateDelayMs}ms)`);
   while (true) {
-    yield delay(1000);
+    yield delay(updateDelayMs);
     console.log('Recompute economics of Factory');
+    
+    // Current State
+    const currentLiquidAsset = (yield select(factoryLiquidAssetSelector)) as LiquidAsset;
+
+    // Get income from the pending goods out buffer
+
+    // Get material investment from pending goods in buffer
+
+    // Compute the cumulative current running cost of all service providers over the last updateDelay and update the current assets.
+    const currentServiceProviderCostPerTime = (yield select(currentServiceProviderCostPerTimeSelector)) as LiquidAsset;
+    const currentServiceProviderCostOverPeriod = currentServiceProviderCostPerTime.dollars * updateDelayMs;
+
+    // Update the store with the current liquid assets.
+    yield put(setLiquidAsset(createLiquidAsset({ dollars: currentLiquidAsset.dollars - currentServiceProviderCostOverPeriod})));
   }
 }
 
@@ -15,9 +34,8 @@ function* processAddActiveBuildRequestSaga(
   addedActiveBuildRequest: PayloadAction<BuildRequest>
 ) {
   const { payload: buildRequest } = addedActiveBuildRequest;
-
   console.log(
-    `Processing added active build request ${buildRequest.identity.uuid}`
+    `Processing recently added active build request ${buildRequest.identity.uuid}`
   );
 
   console.log(

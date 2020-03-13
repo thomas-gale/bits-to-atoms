@@ -1,7 +1,7 @@
 import { Identity } from '../common/identity/types';
 import { BuildRequest } from '../buildrequest/types';
 import { OutputRegion, InputRegion } from './boundaries/types';
-import { Asset } from '../economic/types';
+import { LiquidAsset, FixedAsset } from '../economic/types';
 import { ServiceProvider } from './services/types';
 
 export interface Factory {
@@ -9,6 +9,7 @@ export interface Factory {
   activeBuildRequests: BuildRequest[];
   inputRegion: InputRegion;
   outputRegion: OutputRegion;
-  assets: Asset[];
+  liquidAsset: LiquidAsset;
+  fixedAssets: FixedAsset[];
   serviceProviders: ServiceProvider[];
 }

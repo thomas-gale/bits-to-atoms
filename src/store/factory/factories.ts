@@ -1,4 +1,4 @@
-import { FixedAssetType } from '../economic/types';
+import { FixedAssetType, FixedAsset } from '../economic/types';
 import { Factory } from './types';
 
 import { createNewIdentity } from '../common/identity/factories';
@@ -41,7 +41,8 @@ export function createFactory({
       max: createVector3({ x: 1, y: 0.5, z: 0.1 })
     })
   }),
-  assets = [createLiquidAsset()],
+  liquidAsset = createLiquidAsset(),
+  fixedAssets = [] as FixedAsset[],
   serviceProviders = [
     createFloorSpace({
       id: createNewIdentity({ displayName: 'Floorspace 1' })
@@ -61,7 +62,8 @@ export function createFactory({
     activeBuildRequests,
     inputRegion,
     outputRegion,
-    assets,
+    liquidAsset,
+    fixedAssets,
     serviceProviders
   };
 }

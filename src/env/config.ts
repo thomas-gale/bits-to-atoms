@@ -24,6 +24,7 @@ export const config = {
     }
   },
   factory: {
+    updatePeriodMs: 1000,
     maxNumberActiveBuilds: 2
   }
 };

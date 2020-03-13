@@ -1,5 +1,5 @@
 # bits-to-atoms
-[![master CI](https://github.com/ThomasGale/bits-to-atoms/workflows/CI/badge.svg?branch=master "master")](https://github.com/ThomasGale/bits-to-atoms/actions?query=workflow%3ACI) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ThomasGale_bits-to-atoms&metric=alert_status)](https://sonarcloud.io/dashboard?id=ThomasGale_bits-to-atoms) [![license](https://img.shields.io/github/license/thomasgale/bits-to-atoms)](https://github.com/ThomasGale/bits-to-atoms/blob/master/LICENSE)  
+[![master build](https://github.com/ThomasGale/bits-to-atoms/workflows/build/badge.svg?branch=master "master build")](https://github.com/ThomasGale/bits-to-atoms/actions?query=workflow%3ACI) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ThomasGale_bits-to-atoms&metric=alert_status)](https://sonarcloud.io/dashboard?id=ThomasGale_bits-to-atoms) [![license](https://img.shields.io/github/license/thomasgale/bits-to-atoms)](https://github.com/ThomasGale/bits-to-atoms/blob/master/LICENSE)  
 🏭📈 Nimble, market-driven, micro-factories. 🚧 Pre-alpha!
 
 ## Vision 1.0 (Virtual)

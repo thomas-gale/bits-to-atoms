@@ -34,11 +34,21 @@
 - Three (react-three-fiber)
 
 ## Semantic Release
-Following [eslint conventions](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-eslint)  
+Following [angular conventions](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular)  
 
-- Major: `Breaking(XYZ): Description of XYZ`  
-- Minor: `New(XYZ): Description of XYZ.` or `Update(XYZ): Description of XYZ`  
-- Patch: `Fix(XYZ): Description of XYZ`  
+### Commit Message
+```
+<type>(<scope>): <subject>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
+
+### Header Types
+- Major (Breaking): `perf(XYZ): Description of XYZ`  
+- Minor (Feature): `feat(XYZ): Description of XYZ.` or `Update(XYZ): Description of XYZ`  
+- Patch: `fix(XYZ): Description of XYZ`  
 
 ## Contributing
 Everything is subject to radical change... (the ultimate vision of the project is still forming)  

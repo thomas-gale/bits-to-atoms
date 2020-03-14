@@ -66,10 +66,10 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
         {!isAllowedToBid ? (
           <Typography
             className={classes.title}
-            color="textPrimary"
+            color="textSecondary"
             gutterBottom
           >
-            at max factory capacity ({config.factory.maxNumberActiveBuilds})
+            (at max factory capacity: {config.factory.maxNumberActiveBuilds})
           </Typography>
         ) : (
           <div />

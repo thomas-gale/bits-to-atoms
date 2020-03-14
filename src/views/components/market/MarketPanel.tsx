@@ -27,36 +27,57 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     overflow: 'auto',
     maxHeight: '80vh' // Couldn't find a nicer way. Be cool if I could reference the max height of
+  },
+  card: {
+    position: 'absolute'
+    //will-change: transform, height, opacity;
   }
 }));
 
-function MarketPanel(props: Props): JSX.Element {
+function MarketPanel(panelProps: Props): JSX.Element {
   const classes = useStyles();
-  const { buildRequests, isAllowedToBid } = props;
+  const { buildRequests, isAllowedToBid } = panelProps;
 
+  const hackedElementHeight = 240; // TODO: Fix this to read / be aware of contents height.
+  let height = 0; // Cumulative height
   const transBuildRequests = useTransition(
-    buildRequests,
+    buildRequests.map(buildRequest => ({
+      ...buildRequest,
+      y: (height += hackedElementHeight) - hackedElementHeight,
+      height: hackedElementHeight
+    })),
     buildRequests => buildRequests.identity.uuid,
     {
-      initial: { transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
-      from: { transform: 'translate3d(0%,-50%,0) scale(0)', opacity: 0 },
-      enter: { transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
-      leave: { transform: 'translate3d(0%,-50%,0) scale(0)', opacity: 0 }
+      //initial: { transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
+      from: { height: 0, opacity: 0 }, //'translate3d(0%,-50%,0) scale(0)'
+      leave: { height: 0, opacity: 0 },
+      enter: ({ y, height }) => ({ y, height, opacity: 1 }), // }{ transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
+      update: ({ y, height }) => ({ y, height }), //, { transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
+      config: { tension: 500 }
     }
   );
+
+  const AnimatedGrid = animated(Grid);
 
   return (
     <Box className={classes.container}>
       <Grid container spacing={3}>
-        {transBuildRequests.map(({ item, props, key }) => (
-          <Grid item xs={12} key={key}>
-            <animated.div key={key} style={props}>
-              <BuildRequest
-                isAllowedToBid={isAllowedToBid}
-                buildRequest={item}
-              />
-            </animated.div>
-          </Grid>
+        {transBuildRequests.map(({ item, props, key }: any) => (
+          <AnimatedGrid
+            item
+            xs={12}
+            key={key}
+            className={classes.card}
+            style={{
+              transform: props.y.interpolate(
+                (y: any) => `translate3d(0,${y}px,0)`
+              ),
+              opacity: props.opacity,
+              height: props.height
+            }}
+          >
+            <BuildRequest isAllowedToBid={isAllowedToBid} buildRequest={item} />
+          </AnimatedGrid>
         ))}
       </Grid>
     </Box>

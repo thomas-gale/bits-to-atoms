@@ -6,7 +6,7 @@ import { RootState } from '../../../store';
 import { buildRequestsSelector } from '../../../store/market/selectors';
 import { isAllowedToBidSelector } from '../../../store/factory/selectors';
 
-import { Box, Grid } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import BuildRequest from './BuildRequestSummary';
 
@@ -25,11 +25,15 @@ const useStyles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(2),
     flexGrow: 1,
+    width: '100%',
     overflow: 'auto',
     maxHeight: '80vh' // Couldn't find a nicer way. Be cool if I could reference the max height of
   },
   card: {
-    position: 'absolute'
+    position: 'absolute',
+    width: '23%' // Needs to inherit from measured parent (size-me!)
+    //width: '25vw'
+    //margin: theme.spacing(2),
     //will-change: transform, height, opacity;
   }
 }));
@@ -57,31 +61,25 @@ function MarketPanel(panelProps: Props): JSX.Element {
     }
   );
 
-  const AnimatedGrid = animated(Grid);
-
   return (
     <Box className={classes.container}>
-      <Grid container spacing={3}>
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        {transBuildRequests.map(({ item, props, key }: any) => (
-          <AnimatedGrid
-            item
-            xs={12}
-            key={key}
-            className={classes.card}
-            style={{
-              transform: props.y.interpolate(
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (y: any) => `translate3d(0,${y}px,0)`
-              ),
-              opacity: props.opacity,
-              height: props.height
-            }}
-          >
-            <BuildRequest isAllowedToBid={isAllowedToBid} buildRequest={item} />
-          </AnimatedGrid>
-        ))}
-      </Grid>
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      {transBuildRequests.map(({ item, props, key }: any) => (
+        <animated.div
+          key={key}
+          className={classes.card}
+          style={{
+            transform: props.y.interpolate(
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (y: any) => `translate3d(0,${y}px,0)`
+            ),
+            opacity: props.opacity,
+            height: props.height
+          }}
+        >
+          <BuildRequest isAllowedToBid={isAllowedToBid} buildRequest={item} />
+        </animated.div>
+      ))}
     </Box>
   );
 }

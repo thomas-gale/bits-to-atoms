@@ -35,10 +35,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14
   },
   subTitle: {
+    fontSize: 11,
     marginBottom: theme.spacing(2)
   },
   footer: {
     marginTop: theme.spacing(2)
+  },
+  comment: {
+    fontSize: 11
   }
 }));
 
@@ -88,7 +92,7 @@ function BuildRequestElement(props: Props) {
         </Grid>
       </Grid>
       {!isAllowedToBid && (
-        <Typography color="textSecondary">
+        <Typography className={classes.comment} color="textSecondary">
           Bidding disabled - factory at max capacity
         </Typography>
       )}

@@ -6,9 +6,11 @@ import { BasicShape } from '../../common/topology/types';
 import { ActivityType } from '../../workflow/types';
 
 export enum ServiceType {
+  Procurement = 'Procurement',
   Floorspace = 'Floorspace',
   HumanWorker = 'HumanWorker',
-  FFFPrinter = 'FFFPrinter'
+  FFFPrinter = 'FFFPrinter',
+  Dispatch = 'Dispatch'
 }
 
 // This any is required to allow arbitary mapping from Serivce provider parameters in UI forms to object values.
@@ -18,6 +20,8 @@ interface BaseServiceProvider extends Entity<any> {
   capabilities: ActivityType[];
   currentCostPerTime: LiquidAsset;
 }
+
+export type ProcurementServiceProvider = BaseServiceProvider;
 
 export type StorageServiceProvider = BaseServiceProvider;
 
@@ -33,7 +37,11 @@ export interface TransmutationServiceProvider extends BaseServiceProvider {
   outputVolume: Cuboid;
 }
 
+export type DispatchServiceProvider = BaseServiceProvider;
+
 export type ServiceProvider =
+  | ProcurementServiceProvider
   | StorageServiceProvider
   | TransportServiceProvider
-  | TransmutationServiceProvider;
+  | TransmutationServiceProvider
+  | DispatchServiceProvider;

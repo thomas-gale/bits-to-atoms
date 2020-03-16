@@ -15,8 +15,8 @@ import { LiquidAsset } from '../economic/types';
 import { createLiquidAsset } from '../economic/factories';
 import {
   createWorkflow,
+  createProcurementActivity,
   createTransmutationActivity,
-  createMaterialAquisitionActivity,
   createTransportationActivity,
   createDispatchActivity
 } from '../workflow/factories';
@@ -103,7 +103,7 @@ function* processAddActiveBuildRequestSaga(
   const computedWorkflow = createWorkflow({
     identity: createNewIdentity({ displayName: 'Basic Generated Workflow' }),
     activities: [
-      createMaterialAquisitionActivity({
+      createProcurementActivity({
         identity: createNewIdentity({ displayName: 'Purchase Material' })
       }),
       createTransportationActivity({

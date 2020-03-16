@@ -62,6 +62,7 @@ function MarketPanel(panelProps: Props): JSX.Element {
   return (
     <Box className={classes.container}>
       <Grid container spacing={3}>
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {transBuildRequests.map(({ item, props, key }: any) => (
           <AnimatedGrid
             item
@@ -70,6 +71,7 @@ function MarketPanel(panelProps: Props): JSX.Element {
             className={classes.card}
             style={{
               transform: props.y.interpolate(
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (y: any) => `translate3d(0,${y}px,0)`
               ),
               opacity: props.opacity,

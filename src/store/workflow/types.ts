@@ -4,7 +4,7 @@ import { BasicShape } from '../common/topology/types';
 import { Material, MaterialType } from '../material/types';
 
 export enum ActivityType {
-  MaterialAquisition = 'MaterialAquisition',
+  Procurement = 'Procurement',
   Transportation = 'Transportation',
   Transmutation = 'Transmutation',
   Storage = 'Storage',
@@ -20,7 +20,7 @@ interface BaseActivity {
 }
 
 export interface MaterialAquisitionActivity extends BaseActivity {
-  type: ActivityType.MaterialAquisition;
+  type: ActivityType.Procurement;
   material: Material;
   quantity: number;
 }

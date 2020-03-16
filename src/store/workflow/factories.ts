@@ -14,9 +14,9 @@ import { createSimplePolymerMaterial } from '../material/factories';
 import { createVector3 } from '../common/primitive/factories';
 import { MaterialType } from '../material/types';
 
-export function createMaterialAquisitionActivity({
+export function createProcurementActivity({
   identity = createNewIdentity({
-    displayName: 'default-material-aquisition-activity'
+    displayName: 'default-procurement-activity'
   }),
   serviceProviderId = undefined,
   started = undefined,
@@ -26,7 +26,7 @@ export function createMaterialAquisitionActivity({
 } = {}): MaterialAquisitionActivity {
   return {
     identity,
-    type: ActivityType.MaterialAquisition,
+    type: ActivityType.Procurement,
     serviceProviderId,
     started,
     completed,

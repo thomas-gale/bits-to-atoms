@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { animated, useTransition } from 'react-spring';
 
@@ -19,7 +19,10 @@ function mapState(state: RootState) {
 
 const connector = connect(mapState);
 
-type Props = ConnectedProps<typeof connector>;
+type Props = ConnectedProps<typeof connector> & {
+  width: number | null;
+  height: number | null;
+};
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -31,32 +34,30 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     position: 'absolute',
-    width: '23%' // Needs to inherit from measured parent (size-me!)
-    //width: '25vw'
-    //margin: theme.spacing(2),
-    //will-change: transform, height, opacity;
+    paddingRight: theme.spacing(4)
   }
 }));
 
 function MarketPanel(panelProps: Props): JSX.Element {
   const classes = useStyles();
-  const { buildRequests, isAllowedToBid } = panelProps;
+  const { buildRequests, isAllowedToBid, width } = panelProps;
 
-  const hackedElementHeight = 240; // TODO: Fix this to read / be aware of contents height.
-  let height = 0; // Cumulative height
+  const defaultElementHeight = 240; // TODO: Fix this to read / be aware of contents height.
+  const [elementHeight] = useState(defaultElementHeight);
+
+  let cumulativeHeight = 0; // Cumulative height
   const transBuildRequests = useTransition(
     buildRequests.map(buildRequest => ({
       ...buildRequest,
-      y: (height += hackedElementHeight) - hackedElementHeight,
-      height: hackedElementHeight
+      y: (cumulativeHeight += elementHeight) - elementHeight,
+      height: elementHeight
     })),
     buildRequests => buildRequests.identity.uuid,
     {
-      //initial: { transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
-      from: { height: 0, opacity: 0 }, //'translate3d(0%,-50%,0) scale(0)'
+      from: { height: 0, opacity: 0 },
       leave: { height: 0, opacity: 0 },
-      enter: ({ y, height }) => ({ y, height, opacity: 1 }), // }{ transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
-      update: ({ y, height }) => ({ y, height }), //, { transform: 'translate3d(0%, 0%,0) scale(1)', opacity: 1 },
+      enter: ({ y, height }) => ({ y, height, opacity: 1 }),
+      update: ({ y, height }) => ({ y, height }),
       config: { tension: 500 }
     }
   );
@@ -74,7 +75,8 @@ function MarketPanel(panelProps: Props): JSX.Element {
               (y: any) => `translate3d(0,${y}px,0)`
             ),
             opacity: props.opacity,
-            height: props.height
+            height: props.height,
+            width: width === null ? undefined : width
           }}
         >
           <BuildRequest isAllowedToBid={isAllowedToBid} buildRequest={item} />

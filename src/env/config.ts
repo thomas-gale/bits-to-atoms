@@ -20,8 +20,8 @@ export const config = {
       },
       maxNumberOpenRequests: 3,
       processingDelayRange: {
-        min: 1000,
-        max: 2000
+        min: 10000,
+        max: 20000
       }
     }
   },

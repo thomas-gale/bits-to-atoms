@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { SizeMe } from 'react-sizeme';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -82,9 +84,13 @@ function App(props: Props): JSX.Element {
       case MarketFactoryPanelVisibilty.Market:
         return (
           <Grid item xs={3}>
-            <Box className={classes.uiPrimaryGridElement}>
-              <MarketPanel />
-            </Box>
+            <SizeMe>
+              {({ size }) => (
+                <Box className={classes.uiPrimaryGridElement}>
+                  <MarketPanel height={size.height} width={size.width} />
+                </Box>
+              )}
+            </SizeMe>
           </Grid>
         );
       default:

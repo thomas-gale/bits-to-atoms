@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { RootDispatch } from '../../../store';
 import { BuildRequest } from '../../../store/buildrequest/types';
@@ -27,7 +28,6 @@ type Props = ConnectedProps<typeof connector> & OwnProps;
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
-    //padding: '0px',
     width: '100%',
     padding: theme.spacing(2)
   },

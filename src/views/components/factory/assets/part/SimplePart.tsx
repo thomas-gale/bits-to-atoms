@@ -10,7 +10,7 @@ function mapState(_: RootState) {
 }
 
 type OwnProps = {
-  position: number[];
+  position: [number, number, number];
 };
 
 const connector = connect(mapState);

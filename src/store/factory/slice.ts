@@ -31,6 +31,31 @@ const factorySlice = createSlice({
     addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
       state.activeBuildRequests.push(action.payload);
     },
+    removeActiveBuildRequest(state, action: PayloadAction<Identity>) {
+      const indexToRemove = state.activeBuildRequests.findIndex(
+        br => br.identity.uuid === action.payload.uuid
+      );
+      if (indexToRemove === -1) {
+        console.error(
+          `Unable to remove active build request ${action.payload.uuid}`
+        );
+        return; // Don't do anything if we can't find that element
+      }
+      state.activeBuildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.
+    },
+    addOpenActivity(state, action: PayloadAction<Identity>) {
+      state.openActivities.push(action.payload);
+    },
+    removeOpenActivity(state, action: PayloadAction<Identity>) {
+      const indexToRemove = state.openActivities.findIndex(
+        a => a.uuid === action.payload.uuid
+      );
+      if (indexToRemove === -1) {
+        console.error(`Unable to remove open activity ${action.payload.uuid}`);
+        return; // Don't do anything if we can't find that element
+      }
+      state.openActivities.splice(indexToRemove, 1); // Remove the element that has a matching index.
+    },
     setServiceProviderParameter(
       state,
       action: PayloadAction<{
@@ -68,6 +93,9 @@ export const {
   setLiquidAsset,
   updateActiveBuildRequestWorkflow,
   addActiveBuildRequest,
+  removeActiveBuildRequest,
+  addOpenActivity,
+  removeOpenActivity,
   setServiceProviderParameter
 } = factorySlice.actions;
 

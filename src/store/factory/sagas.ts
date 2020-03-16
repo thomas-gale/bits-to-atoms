@@ -95,11 +95,6 @@ function* processAddActiveBuildRequestSaga(
   }
 
   // This is the hard coded workflow.
-
-  // Get location of Input Region
-  // Get location of single FFF printer
-  // Get locatino of Output Region.
-
   const computedWorkflow = createWorkflow({
     identity: createNewIdentity({ displayName: 'Basic Generated Workflow' }),
     activities: [
@@ -131,7 +126,7 @@ function* processAddActiveBuildRequestSaga(
   });
 
   console.log(
-    `Workflow computed Id: ${computedWorkflow.identity.uuid} with ${computedWorkflow.activities.length} steps`
+    `Proposed workflow computed! Id: ${computedWorkflow.identity.uuid} with ${computedWorkflow.activities.length} steps`
   );
 
   // Send out this workflow update.
@@ -141,6 +136,17 @@ function* processAddActiveBuildRequestSaga(
       workflow: computedWorkflow
     })
   );
+
+  // Now we manage the execution of the workflow (comprised of N activity steps).
+
+  // 1. add the N step activity of the workflow to the openActivities market.
+
+  // 2. Service providers who have the appropriate capabilities will bid/assign themselves
+  // (right now a simple first come first serve basis - in the future this should be an automous process based on cost quotes and a reputation system.)
+
+  // 3. Await for the completion of that N'th activity step
+
+  // Loop to 1.
 }
 
 export function* factoryWatchAddActiveBuildRequestSaga() {

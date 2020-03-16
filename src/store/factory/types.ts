@@ -6,10 +6,11 @@ import { ServiceProvider } from './services/types';
 
 export interface Factory {
   identity: Identity;
-  activeBuildRequests: BuildRequest[];
   inputRegion: InputRegion;
   outputRegion: OutputRegion;
   liquidAsset: LiquidAsset;
   fixedAssets: FixedAsset[];
+  activeBuildRequests: BuildRequest[];
+  openActivities: Identity[];
   serviceProviders: ServiceProvider[];
 }

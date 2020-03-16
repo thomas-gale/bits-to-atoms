@@ -1,4 +1,6 @@
+import { Identity } from '../common/identity/types';
 import { FixedAssetType, FixedAsset } from '../economic/types';
+import { BuildRequest } from '../buildrequest/types';
 import { Factory } from './types';
 
 import { createNewIdentity } from '../common/identity/factories';
@@ -9,11 +11,9 @@ import { createFFFPrinter } from './services/fffprinter/factories';
 import { createLiquidAsset, createFixedAsset } from '../economic/factories';
 import { createInputRegion, createOutputRegion } from './boundaries/factories';
 import { createEntity } from './entity/factories';
-import { BuildRequest } from '../buildrequest/types';
 
 export function createFactory({
   identity = createNewIdentity({ displayName: 'default-factory' }),
-  activeBuildRequests = [] as BuildRequest[],
   inputRegion = createInputRegion({
     id: createNewIdentity({ displayName: 'Input Region' }),
     location: createVector3({ x: -3, y: 2.5 }),
@@ -43,6 +43,8 @@ export function createFactory({
   }),
   liquidAsset = createLiquidAsset(),
   fixedAssets = [] as FixedAsset[],
+  activeBuildRequests = [] as BuildRequest[],
+  openActivities = [] as Identity[],
   serviceProviders = [
     createFloorSpace({
       id: createNewIdentity({ displayName: 'Floorspace 1' })
@@ -59,11 +61,12 @@ export function createFactory({
 } = {}): Factory {
   return {
     identity,
-    activeBuildRequests,
     inputRegion,
     outputRegion,
     liquidAsset,
     fixedAssets,
+    activeBuildRequests,
+    openActivities,
     serviceProviders
   };
 }

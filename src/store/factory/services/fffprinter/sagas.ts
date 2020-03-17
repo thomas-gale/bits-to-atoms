@@ -12,7 +12,7 @@ function* generateBidWorkflow(
 ) {
   const activity = requestFufillmentOfActivity.payload;
 
-  // When generating bids, get the Human workers from the factory's service providers.
+  // When generating bids, get the fff printers from the factory's service providers.
   const serviceProviders = (yield select(
     factoryServiceProvidersSelector
   )) as ServiceProvider[];

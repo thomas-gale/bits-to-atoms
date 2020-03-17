@@ -32,7 +32,7 @@ export function* factoryUpdateTickSaga() {
   );
   while (true) {
     yield delay(updateDelayMs);
-    console.log('Recompute economics of Factory');
+    //console.log('Recompute economics of Factory');
 
     // Current State
     const currentLiquidAsset = (yield select(

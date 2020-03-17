@@ -10,6 +10,8 @@ import { createFFFPrinter } from './services/fffprinter/factories';
 import { createLiquidAsset, createFixedAsset } from '../economic/factories';
 import { createInputRegion, createOutputRegion } from './boundaries/factories';
 import { createEntity } from './entity/factories';
+import { createProcurementService } from './services/procurementservice/factories';
+import { createDispatchService } from './services/dispatchservice/factories';
 
 export function createFactory({
   identity = createNewIdentity({ displayName: 'default-factory' }),
@@ -47,6 +49,9 @@ export function createFactory({
     createFloorSpace({
       id: createNewIdentity({ displayName: 'Floorspace 1' })
     }),
+    createProcurementService({
+      id: createNewIdentity({ displayName: 'Procurement 1' })
+    }),
     createHumanWorker({
       id: createNewIdentity({ displayName: 'Human 1' }),
       location: createVector3({ x: 3, y: 1 })
@@ -54,6 +59,9 @@ export function createFactory({
     createFFFPrinter({
       id: createNewIdentity({ displayName: 'Printer 1' }),
       location: createVector3({ x: 0, y: -1 })
+    }),
+    createDispatchService({
+      id: createNewIdentity({ displayName: 'Dispatch 1' })
     })
   ]
 } = {}): Factory {

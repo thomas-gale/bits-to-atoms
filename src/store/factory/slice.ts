@@ -37,8 +37,31 @@ const factorySlice = createSlice({
         action.payload.workflow;
     },
     requestFufillmentOfActivity(_state, _action: PayloadAction<Activity>) {
-      // This action is picked up by middlewear saga for processing first.
-      // This is normally trigged by a service provider assigning itself (possibly appending an estimated cost quote)
+      // This action is to be picked up by middlewear saga for processing.
+      // This is trigged by the initial step in the Factory build request execution workflow
+      // From the primary factory saga.
+    },
+    offerFufillmentOfActivity(
+      _state,
+      _action: PayloadAction<{
+        serviceProviderId: Identity;
+        activityId: Identity;
+      }>
+    ) {
+      // This action is to be picked up by middlewear saga for processing.
+      // This is trigged by the second step in the Factory build request execution workflow
+      // From the service providers returning 'quotes' of how to execute the activity.
+    },
+    acceptFufillmentOfActivity(
+      _state,
+      _action: PayloadAction<{
+        serviceProviderId: Identity;
+        activityId: Identity;
+      }>
+    ) {
+      // This action is to be picked up by middlewear saga for processing.
+      // This is trigged by the third step in the Factory build request execution workflow
+      // From the primary factory saga to confirm that the service provider can go ahead and begin excution.
     },
     updateActiveBuildRequestActivity(
       state,
@@ -91,53 +114,6 @@ const factorySlice = createSlice({
       }
       state.activeBuildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.
     },
-    /*
-    addOpenActivity(state, action: PayloadAction<Identity>) {
-      state.openActivities.push(action.payload);
-    },
-    requestUpdateOpenActivity(_state, _action: PayloadAction<Activity>) {
-      // This action is picked up by middlewear saga for processing first.
-      // This is normally trigged by a service provider assigning itself (possibly appending an estimated cost quote)
-    },
-    updateOpenActivity(state, action: PayloadAction<Activity>) {
-      const indexToUpdate = state.openActivities.findIndex(
-        a => a.uuid === action.payload.identity.uuid
-      );
-      if (indexToUpdate === -1) {
-        console.error(
-          `Unable to find to update open activity ${action.payload.identity.uuid}`
-        );
-        return; // Don't do anything if we can't find that element
-      }
-
-      // TD. The following steps show that we need to think carefully about this structure, maybe try to better normalise it.
-      // We need to search through each active build request trying to match up the workflow.
-      for (const activeBuildRequest of state.activeBuildRequests) {
-        if (activeBuildRequest.workflow) {
-          for (let activity of activeBuildRequest.workflow.activities) {
-            if (activity.identity.uuid === action.payload.identity.uuid) {
-              activity = action.payload;
-              return;
-            }
-          }
-        }
-      }
-      console.error(
-        `Unable to find to update open activity ${action.payload.identity.uuid}`
-      );
-    },
-    removeOpenActivity(state, action: PayloadAction<Identity>) {
-      const indexToRemove = state.openActivities.findIndex(
-        a => a.uuid === action.payload.uuid
-      );
-      if (indexToRemove === -1) {
-        console.error(
-          `Unable to find to remove open activity ${action.payload.uuid}`
-        );
-        return; // Don't do anything if we can't find that element
-      }
-      state.openActivities.splice(indexToRemove, 1); // Remove the element that has a matching index.
-    },*/
     setServiceProviderParameter(
       state,
       action: PayloadAction<{
@@ -176,6 +152,8 @@ export const {
   addActiveBuildRequest,
   updateActiveBuildRequestWorkflow,
   requestFufillmentOfActivity,
+  offerFufillmentOfActivity,
+  acceptFufillmentOfActivity,
   updateActiveBuildRequestActivity,
   removeActiveBuildRequest,
   setServiceProviderParameter

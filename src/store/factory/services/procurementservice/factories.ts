@@ -12,6 +12,7 @@ import { ActivityType } from '../../../workflow/types';
 
 export function createProcurementService({
   capabilities = [ActivityType.Dispatch],
+  currentActivity = undefined,
   id = createNewIdentity({ displayName: 'default-dispatch-service' }),
   location = createVector3(),
   orientation = createQuaternion(),
@@ -21,6 +22,7 @@ export function createProcurementService({
   return {
     type: ServiceType.Procurement,
     capabilities,
+    currentActivity,
     id,
     location,
     orientation,

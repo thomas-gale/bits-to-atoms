@@ -12,6 +12,6 @@ export interface Factory {
   liquidAsset: LiquidAsset;
   fixedAssets: FixedAsset[];
   activeBuildRequests: BuildRequest[];
-  openActivities: Identity[];
+  //openActivities: Identity[];
   serviceProviders: ServiceProvider[];
 }

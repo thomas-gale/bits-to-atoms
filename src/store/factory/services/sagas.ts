@@ -1,14 +1,14 @@
 import { all } from 'redux-saga/effects';
-import { fffPrinterWatchOpenActivitiesSaga } from './fffprinter/sagas';
-import { humanWorkerWatchOpenActivitiesSaga } from './humanworker/sagas';
-import { procurementServiceWatchOpenActivitiesSaga } from './procurementservice/sagas';
-import { dispatchServiceWatchOpenActivitiesSaga } from './dispatchservice/sagas';
+import { watchRequestFufillmentOfActivitySaga as procurementWatchRequestFufillmentOfActivitySaga } from './procurementservice/sagas';
+import { watchRequestFufillmentOfActivitySaga as humanWorkerWatchRequestFufillmentOfActivitySaga } from './humanworker/sagas';
+import { watchRequestFufillmentOfActivitySaga as fffPrinterWatchRequestFufillmentOfActivitySaga } from './fffprinter/sagas';
+import { watchRequestFufillmentOfActivitySaga as dispatchServiceWatchRequestFufillmentOfActivitySaga } from './dispatchservice/sagas';
 
 export function* serviceProvidersWatchFactoryOpenActivitiesSaga() {
   yield all([
-    procurementServiceWatchOpenActivitiesSaga(),
-    fffPrinterWatchOpenActivitiesSaga(),
-    humanWorkerWatchOpenActivitiesSaga(),
-    dispatchServiceWatchOpenActivitiesSaga()
+    procurementWatchRequestFufillmentOfActivitySaga(),
+    humanWorkerWatchRequestFufillmentOfActivitySaga(),
+    fffPrinterWatchRequestFufillmentOfActivitySaga(),
+    dispatchServiceWatchRequestFufillmentOfActivitySaga()
   ]);
 }

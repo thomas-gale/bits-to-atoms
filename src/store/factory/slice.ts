@@ -36,6 +36,10 @@ const factorySlice = createSlice({
       state.activeBuildRequests[activeBuildRequestIndex].workflow =
         action.payload.workflow;
     },
+    requestFufillmentOfActivity(_state, _action: PayloadAction<Activity>) {
+      // This action is picked up by middlewear saga for processing first.
+      // This is normally trigged by a service provider assigning itself (possibly appending an estimated cost quote)
+    },
     updateActiveBuildRequestActivity(
       state,
       action: PayloadAction<{ buildRequestId: Identity; activity: Activity }>
@@ -87,6 +91,7 @@ const factorySlice = createSlice({
       }
       state.activeBuildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.
     },
+    /*
     addOpenActivity(state, action: PayloadAction<Identity>) {
       state.openActivities.push(action.payload);
     },
@@ -132,7 +137,7 @@ const factorySlice = createSlice({
         return; // Don't do anything if we can't find that element
       }
       state.openActivities.splice(indexToRemove, 1); // Remove the element that has a matching index.
-    },
+    },*/
     setServiceProviderParameter(
       state,
       action: PayloadAction<{
@@ -170,10 +175,9 @@ export const {
   setLiquidAsset,
   addActiveBuildRequest,
   updateActiveBuildRequestWorkflow,
+  requestFufillmentOfActivity,
   updateActiveBuildRequestActivity,
   removeActiveBuildRequest,
-  addOpenActivity,
-  removeOpenActivity,
   setServiceProviderParameter
 } = factorySlice.actions;
 

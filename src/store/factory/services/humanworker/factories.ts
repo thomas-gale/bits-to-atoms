@@ -14,6 +14,7 @@ import { ActivityType } from '../../../workflow/types';
 
 export function createHumanWorker({
   capabilities = [ActivityType.Transportation, ActivityType.Transmutation],
+  currentActivity = undefined,
   id = createNewIdentity({ displayName: 'default-humanworker' }),
   location = createVector3(),
   orientation = createQuaternion(),
@@ -32,6 +33,7 @@ export function createHumanWorker({
   return {
     type: ServiceType.HumanWorker,
     capabilities,
+    currentActivity,
     id,
     location,
     orientation,

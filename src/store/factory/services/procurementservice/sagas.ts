@@ -1,28 +1,21 @@
 import { takeEvery, delay } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { Identity } from '../../../common/identity/types';
-import { Workflow } from '../../../workflow/types';
-import { updateActiveBuildRequestWorkflow } from '../../slice';
+import { Activity, ActivityType } from '../../../workflow/types';
+import { requestFufillmentOfActivity } from '../../slice';
 
-function* competeToRealiseWorkflow(
-  _updatedActiveBuildRequestWorkflow: PayloadAction<{
-    buildRequestId: Identity;
-    workflow: Workflow;
-  }>
+function* generateBidWorkflow(
+  requestFufillmentOfActivity: PayloadAction<Activity>
 ) {
-  console.log(
-    'Procurement service trying to compete for what it can do to satisfy the required workflow steps.'
-  );
-  console.log(
-    'Procurement service only interested in procurement e.g. Liquid Asset -> Material Spool'
-  );
-  yield delay(100);
+  const activity = requestFufillmentOfActivity.payload;
+  if (activity.type === ActivityType.Procurement) {
+    console.log(
+      'Procurement service will generate quote for this procurement activity'
+    );
+    yield delay(100);
+  }
 }
 
-export function* procurementServiceWatchOpenActivitiesSaga() {
-  yield takeEvery(
-    updateActiveBuildRequestWorkflow.type,
-    competeToRealiseWorkflow
-  );
+export function* watchRequestFufillmentOfActivitySaga() {
+  yield takeEvery(requestFufillmentOfActivity.type, generateBidWorkflow);
 }

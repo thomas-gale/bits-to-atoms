@@ -3,7 +3,7 @@ import { MaterialType } from '../../material/types';
 import { Cuboid } from '../../common/primitive/types';
 import { LiquidAsset } from '../../economic/types';
 import { BasicShape } from '../../common/topology/types';
-import { ActivityType } from '../../workflow/types';
+import { ActivityType, Activity } from '../../workflow/types';
 
 export enum ServiceType {
   Procurement = 'Procurement',
@@ -18,6 +18,7 @@ export enum ServiceType {
 interface BaseServiceProvider extends Entity<any> {
   type: ServiceType;
   capabilities: ActivityType[];
+  currentActivity: Activity | undefined;
   currentCostPerTime: LiquidAsset;
 }
 

@@ -14,6 +14,7 @@ import { ActivityType } from '../../../workflow/types';
 
 export function createFFFPrinter({
   capabilities = [ActivityType.Transmutation],
+  currentActivity = undefined,
   id = createNewIdentity({ displayName: 'default-fff-printer' }),
   location = createVector3(),
   orientation = createQuaternion(),
@@ -30,6 +31,7 @@ export function createFFFPrinter({
   return {
     type: ServiceType.FFFPrinter,
     capabilities,
+    currentActivity,
     id,
     location,
     orientation,

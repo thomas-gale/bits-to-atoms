@@ -1,28 +1,63 @@
-import { takeEvery, delay } from 'redux-saga/effects';
+import { takeEvery, delay, select } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { Identity } from '../../../common/identity/types';
-import { Workflow } from '../../../workflow/types';
-import { updateActiveBuildRequestWorkflow } from '../../slice';
+import { Activity, ActivityType } from '../../../workflow/types';
+import { requestFufillmentOfActivity } from '../../slice';
+import { factoryServiceProvidersSelector } from '../../selectors';
+import { ServiceProvider, ServiceType } from '../types';
+import { HumanWorker } from './types';
 
-function* competeToRealiseWorkflow(
-  _updatedActiveBuildRequestWorkflow: PayloadAction<{
-    buildRequestId: Identity;
-    workflow: Workflow;
-  }>
+function* generateBidWorkflow(
+  requestFufillmentOfActivity: PayloadAction<Activity>
 ) {
-  console.log(
-    'Human worker trying to compete for what it can do to satisfy the required workflow steps.'
+  const activity = requestFufillmentOfActivity.payload;
+
+  // When generating bids, get the Human workers from the factory's service providers.
+  const serviceProviders = (yield select(
+    factoryServiceProvidersSelector
+  )) as ServiceProvider[];
+  const humanServiceProviders = serviceProviders.filter(
+    sp => sp.type === ServiceType.HumanWorker
+  ) as HumanWorker[];
+
+  // Grab the first service provider that is not assigned a task.
+  // TD: In the future service providers should be able to bid on future tasks to append to a buffer.
+  const availableHumanServiceProviders = humanServiceProviders.filter(
+    hsp => !hsp.currentActivity
   );
-  console.log(
-    'Human worker only interested in transport and transmutation RoughCube -> Cube'
-  );
-  yield delay(100);
+  const humanServiceProvider =
+    availableHumanServiceProviders.length > 0
+      ? availableHumanServiceProviders[0]
+      : undefined;
+  if (!humanServiceProvider) {
+    console.warn(
+      `Unable to generate bid for activity ${activity.identity.uuid}, no human workers available`
+    );
+    return; // Early return if no service providers available to bid.
+  }
+
+  if (activity.type === ActivityType.Transportation) {
+    console.log(
+      `Human worker service ${humanServiceProvider.id.uuid} will generate quote for this transportation activity`
+    );
+    yield delay(100);
+  } else if (activity.type === ActivityType.Transmutation) {
+    if (
+      humanServiceProvider.supportedInputTopologies.find(
+        inputShape => inputShape === activity.startTopology
+      ) &&
+      humanServiceProvider.supportedOutputTopologies.find(
+        outputShape => outputShape === activity.endTopology
+      )
+    ) {
+      console.log(
+        `Human worker service ${humanServiceProvider.id.uuid} will generate quote for this transmutation activity`
+      );
+      yield delay(100);
+    }
+  }
 }
 
-export function* humanWorkerWatchOpenActivitiesSaga() {
-  yield takeEvery(
-    updateActiveBuildRequestWorkflow.type,
-    competeToRealiseWorkflow
-  );
+export function* watchRequestFufillmentOfActivitySaga() {
+  yield takeEvery(requestFufillmentOfActivity.type, generateBidWorkflow);
 }

@@ -1,4 +1,3 @@
-import { Identity } from '../common/identity/types';
 import { FixedAssetType, FixedAsset } from '../economic/types';
 import { BuildRequest } from '../buildrequest/types';
 import { Factory } from './types';
@@ -44,7 +43,6 @@ export function createFactory({
   liquidAsset = createLiquidAsset(),
   fixedAssets = [] as FixedAsset[],
   activeBuildRequests = [] as BuildRequest[],
-  openActivities = [] as Identity[],
   serviceProviders = [
     createFloorSpace({
       id: createNewIdentity({ displayName: 'Floorspace 1' })
@@ -66,7 +64,6 @@ export function createFactory({
     liquidAsset,
     fixedAssets,
     activeBuildRequests,
-    openActivities,
     serviceProviders
   };
 }

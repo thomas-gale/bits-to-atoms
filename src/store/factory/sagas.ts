@@ -129,7 +129,7 @@ function* processAddActiveBuildRequestSaga(
     `Proposed workflow computed! Id: ${computedWorkflow.identity.uuid} with ${computedWorkflow.activities.length} steps`
   );
 
-  // Send out this workflow update.
+  // Send out the proposed active build request workflow
   yield put(
     updateActiveBuildRequestWorkflow({
       buildRequestId: buildRequest.identity,
@@ -147,6 +147,8 @@ function* processAddActiveBuildRequestSaga(
   // 3. Await for the completion of that N'th activity step
 
   // Loop to 1.
+
+  // Onced completed remove the active build request (Or move to a completed state / section).
 }
 
 export function* factoryWatchAddActiveBuildRequestSaga() {

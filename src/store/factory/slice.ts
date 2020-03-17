@@ -4,7 +4,7 @@ import { createFactory } from './factories';
 import { Parameter } from '../common/parameter/types';
 import { BuildRequest } from '../buildrequest/types';
 import { LiquidAsset } from '../economic/types';
-import { Workflow } from '../workflow/types';
+import { Workflow, Activity } from '../workflow/types';
 
 const factorySlice = createSlice({
   name: 'factory',
@@ -16,6 +16,9 @@ const factorySlice = createSlice({
     setLiquidAsset(state, action: PayloadAction<LiquidAsset>) {
       state.liquidAsset = action.payload;
     },
+    addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
+      state.activeBuildRequests.push(action.payload);
+    },
     updateActiveBuildRequestWorkflow(
       state,
       action: PayloadAction<{ buildRequestId: Identity; workflow: Workflow }>
@@ -23,13 +26,52 @@ const factorySlice = createSlice({
       const activeBuildRequestIndex = state.activeBuildRequests.findIndex(
         br => br.identity.uuid === action.payload.buildRequestId.uuid
       );
-      if (activeBuildRequestIndex === -1) return;
+      if (activeBuildRequestIndex === -1) {
+        console.error(
+          `Unable to update active build request workflow, build request ${action.payload.buildRequestId} not found`
+        );
+        return;
+      }
 
       state.activeBuildRequests[activeBuildRequestIndex].workflow =
         action.payload.workflow;
     },
-    addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
-      state.activeBuildRequests.push(action.payload);
+    updateActiveBuildRequestActivity(
+      state,
+      action: PayloadAction<{ buildRequestId: Identity; activity: Activity }>
+    ) {
+      const activeBuildRequestIndex = state.activeBuildRequests.findIndex(
+        br => br.identity.uuid === action.payload.buildRequestId.uuid
+      );
+      if (activeBuildRequestIndex === -1) {
+        console.error(
+          `Unable to update active build request activity, build request ${action.payload.buildRequestId} not found`
+        );
+        return;
+      }
+
+      const currentWorkflow = state.activeBuildRequests[activeBuildRequestIndex].workflow;
+
+      if (!currentWorkflow) {
+        console.error(
+          `Unable to update active build request (${action.payload.buildRequestId}) activity, build request workflow undefined`
+        );
+        return;
+      }
+
+      const activeBuildRequestActivityIndex = currentWorkflow.activities.findIndex(
+        a => a.identity.uuid === action.payload.activity.identity.uuid
+      );
+
+      if (!currentWorkflow.activities[activeBuildRequestActivityIndex]) {
+        console.error(
+          `Unable to update active build request (${action.payload.buildRequestId}) activity, the workflow activity ${action.payload.activity.identity.uuid} not found`
+        );
+        return;
+      }
+
+      // Successfully update the activity.
+      currentWorkflow.activities[activeBuildRequestActivityIndex] = action.payload.activity;
     },
     removeActiveBuildRequest(state, action: PayloadAction<Identity>) {
       const indexToRemove = state.activeBuildRequests.findIndex(
@@ -91,8 +133,8 @@ const factorySlice = createSlice({
 export const {
   setIdentity,
   setLiquidAsset,
-  updateActiveBuildRequestWorkflow,
   addActiveBuildRequest,
+  updateActiveBuildRequestWorkflow,
   removeActiveBuildRequest,
   addOpenActivity,
   removeOpenActivity,

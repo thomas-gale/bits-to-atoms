@@ -16,7 +16,7 @@ import {
   factoryUpdateTickSaga,
   factoryWatchAddActiveBuildRequestSaga
 } from './factory/sagas';
-import { serviceProvidersWatchWorkflowUpdatesSaga } from './factory/services/sagas';
+import { serviceProvidersWatchFactoryOpenActivitiesSaga } from './factory/services/sagas';
 
 function* rootSaga() {
   yield all([
@@ -24,7 +24,7 @@ function* rootSaga() {
     watchRequestAddBuildRequestSaga(),
     factoryUpdateTickSaga(),
     factoryWatchAddActiveBuildRequestSaga(),
-    serviceProvidersWatchWorkflowUpdatesSaga()
+    serviceProvidersWatchFactoryOpenActivitiesSaga()
   ]);
 }
 

@@ -20,7 +20,7 @@ function* competeToRealiseWorkflow(
   yield delay(100);
 }
 
-export function* dispatchServiceWatchWorkflowUpdatesSaga() {
+export function* dispatchServiceWatchOpenActivitiesSaga() {
   yield takeEvery(
     updateActiveBuildRequestWorkflow.type,
     competeToRealiseWorkflow

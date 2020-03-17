@@ -4,7 +4,8 @@ import { BuildRequest } from '../buildrequest/types';
 import {
   addActiveBuildRequest,
   setLiquidAsset,
-  updateActiveBuildRequestWorkflow
+  updateActiveBuildRequestWorkflow,
+  addOpenActivity
 } from './slice';
 import { config } from '../../env/config';
 import {
@@ -137,18 +138,22 @@ function* processAddActiveBuildRequestSaga(
     })
   );
 
-  // Now we manage the execution of the workflow (comprised of N activity steps).
+  console.log(`Starting workflow ${computedWorkflow.identity.uuid}`);
 
-  // 1. add the N step activity of the workflow to the openActivities market.
+  // Now we manage the execution of the sequential workflow activities.
+  for (const activity of computedWorkflow.activities) {
+    // 1. add the activity to the openActivities market.
+    yield put(addOpenActivity(activity.identity));
 
-  // 2. Service providers who have the appropriate capabilities will bid/assign themselves
-  // (right now a simple first come first serve basis - in the future this should be an automous process based on cost quotes and a reputation system.)
+    // 2. Service providers who have the appropriate capabilities will bid/assign themselves
+    // (right now a simple first come first serve basis - in the future this should be an automous process based on cost quotes and a reputation system.)
 
-  // 3. Await for the completion of that N'th activity step
-
-  // Loop to 1.
+    // 3. Await for the completion of that N'th activity step
+    yield delay(5000);
+  }
 
   // Onced completed remove the active build request (Or move to a completed state / section).
+  console.log(`Completed workflow ${computedWorkflow.identity.uuid}`);
 }
 
 export function* factoryWatchAddActiveBuildRequestSaga() {

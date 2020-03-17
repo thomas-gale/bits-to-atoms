@@ -50,7 +50,8 @@ const factorySlice = createSlice({
         return;
       }
 
-      const currentWorkflow = state.activeBuildRequests[activeBuildRequestIndex].workflow;
+      const currentWorkflow =
+        state.activeBuildRequests[activeBuildRequestIndex].workflow;
 
       if (!currentWorkflow) {
         console.error(
@@ -71,7 +72,8 @@ const factorySlice = createSlice({
       }
 
       // Successfully update the activity.
-      currentWorkflow.activities[activeBuildRequestActivityIndex] = action.payload.activity;
+      currentWorkflow.activities[activeBuildRequestActivityIndex] =
+        action.payload.activity;
     },
     removeActiveBuildRequest(state, action: PayloadAction<Identity>) {
       const indexToRemove = state.activeBuildRequests.findIndex(
@@ -88,12 +90,45 @@ const factorySlice = createSlice({
     addOpenActivity(state, action: PayloadAction<Identity>) {
       state.openActivities.push(action.payload);
     },
+    requestUpdateOpenActivity(_state, _action: PayloadAction<Activity>) {
+      // This action is picked up by middlewear saga for processing first.
+      // This is normally trigged by a service provider assigning itself (possibly appending an estimated cost quote)
+    },
+    updateOpenActivity(state, action: PayloadAction<Activity>) {
+      const indexToUpdate = state.openActivities.findIndex(
+        a => a.uuid === action.payload.identity.uuid
+      );
+      if (indexToUpdate === -1) {
+        console.error(
+          `Unable to find to update open activity ${action.payload.identity.uuid}`
+        );
+        return; // Don't do anything if we can't find that element
+      }
+
+      // TD. The following steps show that we need to think carefully about this structure, maybe try to better normalise it.
+      // We need to search through each active build request trying to match up the workflow.
+      for (const activeBuildRequest of state.activeBuildRequests) {
+        if (activeBuildRequest.workflow) {
+          for (let activity of activeBuildRequest.workflow.activities) {
+            if (activity.identity.uuid === action.payload.identity.uuid) {
+              activity = action.payload;
+              return;
+            }
+          }
+        }
+      }
+      console.error(
+        `Unable to find to update open activity ${action.payload.identity.uuid}`
+      );
+    },
     removeOpenActivity(state, action: PayloadAction<Identity>) {
       const indexToRemove = state.openActivities.findIndex(
         a => a.uuid === action.payload.uuid
       );
       if (indexToRemove === -1) {
-        console.error(`Unable to remove open activity ${action.payload.uuid}`);
+        console.error(
+          `Unable to find to remove open activity ${action.payload.uuid}`
+        );
         return; // Don't do anything if we can't find that element
       }
       state.openActivities.splice(indexToRemove, 1); // Remove the element that has a matching index.
@@ -135,6 +170,7 @@ export const {
   setLiquidAsset,
   addActiveBuildRequest,
   updateActiveBuildRequestWorkflow,
+  updateActiveBuildRequestActivity,
   removeActiveBuildRequest,
   addOpenActivity,
   removeOpenActivity,

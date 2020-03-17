@@ -1,8 +1,11 @@
-import { takeEvery, delay, select } from 'redux-saga/effects';
+import { takeEvery, select, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import { Activity, ActivityType } from '../../../workflow/types';
-import { requestFufillmentOfActivity } from '../../slice';
+import {
+  requestFullfillmentOfActivity,
+  offerFullfillmentOfActivity
+} from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
 import { HumanWorker } from './types';
@@ -20,10 +23,10 @@ function* generateBidWorkflow(
     sp => sp.type === ServiceType.HumanWorker
   ) as HumanWorker[];
 
-  // Grab the first service provider that is not assigned a task.
+  // Grab the first service provider that can bid.
   // TD: In the future service providers should be able to bid on future tasks to append to a buffer.
   const availableHumanServiceProviders = humanServiceProviders.filter(
-    hsp => !hsp.currentActivity
+    hsp => hsp.canBid
   );
   const humanServiceProvider =
     availableHumanServiceProviders.length > 0
@@ -38,9 +41,14 @@ function* generateBidWorkflow(
 
   if (activity.type === ActivityType.Transportation) {
     console.log(
-      `Human worker service ${humanServiceProvider.id.uuid} will generate quote for this transportation activity`
+      `Human worker service ${humanServiceProvider.id.uuid} will offer fullfillment for this transportation activity`
     );
-    yield delay(100);
+    yield put(
+      offerFullfillmentOfActivity({
+        serviceProviderId: humanServiceProvider.id,
+        activityId: activity.identity
+      })
+    );
   } else if (activity.type === ActivityType.Transmutation) {
     if (
       humanServiceProvider.supportedInputTopologies.find(
@@ -51,13 +59,18 @@ function* generateBidWorkflow(
       )
     ) {
       console.log(
-        `Human worker service ${humanServiceProvider.id.uuid} will generate quote for this transmutation activity`
+        `Human worker service ${humanServiceProvider.id.uuid} will offer fullfillment for this transmutation activity`
       );
-      yield delay(100);
+      yield put(
+        offerFullfillmentOfActivity({
+          serviceProviderId: humanServiceProvider.id,
+          activityId: activity.identity
+        })
+      );
     }
   }
 }
 
 export function* watchRequestFufillmentOfActivitySaga() {
-  yield takeEvery(requestFufillmentOfActivity.type, generateBidWorkflow);
+  yield takeEvery(requestFullfillmentOfActivity.type, generateBidWorkflow);
 }

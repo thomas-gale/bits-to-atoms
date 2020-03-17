@@ -1,8 +1,11 @@
-import { takeEvery, delay, select } from 'redux-saga/effects';
+import { takeEvery, select, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import { Activity, ActivityType } from '../../../workflow/types';
-import { requestFufillmentOfActivity } from '../../slice';
+import {
+  requestFullfillmentOfActivity,
+  offerFullfillmentOfActivity
+} from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
 import { FFFPrinter } from './types';
@@ -20,10 +23,10 @@ function* generateBidWorkflow(
     sp => sp.type === ServiceType.FFFPrinter
   ) as FFFPrinter[];
 
-  // Grab the first service provider that is not assigned a task.
+  // Grab the first service provider that can bid.
   // TD: In the future service providers should be able to bid on future tasks to append to a buffer.
   const availableFFFPrinterServiceProviders = fffPrinterServiceProviders.filter(
-    fffpsp => !fffpsp.currentActivity
+    fffpsp => fffpsp.canBid
   );
   const fffPrinterServiceProvider =
     availableFFFPrinterServiceProviders.length > 0
@@ -46,13 +49,18 @@ function* generateBidWorkflow(
       )
     ) {
       console.log(
-        `FFF printer service ${fffPrinterServiceProvider.id.uuid} will generate quote for this transmutation activity`
+        `FFF printer service ${fffPrinterServiceProvider.id.uuid} will offer fullfillment for this transmutation activity`
       );
-      yield delay(100);
+      yield put(
+        offerFullfillmentOfActivity({
+          serviceProviderId: fffPrinterServiceProvider.id,
+          activityId: activity.identity
+        })
+      );
     }
   }
 }
 
 export function* watchRequestFufillmentOfActivitySaga() {
-  yield takeEvery(requestFufillmentOfActivity.type, generateBidWorkflow);
+  yield takeEvery(requestFullfillmentOfActivity.type, generateBidWorkflow);
 }

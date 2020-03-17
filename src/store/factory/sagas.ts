@@ -5,7 +5,7 @@ import {
   addActiveBuildRequest,
   setLiquidAsset,
   updateActiveBuildRequestWorkflow,
-  requestFufillmentOfActivity
+  requestFullfillmentOfActivity
 } from './slice';
 import { config } from '../../env/config';
 import {
@@ -143,13 +143,13 @@ function* processAddActiveBuildRequestSaga(
   // Now we manage the execution of the sequential workflow activities.
   for (const activity of computedWorkflow.activities) {
     // 1. add the activity to the openActivities market.
-    yield put(requestFufillmentOfActivity(activity));
+    yield put(requestFullfillmentOfActivity(activity));
 
     // 2. Service providers who have the appropriate capabilities will bid/assign themselves
     // (right now a simple first come first serve basis - in the future this should be an automous process based on cost quotes and a reputation system.)
 
     // 3. Await for the completion of that N'th activity step
-    yield delay(5000);
+    yield delay(1000);
   }
 
   // Onced completed remove the active build request (Or move to a completed state / section).

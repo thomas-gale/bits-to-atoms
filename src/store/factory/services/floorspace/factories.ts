@@ -11,6 +11,7 @@ import { ActivityType } from '../../../workflow/types';
 
 export const createFloorSpace = ({
   capabilities = [ActivityType.Storage],
+  canBid = true,
   currentActivity = undefined,
   id = createNewIdentity({ displayName: 'default-floorspace' }),
   location = createVector3(),
@@ -24,6 +25,7 @@ export const createFloorSpace = ({
   return {
     type: ServiceType.Floorspace,
     capabilities,
+    canBid,
     currentActivity,
     id,
     location,

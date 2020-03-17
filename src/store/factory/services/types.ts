@@ -18,6 +18,7 @@ export enum ServiceType {
 interface BaseServiceProvider extends Entity<any> {
   type: ServiceType;
   capabilities: ActivityType[];
+  canBid: boolean;
   currentActivity: Activity | undefined;
   currentCostPerTime: LiquidAsset;
 }

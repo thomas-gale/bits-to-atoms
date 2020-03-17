@@ -36,12 +36,12 @@ const factorySlice = createSlice({
       state.activeBuildRequests[activeBuildRequestIndex].workflow =
         action.payload.workflow;
     },
-    requestFufillmentOfActivity(_state, _action: PayloadAction<Activity>) {
+    requestFullfillmentOfActivity(_state, _action: PayloadAction<Activity>) {
       // This action is to be picked up by middlewear saga for processing.
       // This is trigged by the initial step in the Factory build request execution workflow
       // From the primary factory saga.
     },
-    offerFufillmentOfActivity(
+    offerFullfillmentOfActivity(
       _state,
       _action: PayloadAction<{
         serviceProviderId: Identity;
@@ -52,7 +52,7 @@ const factorySlice = createSlice({
       // This is trigged by the second step in the Factory build request execution workflow
       // From the service providers returning 'quotes' of how to execute the activity.
     },
-    acceptFufillmentOfActivity(
+    acceptFullfillmentOfActivity(
       _state,
       _action: PayloadAction<{
         serviceProviderId: Identity;
@@ -151,9 +151,9 @@ export const {
   setLiquidAsset,
   addActiveBuildRequest,
   updateActiveBuildRequestWorkflow,
-  requestFufillmentOfActivity,
-  offerFufillmentOfActivity,
-  acceptFufillmentOfActivity,
+  requestFullfillmentOfActivity,
+  offerFullfillmentOfActivity,
+  acceptFullfillmentOfActivity,
   updateActiveBuildRequestActivity,
   removeActiveBuildRequest,
   setServiceProviderParameter

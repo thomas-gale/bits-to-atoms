@@ -12,6 +12,7 @@ import { ActivityType } from '../../../workflow/types';
 
 export function createProcurementService({
   capabilities = [ActivityType.Dispatch],
+  canBid = true,
   currentActivity = undefined,
   id = createNewIdentity({ displayName: 'default-dispatch-service' }),
   location = createVector3(),
@@ -22,6 +23,7 @@ export function createProcurementService({
   return {
     type: ServiceType.Procurement,
     capabilities,
+    canBid,
     currentActivity,
     id,
     location,

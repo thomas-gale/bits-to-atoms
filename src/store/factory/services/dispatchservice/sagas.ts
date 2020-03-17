@@ -1,10 +1,13 @@
-import { takeEvery, delay, select } from 'redux-saga/effects';
+import { takeEvery, select, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import { ServiceProvider, ServiceType } from '../types';
 import { DispatchService } from './types';
 import { Activity, ActivityType } from '../../../workflow/types';
-import { requestFufillmentOfActivity } from '../../slice';
+import {
+  requestFullfillmentOfActivity,
+  offerFullfillmentOfActivity
+} from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 
 function* generateBidWorkflow(
@@ -20,16 +23,16 @@ function* generateBidWorkflow(
     sp => sp.type === ServiceType.Dispatch
   ) as DispatchService[];
 
-  // Grab the first service provider that is not assigned a task.
+  // Grab the first service provider that can bid.
   // TD: In the future service providers should be able to bid on future tasks to append to a buffer.
   const availableDispatchServiceProviders = dispatchServiceProviders.filter(
-    psp => !psp.currentActivity
+    psp => psp.canBid
   );
-  const procurmentServiceProvider =
+  const dispatchServiceProvider =
     availableDispatchServiceProviders.length > 0
       ? availableDispatchServiceProviders[0]
       : undefined;
-  if (!procurmentServiceProvider) {
+  if (!dispatchServiceProvider) {
     console.warn(
       `Unable to generate bid for activity ${activity.identity.uuid}, no dispatch services available`
     );
@@ -40,10 +43,15 @@ function* generateBidWorkflow(
     console.log(
       'Dispatch service will generate quote for this dispatch activity'
     );
-    yield delay(100);
+    yield put(
+      offerFullfillmentOfActivity({
+        serviceProviderId: dispatchServiceProvider.id,
+        activityId: activity.identity
+      })
+    );
   }
 }
 
 export function* watchRequestFufillmentOfActivitySaga() {
-  yield takeEvery(requestFufillmentOfActivity.type, generateBidWorkflow);
+  yield takeEvery(requestFullfillmentOfActivity.type, generateBidWorkflow);
 }

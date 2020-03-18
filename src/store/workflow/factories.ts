@@ -21,6 +21,8 @@ export function createProcurementActivity({
   serviceProviderId = undefined,
   started = undefined,
   completed = undefined,
+  previousActivityId = undefined,
+  nextActivityId = undefined,
   material = createSimplePolymerMaterial(),
   quantity = 0
 } = {}): MaterialAquisitionActivity {
@@ -30,6 +32,8 @@ export function createProcurementActivity({
     serviceProviderId,
     started,
     completed,
+    previousActivityId,
+    nextActivityId,
     material,
     quantity
   };
@@ -42,6 +46,8 @@ export function createTransportationActivity({
   serviceProviderId = undefined,
   started = undefined,
   completed = undefined,
+  previousActivityId = undefined,
+  nextActivityId = undefined,
   startLocation = createVector3(),
   endLocation = createVector3()
 } = {}): TransportationActivity {
@@ -51,6 +57,8 @@ export function createTransportationActivity({
     serviceProviderId,
     started,
     completed,
+    previousActivityId,
+    nextActivityId,
     startLocation,
     endLocation
   };
@@ -63,6 +71,8 @@ export function createTransmutationActivity({
   serviceProviderId = undefined,
   started = undefined,
   completed = undefined,
+  previousActivityId = undefined,
+  nextActivityId = undefined,
   material = MaterialType.SimplePolymer,
   startTopology = BasicShape.Spool,
   endTopology = BasicShape.Cube
@@ -73,6 +83,8 @@ export function createTransmutationActivity({
     serviceProviderId,
     started,
     completed,
+    previousActivityId,
+    nextActivityId,
     material,
     startTopology,
     endTopology
@@ -86,6 +98,8 @@ export function createStorageActivity({
   serviceProviderId = undefined,
   started = undefined,
   completed = undefined,
+  previousActivityId = undefined,
+  nextActivityId = undefined,
   location = createVector3()
 } = {}): StorageActivity {
   return {
@@ -94,6 +108,8 @@ export function createStorageActivity({
     serviceProviderId,
     started,
     completed,
+    previousActivityId,
+    nextActivityId,
     location
   };
 }
@@ -104,14 +120,18 @@ export function createDispatchActivity({
   }),
   serviceProviderId = undefined,
   started = undefined,
-  completed = undefined
+  completed = undefined,
+  previousActivityId = undefined,
+  nextActivityId = undefined
 } = {}): DispatchActivity {
   return {
     identity,
     type: ActivityType.Dispatch,
     serviceProviderId,
     started,
-    completed
+    completed,
+    previousActivityId,
+    nextActivityId
   };
 }
 
@@ -119,10 +139,12 @@ export function createWorkflow({
   identity = createNewIdentity({
     displayName: 'default-workflow'
   }),
-  activities = [] as Activity[]
+  activities = [] as Activity[],
+  firstActivityId = undefined
 } = {}): Workflow {
   return {
     identity,
-    activities
+    activities,
+    firstActivityId
   };
 }

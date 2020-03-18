@@ -17,6 +17,8 @@ interface BaseActivity {
   serviceProviderId: Identity | undefined;
   started: Date | undefined;
   completed: Date | undefined;
+  previousActivityId: Identity | undefined;
+  nextActivityId: Identity | undefined;
 }
 
 export interface MaterialAquisitionActivity extends BaseActivity {
@@ -57,4 +59,5 @@ export type Activity =
 export interface Workflow {
   identity: Identity;
   activities: Activity[];
+  firstActivityId: Identity | undefined;
 }

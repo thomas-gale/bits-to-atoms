@@ -9,6 +9,8 @@ import {
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
 import { FFFPrinter } from './types';
+import transitions from '@material-ui/core/styles/transitions';
+import { BasicShape } from '../../../common/topology/types';
 
 function* generateBidWorkflow(
   requestFufillmentOfActivity: PayloadAction<Activity>
@@ -40,21 +42,18 @@ function* generateBidWorkflow(
   }
 
   if (activity.type === ActivityType.Transmutation) {
-    if (
-      fffPrinterServiceProvider.supportedInputTopologies.find(
-        inputShape => inputShape === activity.startTopology
-      ) &&
-      fffPrinterServiceProvider.supportedOutputTopologies.find(
-        outputShape => outputShape === activity.endTopology
-      )
-    ) {
+    const chosenTopologyTransition = fffPrinterServiceProvider.supportedTopologyTransitions.find(
+      transition => transition[1] === activity.endTopology
+    );
+    if (chosenTopologyTransition) {
       console.log(
-        `FFF printer service ${fffPrinterServiceProvider.id.uuid} will offer fullfillment for this transmutation activity`
+        `FFF printer service ${fffPrinterServiceProvider.id.uuid} will offer fullfillment for this transmutation activity . (Appending required input topology)`
       );
+      activity.startTopology = chosenTopologyTransition[0];
       yield put(
         offerFullfillmentOfActivity({
-          serviceProviderId: fffPrinterServiceProvider.id,
-          activityId: activity.identity
+          serviceProvider: fffPrinterServiceProvider,
+          activity: activity
         })
       );
     }

@@ -5,6 +5,7 @@ import { Parameter } from '../common/parameter/types';
 import { BuildRequest } from '../buildrequest/types';
 import { LiquidAsset } from '../economic/types';
 import { Workflow, Activity } from '../workflow/types';
+import { ServiceProvider } from './services/types';
 
 const factorySlice = createSlice({
   name: 'factory',
@@ -44,8 +45,8 @@ const factorySlice = createSlice({
     offerFullfillmentOfActivity(
       _state,
       _action: PayloadAction<{
-        serviceProviderId: Identity;
-        activityId: Identity;
+        serviceProvider: ServiceProvider;
+        activity: Activity;
       }>
     ) {
       // This action is to be picked up by middlewear saga for processing.

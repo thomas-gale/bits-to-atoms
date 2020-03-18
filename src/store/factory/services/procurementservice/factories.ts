@@ -9,6 +9,8 @@ import {
 } from '../../../common/primitive/factories';
 import { createLiquidAsset } from '../../../economic/factories';
 import { ActivityType } from '../../../workflow/types';
+import { BasicShape } from '../../../common/topology/types';
+import { MaterialType } from '../../../material/types';
 
 export function createProcurementService({
   capabilities = [ActivityType.Dispatch],
@@ -18,7 +20,9 @@ export function createProcurementService({
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid(),
-  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 })
+  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
+  supportedTopologies = [BasicShape.Spool],
+  supportedMaterials = [MaterialType.SimplePolymer]
 } = {}): ProcurementService {
   return {
     type: ServiceType.Procurement,
@@ -29,6 +33,8 @@ export function createProcurementService({
     location,
     orientation,
     bounds,
-    currentCostPerTime
+    currentCostPerTime,
+    supportedTopologies,
+    supportedMaterials
   };
 }

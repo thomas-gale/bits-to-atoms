@@ -45,26 +45,23 @@ function* generateBidWorkflow(
     );
     yield put(
       offerFullfillmentOfActivity({
-        serviceProviderId: humanServiceProvider.id,
-        activityId: activity.identity
+        serviceProvider: humanServiceProvider,
+        activity: activity
       })
     );
   } else if (activity.type === ActivityType.Transmutation) {
-    if (
-      humanServiceProvider.supportedInputTopologies.find(
-        inputShape => inputShape === activity.startTopology
-      ) &&
-      humanServiceProvider.supportedOutputTopologies.find(
-        outputShape => outputShape === activity.endTopology
-      )
-    ) {
+    const chosenTopologyTransition = humanServiceProvider.supportedTopologyTransitions.find(
+      transition => transition[1] === activity.endTopology
+    );
+    if (chosenTopologyTransition) {
       console.log(
-        `Human worker service ${humanServiceProvider.id.uuid} will offer fullfillment for this transmutation activity`
+        `Human worker service ${humanServiceProvider.id.uuid} will offer fullfillment for this transmutation activity. (Appending required input topology)`
       );
+      activity.startTopology = chosenTopologyTransition[0];
       yield put(
         offerFullfillmentOfActivity({
-          serviceProviderId: humanServiceProvider.id,
-          activityId: activity.identity
+          serviceProvider: humanServiceProvider,
+          activity: activity
         })
       );
     }

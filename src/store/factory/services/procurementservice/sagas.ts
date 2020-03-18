@@ -45,8 +45,8 @@ function* generateBidWorkflow(
     );
     yield put(
       offerFullfillmentOfActivity({
-        serviceProviderId: procurmentServiceProvider.id,
-        activityId: activity.identity
+        serviceProvider: procurmentServiceProvider,
+        activity: activity
       })
     );
   }

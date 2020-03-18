@@ -1,7 +1,7 @@
 import { BasicShape } from '../common/topology/types';
 import {
   ActivityType,
-  MaterialAquisitionActivity,
+  ProcurementActivity,
   TransportationActivity,
   TransmutationActivity,
   StorageActivity,
@@ -24,8 +24,8 @@ export function createProcurementActivity({
   previousActivityId = undefined,
   nextActivityId = undefined,
   material = createSimplePolymerMaterial(),
-  quantity = 0
-} = {}): MaterialAquisitionActivity {
+  topology = BasicShape.Spool
+} = {}): ProcurementActivity {
   return {
     identity,
     type: ActivityType.Procurement,
@@ -35,7 +35,7 @@ export function createProcurementActivity({
     previousActivityId,
     nextActivityId,
     material,
-    quantity
+    topology
   };
 }
 
@@ -74,7 +74,7 @@ export function createTransmutationActivity({
   previousActivityId = undefined,
   nextActivityId = undefined,
   material = MaterialType.SimplePolymer,
-  startTopology = BasicShape.Spool,
+  startTopology = undefined,
   endTopology = BasicShape.Cube
 } = {}): TransmutationActivity {
   return {
@@ -122,7 +122,8 @@ export function createDispatchActivity({
   started = undefined,
   completed = undefined,
   previousActivityId = undefined,
-  nextActivityId = undefined
+  nextActivityId = undefined,
+  topology = BasicShape.Cube
 } = {}): DispatchActivity {
   return {
     identity,
@@ -131,7 +132,8 @@ export function createDispatchActivity({
     started,
     completed,
     previousActivityId,
-    nextActivityId
+    nextActivityId,
+    topology
   };
 }
 

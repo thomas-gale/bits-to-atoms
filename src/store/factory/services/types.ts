@@ -23,7 +23,10 @@ interface BaseServiceProvider extends Entity<any> {
   currentCostPerTime: LiquidAsset;
 }
 
-export type ProcurementServiceProvider = BaseServiceProvider;
+export interface ProcurementServiceProvider extends BaseServiceProvider {
+  supportedTopologies: BasicShape[];
+  supportedMaterials: MaterialType[];
+}
 
 export type StorageServiceProvider = BaseServiceProvider;
 
@@ -33,13 +36,14 @@ export interface TransportServiceProvider extends BaseServiceProvider {
 }
 
 export interface TransmutationServiceProvider extends BaseServiceProvider {
-  supportedInputTopologies: BasicShape[];
-  supportedOutputTopologies: BasicShape[];
+  supportedTopologyTransitions: [BasicShape, BasicShape][];
   supportedMaterials: MaterialType[];
   outputVolume: Cuboid;
 }
 
-export type DispatchServiceProvider = BaseServiceProvider;
+export interface DispatchServiceProvider extends BaseServiceProvider {
+  supportedTopologies: BasicShape[];
+}
 
 export type ServiceProvider =
   | ProcurementServiceProvider

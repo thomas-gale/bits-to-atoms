@@ -9,6 +9,7 @@ import {
 } from '../../../common/primitive/factories';
 import { createLiquidAsset } from '../../../economic/factories';
 import { ActivityType } from '../../../workflow/types';
+import { BasicShape } from '../../../common/topology/types';
 
 export function createDispatchService({
   capabilities = [ActivityType.Dispatch],
@@ -18,7 +19,8 @@ export function createDispatchService({
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid(),
-  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 })
+  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
+  supportedTopologies = [BasicShape.Cube, BasicShape.Cylinder]
 } = {}): DispatchService {
   return {
     type: ServiceType.Dispatch,
@@ -29,6 +31,7 @@ export function createDispatchService({
     location,
     orientation,
     bounds,
-    currentCostPerTime
+    currentCostPerTime,
+    supportedTopologies
   };
 }

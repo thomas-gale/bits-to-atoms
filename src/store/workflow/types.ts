@@ -21,10 +21,10 @@ interface BaseActivity {
   nextActivityId: Identity | undefined;
 }
 
-export interface MaterialAquisitionActivity extends BaseActivity {
+export interface ProcurementActivity extends BaseActivity {
   type: ActivityType.Procurement;
   material: Material;
-  quantity: number;
+  topology: BasicShape;
 }
 
 export interface TransportationActivity extends BaseActivity {
@@ -36,7 +36,7 @@ export interface TransportationActivity extends BaseActivity {
 export interface TransmutationActivity extends BaseActivity {
   type: ActivityType.Transmutation;
   material: MaterialType;
-  startTopology: BasicShape;
+  startTopology: BasicShape | undefined;
   endTopology: BasicShape;
 }
 
@@ -47,10 +47,11 @@ export interface StorageActivity extends BaseActivity {
 
 export interface DispatchActivity extends BaseActivity {
   type: ActivityType.Dispatch;
+  topology: BasicShape;
 }
 
 export type Activity =
-  | MaterialAquisitionActivity
+  | ProcurementActivity
   | TransportationActivity
   | TransmutationActivity
   | StorageActivity

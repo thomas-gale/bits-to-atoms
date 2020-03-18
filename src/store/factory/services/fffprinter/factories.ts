@@ -24,8 +24,10 @@ export function createFFFPrinter({
     max: createVector3({ x: 0.5, y: 0.5, z: 1.0 })
   }),
   currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
-  supportedInputTopologies = [BasicShape.Spool],
-  supportedOutputTopologies = [BasicShape.RoughCube, BasicShape.RoughCylinder],
+  supportedTopologyTransitions = [
+    [BasicShape.Spool, BasicShape.RoughCube],
+    [BasicShape.Spool, BasicShape.RoughCylinder]
+  ] as [BasicShape, BasicShape][],
   supportedMaterials = [MaterialType.SimplePolymer],
   outputVolume = createCuboid()
 } = {}): FFFPrinter {
@@ -39,8 +41,7 @@ export function createFFFPrinter({
     orientation,
     bounds,
     currentCostPerTime,
-    supportedInputTopologies,
-    supportedOutputTopologies,
+    supportedTopologyTransitions,
     supportedMaterials,
     outputVolume
   };

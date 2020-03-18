@@ -1,11 +1,13 @@
-import { delay, takeEvery, select, put } from 'redux-saga/effects';
+import { delay, takeEvery, select, put, take } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { BuildRequest } from '../buildrequest/types';
 import {
   addActiveBuildRequest,
   setLiquidAsset,
   updateActiveBuildRequestWorkflow,
-  requestFullfillmentOfActivity
+  requestFullfillmentOfActivity,
+  offerFullfillmentOfActivity,
+  acceptFullfillmentOfActivity
 } from './slice';
 import { config } from '../../env/config';
 import {
@@ -24,6 +26,8 @@ import {
 import { createNewIdentity } from '../common/identity/factories';
 import { BasicShape } from '../common/topology/types';
 import { MaterialType } from '../material/types';
+import { Identity } from '../common/identity/types';
+import { Activity } from '../workflow/types';
 
 export function* factoryUpdateTickSaga() {
   const updateDelayMs = config.factory.updatePeriodMs;
@@ -138,18 +142,56 @@ function* processAddActiveBuildRequestSaga(
     })
   );
 
-  console.log(`Starting workflow ${computedWorkflow.identity.uuid}`);
+  //console.log(`Requesting fullfillment of workflow ${computedWorkflow.identity.uuid} activities`);
+
+  console.log(`Starting execution workflow ${computedWorkflow.identity.uuid}`);
 
   // Now we manage the execution of the sequential workflow activities.
   for (const activity of computedWorkflow.activities) {
-    // 1. add the activity to the openActivities market.
+    console.log(`Requesting fullfillment for ${activity.identity.uuid}`);
     yield put(requestFullfillmentOfActivity(activity));
 
-    // 2. Service providers who have the appropriate capabilities will bid/assign themselves
-    // (right now a simple first come first serve basis - in the future this should be an automous process based on cost quotes and a reputation system.)
+    // Wait for a fullfillment offer for this activity to come back from service providers.
+    let fullfillmentOffer: PayloadAction<{
+      serviceProviderId: Identity;
+      activityId: Identity;
+    }>;
+    while (true) {
+      fullfillmentOffer = (yield take(
+        offerFullfillmentOfActivity.type
+      )) as PayloadAction<{
+        serviceProviderId: Identity;
+        activityId: Identity;
+      }>;
+      if (fullfillmentOffer.payload.activityId.uuid === activity.identity.uuid)
+        break;
+    }
 
-    // 3. Await for the completion of that N'th activity step
-    yield delay(1000);
+    // Simple first come first accept basis.
+    console.log(
+      `Recieved and accepted first fullfillment offer for activity ${activity.identity.uuid} from service provider ${fullfillmentOffer.payload.serviceProviderId.uuid}`
+    );
+    yield put(acceptFullfillmentOfActivity(fullfillmentOffer.payload));
+
+    // Now finally, await completion of this activity (when completed is no longer undefined).
+    let activtyUpdate: PayloadAction<{
+      buildRequestId: Identity;
+      activity: Activity;
+    }>;
+    while (true) {
+      activtyUpdate = (yield take(
+        offerFullfillmentOfActivity.type
+      )) as PayloadAction<{ buildRequestId: Identity; activity: Activity }>;
+      if (
+        activtyUpdate.payload.activity.identity.uuid ===
+          activity.identity.uuid &&
+        activtyUpdate.payload.activity.completed
+      )
+        break;
+    }
+    console.log(
+      `Activity completed ${activity.identity.uuid} by service provider ${fullfillmentOffer.payload.serviceProviderId.uuid}`
+    );
   }
 
   // Onced completed remove the active build request (Or move to a completed state / section).

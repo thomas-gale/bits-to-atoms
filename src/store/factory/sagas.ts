@@ -66,28 +66,15 @@ export function* factoryUpdateTickSaga() {
   }
 }
 
-function* processAddActiveBuildRequestSaga(
+function* buildRequestWorkflowSaga(
   addedActiveBuildRequest: PayloadAction<BuildRequest>
 ) {
   const { payload: buildRequest } = addedActiveBuildRequest;
   console.log(
-    `Processing recently added active build request ${buildRequest.identity.uuid}`
+    `Computing the required workflow for build request ${buildRequest.identity.uuid} (given the current active transmutation service providers in the factory)`
   );
 
   // Examine the build request desired end shape and material.
-
-  console.log(
-    'Computing the required workflow for this build request (given the current active transmutation service providers in the factory)'
-  );
-
-  // TODO: Perform a depth first tree search for transmutation path looking at compatible states.
-  //
-  //    const factoryTransmutationServiceProviders = (yield select(
-  //      factoryTransmutationServiceProvidersSelector
-  //    )) as TransmutationServiceProvider[];
-  //    E.g. Filter the service providers to the ones with compatible materials. examine the build request desired end shape and material.
-  //         const materialCompatableTransSPs = factoryTransmutationServiceProviders.filter(sp => sp.supportedMaterials.find(m => m === buildRequest.material.type));
-
   // Hack for now - to a known hardcoded flow for the basic polymer cube part (which is the only thing the simulated market is requesting for now.)
   if (
     !(
@@ -99,53 +86,29 @@ function* processAddActiveBuildRequestSaga(
     return;
   }
 
-  // This is the hard coded workflow.
-  const computedWorkflow = createWorkflow({
-    identity: createNewIdentity({ displayName: 'Basic Generated Workflow' }),
-    activities: [
-      createProcurementActivity({
-        identity: createNewIdentity({ displayName: 'Purchase Material' })
-      }),
-      createTransportationActivity({
-        identity: createNewIdentity({ displayName: 'Move to Printer' })
-      }),
-      createTransmutationActivity({
-        identity: createNewIdentity({ displayName: 'Printing' }),
-        material: MaterialType.SimplePolymer,
-        startTopology: BasicShape.Spool,
-        endTopology: BasicShape.RoughCube
-      }),
-      createTransmutationActivity({
-        identity: createNewIdentity({ displayName: 'Hand Finishing' }),
-        material: MaterialType.SimplePolymer,
-        startTopology: BasicShape.RoughCube,
-        endTopology: BasicShape.Cube
-      }),
-      createTransportationActivity({
-        identity: createNewIdentity({ displayName: 'Move to Output Bay' })
-      }),
-      createDispatchActivity({
-        identity: createNewIdentity({ displayName: 'Dispatch Part' })
-      })
-    ]
-  });
+  // New Proposed Steps.
+  // Build a simple flat array of activities (inside the workflow) (they will hold internal references to each other)
+  const computedWorkflow = createWorkflow();
 
+  while (true) {
+    // 1. Request dispatch service provider and assign to final dispatch activity step.
+
+    // 2. Request final transmutation service provider and assign to activity step (link as activity before / update dispatch service provider link)
+    // 2a. Repeat for each step mapping from output -> input shape (till there are no more service providers)
+
+    // 3. Request procurement service provider for this 'most basic' material shape. (keep linked structure correct)
+
+    // 4. Request transport provider activites to link all the previous steps. (keep linked structure correct)
+    break;
+  }
+
+  // Proposed workflow is now computed.
   console.log(
     `Proposed workflow computed! Id: ${computedWorkflow.identity.uuid} with ${computedWorkflow.activities.length} steps`
   );
 
-  // Send out the proposed active build request workflow
-  yield put(
-    updateActiveBuildRequestWorkflow({
-      buildRequestId: buildRequest.identity,
-      workflow: computedWorkflow
-    })
-  );
-
-  //console.log(`Requesting fullfillment of workflow ${computedWorkflow.identity.uuid} activities`);
-
-  console.log(`Starting execution workflow ${computedWorkflow.identity.uuid}`);
-
+  // *** TODO: Move up ******
+  // Start and monitor workflow by accepting fullfillment of fist activity (at this point they should all have enough information to start).
   // Now we manage the execution of the sequential workflow activities.
   for (const activity of computedWorkflow.activities) {
     console.log(`Requesting fullfillment for ${activity.identity.uuid}`);
@@ -189,9 +152,54 @@ function* processAddActiveBuildRequestSaga(
       )
         break;
     }
+
+    // Send out the proposed active build request workflow
+    yield put(
+      updateActiveBuildRequestWorkflow({
+        buildRequestId: buildRequest.identity,
+        workflow: computedWorkflow
+      })
+    );
+
+    console.log(
+      `Starting execution workflow ${computedWorkflow.identity.uuid}`
+    );
+
     console.log(
       `Activity completed ${activity.identity.uuid} by service provider ${fullfillmentOffer.payload.serviceProviderId.uuid}`
     );
+
+    // This is the hard coded workflow - this is too simple to work.
+    /*
+  const computedWorkflow = createWorkflow({
+    identity: createNewIdentity({ displayName: 'Basic Generated Workflow' }),
+    activities: [
+      createProcurementActivity({
+        identity: createNewIdentity({ displayName: 'Purchase Material' })
+      }),
+      createTransportationActivity({
+        identity: createNewIdentity({ displayName: 'Move to Printer' })
+      }),
+      createTransmutationActivity({
+        identity: createNewIdentity({ displayName: 'Printing' }),
+        material: MaterialType.SimplePolymer,
+        startTopology: BasicShape.Spool,
+        endTopology: BasicShape.RoughCube
+      }),
+      createTransmutationActivity({
+        identity: createNewIdentity({ displayName: 'Hand Finishing' }),
+        material: MaterialType.SimplePolymer,
+        startTopology: BasicShape.RoughCube,
+        endTopology: BasicShape.Cube
+      }),
+      createTransportationActivity({
+        identity: createNewIdentity({ displayName: 'Move to Output Bay' })
+      }),
+      createDispatchActivity({
+        identity: createNewIdentity({ displayName: 'Dispatch Part' })
+      })
+    ]
+  });*/
   }
 
   // Onced completed remove the active build request (Or move to a completed state / section).
@@ -199,5 +207,5 @@ function* processAddActiveBuildRequestSaga(
 }
 
 export function* factoryWatchAddActiveBuildRequestSaga() {
-  yield takeEvery(addActiveBuildRequest.type, processAddActiveBuildRequestSaga);
+  yield takeEvery(addActiveBuildRequest.type, buildRequestWorkflowSaga);
 }

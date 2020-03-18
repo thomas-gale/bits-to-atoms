@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../index';
 import { Factory } from './types';
-import { InputRegion, OutputRegion } from './boundaries/types';
 import { EconomicSummary, LiquidAsset } from '../economic/types';
 import {
   ServiceProvider,
@@ -20,13 +19,6 @@ export const factoryActiveBuildRequestsSelector = createSelector(
     return factory.activeBuildRequests;
   }
 );
-
-/*export const factoryOpenActivitieIdssSelector = createSelector(
-  [factorySelector],
-  (factory: Factory): Identity[] => {
-    return factory.openActivities;
-  }
-);*/
 
 /**
  * Flatten the activity structure into a single array of activities inside all of the
@@ -59,41 +51,6 @@ export const factoryUnassignedActivitiesSelector = createSelector(
     activities.filter(activity => !activity.serviceProviderId)
 );
 
-/*
-  activeBuildRequests: BuildRequest[];
-  openActivities: Identity[];
-  serviceProviders: ServiceProvider[];
-
-
-     const indexToUpdate = state.openActivities.findIndex(
-        a => a.uuid === action.payload.identity.uuid
-      );
-      if (indexToUpdate === -1) {
-        console.error(
-          `Unable to find to update open activity ${action.payload.identity.uuid}`
-        );
-        return; // Don't do anything if we can't find that element
-      }
-
-      // TD. The following steps show that we need to think carefully about this structure, maybe try to better normalise it.
-      // We need to search through each active build request trying to match up the workflow.
-      for (const activeBuildRequest of state.activeBuildRequests) {
-        if (activeBuildRequest.workflow) {
-          for (let activity of activeBuildRequest.workflow.activities) {
-            if (activity.identity.uuid === action.payload.identity.uuid) {
-              activity = action.payload;
-              return;
-            }
-          }
-        }
-      }
-      console.error(
-        `Unable to find to update open activity ${action.payload.identity.uuid}`
-      );
-
-
-*/
-
 export const factoryUnAllocatedActivitiesSelector = createSelector(
   [factoryActiveBuildRequestsSelector],
   (activeBuildRequests: BuildRequest[]): Activity[] => {
@@ -116,20 +73,6 @@ export const isAllowedToBidSelector = createSelector(
     return (
       factoryActiveBuildRequests.length < config.factory.maxNumberActiveBuilds
     );
-  }
-);
-
-export const factoryInputRegionSelector = createSelector(
-  [factorySelector],
-  (factory: Factory): InputRegion => {
-    return factory.inputRegion;
-  }
-);
-
-export const factoryOutputRegionSelector = createSelector(
-  [factorySelector],
-  (factory: Factory): OutputRegion => {
-    return factory.outputRegion;
   }
 );
 
@@ -171,6 +114,10 @@ export const currentServiceProviderCostPerTimeSelector = createSelector(
   }
 );
 
+/**
+ * WIP: This could do with a spot of work figuring out the total in / out metric
+ * Should this be an average rate over a fixed period (e.g. 1 / 5 / 10min)?
+ */
 export const factoryEconomicSummarySelector = createSelector(
   [factoryLiquidAssetSelector, factoryServiceProvidersSelector],
   (

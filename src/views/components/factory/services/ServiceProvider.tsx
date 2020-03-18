@@ -17,6 +17,10 @@ import { setSelectedServiceProvider } from '../../../../store/selected/slice';
 import { Identity } from '../../../../store/common/identity/types';
 import { FFFPrinterElement } from './FFFPrinter';
 import { FFFPrinter } from '../../../../store/factory/services/fffprinter/types';
+import { ProcurementElement } from './Procurement';
+import { ProcurementService } from '../../../../store/factory/services/procurementservice/types';
+import { DispatchElement } from './Dispatch';
+import { DispatchService } from '../../../../store/factory/services/dispatchservice/types';
 
 function mapState(_: RootState) {
   return {};
@@ -56,6 +60,13 @@ function ServiceProviderElement(props: Props): JSX.Element {
           onSelected={props.onSelected}
         />
       );
+    case ServiceType.Procurement:
+      return (
+        <ProcurementElement
+          procurementService={serviceProvider as ProcurementService}
+          onSelected={props.onSelected}
+        />
+      );
     case ServiceType.HumanWorker:
       return (
         <HumanWorkerElement
@@ -67,6 +78,13 @@ function ServiceProviderElement(props: Props): JSX.Element {
       return (
         <FFFPrinterElement
           fffPrinter={serviceProvider as FFFPrinter}
+          onSelected={props.onSelected}
+        />
+      );
+    case ServiceType.Dispatch:
+      return (
+        <DispatchElement
+          dispatchService={serviceProvider as DispatchService}
           onSelected={props.onSelected}
         />
       );

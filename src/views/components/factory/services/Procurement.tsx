@@ -1,23 +1,22 @@
 import React, { useRef, useState, useMemo } from 'react';
 import { Mesh, Euler, Quaternion as ThreeQuaternion } from 'three';
-import { InputRegion } from '../../../../store/factory/boundaries/types';
-import { FixedAssetType } from '../../../../store/economic/types';
-import SimplePolymerSpool from '../assets/material/SimplePolymerSpool';
+import { Identity } from '../../../../store/common/identity/types';
+import { ProcurementService } from '../../../../store/factory/services/procurementservice/types';
 
 type OwnProp = {
-  inputRegion: InputRegion;
+  procurementService: ProcurementService;
 };
 
 type OwnDispatch = {
-  onSelected: () => void;
+  onSelected: (id: Identity) => void;
 };
 
 type Props = OwnProp & OwnDispatch;
 
-export function InputRegionElement(props: Props): JSX.Element {
+export function ProcurementElement(props: Props): JSX.Element {
   const mesh = useRef<Mesh>();
 
-  const { location, orientation, bounds, assetsIn } = props.inputRegion;
+  const { id, location, orientation, bounds } = props.procurementService;
 
   // React hooks for converting the Quaterion into Euler angles.
   const [eulerRotation, setEulerRotation] = useState<Euler>(new Euler(0, 0, 0));
@@ -39,7 +38,7 @@ export function InputRegionElement(props: Props): JSX.Element {
 
   return (
     <group>
-      {assetsIn.map(asset => {
+      {/*assetsIn.map(asset => {
         switch (asset.type) {
           case FixedAssetType.SimplePolymerSpool:
             return (
@@ -55,7 +54,7 @@ export function InputRegionElement(props: Props): JSX.Element {
           default:
             return null;
         }
-      })}
+      })*/}
       <mesh
         castShadow
         receiveShadow
@@ -64,7 +63,7 @@ export function InputRegionElement(props: Props): JSX.Element {
         ref={mesh}
         onClick={e => {
           e.stopPropagation();
-          props.onSelected();
+          props.onSelected(id);
         }}
       >
         <boxBufferGeometry

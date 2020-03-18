@@ -1,21 +1,22 @@
 import React, { useRef, useState, useMemo } from 'react';
 import { Mesh, Euler, Quaternion as ThreeQuaternion } from 'three';
-import { OutputRegion } from '../../../../store/factory/boundaries/types';
+import { DispatchService } from '../../../../store/factory/services/dispatchservice/types';
+import { Identity } from '../../../../store/common/identity/types';
 
 type OwnProp = {
-  outputRegion: OutputRegion;
+  dispatchService: DispatchService;
 };
 
 type OwnDispatch = {
-  onSelected: () => void;
+  onSelected: (id: Identity) => void;
 };
 
 type Props = OwnProp & OwnDispatch;
 
-export function OutputRegionElement(props: Props): JSX.Element {
+export function DispatchElement(props: Props): JSX.Element {
   const mesh = useRef<Mesh>();
 
-  const { location, orientation, bounds } = props.outputRegion;
+  const { id, location, orientation, bounds } = props.dispatchService;
 
   // React hooks for converting the Quaterion into Euler angles.
   const [eulerRotation, setEulerRotation] = useState<Euler>(new Euler(0, 0, 0));
@@ -41,7 +42,7 @@ export function OutputRegionElement(props: Props): JSX.Element {
       ref={mesh}
       onClick={e => {
         e.stopPropagation();
-        props.onSelected();
+        props.onSelected(id);
       }}
     >
       <boxBufferGeometry

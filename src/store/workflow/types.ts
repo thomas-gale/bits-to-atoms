@@ -1,14 +1,13 @@
 import { Identity } from '../common/identity/types';
 import { Vector3 } from '../common/primitive/types';
 import { BasicShape } from '../common/topology/types';
-import { Material, MaterialType } from '../material/types';
+import { MaterialType } from '../material/types';
+import { LiquidAsset } from '../economic/types';
 
 export enum ActivityType {
-  Procurement = 'Procurement',
   Transportation = 'Transportation',
   Transmutation = 'Transmutation',
-  Storage = 'Storage',
-  Dispatch = 'Dispatch'
+  Storage = 'Storage'
 }
 
 interface BaseActivity {
@@ -21,23 +20,36 @@ interface BaseActivity {
   nextActivityId: Identity | undefined;
 }
 
-export interface ProcurementActivity extends BaseActivity {
-  type: ActivityType.Procurement;
-  material: Material;
-  topology: BasicShape;
-}
-
 export interface TransportationActivity extends BaseActivity {
   type: ActivityType.Transportation;
   startLocation: Vector3;
   endLocation: Vector3;
 }
 
+export enum TransmutationStateType {
+  BasicShape = 'BasicShape',
+  LiquidAsset = 'LiquidAsset'
+}
+
+export interface BasicShapeTransmutationState {
+  type: TransmutationStateType.BasicShape;
+  shape: BasicShape;
+}
+
+export interface LiquidAssetTransmutationState {
+  type: TransmutationStateType.LiquidAsset;
+  liquidAsset: LiquidAsset;
+}
+
+export type TransmutationState =
+  | BasicShapeTransmutationState
+  | LiquidAssetTransmutationState;
+
 export interface TransmutationActivity extends BaseActivity {
   type: ActivityType.Transmutation;
   material: MaterialType;
-  startTopology: BasicShape | undefined;
-  endTopology: BasicShape;
+  startState: TransmutationState | undefined;
+  endState: TransmutationState | undefined;
 }
 
 export interface StorageActivity extends BaseActivity {
@@ -45,17 +57,10 @@ export interface StorageActivity extends BaseActivity {
   location: Vector3;
 }
 
-export interface DispatchActivity extends BaseActivity {
-  type: ActivityType.Dispatch;
-  topology: BasicShape;
-}
-
 export type Activity =
-  | ProcurementActivity
   | TransportationActivity
   | TransmutationActivity
-  | StorageActivity
-  | DispatchActivity;
+  | StorageActivity;
 
 export interface Workflow {
   identity: Identity;

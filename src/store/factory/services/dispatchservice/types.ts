@@ -1,5 +1,5 @@
-import { ServiceType, DispatchServiceProvider } from '../types';
+import { ServiceType, TransmutationServiceProvider } from '../types';
 
-export interface DispatchService extends DispatchServiceProvider {
+export interface DispatchService extends TransmutationServiceProvider {
   type: ServiceType.Dispatch;
 }

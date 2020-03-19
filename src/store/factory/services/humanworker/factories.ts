@@ -11,6 +11,10 @@ import {
 import { createLiquidAsset } from '../../../economic/factories';
 import { BasicShape } from '../../../common/topology/types';
 import { ActivityType } from '../../../workflow/types';
+import {
+  createTransmutationTransition,
+  createBasicShapeTransmutationState
+} from '../factories';
 
 export function createHumanWorker({
   capabilities = [ActivityType.Transportation, ActivityType.Transmutation],
@@ -26,10 +30,22 @@ export function createHumanWorker({
   currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
   capactityMass = 5,
   movementVelocity = 0.5,
-  supportedTopologyTransitions = [
-    [BasicShape.RoughCube, BasicShape.Cube],
-    [BasicShape.RoughCylinder, BasicShape.Cylinder]
-  ] as [BasicShape, BasicShape][],
+  supportedTransmutationTransitions = [
+    createTransmutationTransition({
+      start: createBasicShapeTransmutationState({
+        shape: BasicShape.RoughCube
+      }),
+      end: createBasicShapeTransmutationState({ shape: BasicShape.Cube })
+    }),
+    createTransmutationTransition({
+      start: createBasicShapeTransmutationState({
+        shape: BasicShape.RoughCylinder
+      }),
+      end: createBasicShapeTransmutationState({
+        shape: BasicShape.Cylinder
+      })
+    })
+  ],
   supportedMaterials = [MaterialType.SimplePolymer],
   outputVolume = createCuboid()
 } = {}): HumanWorker {
@@ -45,7 +61,7 @@ export function createHumanWorker({
     currentCostPerTime,
     capactityMass,
     movementVelocity,
-    supportedTopologyTransitions,
+    supportedTransmutationTransitions,
     supportedMaterials,
     outputVolume
   };

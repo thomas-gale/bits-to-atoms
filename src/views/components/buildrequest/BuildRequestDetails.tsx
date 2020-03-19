@@ -2,8 +2,11 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState, RootDispatch } from '../../../store';
-import { BuildRequest } from '../../../store/buildrequest/types';
 import { unSelectPrimaryFocusBuildRequest } from '../../../store/selected/slice';
+import {
+  primaryFocusBuildRequestSelector,
+  primaryFocusBuildRequestOrderedActivitiesSelector
+} from '../../../store/selected/selectors';
 
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -16,8 +19,11 @@ import {
 } from '@material-ui/core';
 import ActivityDetails from './ActivityDetails';
 
-function mapState(_state: RootState) {
-  return {};
+function mapState(state: RootState) {
+  return {
+    buildRequest: primaryFocusBuildRequestSelector(state),
+    orderedActivities: primaryFocusBuildRequestOrderedActivitiesSelector(state)
+  };
 }
 
 function mapDispatch(dispatch: RootDispatch) {
@@ -30,11 +36,7 @@ function mapDispatch(dispatch: RootDispatch) {
 
 const connector = connect(mapState, mapDispatch);
 
-interface OwnProps {
-  buildRequest: BuildRequest;
-}
-
-type Props = ConnectedProps<typeof connector> & OwnProps;
+type Props = ConnectedProps<typeof connector>;
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -58,7 +60,29 @@ const useStyles = makeStyles(theme => ({
 function BuildRequestDetails(props: Props): JSX.Element {
   const classes = useStyles();
 
-  const { buildRequest, onCloseClicked } = props;
+  const { buildRequest, orderedActivities, onCloseClicked } = props;
+
+  if (!buildRequest) {
+    return (
+      <Card className={classes.container}>
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            No selected build request (You probably should not be seeing this)
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button color="primary" size="small" onClick={onCloseClicked}>
+            Close
+          </Button>
+        </CardActions>
+      </Card>
+    );
+  }
+
   const {
     identity,
     created,
@@ -70,13 +94,13 @@ function BuildRequestDetails(props: Props): JSX.Element {
   } = buildRequest;
 
   const WorkflowsCardContent = () => {
-    if (workflow && workflow.activities.length > 0) {
+    if (workflow && orderedActivities && orderedActivities.length > 0) {
       return (
         <Card className={classes.internalContainer}>
           <Typography variant="h5" component="h2" className={classes.pos}>
             {workflow.identity.displayName}
           </Typography>
-          {workflow.activities.map(activity => {
+          {orderedActivities.map(activity => {
             return (
               <ActivityDetails
                 key={activity.identity.uuid}

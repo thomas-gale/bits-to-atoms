@@ -103,7 +103,7 @@ function App(props: Props): JSX.Element {
       return (
         <Grid item xs={6}>
           <Box className={classes.uiPrimaryGridElement}>
-            <BuildRequestDetails buildRequest={primaryFocusBuildRequest} />
+            <BuildRequestDetails />
           </Box>
         </Grid>
       );

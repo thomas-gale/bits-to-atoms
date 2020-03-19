@@ -1,7 +1,11 @@
 import { takeEvery, select, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { Activity, ActivityType } from '../../../workflow/types';
+import {
+  Activity,
+  ActivityType,
+  TransmutationStateType
+} from '../../../workflow/types';
 import {
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity
@@ -28,27 +32,48 @@ function* generateBidWorkflow(
   const availableProcurementServiceProviders = procurementServiceProviders.filter(
     psp => psp.canBid
   );
-  const procurmentServiceProvider =
+  const procurementServiceProvider =
     availableProcurementServiceProviders.length > 0
       ? availableProcurementServiceProviders[0]
       : undefined;
-  if (!procurmentServiceProvider) {
+  if (!procurementServiceProvider) {
     console.warn(
       `Unable to generate bid for activity ${activity.identity.uuid}, no procurement services available`
     );
     return; // Early return if no service providers available to bid.
   }
 
-  if (activity.type === ActivityType.Procurement) {
-    console.log(
-      `Procurement service ${procurmentServiceProvider.id.uuid} will offer fullfillment for this procurement activity`
+  if (activity.type === ActivityType.Transmutation) {
+    // Check for each transition if the procurement services's end state is BasicShape, the action has an end state that is also BasicShape and that the service can
+    // offer the shape required.
+    const chosenTopologyTransition = procurementServiceProvider.supportedTransmutationTransitions.find(
+      transition =>
+        transition.end.type === TransmutationStateType.BasicShape &&
+        activity.endState &&
+        activity.endState.type === TransmutationStateType.BasicShape &&
+        activity.endState.shape === transition.end.shape
     );
-    yield put(
-      offerFullfillmentOfActivity({
-        serviceProvider: procurmentServiceProvider,
-        activity: activity
-      })
-    );
+    if (chosenTopologyTransition) {
+      console.log(
+        `Procurement service ${procurementServiceProvider.id.uuid} will offer fullfillment for this transmutation activity. (It will not append any required input topology, as it will just require liquid assets)`
+      );
+      if (
+        chosenTopologyTransition.start.type ===
+        TransmutationStateType.LiquidAsset
+      ) {
+        activity.startState = chosenTopologyTransition.start;
+        yield put(
+          offerFullfillmentOfActivity({
+            serviceProvider: procurementServiceProvider,
+            activity: activity
+          })
+        );
+      } else {
+        console.error(
+          `Procurement service ${procurementServiceProvider.id.uuid} has misconfigured transmutation transition start type (should be liquid asset)`
+        );
+      }
+    }
   }
 }
 

@@ -10,6 +10,7 @@ import {
   factoryActiveBuildRequestsSelector
 } from '../factory/selectors';
 import { BuildRequest } from '../buildrequest/types';
+import { Workflow, Activity } from '../workflow/types';
 
 export const selectedSelector = (state: RootState) => state.selected;
 
@@ -33,6 +34,37 @@ export const primaryFocusBuildRequestSelector = createSelector(
     return factoryActiveBuildRequests.find(
       br => br.identity.uuid === primaryFocusBuildRequestId.uuid
     );
+  }
+);
+
+export const primaryFocusBuildRequestWorkflowSelector = createSelector(
+  [primaryFocusBuildRequestSelector],
+  (
+    primaryFocusBuildRequest: BuildRequest | undefined
+  ): Workflow | undefined => {
+    if (!primaryFocusBuildRequest) return undefined;
+    return primaryFocusBuildRequest.workflow;
+  }
+);
+
+export const primaryFocusBuildRequestOrderedActivitiesSelector = createSelector(
+  [primaryFocusBuildRequestWorkflowSelector],
+  (
+    primaryFocusBuildRequestWorkflow: Workflow | undefined
+  ): Activity[] | undefined => {
+    if (!primaryFocusBuildRequestWorkflow) return undefined;
+    const orderedActivities: Activity[] = [];
+    let currentActivityId = primaryFocusBuildRequestWorkflow.firstActivityId;
+    while (currentActivityId) {
+      const activityUuid = currentActivityId.uuid;
+      const activity = primaryFocusBuildRequestWorkflow.activities.find(
+        a => a.identity.uuid === activityUuid
+      );
+      if (!activity) break;
+      orderedActivities.push(activity);
+      currentActivityId = activity.nextActivityId;
+    }
+    return orderedActivities;
   }
 );
 

@@ -1,5 +1,8 @@
 import { ServiceType } from '../types';
 import { ProcurementService } from './types';
+import { ActivityType } from '../../../workflow/types';
+import { BasicShape } from '../../../common/topology/types';
+import { MaterialType } from '../../../material/types';
 
 import { createNewIdentity } from '../../../common/identity/factories';
 import {
@@ -8,12 +11,14 @@ import {
   createCuboid
 } from '../../../common/primitive/factories';
 import { createLiquidAsset } from '../../../economic/factories';
-import { ActivityType } from '../../../workflow/types';
-import { BasicShape } from '../../../common/topology/types';
-import { MaterialType } from '../../../material/types';
+import {
+  createTransmutationTransition,
+  createBasicShapeTransmutationState,
+  createLiquidAssetTransmutationState
+} from '../factories';
 
 export function createProcurementService({
-  capabilities = [ActivityType.Dispatch],
+  capabilities = [ActivityType.Transmutation],
   canBid = true,
   currentActivity = undefined,
   id = createNewIdentity({ displayName: 'default-dispatch-service' }),
@@ -21,8 +26,16 @@ export function createProcurementService({
   orientation = createQuaternion(),
   bounds = createCuboid(),
   currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
-  supportedTopologies = [BasicShape.Spool],
-  supportedMaterials = [MaterialType.SimplePolymer]
+  supportedTransmutationTransitions = [
+    createTransmutationTransition({
+      start: createLiquidAssetTransmutationState({
+        liquidAsset: createLiquidAsset({ dollars: 2 })
+      }),
+      end: createBasicShapeTransmutationState({ shape: BasicShape.Spool })
+    })
+  ],
+  supportedMaterials = [MaterialType.SimplePolymer],
+  outputVolume = undefined
 } = {}): ProcurementService {
   return {
     type: ServiceType.Procurement,
@@ -34,7 +47,8 @@ export function createProcurementService({
     orientation,
     bounds,
     currentCostPerTime,
-    supportedTopologies,
-    supportedMaterials
+    supportedTransmutationTransitions,
+    supportedMaterials,
+    outputVolume
   };
 }

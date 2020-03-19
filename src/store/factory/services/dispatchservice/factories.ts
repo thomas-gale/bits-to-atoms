@@ -10,9 +10,15 @@ import {
 import { createLiquidAsset } from '../../../economic/factories';
 import { ActivityType } from '../../../workflow/types';
 import { BasicShape } from '../../../common/topology/types';
+import { MaterialType } from '../../../material/types';
+import {
+  createTransmutationTransition,
+  createBasicShapeTransmutationState,
+  createLiquidAssetTransmutationState
+} from '../factories';
 
 export function createDispatchService({
-  capabilities = [ActivityType.Dispatch],
+  capabilities = [ActivityType.Transmutation],
   canBid = true,
   currentActivity = undefined,
   id = createNewIdentity({ displayName: 'default-dispatch-service' }),
@@ -20,7 +26,22 @@ export function createDispatchService({
   orientation = createQuaternion(),
   bounds = createCuboid(),
   currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
-  supportedTopologies = [BasicShape.Cube, BasicShape.Cylinder]
+  supportedTransmutationTransitions = [
+    createTransmutationTransition({
+      start: createBasicShapeTransmutationState({ shape: BasicShape.Cube }),
+      end: createLiquidAssetTransmutationState({
+        liquidAsset: createLiquidAsset({ dollars: 5 })
+      })
+    }),
+    createTransmutationTransition({
+      start: createBasicShapeTransmutationState({ shape: BasicShape.Cylinder }),
+      end: createLiquidAssetTransmutationState({
+        liquidAsset: createLiquidAsset({ dollars: 10 })
+      })
+    })
+  ],
+  supportedMaterials = [MaterialType.SimplePolymer],
+  outputVolume = undefined
 } = {}): DispatchService {
   return {
     type: ServiceType.Dispatch,
@@ -32,6 +53,8 @@ export function createDispatchService({
     orientation,
     bounds,
     currentCostPerTime,
-    supportedTopologies
+    supportedTransmutationTransitions,
+    supportedMaterials,
+    outputVolume
   };
 }

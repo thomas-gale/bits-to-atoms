@@ -1,5 +1,5 @@
-import { ServiceType, ProcurementServiceProvider } from '../types';
+import { ServiceType, TransmutationServiceProvider } from '../types';
 
-export interface ProcurementService extends ProcurementServiceProvider {
+export interface ProcurementService extends TransmutationServiceProvider {
   type: ServiceType.Procurement;
 }

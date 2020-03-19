@@ -2,8 +2,11 @@ import { Entity } from '../entity/types';
 import { MaterialType } from '../../material/types';
 import { Cuboid } from '../../common/primitive/types';
 import { LiquidAsset } from '../../economic/types';
-import { BasicShape } from '../../common/topology/types';
-import { ActivityType, Activity } from '../../workflow/types';
+import {
+  ActivityType,
+  Activity,
+  TransmutationState
+} from '../../workflow/types';
 
 export enum ServiceType {
   Procurement = 'Procurement',
@@ -23,31 +26,25 @@ interface BaseServiceProvider extends Entity<any> {
   currentCostPerTime: LiquidAsset;
 }
 
-export interface ProcurementServiceProvider extends BaseServiceProvider {
-  supportedTopologies: BasicShape[];
-  supportedMaterials: MaterialType[];
+export interface TransmutationTransition {
+  start: TransmutationState;
+  end: TransmutationState;
 }
 
-export type StorageServiceProvider = BaseServiceProvider;
+export interface TransmutationServiceProvider extends BaseServiceProvider {
+  supportedTransmutationTransitions: TransmutationTransition[];
+  supportedMaterials: MaterialType[];
+  outputVolume: Cuboid | undefined;
+}
 
 export interface TransportServiceProvider extends BaseServiceProvider {
   capactityMass: number;
   movementVelocity: number;
 }
 
-export interface TransmutationServiceProvider extends BaseServiceProvider {
-  supportedTopologyTransitions: [BasicShape, BasicShape][];
-  supportedMaterials: MaterialType[];
-  outputVolume: Cuboid;
-}
-
-export interface DispatchServiceProvider extends BaseServiceProvider {
-  supportedTopologies: BasicShape[];
-}
+export type StorageServiceProvider = BaseServiceProvider;
 
 export type ServiceProvider =
-  | ProcurementServiceProvider
-  | StorageServiceProvider
-  | TransportServiceProvider
   | TransmutationServiceProvider
-  | DispatchServiceProvider;
+  | TransportServiceProvider
+  | StorageServiceProvider;

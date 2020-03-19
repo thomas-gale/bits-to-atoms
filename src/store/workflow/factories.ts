@@ -1,43 +1,16 @@
-import { BasicShape } from '../common/topology/types';
 import {
   ActivityType,
-  ProcurementActivity,
   TransportationActivity,
   TransmutationActivity,
   StorageActivity,
   Activity,
   Workflow,
-  DispatchActivity
+  TransmutationState
 } from './types';
 import { createNewIdentity } from '../common/identity/factories';
-import { createSimplePolymerMaterial } from '../material/factories';
 import { createVector3 } from '../common/primitive/factories';
 import { MaterialType } from '../material/types';
-
-export function createProcurementActivity({
-  identity = createNewIdentity({
-    displayName: 'default-procurement-activity'
-  }),
-  serviceProviderId = undefined,
-  started = undefined,
-  completed = undefined,
-  previousActivityId = undefined,
-  nextActivityId = undefined,
-  material = createSimplePolymerMaterial(),
-  topology = BasicShape.Spool
-} = {}): ProcurementActivity {
-  return {
-    identity,
-    type: ActivityType.Procurement,
-    serviceProviderId,
-    started,
-    completed,
-    previousActivityId,
-    nextActivityId,
-    material,
-    topology
-  };
-}
+import { Identity } from '../common/identity/types';
 
 export function createTransportationActivity({
   identity = createNewIdentity({
@@ -68,14 +41,14 @@ export function createTransmutationActivity({
   identity = createNewIdentity({
     displayName: 'default-transmutation-activity'
   }),
-  serviceProviderId = undefined,
-  started = undefined,
-  completed = undefined,
-  previousActivityId = undefined,
-  nextActivityId = undefined,
+  serviceProviderId = undefined as Identity | undefined,
+  started = undefined as Date | undefined,
+  completed = undefined as Date | undefined,
+  previousActivityId = undefined as Identity | undefined,
+  nextActivityId = undefined as Identity | undefined,
   material = MaterialType.SimplePolymer,
-  startTopology = undefined,
-  endTopology = BasicShape.Cube
+  startState = undefined as TransmutationState | undefined,
+  endState = undefined as TransmutationState | undefined
 } = {}): TransmutationActivity {
   return {
     identity,
@@ -86,8 +59,8 @@ export function createTransmutationActivity({
     previousActivityId,
     nextActivityId,
     material,
-    startTopology,
-    endTopology
+    startState,
+    endState
   };
 }
 
@@ -111,29 +84,6 @@ export function createStorageActivity({
     previousActivityId,
     nextActivityId,
     location
-  };
-}
-
-export function createDispatchActivity({
-  identity = createNewIdentity({
-    displayName: 'default-dispatch-activity'
-  }),
-  serviceProviderId = undefined,
-  started = undefined,
-  completed = undefined,
-  previousActivityId = undefined,
-  nextActivityId = undefined,
-  topology = BasicShape.Cube
-} = {}): DispatchActivity {
-  return {
-    identity,
-    type: ActivityType.Dispatch,
-    serviceProviderId,
-    started,
-    completed,
-    previousActivityId,
-    nextActivityId,
-    topology
   };
 }
 

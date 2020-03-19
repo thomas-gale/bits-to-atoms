@@ -6,8 +6,7 @@ import {
   setLiquidAsset,
   updateActiveBuildRequestWorkflow,
   requestFullfillmentOfActivity,
-  offerFullfillmentOfActivity,
-  acceptFullfillmentOfActivity
+  offerFullfillmentOfActivity
 } from './slice';
 import { config } from '../../env/config';
 import {
@@ -18,22 +17,21 @@ import { LiquidAsset } from '../economic/types';
 import { createLiquidAsset } from '../economic/factories';
 import {
   createWorkflow,
-  createProcurementActivity,
-  createTransmutationActivity,
-  createTransportationActivity,
-  createDispatchActivity
+  createTransmutationActivity
 } from '../workflow/factories';
 import { createNewIdentity } from '../common/identity/factories';
 import { BasicShape } from '../common/topology/types';
 import { MaterialType } from '../material/types';
-import { Identity } from '../common/identity/types';
-import { Activity, ActivityType, TransmutationActivity } from '../workflow/types';
 import {
-  ServiceProvider,
-  TransmutationServiceProvider
-} from './services/types';
-import { DispatchService } from './services/dispatchservice/types';
-import transitions from '@material-ui/core/styles/transitions';
+  Activity,
+  TransmutationActivity,
+  TransmutationStateType
+} from '../workflow/types';
+import { ServiceProvider } from './services/types';
+import {
+  createBasicShapeTransmutationState,
+  createLiquidAssetTransmutationState
+} from './services/factories';
 
 export function* factoryUpdateTickSaga() {
   const updateDelayMs = config.factory.updatePeriodMs;
@@ -72,6 +70,40 @@ export function* factoryUpdateTickSaga() {
   }
 }
 
+/**
+ * Helper function to request and await fullfillment offers for an activity
+ * @param activity Activity to be fullfilled
+ * @returns ServiceProvider that has offered to fullfill the activity
+ */
+function* triggerRequestFullfillmentOfActivity(activity: Activity) {
+  console.log(`Requesting fullfillment for activity ${activity.identity.uuid}`);
+  yield put(requestFullfillmentOfActivity(activity));
+
+  // Wait for a fullfillment offer for this activity to come back from service providers.
+  let fullfillmentOffer: PayloadAction<{
+    serviceProvider: ServiceProvider;
+    activity: Activity;
+  }>;
+  while (true) {
+    fullfillmentOffer = (yield take(
+      offerFullfillmentOfActivity.type
+    )) as PayloadAction<{
+      serviceProvider: ServiceProvider;
+      activity: Activity;
+    }>;
+    if (
+      fullfillmentOffer.payload.activity.identity.uuid ===
+      activity.identity.uuid
+    )
+      break;
+  }
+  return fullfillmentOffer;
+}
+
+/**
+ * Primary workflow for handling the creation of the workflows which drive the factory.
+ * @param addedActiveBuildRequest Build Request just added to the active list
+ */
 function* buildRequestWorkflowSaga(
   addedActiveBuildRequest: PayloadAction<BuildRequest>
 ) {
@@ -99,19 +131,28 @@ function* buildRequestWorkflowSaga(
   // WIP: The workflow below assumes that the workflow can be achieved with a simple, naive first branch picked search of the graph to build a part.
 
   // Current topological output shape in workflow generation
-  let currentTopologyState: BasicShape = buildRequest.endShape;
+  let currentTopologyState = createBasicShapeTransmutationState({
+    shape: buildRequest.endShape
+  });
   let previousActivity: Activity;
   let currentActivity: Activity;
 
   // 1. Request dispatch service provider and assign to final dispatch activity step.
-  currentActivity = createDispatchActivity({
+  currentActivity = createTransmutationActivity({
     identity: createNewIdentity({ displayName: 'Dispatch Part' }),
-    topology: currentTopologyState
+    startState: currentTopologyState,
+    endState: createLiquidAssetTransmutationState({
+      liquidAsset: buildRequest.fixedValue
+    })
   });
   const dispatchOfferServiceProvider = (yield triggerRequestFullfillmentOfActivity(
     currentActivity
-  )) as DispatchService;
-  currentActivity.serviceProviderId = dispatchOfferServiceProvider.id;
+  )) as PayloadAction<{
+    serviceProvider: ServiceProvider;
+    activity: Activity;
+  }>;
+  currentActivity.serviceProviderId =
+    dispatchOfferServiceProvider.payload.serviceProvider.id;
   computedWorkflow.activities.push(currentActivity);
   previousActivity = currentActivity;
 
@@ -119,43 +160,65 @@ function* buildRequestWorkflowSaga(
   while (true) {
     currentActivity = createTransmutationActivity({
       identity: createNewIdentity({ displayName: 'Transmute Part' }),
-      endTopology: currentTopologyState
+      endState: currentTopologyState
     });
     const transmutationFullfillmentOffer = (yield triggerRequestFullfillmentOfActivity(
       currentActivity
     )) as PayloadAction<{
       serviceProvider: ServiceProvider;
-      activity: Activity}>;
-    const proposedServiceProvider = transmutationFullfillmentOffer.payload.serviceProvider;
-    const proposedActivity = transmutationFullfillmentOffer.payload.activity as TransmutationActivity;
-    if (!proposedActivity.startTopology) {
-      console.error("Transmutation fullfillment offer does not specify the start topology");
+      activity: Activity;
+    }>;
+    const proposedServiceProvider =
+      transmutationFullfillmentOffer.payload.serviceProvider;
+    const proposedActivity = transmutationFullfillmentOffer.payload
+      .activity as TransmutationActivity;
+    if (!proposedActivity.startState) {
+      console.error(
+        'Transmutation fullfillment offer does not specify the start topology'
+      );
       return;
     }
 
     currentActivity.serviceProviderId = proposedServiceProvider.id;
     currentActivity.nextActivityId = previousActivity.identity;
     previousActivity.previousActivityId = currentActivity.identity;
-    currentTopologyState = proposedActivity.startTopology;
     computedWorkflow.activities.push(currentActivity);
-    previousActivity = currentActivity;
+
+    if (
+      proposedActivity.startState.type === TransmutationStateType.BasicShape
+    ) {
+      currentTopologyState = proposedActivity.startState;
+      previousActivity = currentActivity;
+    } else {
+      console.log(
+        'Transmutation list complete (current transmutation does not start with basic shape topology)'
+      );
+      currentActivity.identity.displayName = 'Procure Part';
+      computedWorkflow.firstActivityId = currentActivity.identity;
+      break;
+    }
   }
 
-  // 2. Request final transmutation service provider and assign to activity step (link as activity before / update dispatch service provider link)
-  // 2a. Repeat for each step mapping from output -> input shape (till there are no more service providers)
+  // 3. Finally assemble the Transportation step search
 
-  // 3. Request procurement service provider for this 'most basic' material shape. (keep linked structure correct)
-
-  // 4. Request transport provider activites to link all the previous steps. (keep linked structure correct)
+  // TODO (loop again though all the activities, this time, trying to connect them up)
 
   // Proposed workflow is now computed.
   console.log(
     `Proposed workflow computed! Id: ${computedWorkflow.identity.uuid} with ${computedWorkflow.activities.length} steps`
   );
+  // Send out the proposed active build request workflow
+  yield put(
+    updateActiveBuildRequestWorkflow({
+      buildRequestId: buildRequest.identity,
+      workflow: computedWorkflow
+    })
+  );
 
   // *** TODO: Move up ******
   // Start and monitor workflow by accepting fullfillment of fist activity (at this point they should all have enough information to start).
   // Now we manage the execution of the sequential workflow activities.
+  /*
   for (const activity of computedWorkflow.activities) {
     console.log(`Requesting fullfillment for ${activity.identity.uuid}`);
     yield put(requestFullfillmentOfActivity(activity));
@@ -199,14 +262,6 @@ function* buildRequestWorkflowSaga(
         break;
     }
 
-    // Send out the proposed active build request workflow
-    yield put(
-      updateActiveBuildRequestWorkflow({
-        buildRequestId: buildRequest.identity,
-        workflow: computedWorkflow
-      })
-    );
-
     console.log(
       `Starting execution workflow ${computedWorkflow.identity.uuid}`
     );
@@ -246,40 +301,9 @@ function* buildRequestWorkflowSaga(
       })
     ]
   });*/
-  }
 
   // Onced completed remove the active build request (Or move to a completed state / section).
   console.log(`Completed workflow ${computedWorkflow.identity.uuid}`);
-}
-
-/**
- * Helper function to request and await fullfillment offers for an activity
- * @param activity Activity to be fullfilled
- * @returns ServiceProvider that has offered to fullfill the activity
- */
-function* triggerRequestFullfillmentOfActivity(activity: Activity) {
-  console.log(`Requesting fullfillment for activity ${activity.identity.uuid}`);
-  yield put(requestFullfillmentOfActivity(activity));
-
-  // Wait for a fullfillment offer for this activity to come back from service providers.
-  let fullfillmentOffer: PayloadAction<{
-    serviceProvider: ServiceProvider;
-    activity: Activity;
-  }>;
-  while (true) {
-    fullfillmentOffer = (yield take(
-      offerFullfillmentOfActivity.type
-    )) as PayloadAction<{
-      serviceProvider: ServiceProvider;
-      activity: Activity;
-    }>;
-    if (
-      fullfillmentOffer.payload.activity.identity.uuid ===
-      activity.identity.uuid
-    )
-      break;
-  }
-  return fullfillmentOffer;
 }
 
 export function* factoryWatchAddActiveBuildRequestSaga() {

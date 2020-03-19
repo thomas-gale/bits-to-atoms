@@ -39,9 +39,9 @@ function* generateBidWorkflow(
     return; // Early return if no service providers available to bid.
   }
 
-  if (activity.type === ActivityType.Dispatch) {
+  if (activity.type === ActivityType.Transmutation) {
     console.log(
-      'Dispatch service will generate quote for this dispatch activity'
+      'Dispatch service will generate quote for this transmutation activity'
     );
     yield put(
       offerFullfillmentOfActivity({

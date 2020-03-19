@@ -1,7 +1,11 @@
 import { takeEvery, select, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { Activity, ActivityType } from '../../../workflow/types';
+import {
+  Activity,
+  ActivityType,
+  TransmutationStateType
+} from '../../../workflow/types';
 import {
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity
@@ -9,8 +13,7 @@ import {
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
 import { FFFPrinter } from './types';
-import transitions from '@material-ui/core/styles/transitions';
-import { BasicShape } from '../../../common/topology/types';
+import { createBasicShapeTransmutationState } from '../factories';
 
 function* generateBidWorkflow(
   requestFufillmentOfActivity: PayloadAction<Activity>
@@ -42,20 +45,37 @@ function* generateBidWorkflow(
   }
 
   if (activity.type === ActivityType.Transmutation) {
-    const chosenTopologyTransition = fffPrinterServiceProvider.supportedTopologyTransitions.find(
-      transition => transition[1] === activity.endTopology
+    // Check for each transition if the printer's end state is BasicShape, the action has an end state that is also BasicShape and that the printer can
+    // offer the shape required.
+    const chosenTopologyTransition = fffPrinterServiceProvider.supportedTransmutationTransitions.find(
+      transition =>
+        transition.end.type === TransmutationStateType.BasicShape &&
+        activity.endState &&
+        activity.endState.type === TransmutationStateType.BasicShape &&
+        activity.endState.shape === transition.end.shape
     );
     if (chosenTopologyTransition) {
       console.log(
         `FFF printer service ${fffPrinterServiceProvider.id.uuid} will offer fullfillment for this transmutation activity . (Appending required input topology)`
       );
-      activity.startTopology = chosenTopologyTransition[0];
-      yield put(
-        offerFullfillmentOfActivity({
-          serviceProvider: fffPrinterServiceProvider,
-          activity: activity
-        })
-      );
+      if (
+        chosenTopologyTransition.start.type ===
+        TransmutationStateType.BasicShape
+      ) {
+        activity.startState = createBasicShapeTransmutationState({
+          shape: chosenTopologyTransition.start.shape
+        });
+        yield put(
+          offerFullfillmentOfActivity({
+            serviceProvider: fffPrinterServiceProvider,
+            activity: activity
+          })
+        );
+      } else {
+        console.error(
+          `FFF printer service ${fffPrinterServiceProvider.id.uuid} has misconfigured TopologyTransition start type`
+        );
+      }
     }
   }
 }

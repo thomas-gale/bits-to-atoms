@@ -306,6 +306,15 @@ function* buildRequestWorkflowSaga(
       );
       break;
     }
+    const currentExecutingServiceProvider = serviceProviders.find(
+      sp => sp.id.uuid === currentExecutingActivity.serviceProviderId?.uuid
+    );
+    if (!currentExecutingServiceProvider) {
+      console.error(
+        'Unabled to find current executing activities service provider'
+      );
+      break;
+    }
 
     // Start the activity.
     console.log(
@@ -313,8 +322,8 @@ function* buildRequestWorkflowSaga(
     );
     yield put(
       acceptFullfillmentOfActivity({
-        serviceProviderId: currentExecutingActivity.serviceProviderId,
-        activityId: currentExecutingActivity.identity
+        serviceProvider: currentExecutingServiceProvider,
+        activity: currentExecutingActivity
       })
     );
 

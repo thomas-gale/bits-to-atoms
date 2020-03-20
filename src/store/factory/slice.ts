@@ -56,8 +56,8 @@ const factorySlice = createSlice({
     acceptFullfillmentOfActivity(
       _state,
       _action: PayloadAction<{
-        serviceProviderId: Identity;
-        activityId: Identity;
+        serviceProvider: ServiceProvider;
+        activity: Activity;
       }>
     ) {
       // This action is to be picked up by middlewear saga for processing.

@@ -1,17 +1,29 @@
 import { normalize } from 'normalizr';
-import { identity, factory } from './schemes';
-import { createNewIdentity } from '../common/identity/factories';
+import { identitySchema, factorySchema } from './schemes';
+import { createExistingIdentity } from '../common/identity/factories';
 
 test('normalizr tests', () => {
-   // Arrange 
-   const testIdentity = createNewIdentity({ displayName: 'test-identity'});
-   const testFactory = { identity: testIdentity };
+  // Arrange
+  const fixedUuid = '945430d8-0fc3-4fc5-9489-2875b7b70906';
+  const testIdentity = createExistingIdentity({
+    displayName: 'test-identity',
+    id: fixedUuid
+  });
+  const testFactory = { identity: testIdentity };
 
-   // Act 
-   const normalizedFactory = normalize(testFactory, factory);
+  // Act
+  const normalizedFactory = normalize(testFactory, factorySchema);
 
-   // Assert
-   console.log(normalizedFactory);
-   //expect(normalizedFactory).;
+  // Assert
+  expect(normalizedFactory).toEqual({
+    entities: {
+      identity: {
+        '945430d8-0fc3-4fc5-9489-2875b7b70906': {
+          displayName: 'test-identity',
+          id: '945430d8-0fc3-4fc5-9489-2875b7b70906'
+        }
+      }
+    },
+    result: { identity: '945430d8-0fc3-4fc5-9489-2875b7b70906' }
+  });
 });
-

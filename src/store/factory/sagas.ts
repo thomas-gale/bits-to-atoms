@@ -94,10 +94,7 @@ function* triggerRequestFullfillmentOfActivity(activity: Activity) {
       serviceProvider: ServiceProvider;
       activity: Activity;
     }>;
-    if (
-      fullfillmentOffer.payload.activity.identity.id ===
-      activity.identity.id
-    )
+    if (fullfillmentOffer.payload.activity.identity.id === activity.identity.id)
       break;
   }
   return fullfillmentOffer;

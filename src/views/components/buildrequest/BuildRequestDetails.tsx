@@ -102,10 +102,7 @@ function BuildRequestDetails(props: Props): JSX.Element {
           </Typography>
           {orderedActivities.map(activity => {
             return (
-              <ActivityDetails
-                key={activity.identity.id}
-                activity={activity}
-              />
+              <ActivityDetails key={activity.identity.id} activity={activity} />
             );
           })}
         </Card>

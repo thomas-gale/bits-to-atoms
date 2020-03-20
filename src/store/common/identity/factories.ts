@@ -3,10 +3,10 @@ import { Identity } from './types';
 
 export function createExistingIdentity({
   displayName = '',
-  uuid = ''
+  id = ''
 } = {}): Identity {
   return {
-    id: uuid,
+    id,
     displayName
   };
 }

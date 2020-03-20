@@ -3,7 +3,10 @@ import {
   watchRequestFufillmentOfActivitySaga as procurementWatchRequestFufillmentOfActivitySaga,
   watchAcceptFullfillmentOfActivitySaga as procurementWatchAcceptFullfillmentOfActivitySaga
 } from './procurementservice/sagas';
-import { watchRequestFufillmentOfActivitySaga as humanWorkerWatchRequestFufillmentOfActivitySaga } from './humanworker/sagas';
+import {
+  watchRequestFufillmentOfActivitySaga as humanWorkerWatchRequestFufillmentOfActivitySaga,
+  watchAcceptFullfillmentOfActivitySaga as humanWorkerWatchAcceptFullfillmentOfActivitySaga
+} from './humanworker/sagas';
 import { watchRequestFufillmentOfActivitySaga as fffPrinterWatchRequestFufillmentOfActivitySaga } from './fffprinter/sagas';
 import { watchRequestFufillmentOfActivitySaga as dispatchServiceWatchRequestFufillmentOfActivitySaga } from './dispatchservice/sagas';
 
@@ -17,5 +20,8 @@ export function* serviceProvidersWatchFactoryOpenActivitiesSaga() {
 }
 
 export function* serviceProvidersWatchAcceptFullfillmentOfActivitiesSaga() {
-  yield all([fork(procurementWatchAcceptFullfillmentOfActivitySaga)]);
+  yield all([
+    fork(procurementWatchAcceptFullfillmentOfActivitySaga),
+    fork(humanWorkerWatchAcceptFullfillmentOfActivitySaga)
+  ]);
 }

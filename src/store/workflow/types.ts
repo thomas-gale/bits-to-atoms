@@ -27,17 +27,17 @@ export interface TransportationActivity extends BaseActivity {
 }
 
 export enum TransmutationStateType {
-  BasicShape = 'BasicShape',
-  LiquidAsset = 'LiquidAsset'
+  BasicShapeType = 'BasicShapeType',
+  LiquidAssetType = 'LiquidAssetType'
 }
 
 export interface BasicShapeTransmutationState {
-  type: TransmutationStateType.BasicShape;
+  type: TransmutationStateType.BasicShapeType;
   shape: BasicShape;
 }
 
 export interface LiquidAssetTransmutationState {
-  type: TransmutationStateType.LiquidAsset;
+  type: TransmutationStateType.LiquidAssetType;
   liquidAsset: LiquidAsset;
 }
 

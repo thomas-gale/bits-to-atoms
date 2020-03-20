@@ -1,14 +1,16 @@
-import { takeEvery, select, put } from 'redux-saga/effects';
+import { takeEvery, select, put, delay } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import {
   Activity,
   ActivityType,
-  TransmutationStateType
+  TransmutationStateType,
+  TransmutationActivity
 } from '../../../workflow/types';
 import {
   requestFullfillmentOfActivity,
-  offerFullfillmentOfActivity
+  offerFullfillmentOfActivity,
+  acceptFullfillmentOfActivity
 } from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
@@ -48,9 +50,9 @@ function* generateBidWorkflow(
     // offer the shape required.
     const chosenTopologyTransition = procurementServiceProvider.supportedTransmutationTransitions.find(
       transition =>
-        transition.end.type === TransmutationStateType.BasicShape &&
+        transition.end.type === TransmutationStateType.BasicShapeType &&
         activity.endState &&
-        activity.endState.type === TransmutationStateType.BasicShape &&
+        activity.endState.type === TransmutationStateType.BasicShapeType &&
         activity.endState.shape === transition.end.shape
     );
     if (chosenTopologyTransition) {
@@ -59,7 +61,7 @@ function* generateBidWorkflow(
       );
       if (
         chosenTopologyTransition.start.type ===
-        TransmutationStateType.LiquidAsset
+        TransmutationStateType.LiquidAssetType
       ) {
         activity.startState = chosenTopologyTransition.start;
         yield put(
@@ -77,6 +79,34 @@ function* generateBidWorkflow(
   }
 }
 
+function* executeActivityWorkflow(
+  action: PayloadAction<{
+    serviceProvider: ServiceProvider;
+    activity: Activity;
+  }>
+) {
+  if (action.payload.serviceProvider.type !== ServiceType.Procurement) return;
+  const serviceProvider = action.payload.serviceProvider as ProcurementService;
+  const activity = action.payload.activity as TransmutationActivity;
+
+  console.log(
+    `Procurement service ${serviceProvider.id.uuid} starting to execute transmutation activity ${activity.identity.uuid}`
+  );
+
+  // Interact with virtual market and exchange the factory liquid asset for the material fixed asset to add to worshop.
+
+  // Somehow assign the material fixed asset to this active activity / build request?
+  yield delay(1000);
+
+  console.log(
+    `Procurement service ${serviceProvider.id.uuid} completed transmutation activity ${activity.identity.uuid}`
+  );
+}
+
 export function* watchRequestFufillmentOfActivitySaga() {
   yield takeEvery(requestFullfillmentOfActivity.type, generateBidWorkflow);
+}
+
+export function* watchAcceptFullfillmentOfActivitySaga() {
+  yield takeEvery(acceptFullfillmentOfActivity.type, executeActivityWorkflow);
 }

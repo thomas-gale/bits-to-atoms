@@ -12,7 +12,7 @@ export function createBasicShapeTransmutationState({
   shape = BasicShape.Cube
 } = {}): BasicShapeTransmutationState {
   return {
-    type: TransmutationStateType.BasicShape,
+    type: TransmutationStateType.BasicShapeType,
     shape
   };
 }
@@ -21,7 +21,7 @@ export function createLiquidAssetTransmutationState({
   liquidAsset = createLiquidAsset()
 } = {}): LiquidAssetTransmutationState {
   return {
-    type: TransmutationStateType.LiquidAsset,
+    type: TransmutationStateType.LiquidAssetType,
     liquidAsset
   };
 }

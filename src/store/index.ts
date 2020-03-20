@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from '@reduxjs/toolkit';
 
 import createSagaMiddleware from 'redux-saga';
-import { all } from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
 import {
   simpleMarketSaga,
   watchRequestAddBuildRequestSaga
@@ -16,15 +16,19 @@ import {
   factoryUpdateTickSaga,
   factoryWatchAddActiveBuildRequestSaga
 } from './factory/sagas';
-import { serviceProvidersWatchFactoryOpenActivitiesSaga } from './factory/services/sagas';
+import {
+  serviceProvidersWatchFactoryOpenActivitiesSaga,
+  serviceProvidersWatchAcceptFullfillmentOfActivitiesSaga
+} from './factory/services/sagas';
 
 function* rootSaga() {
   yield all([
-    simpleMarketSaga(),
-    watchRequestAddBuildRequestSaga(),
-    factoryUpdateTickSaga(),
-    factoryWatchAddActiveBuildRequestSaga(),
-    serviceProvidersWatchFactoryOpenActivitiesSaga()
+    fork(simpleMarketSaga),
+    fork(watchRequestAddBuildRequestSaga),
+    fork(factoryUpdateTickSaga),
+    fork(factoryWatchAddActiveBuildRequestSaga),
+    fork(serviceProvidersWatchFactoryOpenActivitiesSaga),
+    fork(serviceProvidersWatchAcceptFullfillmentOfActivitiesSaga)
   ]);
 }
 

@@ -6,18 +6,21 @@ import {
   setLiquidAsset,
   updateActiveBuildRequestWorkflow,
   requestFullfillmentOfActivity,
-  offerFullfillmentOfActivity
+  offerFullfillmentOfActivity,
+  acceptFullfillmentOfActivity
 } from './slice';
 import { config } from '../../env/config';
 import {
   factoryLiquidAssetSelector,
-  currentServiceProviderCostPerTimeSelector
+  currentServiceProviderCostPerTimeSelector,
+  factoryServiceProvidersSelector
 } from './selectors';
 import { LiquidAsset } from '../economic/types';
 import { createLiquidAsset } from '../economic/factories';
 import {
   createWorkflow,
-  createTransmutationActivity
+  createTransmutationActivity,
+  createTransportationActivity
 } from '../workflow/factories';
 import { createNewIdentity } from '../common/identity/factories';
 import { BasicShape } from '../common/topology/types';
@@ -134,11 +137,11 @@ function* buildRequestWorkflowSaga(
   let currentTopologyState = createBasicShapeTransmutationState({
     shape: buildRequest.endShape
   });
-  let previousActivity: Activity;
-  let currentActivity: Activity;
+  let previousTransmutationActivity: Activity;
+  let currentTransmutationActivity: Activity;
 
   // 1. Request dispatch service provider and assign to final dispatch activity step.
-  currentActivity = createTransmutationActivity({
+  currentTransmutationActivity = createTransmutationActivity({
     identity: createNewIdentity({ displayName: 'Dispatch Part' }),
     startState: currentTopologyState,
     endState: createLiquidAssetTransmutationState({
@@ -146,24 +149,24 @@ function* buildRequestWorkflowSaga(
     })
   });
   const dispatchOfferServiceProvider = (yield triggerRequestFullfillmentOfActivity(
-    currentActivity
+    currentTransmutationActivity
   )) as PayloadAction<{
     serviceProvider: ServiceProvider;
     activity: Activity;
   }>;
-  currentActivity.serviceProviderId =
+  currentTransmutationActivity.serviceProviderId =
     dispatchOfferServiceProvider.payload.serviceProvider.id;
-  computedWorkflow.activities.push(currentActivity);
-  previousActivity = currentActivity;
+  computedWorkflow.activities.push(currentTransmutationActivity);
+  previousTransmutationActivity = currentTransmutationActivity;
 
   // 2. Perform the transmutation step search
   while (true) {
-    currentActivity = createTransmutationActivity({
+    currentTransmutationActivity = createTransmutationActivity({
       identity: createNewIdentity({ displayName: 'Transmute Part' }),
       endState: currentTopologyState
     });
     const transmutationFullfillmentOffer = (yield triggerRequestFullfillmentOfActivity(
-      currentActivity
+      currentTransmutationActivity
     )) as PayloadAction<{
       serviceProvider: ServiceProvider;
       activity: Activity;
@@ -179,29 +182,99 @@ function* buildRequestWorkflowSaga(
       return;
     }
 
-    currentActivity.serviceProviderId = proposedServiceProvider.id;
-    currentActivity.nextActivityId = previousActivity.identity;
-    previousActivity.previousActivityId = currentActivity.identity;
-    computedWorkflow.activities.push(currentActivity);
+    currentTransmutationActivity.serviceProviderId = proposedServiceProvider.id;
+    currentTransmutationActivity.nextActivityId =
+      previousTransmutationActivity.identity;
+    previousTransmutationActivity.previousActivityId =
+      currentTransmutationActivity.identity;
+    computedWorkflow.activities.push(currentTransmutationActivity);
 
     if (
-      proposedActivity.startState.type === TransmutationStateType.BasicShape
+      proposedActivity.startState.type === TransmutationStateType.BasicShapeType
     ) {
       currentTopologyState = proposedActivity.startState;
-      previousActivity = currentActivity;
+      previousTransmutationActivity = currentTransmutationActivity;
     } else {
       console.log(
         'Transmutation list complete (current transmutation does not start with basic shape topology)'
       );
-      currentActivity.identity.displayName = 'Procure Part';
-      computedWorkflow.firstActivityId = currentActivity.identity;
+      currentTransmutationActivity.identity.displayName = 'Procure Part';
+      computedWorkflow.firstActivityId = currentTransmutationActivity.identity;
       break;
     }
   }
 
   // 3. Finally assemble the Transportation step search
+  const serviceProviders = (yield select(
+    factoryServiceProvidersSelector
+  )) as ServiceProvider[];
 
-  // TODO (loop again though all the activities, this time, trying to connect them up)
+  // Current activity is the first activity.
+  while (currentTransmutationActivity.nextActivityId) {
+    const currentTransmutationActivityNextActivityId =
+      currentTransmutationActivity.nextActivityId;
+    const nextTransmutationActivity = computedWorkflow.activities.find(
+      a => a.identity.uuid === currentTransmutationActivityNextActivityId?.uuid
+    ) as TransmutationActivity;
+    if (!nextTransmutationActivity) {
+      console.error(
+        'Next activity Id does not have associated activity in the computed workflow activities.'
+      );
+      break;
+    }
+
+    const currentTransmutationActivityServiceProviderId =
+      currentTransmutationActivity.serviceProviderId;
+    const startTransmutationServiceProvider = serviceProviders.find(
+      sp => sp.id.uuid === currentTransmutationActivityServiceProviderId?.uuid
+    );
+    const nextTransmutationActivityServiceProviderId =
+      nextTransmutationActivity.serviceProviderId;
+    const endTransmutationServiceProvider = serviceProviders.find(
+      sp => sp.id.uuid === nextTransmutationActivityServiceProviderId?.uuid
+    );
+    if (
+      !startTransmutationServiceProvider ||
+      !endTransmutationServiceProvider
+    ) {
+      console.error(
+        'Start or end transmutation activity does not have an associated service provider...'
+      );
+      break;
+    }
+
+    const currentTransportActivity = createTransportationActivity({
+      identity: createNewIdentity({ displayName: 'Transport Part' }),
+      startLocation: startTransmutationServiceProvider.location,
+      endLocation: endTransmutationServiceProvider.location
+    });
+    const transportationFullfillmentOffer = (yield triggerRequestFullfillmentOfActivity(
+      currentTransportActivity
+    )) as PayloadAction<{
+      serviceProvider: ServiceProvider;
+      activity: Activity;
+    }>;
+
+    // Get the proposed transport service provider
+    const proposedTransportServiceProvider =
+      transportationFullfillmentOffer.payload.serviceProvider;
+
+    // Update and insert the transport activity between the transmutation activities.
+    currentTransmutationActivity.nextActivityId =
+      currentTransportActivity.identity;
+    nextTransmutationActivity.previousActivityId =
+      currentTransmutationActivity.identity;
+
+    currentTransportActivity.serviceProviderId =
+      proposedTransportServiceProvider.id;
+    currentTransportActivity.previousActivityId =
+      currentTransmutationActivity.identity;
+    currentTransportActivity.nextActivityId =
+      nextTransmutationActivity.identity;
+    computedWorkflow.activities.push(currentTransportActivity);
+
+    currentTransmutationActivity = nextTransmutationActivity;
+  }
 
   // Proposed workflow is now computed.
   console.log(
@@ -215,92 +288,57 @@ function* buildRequestWorkflowSaga(
     })
   );
 
-  // *** TODO: Move up ******
   // Start and monitor workflow by accepting fullfillment of fist activity (at this point they should all have enough information to start).
   // Now we manage the execution of the sequential workflow activities.
-  /*
-  for (const activity of computedWorkflow.activities) {
-    console.log(`Requesting fullfillment for ${activity.identity.uuid}`);
-    yield put(requestFullfillmentOfActivity(activity));
+  let currentExecutingActivityId = computedWorkflow.firstActivityId;
 
-    // Wait for a fullfillment offer for this activity to come back from service providers.
-    let fullfillmentOffer: PayloadAction<{
-      serviceProviderId: Identity;
-      activityId: Identity;
-    }>;
-    while (true) {
-      fullfillmentOffer = (yield take(
-        offerFullfillmentOfActivity.type
-      )) as PayloadAction<{
-        serviceProviderId: Identity;
-        activityId: Identity;
-      }>;
-      if (fullfillmentOffer.payload.activityId.uuid === activity.identity.uuid)
-        break;
+  while (true) {
+    const currentExecutingActivityIdUuid = currentExecutingActivityId.uuid;
+    const currentExecutingActivity = computedWorkflow.activities.find(
+      a => a.identity.uuid === currentExecutingActivityIdUuid
+    );
+    if (
+      !currentExecutingActivity ||
+      !currentExecutingActivity.serviceProviderId
+    ) {
+      console.error(
+        'Unabled to find current executing activity in computed workflow or the activitiy service provider is undefined'
+      );
+      break;
+    }
+    const currentExecutingServiceProvider = serviceProviders.find(
+      sp => sp.id.uuid === currentExecutingActivity.serviceProviderId?.uuid
+    );
+    if (!currentExecutingServiceProvider) {
+      console.error(
+        'Unabled to find current executing activities service provider'
+      );
+      break;
     }
 
-    // Simple first come first accept basis.
+    // Start the activity.
     console.log(
-      `Recieved and accepted first fullfillment offer for activity ${activity.identity.uuid} from service provider ${fullfillmentOffer.payload.serviceProviderId.uuid}`
+      `Starting activity ${currentExecutingActivity.identity.uuid} in workflow ${computedWorkflow.identity.uuid}`
     );
-    yield put(acceptFullfillmentOfActivity(fullfillmentOffer.payload));
-
-    // Now finally, await completion of this activity (when completed is no longer undefined).
-    let activtyUpdate: PayloadAction<{
-      buildRequestId: Identity;
-      activity: Activity;
-    }>;
-    while (true) {
-      activtyUpdate = (yield take(
-        offerFullfillmentOfActivity.type
-      )) as PayloadAction<{ buildRequestId: Identity; activity: Activity }>;
-      if (
-        activtyUpdate.payload.activity.identity.uuid ===
-          activity.identity.uuid &&
-        activtyUpdate.payload.activity.completed
-      )
-        break;
-    }
-
-    console.log(
-      `Starting execution workflow ${computedWorkflow.identity.uuid}`
-    );
-
-    console.log(
-      `Activity completed ${activity.identity.uuid} by service provider ${fullfillmentOffer.payload.serviceProviderId.uuid}`
-    );
-
-    // This is the hard coded workflow - this is too simple to work.
-    /*
-  const computedWorkflow = createWorkflow({
-    identity: createNewIdentity({ displayName: 'Basic Generated Workflow' }),
-    activities: [
-      createProcurementActivity({
-        identity: createNewIdentity({ displayName: 'Purchase Material' })
-      }),
-      createTransportationActivity({
-        identity: createNewIdentity({ displayName: 'Move to Printer' })
-      }),
-      createTransmutationActivity({
-        identity: createNewIdentity({ displayName: 'Printing' }),
-        material: MaterialType.SimplePolymer,
-        startTopology: BasicShape.Spool,
-        endTopology: BasicShape.RoughCube
-      }),
-      createTransmutationActivity({
-        identity: createNewIdentity({ displayName: 'Hand Finishing' }),
-        material: MaterialType.SimplePolymer,
-        startTopology: BasicShape.RoughCube,
-        endTopology: BasicShape.Cube
-      }),
-      createTransportationActivity({
-        identity: createNewIdentity({ displayName: 'Move to Output Bay' })
-      }),
-      createDispatchActivity({
-        identity: createNewIdentity({ displayName: 'Dispatch Part' })
+    yield put(
+      acceptFullfillmentOfActivity({
+        serviceProvider: currentExecutingServiceProvider,
+        activity: currentExecutingActivity
       })
-    ]
-  });*/
+    );
+
+    // Wait for the activity to complete.
+
+    // TODO: while true take
+
+    console.log(
+      `Completed activity ${currentExecutingActivity.identity.uuid} in workflow ${computedWorkflow.identity.uuid}`
+    );
+
+    // Get next activity or break, if we have reached the end.
+    if (!currentExecutingActivity.nextActivityId) break;
+    currentExecutingActivityId = currentExecutingActivity.nextActivityId;
+  }
 
   // Onced completed remove the active build request (Or move to a completed state / section).
   console.log(`Completed workflow ${computedWorkflow.identity.uuid}`);

@@ -1,14 +1,17 @@
-import { takeEvery, select, put } from 'redux-saga/effects';
+import { takeEvery, select, put, delay } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import {
   Activity,
   ActivityType,
-  TransmutationStateType
+  TransmutationStateType,
+  TransmutationActivity,
+  TransportationActivity
 } from '../../../workflow/types';
 import {
   requestFullfillmentOfActivity,
-  offerFullfillmentOfActivity
+  offerFullfillmentOfActivity,
+  acceptFullfillmentOfActivity
 } from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
@@ -59,9 +62,9 @@ function* generateBidWorkflow(
     // offer the shape required.
     const chosenTopologyTransition = humanServiceProvider.supportedTransmutationTransitions.find(
       transition =>
-        transition.end.type === TransmutationStateType.BasicShape &&
+        transition.end.type === TransmutationStateType.BasicShapeType &&
         activity.endState &&
-        activity.endState.type === TransmutationStateType.BasicShape &&
+        activity.endState.type === TransmutationStateType.BasicShapeType &&
         activity.endState.shape === transition.end.shape
     );
     if (chosenTopologyTransition) {
@@ -70,7 +73,7 @@ function* generateBidWorkflow(
       );
       if (
         chosenTopologyTransition.start.type ===
-        TransmutationStateType.BasicShape
+        TransmutationStateType.BasicShapeType
       ) {
         activity.startState = createBasicShapeTransmutationState({
           shape: chosenTopologyTransition.start.shape
@@ -90,6 +93,68 @@ function* generateBidWorkflow(
   }
 }
 
+function* executeTransportationActivity(
+  humanWorker: HumanWorker,
+  transportationActivity: TransportationActivity
+) {
+  console.log(
+    `Human worker service ${humanWorker.id.uuid} starting to execute transportation activity ${transportationActivity.identity.uuid}`
+  );
+
+  yield delay(1000);
+
+  console.log(
+    `Human worker service ${humanWorker.id.uuid} completed transportation activity ${transportationActivity.identity.uuid}`
+  );
+}
+
+function* executeTransmutationActivity(
+  humanWorker: HumanWorker,
+  transmutationActivity: TransmutationActivity
+) {
+  console.log(
+    `Human worker service ${humanWorker.id.uuid} starting to execute transmutation activity ${transmutationActivity.identity.uuid}`
+  );
+
+  yield delay(1000);
+
+  console.log(
+    `Human worker service ${humanWorker.id.uuid} completed transmutation activity ${transmutationActivity.identity.uuid}`
+  );
+}
+
+function* executeActivityWorkflow(
+  action: PayloadAction<{
+    serviceProvider: ServiceProvider;
+    activity: Activity;
+  }>
+) {
+  if (action.payload.serviceProvider.type !== ServiceType.HumanWorker) return;
+  const serviceProvider = action.payload.serviceProvider as HumanWorker;
+
+  switch (action.payload.activity.type) {
+    case ActivityType.Transportation:
+      yield executeTransportationActivity(
+        serviceProvider,
+        action.payload.activity
+      );
+      break;
+    case ActivityType.Transmutation:
+      yield executeTransmutationActivity(
+        serviceProvider,
+        action.payload.activity
+      );
+      break;
+    default:
+      console.error('Unsupported activity type for Human Worker');
+      return;
+  }
+}
+
 export function* watchRequestFufillmentOfActivitySaga() {
   yield takeEvery(requestFullfillmentOfActivity.type, generateBidWorkflow);
+}
+
+export function* watchAcceptFullfillmentOfActivitySaga() {
+  yield takeEvery(acceptFullfillmentOfActivity.type, executeActivityWorkflow);
 }

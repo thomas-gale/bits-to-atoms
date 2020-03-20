@@ -50,9 +50,9 @@ function* generateBidWorkflow(
     // offer the shape required.
     const chosenTopologyTransition = procurementServiceProvider.supportedTransmutationTransitions.find(
       transition =>
-        transition.end.type === TransmutationStateType.BasicShape &&
+        transition.end.type === TransmutationStateType.BasicShapeType &&
         activity.endState &&
-        activity.endState.type === TransmutationStateType.BasicShape &&
+        activity.endState.type === TransmutationStateType.BasicShapeType &&
         activity.endState.shape === transition.end.shape
     );
     if (chosenTopologyTransition) {
@@ -61,7 +61,7 @@ function* generateBidWorkflow(
       );
       if (
         chosenTopologyTransition.start.type ===
-        TransmutationStateType.LiquidAsset
+        TransmutationStateType.LiquidAssetType
       ) {
         activity.startState = chosenTopologyTransition.start;
         yield put(

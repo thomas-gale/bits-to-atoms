@@ -83,9 +83,9 @@ export function* simpleMarketSaga() {
 }
 
 export function* buildRequestBidSaga(
-  requestBidBuildRequest: PayloadAction<BuildRequest>
+  requestBidBuildRequestAction: PayloadAction<BuildRequest>
 ) {
-  const buildRequest = requestBidBuildRequest.payload;
+  const buildRequest = requestBidBuildRequestAction.payload;
 
   // First Check that the factory is able to make this request (the UI should be disabled if that's the case)
   // E.g is the number of active build requests more than maximum.

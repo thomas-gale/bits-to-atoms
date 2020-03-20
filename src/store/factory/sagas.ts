@@ -190,7 +190,7 @@ function* buildRequestWorkflowSaga(
     computedWorkflow.activities.push(currentTransmutationActivity);
 
     if (
-      proposedActivity.startState.type === TransmutationStateType.BasicShape
+      proposedActivity.startState.type === TransmutationStateType.BasicShapeType
     ) {
       currentTopologyState = proposedActivity.startState;
       previousTransmutationActivity = currentTransmutationActivity;

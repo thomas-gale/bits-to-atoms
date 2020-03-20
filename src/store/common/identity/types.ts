@@ -1,4 +1,4 @@
 export interface Identity {
-  uuid: string;
+  id: string;
   displayName: string;
 }

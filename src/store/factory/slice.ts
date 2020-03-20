@@ -25,7 +25,7 @@ const factorySlice = createSlice({
       action: PayloadAction<{ buildRequestId: Identity; workflow: Workflow }>
     ) {
       const activeBuildRequestIndex = state.activeBuildRequests.findIndex(
-        br => br.identity.uuid === action.payload.buildRequestId.uuid
+        br => br.identity.id === action.payload.buildRequestId.id
       );
       if (activeBuildRequestIndex === -1) {
         console.error(
@@ -69,7 +69,7 @@ const factorySlice = createSlice({
       action: PayloadAction<{ buildRequestId: Identity; activity: Activity }>
     ) {
       const activeBuildRequestIndex = state.activeBuildRequests.findIndex(
-        br => br.identity.uuid === action.payload.buildRequestId.uuid
+        br => br.identity.id === action.payload.buildRequestId.id
       );
       if (activeBuildRequestIndex === -1) {
         console.error(
@@ -89,12 +89,12 @@ const factorySlice = createSlice({
       }
 
       const activeBuildRequestActivityIndex = currentWorkflow.activities.findIndex(
-        a => a.identity.uuid === action.payload.activity.identity.uuid
+        a => a.identity.id === action.payload.activity.identity.id
       );
 
       if (!currentWorkflow.activities[activeBuildRequestActivityIndex]) {
         console.error(
-          `Unable to update active build request (${action.payload.buildRequestId}) activity, the workflow activity ${action.payload.activity.identity.uuid} not found`
+          `Unable to update active build request (${action.payload.buildRequestId}) activity, the workflow activity ${action.payload.activity.identity.id} not found`
         );
         return;
       }
@@ -105,11 +105,11 @@ const factorySlice = createSlice({
     },
     removeActiveBuildRequest(state, action: PayloadAction<Identity>) {
       const indexToRemove = state.activeBuildRequests.findIndex(
-        br => br.identity.uuid === action.payload.uuid
+        br => br.identity.id === action.payload.id
       );
       if (indexToRemove === -1) {
         console.error(
-          `Unable to remove active build request ${action.payload.uuid}`
+          `Unable to remove active build request ${action.payload.id}`
         );
         return; // Don't do anything if we can't find that element
       }
@@ -125,7 +125,7 @@ const factorySlice = createSlice({
     ) {
       // Get the associated service provider from the application state.
       const serviceProvider = state.serviceProviders.find(
-        sp => sp.id.uuid === action.payload.serviceProviderId.uuid
+        sp => sp.id.id === action.payload.serviceProviderId.id
       );
       if (!serviceProvider) return;
 

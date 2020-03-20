@@ -71,7 +71,7 @@ function FactoryPanel(props: Props): JSX.Element {
           {factory.identity.displayName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {factory.identity.uuid}
+          {factory.identity.id}
         </Typography>
         <FactoryEconomicSummary />
         <ActiveBuildRequestsSummary />

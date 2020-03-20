@@ -42,14 +42,14 @@ function* generateBidWorkflow(
       : undefined;
   if (!humanServiceProvider) {
     console.warn(
-      `Unable to generate bid for activity ${activity.identity.uuid}, no human workers available`
+      `Unable to generate bid for activity ${activity.identity.id}, no human workers available`
     );
     return; // Early return if no service providers available to bid.
   }
 
   if (activity.type === ActivityType.Transportation) {
     console.log(
-      `Human worker service ${humanServiceProvider.id.uuid} will offer fullfillment for this transportation activity`
+      `Human worker service ${humanServiceProvider.id.id} will offer fullfillment for this transportation activity`
     );
     yield put(
       offerFullfillmentOfActivity({
@@ -69,7 +69,7 @@ function* generateBidWorkflow(
     );
     if (chosenTopologyTransition) {
       console.log(
-        `Human worker service ${humanServiceProvider.id.uuid} will offer fullfillment for this transmutation activity. (Appending required input topology)`
+        `Human worker service ${humanServiceProvider.id.id} will offer fullfillment for this transmutation activity. (Appending required input topology)`
       );
       if (
         chosenTopologyTransition.start.type ===
@@ -86,7 +86,7 @@ function* generateBidWorkflow(
         );
       } else {
         console.error(
-          `Human worker service ${humanServiceProvider.id.uuid} has misconfigured TopologyTransition start type`
+          `Human worker service ${humanServiceProvider.id.id} has misconfigured TopologyTransition start type`
         );
       }
     }
@@ -98,13 +98,13 @@ function* executeTransportationActivity(
   transportationActivity: TransportationActivity
 ) {
   console.log(
-    `Human worker service ${humanWorker.id.uuid} starting to execute transportation activity ${transportationActivity.identity.uuid}`
+    `Human worker service ${humanWorker.id.id} starting to execute transportation activity ${transportationActivity.identity.id}`
   );
 
   yield delay(1000);
 
   console.log(
-    `Human worker service ${humanWorker.id.uuid} completed transportation activity ${transportationActivity.identity.uuid}`
+    `Human worker service ${humanWorker.id.id} completed transportation activity ${transportationActivity.identity.id}`
   );
 }
 
@@ -113,13 +113,13 @@ function* executeTransmutationActivity(
   transmutationActivity: TransmutationActivity
 ) {
   console.log(
-    `Human worker service ${humanWorker.id.uuid} starting to execute transmutation activity ${transmutationActivity.identity.uuid}`
+    `Human worker service ${humanWorker.id.id} starting to execute transmutation activity ${transmutationActivity.identity.id}`
   );
 
   yield delay(1000);
 
   console.log(
-    `Human worker service ${humanWorker.id.uuid} completed transmutation activity ${transmutationActivity.identity.uuid}`
+    `Human worker service ${humanWorker.id.id} completed transmutation activity ${transmutationActivity.identity.id}`
   );
 }
 

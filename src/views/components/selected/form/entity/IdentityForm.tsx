@@ -31,7 +31,7 @@ function IdentityForm(props: Props) {
         {selectedId.displayName}
       </Typography>
       <Typography className={classes.pos} color="textSecondary">
-        {selectedId.uuid}
+        {selectedId.id}
       </Typography>
     </div>
   );

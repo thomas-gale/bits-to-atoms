@@ -76,12 +76,12 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
         )}
         {activeBuildRequests.length > 0 ? (
           activeBuildRequests.map(activeBuildRequest => (
-            <div key={activeBuildRequest.identity.uuid}>
+            <div key={activeBuildRequest.identity.id}>
               <Typography color="textPrimary">
                 {activeBuildRequest.identity.displayName}
               </Typography>
               <Typography color="textSecondary" gutterBottom>
-                {activeBuildRequest.identity.uuid}
+                {activeBuildRequest.identity.id}
               </Typography>
               <Button
                 variant="contained"

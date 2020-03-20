@@ -32,7 +32,7 @@ export const primaryFocusBuildRequestSelector = createSelector(
   ): BuildRequest | undefined => {
     if (!primaryFocusBuildRequestId) return undefined;
     return factoryActiveBuildRequests.find(
-      br => br.identity.uuid === primaryFocusBuildRequestId.uuid
+      br => br.identity.id === primaryFocusBuildRequestId.id
     );
   }
 );
@@ -56,9 +56,9 @@ export const primaryFocusBuildRequestOrderedActivitiesSelector = createSelector(
     const orderedActivities: Activity[] = [];
     let currentActivityId = primaryFocusBuildRequestWorkflow.firstActivityId;
     while (currentActivityId) {
-      const activityUuid = currentActivityId.uuid;
+      const activityUuid = currentActivityId.id;
       const activity = primaryFocusBuildRequestWorkflow.activities.find(
-        a => a.identity.uuid === activityUuid
+        a => a.identity.id === activityUuid
       );
       if (!activity) break;
       orderedActivities.push(activity);
@@ -81,7 +81,7 @@ export const selectedServiceProviderSelector = createSelector(
   ): ServiceProvider | undefined => {
     if (!selectedServiceProviderId) return undefined;
     return factoryServiceProviders.find(
-      sp => sp.id.uuid === selectedServiceProviderId.uuid
+      sp => sp.id.id === selectedServiceProviderId.id
     );
   }
 );

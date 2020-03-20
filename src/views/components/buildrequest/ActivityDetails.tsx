@@ -46,7 +46,7 @@ function ActivityDetails(props: Props) {
       </Typography>
       <Typography>{activity.identity.displayName}</Typography>
       <Typography className={classes.subTitle} color="textSecondary">
-        {activity.identity.uuid}
+        {activity.identity.id}
       </Typography>
       <Typography color="textSecondary">
         Type: {activity.type.toString()}

@@ -6,14 +6,14 @@ export function createExistingIdentity({
   uuid = ''
 } = {}): Identity {
   return {
-    uuid,
+    id: uuid,
     displayName
   };
 }
 
 export function createNewIdentity({ displayName = 'default' } = {}): Identity {
   return {
-    uuid: uuidv4(),
+    id: uuidv4(),
     displayName: displayName
   };
 }

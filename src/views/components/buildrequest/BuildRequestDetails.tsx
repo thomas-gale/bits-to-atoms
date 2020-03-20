@@ -103,7 +103,7 @@ function BuildRequestDetails(props: Props): JSX.Element {
           {orderedActivities.map(activity => {
             return (
               <ActivityDetails
-                key={activity.identity.uuid}
+                key={activity.identity.id}
                 activity={activity}
               />
             );
@@ -129,7 +129,7 @@ function BuildRequestDetails(props: Props): JSX.Element {
           {identity.displayName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {identity.uuid}
+          {identity.id}
         </Typography>
         <Box>
           <Typography color="textPrimary">

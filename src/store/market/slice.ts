@@ -18,10 +18,10 @@ const marketSlice = createSlice({
     },
     removeBuildRequest(state, action: PayloadAction<Identity>) {
       const indexToRemove = state.buildRequests.findIndex(
-        el => el.identity.uuid === action.payload.uuid
+        el => el.identity.id === action.payload.id
       );
       if (indexToRemove === -1) {
-        console.error(`Unable to remove build request ${action.payload.uuid}`);
+        console.error(`Unable to remove build request ${action.payload.id}`);
         return; // Don't do anything if we can't find that element
       }
       state.buildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.

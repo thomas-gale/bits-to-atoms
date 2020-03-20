@@ -39,7 +39,7 @@ function* generateBidWorkflow(
       : undefined;
   if (!fffPrinterServiceProvider) {
     console.warn(
-      `Unable to generate bid for activity ${activity.identity.uuid}, no fff printers available`
+      `Unable to generate bid for activity ${activity.identity.id}, no fff printers available`
     );
     return; // Early return if no service providers available to bid.
   }
@@ -56,7 +56,7 @@ function* generateBidWorkflow(
     );
     if (chosenTopologyTransition) {
       console.log(
-        `FFF printer service ${fffPrinterServiceProvider.id.uuid} will offer fullfillment for this transmutation activity . (Appending required input topology)`
+        `FFF printer service ${fffPrinterServiceProvider.id.id} will offer fullfillment for this transmutation activity . (Appending required input topology)`
       );
       if (
         chosenTopologyTransition.start.type ===
@@ -73,7 +73,7 @@ function* generateBidWorkflow(
         );
       } else {
         console.error(
-          `FFF printer service ${fffPrinterServiceProvider.id.uuid} has misconfigured TopologyTransition start type`
+          `FFF printer service ${fffPrinterServiceProvider.id.id} has misconfigured TopologyTransition start type`
         );
       }
     }

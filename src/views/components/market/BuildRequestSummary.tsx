@@ -60,7 +60,7 @@ function BuildRequestElement(props: Props) {
         {identity.displayName}
       </Typography>
       <Typography className={classes.subTitle} color="textSecondary">
-        {identity.uuid}
+        {identity.id}
       </Typography>
       <Typography color="textSecondary">
         Created: {created.toLocaleTimeString()}

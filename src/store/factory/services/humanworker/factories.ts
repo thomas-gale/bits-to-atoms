@@ -1,26 +1,26 @@
+import { createUuid } from '../../../common/identity/factories';
+import {
+  createCuboid,
+  createQuaternion,
+  createVector3
+} from '../../../common/primitive/factories';
+import { BasicShape } from '../../../common/topology/types';
+import { createLiquidAsset } from '../../../economic/factories';
 import { MaterialType } from '../../../material/types';
+import { ActivityType } from '../../../workflow/types';
+import {
+  createBasicShapeTransmutationState,
+  createTransmutationTransition
+} from '../factories';
 import { ServiceType } from '../types';
 import { HumanWorker } from './types';
 
-import { createNewIdentity } from '../../../common/identity/factories';
-import {
-  createVector3,
-  createQuaternion,
-  createCuboid
-} from '../../../common/primitive/factories';
-import { createLiquidAsset } from '../../../economic/factories';
-import { BasicShape } from '../../../common/topology/types';
-import { ActivityType } from '../../../workflow/types';
-import {
-  createTransmutationTransition,
-  createBasicShapeTransmutationState
-} from '../factories';
-
 export function createHumanWorker({
+  id = createUuid(),
+  displayName = 'default-humanworker',
   capabilities = [ActivityType.Transportation, ActivityType.Transmutation],
   canBid = true,
   currentActivity = undefined,
-  id = createNewIdentity({ displayName: 'default-humanworker' }),
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid({
@@ -51,10 +51,11 @@ export function createHumanWorker({
 } = {}): HumanWorker {
   return {
     type: ServiceType.HumanWorker,
+    id,
+    displayName,
     capabilities,
     canBid,
     currentActivity,
-    id,
     location,
     orientation,
     bounds,

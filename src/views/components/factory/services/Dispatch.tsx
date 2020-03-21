@@ -1,14 +1,13 @@
-import React, { useRef, useState, useMemo } from 'react';
-import { Mesh, Euler, Quaternion as ThreeQuaternion } from 'three';
+import React, { useMemo, useRef, useState } from 'react';
+import { Euler, Mesh, Quaternion as ThreeQuaternion } from 'three';
 import { DispatchService } from '../../../../store/factory/services/dispatchservice/types';
-import { Identity } from '../../../../store/common/identity/types';
 
 type OwnProp = {
   dispatchService: DispatchService;
 };
 
 type OwnDispatch = {
-  onSelected: (id: Identity) => void;
+  onSelected: (id: string) => void;
 };
 
 type Props = OwnProp & OwnDispatch;

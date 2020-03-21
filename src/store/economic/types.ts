@@ -1,9 +1,7 @@
 import { Entity } from '../factory/entity/types';
 import { Identity } from '../common/identity/types';
 
-interface BaseAsset {
-  id: Identity;
-}
+type BaseAsset = Identity;
 
 export interface LiquidAsset extends BaseAsset {
   dollars: number;
@@ -15,7 +13,7 @@ export enum FixedAssetType {
   OutputComponent
 }
 
-export interface FixedAsset<T = never> extends BaseAsset, Entity<number | T> {
+export interface FixedAsset<T = never> extends BaseAsset, Entity<T | number> {
   type: FixedAssetType;
   depreciationRate: number;
 }

@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Identity } from '../common/identity/types';
 import { MarketFactoryPanelVisibilty } from './types';
 
 const selectedSlice = createSlice({
   name: 'selected',
   initialState: {
     marketFactoryPanelVisibilty: MarketFactoryPanelVisibilty.Market,
-    primaryFocusBuildRequestId: undefined as Identity | undefined,
-    selectedServiceProviderId: undefined as Identity | undefined
+    primaryFocusBuildRequestId: undefined as string | undefined,
+    selectedServiceProviderId: undefined as string | undefined
   },
   reducers: {
     setMarketFactoryPanelVisibilty(
@@ -19,16 +18,13 @@ const selectedSlice = createSlice({
     unSelectPrimaryFocusBuildRequest(state, _: PayloadAction) {
       state.primaryFocusBuildRequestId = undefined;
     },
-    setSelectedPrimaryFocusBuildRequest(
-      state,
-      action: PayloadAction<Identity>
-    ) {
+    setSelectedPrimaryFocusBuildRequest(state, action: PayloadAction<string>) {
       state.primaryFocusBuildRequestId = action.payload;
     },
     unSelectServiceProvider(state, _: PayloadAction) {
       state.selectedServiceProviderId = undefined;
     },
-    setSelectedServiceProvider(state, action: PayloadAction<Identity>) {
+    setSelectedServiceProvider(state, action: PayloadAction<string>) {
       state.selectedServiceProviderId = action.payload;
     }
   }

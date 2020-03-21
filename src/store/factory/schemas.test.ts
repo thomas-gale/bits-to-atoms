@@ -1,37 +1,25 @@
-import { normalize, denormalize } from 'normalizr';
-import { factorySchema } from './schemas';
-import { createExistingIdentity } from '../common/identity/factories';
-import { createFactory } from './factories';
+import { denormalize, normalize } from 'normalizr';
 import { createLiquidAsset } from '../economic/factories';
+import { createFactory } from './factories';
+import { factorySchema } from './schemas';
 import { createHumanWorker } from './services/humanworker/factories';
 
 test('can normalize factory', () => {
   // Arrange
-  const testFactoryIdentity = createExistingIdentity({
-    displayName: 'test-factory',
-    id: 'test-factory-uuid'
-  });
-  const testLiquidAssetIdentity = createExistingIdentity({
-    displayName: 'test-liquid-asset',
-    id: 'test-liquid-asset-uuid'
-  });
-  const testHumanWorkerIdentity = createExistingIdentity({
-    displayName: 'test-human-worker',
-    id: 'test-human-worker-uuid'
-  });
-
   const testFactory = createFactory({
-    id: testFactoryIdentity.id,
-    displayName: testFactoryIdentity.displayName,
+    id: 'test-factory-uuid',
+    displayName: 'test-factory',
     liquidAsset: createLiquidAsset({
-      id: testLiquidAssetIdentity,
+      id: 'test-liquid-asset-uuid',
+      displayName: 'test-liquid-asset',
       dollars: 42
     }),
     fixedAssets: [],
     buildRequests: [],
     serviceProviders: [
       createHumanWorker({
-        id: testHumanWorkerIdentity
+        id: 'test-human-worker-uuid',
+        displayName: 'test-human-worker'
       })
     ]
   });
@@ -40,47 +28,87 @@ test('can normalize factory', () => {
   const normalizedFactory = normalize(testFactory, factorySchema);
 
   // Assert
-  /*expect(normalizedFactory).toEqual({
+  expect(normalizedFactory).toEqual({
     entities: {
       assets: {
-              "[object Object]": Object {
-                "dollars": 42,
-                "id": "test-liquid-asset-uuid",
-              },
-            },
-      identities: {
-        'test-factory-uuid': testFactoryIdentity
+        'test-liquid-asset-uuid': testFactory.liquidAsset
+      },
+      serviceProviders: {
+        'test-human-worker-uuid': testFactory.serviceProviders[0]
       }
+    },
+    result: {
+      id: testFactory.id,
+      displayName: testFactory.displayName,
+      liquidAsset: 'test-liquid-asset-uuid',
+      fixedAssets: [],
+      buildRequests: [],
+      serviceProviders: ['test-human-worker-uuid']
     }
-    //result: { id: '945430d8-0fc3-4fc5-9489-2875b7b70906' }
-  });*/
+  });
 });
 
 test('can denormalize factory', () => {
   // Arrange
   const normalizedTestFactory = {
     entities: {
-      identities: {
-        '945430d8-0fc3-4fc5-9489-2875b7b70906': {
-          displayName: 'test-identity',
-          id: '945430d8-0fc3-4fc5-9489-2875b7b70906'
-        }
+      assets: {
+        'test-liquid-asset-uuid': createLiquidAsset({
+          id: 'test-liquid-asset-uuid',
+          displayName: 'test-liquid-asset',
+          dollars: 42
+        }),
+      },
+      serviceProviders: {
+        'test-human-worker-uuid':  createHumanWorker({
+          id: 'test-human-worker-uuid',
+          displayName: 'test-human-worker',
+          currentCostPerTime: createLiquidAsset({
+            id: 'human-worker-cost-per-time-uuid',
+            displayName: 'human-worker-cost-per-time',
+            dollars: 1e-6
+          })
+        })
       }
     },
-    result: { id: '945430d8-0fc3-4fc5-9489-2875b7b70906' }
+    result: {
+      id: 'test-factory-uuid',
+      displayName: 'test-factory',
+      liquidAsset: 'test-liquid-asset-uuid',
+      fixedAssets: [],
+      buildRequests: [],
+      serviceProviders: ['test-human-worker-uuid']
+    }
   };
 
   // Act
   const factory = denormalize(
-    { id: ['945430d8-0fc3-4fc5-9489-2875b7b70906'] },
+    normalizedTestFactory.result,
     factorySchema,
-    normalizedTestFactory
+    normalizedTestFactory.entities
   );
 
   // Assert
-  expect(factory).toEqual({
-    id: {
-      '0': '945430d8-0fc3-4fc5-9489-2875b7b70906'
-    }
-  });
+  expect(factory).toEqual(createFactory({
+    id: 'test-factory-uuid',
+    displayName: 'test-factory',
+    liquidAsset: createLiquidAsset({
+      id: 'test-liquid-asset-uuid',
+      displayName: 'test-liquid-asset',
+      dollars: 42
+    }),
+    fixedAssets: [],
+    buildRequests: [],
+    serviceProviders: [
+      createHumanWorker({
+        id: 'test-human-worker-uuid',
+        displayName: 'test-human-worker',
+        currentCostPerTime: createLiquidAsset({
+          id: 'human-worker-cost-per-time-uuid',
+          displayName: 'human-worker-cost-per-time',
+          dollars: 1e-6
+        })
+      })
+    ]
+  }));
 });

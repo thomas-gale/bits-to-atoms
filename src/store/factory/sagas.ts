@@ -1,40 +1,39 @@
-import { delay, takeEvery, select, put, take } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { BuildRequest } from '../buildrequest/types';
-import {
-  addActiveBuildRequest,
-  setLiquidAsset,
-  updateActiveBuildRequestWorkflow,
-  requestFullfillmentOfActivity,
-  offerFullfillmentOfActivity,
-  acceptFullfillmentOfActivity
-} from './slice';
+import { delay, put, select, take, takeEvery } from 'redux-saga/effects';
 import { config } from '../../env/config';
-import {
-  factoryLiquidAssetSelector,
-  currentServiceProviderCostPerTimeSelector,
-  factoryServiceProvidersSelector
-} from './selectors';
-import { LiquidAsset } from '../economic/types';
-import { createLiquidAsset } from '../economic/factories';
-import {
-  createWorkflow,
-  createTransmutationActivity,
-  createTransportationActivity
-} from '../workflow/factories';
-import { createNewIdentity } from '../common/identity/factories';
+import { BuildRequest } from '../buildrequest/types';
 import { BasicShape } from '../common/topology/types';
+import { createLiquidAsset } from '../economic/factories';
+import { LiquidAsset } from '../economic/types';
 import { MaterialType } from '../material/types';
+import {
+  createTransmutationActivity,
+  createTransportationActivity,
+  createWorkflow
+} from '../workflow/factories';
 import {
   Activity,
   TransmutationActivity,
   TransmutationStateType
 } from '../workflow/types';
-import { ServiceProvider } from './services/types';
+import {
+  currentServiceProviderCostPerTimeSelector,
+  factoryLiquidAssetSelector,
+  factoryServiceProvidersSelector
+} from './selectors';
 import {
   createBasicShapeTransmutationState,
   createLiquidAssetTransmutationState
 } from './services/factories';
+import { ServiceProvider } from './services/types';
+import {
+  acceptFullfillmentOfActivity,
+  addActiveBuildRequest,
+  offerFullfillmentOfActivity,
+  requestFullfillmentOfActivity,
+  setLiquidAsset,
+  updateActiveBuildRequestWorkflow
+} from './slice';
 
 export function* factoryUpdateTickSaga() {
   const updateDelayMs = config.factory.updatePeriodMs;
@@ -79,7 +78,7 @@ export function* factoryUpdateTickSaga() {
  * @returns ServiceProvider that has offered to fullfill the activity
  */
 function* triggerRequestFullfillmentOfActivity(activity: Activity) {
-  console.log(`Requesting fullfillment for activity ${activity.identity.id}`);
+  console.log(`Requesting fullfillment for activity ${activity.id}`);
   yield put(requestFullfillmentOfActivity(activity));
 
   // Wait for a fullfillment offer for this activity to come back from service providers.
@@ -94,8 +93,7 @@ function* triggerRequestFullfillmentOfActivity(activity: Activity) {
       serviceProvider: ServiceProvider;
       activity: Activity;
     }>;
-    if (fullfillmentOffer.payload.activity.identity.id === activity.identity.id)
-      break;
+    if (fullfillmentOffer.payload.activity.id === activity.id) break;
   }
   return fullfillmentOffer;
 }
@@ -109,7 +107,7 @@ function* buildRequestWorkflowSaga(
 ) {
   const { payload: buildRequest } = addedActiveBuildRequest;
   console.log(
-    `Computing the required workflow for build request ${buildRequest.identity.id} (given the current active transmutation service providers in the factory)`
+    `Computing the required workflow for build request ${buildRequest.id} (given the current active transmutation service providers in the factory)`
   );
 
   // Examine the build request desired end shape and material.
@@ -139,7 +137,7 @@ function* buildRequestWorkflowSaga(
 
   // 1. Request dispatch service provider and assign to final dispatch activity step.
   currentTransmutationActivity = createTransmutationActivity({
-    identity: createNewIdentity({ displayName: 'Dispatch Part' }),
+    displayName: 'Dispatch Part',
     startState: currentTopologyState,
     endState: createLiquidAssetTransmutationState({
       liquidAsset: buildRequest.fixedValue
@@ -159,7 +157,7 @@ function* buildRequestWorkflowSaga(
   // 2. Perform the transmutation step search
   while (true) {
     currentTransmutationActivity = createTransmutationActivity({
-      identity: createNewIdentity({ displayName: 'Transmute Part' }),
+      displayName: 'Transmute Part',
       endState: currentTopologyState
     });
     const transmutationFullfillmentOffer = (yield triggerRequestFullfillmentOfActivity(
@@ -181,9 +179,9 @@ function* buildRequestWorkflowSaga(
 
     currentTransmutationActivity.serviceProviderId = proposedServiceProvider.id;
     currentTransmutationActivity.nextActivityId =
-      previousTransmutationActivity.identity;
+      previousTransmutationActivity.id;
     previousTransmutationActivity.previousActivityId =
-      currentTransmutationActivity.identity;
+      currentTransmutationActivity.id;
     computedWorkflow.activities.push(currentTransmutationActivity);
 
     if (
@@ -195,8 +193,8 @@ function* buildRequestWorkflowSaga(
       console.log(
         'Transmutation list complete (current transmutation does not start with basic shape topology)'
       );
-      currentTransmutationActivity.identity.displayName = 'Procure Part';
-      computedWorkflow.firstActivityId = currentTransmutationActivity.identity;
+      currentTransmutationActivity.displayName = 'Procure Part';
+      computedWorkflow.firstActivityId = currentTransmutationActivity.id;
       break;
     }
   }
@@ -211,7 +209,7 @@ function* buildRequestWorkflowSaga(
     const currentTransmutationActivityNextActivityId =
       currentTransmutationActivity.nextActivityId;
     const nextTransmutationActivity = computedWorkflow.activities.find(
-      a => a.identity.id === currentTransmutationActivityNextActivityId?.id
+      a => a.id === currentTransmutationActivityNextActivityId
     ) as TransmutationActivity;
     if (!nextTransmutationActivity) {
       console.error(
@@ -223,12 +221,12 @@ function* buildRequestWorkflowSaga(
     const currentTransmutationActivityServiceProviderId =
       currentTransmutationActivity.serviceProviderId;
     const startTransmutationServiceProvider = serviceProviders.find(
-      sp => sp.id.id === currentTransmutationActivityServiceProviderId?.id
+      sp => sp.id === currentTransmutationActivityServiceProviderId
     );
     const nextTransmutationActivityServiceProviderId =
       nextTransmutationActivity.serviceProviderId;
     const endTransmutationServiceProvider = serviceProviders.find(
-      sp => sp.id.id === nextTransmutationActivityServiceProviderId?.id
+      sp => sp.id === nextTransmutationActivityServiceProviderId
     );
     if (
       !startTransmutationServiceProvider ||
@@ -241,7 +239,7 @@ function* buildRequestWorkflowSaga(
     }
 
     const currentTransportActivity = createTransportationActivity({
-      identity: createNewIdentity({ displayName: 'Transport Part' }),
+      displayName: 'Transport Part',
       startLocation: startTransmutationServiceProvider.location,
       endLocation: endTransmutationServiceProvider.location
     });
@@ -257,17 +255,15 @@ function* buildRequestWorkflowSaga(
       transportationFullfillmentOffer.payload.serviceProvider;
 
     // Update and insert the transport activity between the transmutation activities.
-    currentTransmutationActivity.nextActivityId =
-      currentTransportActivity.identity;
+    currentTransmutationActivity.nextActivityId = currentTransportActivity.id;
     nextTransmutationActivity.previousActivityId =
-      currentTransmutationActivity.identity;
+      currentTransmutationActivity.id;
 
     currentTransportActivity.serviceProviderId =
       proposedTransportServiceProvider.id;
     currentTransportActivity.previousActivityId =
-      currentTransmutationActivity.identity;
-    currentTransportActivity.nextActivityId =
-      nextTransmutationActivity.identity;
+      currentTransmutationActivity.id;
+    currentTransportActivity.nextActivityId = nextTransmutationActivity.id;
     computedWorkflow.activities.push(currentTransportActivity);
 
     currentTransmutationActivity = nextTransmutationActivity;
@@ -275,12 +271,12 @@ function* buildRequestWorkflowSaga(
 
   // Proposed workflow is now computed.
   console.log(
-    `Proposed workflow computed! Id: ${computedWorkflow.identity.id} with ${computedWorkflow.activities.length} steps`
+    `Proposed workflow computed! Id: ${computedWorkflow.id} with ${computedWorkflow.activities.length} steps`
   );
   // Send out the proposed active build request workflow
   yield put(
     updateActiveBuildRequestWorkflow({
-      buildRequestId: buildRequest.identity,
+      buildRequestId: buildRequest.id,
       workflow: computedWorkflow
     })
   );
@@ -290,9 +286,9 @@ function* buildRequestWorkflowSaga(
   let currentExecutingActivityId = computedWorkflow.firstActivityId;
 
   while (true) {
-    const currentExecutingActivityIdUuid = currentExecutingActivityId.id;
+    const currentId = currentExecutingActivityId;
     const currentExecutingActivity = computedWorkflow.activities.find(
-      a => a.identity.id === currentExecutingActivityIdUuid
+      a => a.id === currentId
     );
     if (
       !currentExecutingActivity ||
@@ -304,7 +300,7 @@ function* buildRequestWorkflowSaga(
       break;
     }
     const currentExecutingServiceProvider = serviceProviders.find(
-      sp => sp.id.id === currentExecutingActivity.serviceProviderId?.id
+      sp => sp.id === currentExecutingActivity.serviceProviderId
     );
     if (!currentExecutingServiceProvider) {
       console.error(
@@ -315,7 +311,7 @@ function* buildRequestWorkflowSaga(
 
     // Start the activity.
     console.log(
-      `Starting activity ${currentExecutingActivity.identity.id} in workflow ${computedWorkflow.identity.id}`
+      `Starting activity ${currentExecutingActivity.id} in workflow ${computedWorkflow.id}`
     );
     yield put(
       acceptFullfillmentOfActivity({
@@ -329,7 +325,7 @@ function* buildRequestWorkflowSaga(
     // TODO: while true take
 
     console.log(
-      `Completed activity ${currentExecutingActivity.identity.id} in workflow ${computedWorkflow.identity.id}`
+      `Completed activity ${currentExecutingActivity.id} in workflow ${computedWorkflow.id}`
     );
 
     // Get next activity or break, if we have reached the end.
@@ -338,7 +334,7 @@ function* buildRequestWorkflowSaga(
   }
 
   // Onced completed remove the active build request (Or move to a completed state / section).
-  console.log(`Completed workflow ${computedWorkflow.identity.id}`);
+  console.log(`Completed workflow ${computedWorkflow.id}`);
 }
 
 export function* factoryWatchAddActiveBuildRequestSaga() {

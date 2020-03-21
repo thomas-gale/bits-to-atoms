@@ -28,10 +28,10 @@ function IdentityForm(props: Props) {
   return (
     <div>
       <Typography variant="h5" component="h2">
-        {selectedId.displayName}
+        To add back
       </Typography>
       <Typography className={classes.pos} color="textSecondary">
-        {selectedId.id}
+        {selectedId}
       </Typography>
     </div>
   );

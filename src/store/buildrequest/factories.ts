@@ -1,13 +1,12 @@
+import { createUuid } from '../common/identity/factories';
 import { BasicShape } from '../common/topology/types';
-import { BuildRequest } from './types';
-import { createNewIdentity } from '../common/identity/factories';
-import { createSimplePolymerMaterial } from '../material/factories';
 import { createLiquidAsset } from '../economic/factories';
+import { createSimplePolymerMaterial } from '../material/factories';
+import { BuildRequest } from './types';
 
 export function createBuildRequest({
-  identity = createNewIdentity({
-    displayName: 'default-build-request'
-  }),
+  id = createUuid(),
+  displayName = 'default-build-request',
   created = new Date(),
   material = createSimplePolymerMaterial(),
   endShape = BasicShape.Cube,
@@ -16,7 +15,8 @@ export function createBuildRequest({
   workflow = undefined
 } = {}): BuildRequest {
   return {
-    identity,
+    id,
+    displayName,
     created,
     material,
     endShape,

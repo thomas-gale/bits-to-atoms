@@ -1,21 +1,19 @@
-import {
-  ActivityType,
-  TransportationActivity,
-  TransmutationActivity,
-  StorageActivity,
-  Activity,
-  Workflow,
-  TransmutationState
-} from './types';
-import { createNewIdentity } from '../common/identity/factories';
+import { createUuid } from '../common/identity/factories';
 import { createVector3 } from '../common/primitive/factories';
 import { MaterialType } from '../material/types';
-import { Identity } from '../common/identity/types';
+import {
+  Activity,
+  ActivityType,
+  StorageActivity,
+  TransmutationActivity,
+  TransmutationState,
+  TransportationActivity,
+  Workflow
+} from './types';
 
 export function createTransportationActivity({
-  identity = createNewIdentity({
-    displayName: 'default-transportation-activity'
-  }),
+  id = createUuid(),
+  displayName = 'default-transportation-activity',
   serviceProviderId = undefined,
   started = undefined,
   completed = undefined,
@@ -25,8 +23,9 @@ export function createTransportationActivity({
   endLocation = createVector3()
 } = {}): TransportationActivity {
   return {
-    identity,
     type: ActivityType.Transportation,
+    id,
+    displayName,
     serviceProviderId,
     started,
     completed,
@@ -38,21 +37,21 @@ export function createTransportationActivity({
 }
 
 export function createTransmutationActivity({
-  identity = createNewIdentity({
-    displayName: 'default-transmutation-activity'
-  }),
-  serviceProviderId = undefined as Identity | undefined,
+  id = createUuid(),
+  displayName = 'default-transmutation-activity',
+  serviceProviderId = undefined as string | undefined,
   started = undefined as Date | undefined,
   completed = undefined as Date | undefined,
-  previousActivityId = undefined as Identity | undefined,
-  nextActivityId = undefined as Identity | undefined,
+  previousActivityId = undefined as string | undefined,
+  nextActivityId = undefined as string | undefined,
   material = MaterialType.SimplePolymer,
   startState = undefined as TransmutationState | undefined,
   endState = undefined as TransmutationState | undefined
 } = {}): TransmutationActivity {
   return {
-    identity,
     type: ActivityType.Transmutation,
+    id,
+    displayName,
     serviceProviderId,
     started,
     completed,
@@ -65,9 +64,8 @@ export function createTransmutationActivity({
 }
 
 export function createStorageActivity({
-  identity = createNewIdentity({
-    displayName: 'default-storage-activity'
-  }),
+  id = createUuid(),
+  displayName = 'default-storage-activity',
   serviceProviderId = undefined,
   started = undefined,
   completed = undefined,
@@ -76,8 +74,9 @@ export function createStorageActivity({
   location = createVector3()
 } = {}): StorageActivity {
   return {
-    identity,
     type: ActivityType.Storage,
+    id,
+    displayName,
     serviceProviderId,
     started,
     completed,
@@ -88,14 +87,14 @@ export function createStorageActivity({
 }
 
 export function createWorkflow({
-  identity = createNewIdentity({
-    displayName: 'default-workflow'
-  }),
+  id = createUuid(),
+  displayName = 'default-workflow',
   activities = [] as Activity[],
   firstActivityId = undefined
 } = {}): Workflow {
   return {
-    identity,
+    id,
+    displayName,
     activities,
     firstActivityId
   };

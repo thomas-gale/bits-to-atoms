@@ -4,8 +4,7 @@ import { LiquidAsset } from '../economic/types';
 import { BasicShape } from '../common/topology/types';
 import { Workflow } from '../workflow/types';
 
-export interface BuildRequest {
-  identity: Identity;
+export interface BuildRequest extends Identity {
   created: Date;
   material: Material;
   endShape: BasicShape;

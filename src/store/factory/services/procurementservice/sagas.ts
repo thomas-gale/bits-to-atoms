@@ -40,7 +40,7 @@ function* generateBidWorkflow(
       : undefined;
   if (!procurementServiceProvider) {
     console.warn(
-      `Unable to generate bid for activity ${activity.identity.id}, no procurement services available`
+      `Unable to generate bid for activity ${activity.id}, no procurement services available`
     );
     return; // Early return if no service providers available to bid.
   }
@@ -57,7 +57,7 @@ function* generateBidWorkflow(
     );
     if (chosenTopologyTransition) {
       console.log(
-        `Procurement service ${procurementServiceProvider.id.id} will offer fullfillment for this transmutation activity. (It will not append any required input topology, as it will just require liquid assets)`
+        `Procurement service ${procurementServiceProvider.id} will offer fullfillment for this transmutation activity. (It will not append any required input topology, as it will just require liquid assets)`
       );
       if (
         chosenTopologyTransition.start.type ===
@@ -72,7 +72,7 @@ function* generateBidWorkflow(
         );
       } else {
         console.error(
-          `Procurement service ${procurementServiceProvider.id.id} has misconfigured transmutation transition start type (should be liquid asset)`
+          `Procurement service ${procurementServiceProvider.id} has misconfigured transmutation transition start type (should be liquid asset)`
         );
       }
     }
@@ -90,7 +90,7 @@ function* executeActivityWorkflow(
   const activity = action.payload.activity as TransmutationActivity;
 
   console.log(
-    `Procurement service ${serviceProvider.id.id} starting to execute transmutation activity ${activity.identity.id}`
+    `Procurement service ${serviceProvider.id} starting to execute transmutation activity ${activity.id}`
   );
 
   // Interact with virtual market and exchange the factory liquid asset for the material fixed asset to add to worshop.
@@ -99,7 +99,7 @@ function* executeActivityWorkflow(
   yield delay(1000);
 
   console.log(
-    `Procurement service ${serviceProvider.id.id} completed transmutation activity ${activity.identity.id}`
+    `Procurement service ${serviceProvider.id} completed transmutation activity ${activity.id}`
   );
 }
 

@@ -10,14 +10,13 @@ export enum ActivityType {
   Storage = 'Storage'
 }
 
-interface BaseActivity {
-  identity: Identity;
+interface BaseActivity extends Identity {
   type: ActivityType;
-  serviceProviderId: Identity | undefined;
+  serviceProviderId: string | undefined;
   started: Date | undefined;
   completed: Date | undefined;
-  previousActivityId: Identity | undefined;
-  nextActivityId: Identity | undefined;
+  previousActivityId: string | undefined;
+  nextActivityId: string | undefined;
 }
 
 export interface TransportationActivity extends BaseActivity {
@@ -62,8 +61,7 @@ export type Activity =
   | TransmutationActivity
   | StorageActivity;
 
-export interface Workflow {
-  identity: Identity;
+export interface Workflow extends Identity {
   activities: Activity[];
-  firstActivityId: Identity | undefined;
+  firstActivityId: string | undefined;
 }

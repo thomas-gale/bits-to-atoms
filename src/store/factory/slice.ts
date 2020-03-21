@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Identity } from '../common/identity/types';
-import { createFactory } from './factories';
-import { Parameter } from '../common/parameter/types';
 import { BuildRequest } from '../buildrequest/types';
+import { Parameter } from '../common/parameter/types';
 import { LiquidAsset } from '../economic/types';
-import { Workflow, Activity } from '../workflow/types';
+import { Activity, Workflow } from '../workflow/types';
+import { createFactory } from './factories';
 import { ServiceProvider } from './services/types';
 
 const factorySlice = createSlice({
@@ -22,10 +21,10 @@ const factorySlice = createSlice({
     },
     updateActiveBuildRequestWorkflow(
       state,
-      action: PayloadAction<{ buildRequestId: Identity; workflow: Workflow }>
+      action: PayloadAction<{ buildRequestId: string; workflow: Workflow }>
     ) {
       const activeBuildRequestIndex = state.buildRequests.findIndex(
-        br => br.identity.id === action.payload.buildRequestId.id
+        br => br.id === action.payload.buildRequestId
       );
       if (activeBuildRequestIndex === -1) {
         console.error(
@@ -66,10 +65,10 @@ const factorySlice = createSlice({
     },
     updateActiveBuildRequestActivity(
       state,
-      action: PayloadAction<{ buildRequestId: Identity; activity: Activity }>
+      action: PayloadAction<{ buildRequestId: string; activity: Activity }>
     ) {
       const activeBuildRequestIndex = state.buildRequests.findIndex(
-        br => br.identity.id === action.payload.buildRequestId.id
+        br => br.id === action.payload.buildRequestId
       );
       if (activeBuildRequestIndex === -1) {
         console.error(
@@ -89,12 +88,12 @@ const factorySlice = createSlice({
       }
 
       const activeBuildRequestActivityIndex = currentWorkflow.activities.findIndex(
-        a => a.identity.id === action.payload.activity.identity.id
+        a => a.id === action.payload.activity.id
       );
 
       if (!currentWorkflow.activities[activeBuildRequestActivityIndex]) {
         console.error(
-          `Unable to update active build request (${action.payload.buildRequestId}) activity, the workflow activity ${action.payload.activity.identity.id} not found`
+          `Unable to update active build request (${action.payload.buildRequestId}) activity, the workflow activity ${action.payload.activity.id} not found`
         );
         return;
       }
@@ -103,13 +102,13 @@ const factorySlice = createSlice({
       currentWorkflow.activities[activeBuildRequestActivityIndex] =
         action.payload.activity;
     },
-    removeActiveBuildRequest(state, action: PayloadAction<Identity>) {
+    removeActiveBuildRequest(state, action: PayloadAction<string>) {
       const indexToRemove = state.buildRequests.findIndex(
-        br => br.identity.id === action.payload.id
+        br => br.id === action.payload
       );
       if (indexToRemove === -1) {
         console.error(
-          `Unable to remove active build request ${action.payload.id}`
+          `Unable to remove active build request ${action.payload}`
         );
         return; // Don't do anything if we can't find that element
       }
@@ -118,14 +117,14 @@ const factorySlice = createSlice({
     setServiceProviderParameter(
       state,
       action: PayloadAction<{
-        serviceProviderId: Identity;
+        serviceProviderId: string;
         serviceProviderProperty: string[];
         parameter: Parameter;
       }>
     ) {
       // Get the associated service provider from the application state.
       const serviceProvider = state.serviceProviders.find(
-        sp => sp.id.id === action.payload.serviceProviderId.id
+        sp => sp.id === action.payload.serviceProviderId
       );
       if (!serviceProvider) return;
 

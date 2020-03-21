@@ -1,16 +1,14 @@
 import { createSelector } from 'reselect';
-import { RootState } from '../index';
-
-import { ServiceProvider } from '../factory/services/types';
-import { Identity } from '../common/identity/types';
-import { Entity } from '../factory/entity/types';
-import { Vector3, Quaternion, Cuboid } from '../common/primitive/types';
-import {
-  factoryServiceProvidersSelector,
-  factoryActiveBuildRequestsSelector
-} from '../factory/selectors';
 import { BuildRequest } from '../buildrequest/types';
-import { Workflow, Activity } from '../workflow/types';
+import { Cuboid, Quaternion, Vector3 } from '../common/primitive/types';
+import { Entity } from '../factory/entity/types';
+import {
+  factoryActiveBuildRequestsSelector,
+  factoryServiceProvidersSelector
+} from '../factory/selectors';
+import { ServiceProvider } from '../factory/services/types';
+import { RootState } from '../index';
+import { Activity, Workflow } from '../workflow/types';
 
 export const selectedSelector = (state: RootState) => state.selected;
 
@@ -28,11 +26,11 @@ export const primaryFocusBuildRequestSelector = createSelector(
   [factoryActiveBuildRequestsSelector, primaryFocusBuildRequestIdSelector],
   (
     factoryActiveBuildRequests: BuildRequest[],
-    primaryFocusBuildRequestId: Identity | undefined
+    primaryFocusBuildRequestId: string | undefined
   ): BuildRequest | undefined => {
     if (!primaryFocusBuildRequestId) return undefined;
     return factoryActiveBuildRequests.find(
-      br => br.identity.id === primaryFocusBuildRequestId.id
+      br => br.id === primaryFocusBuildRequestId
     );
   }
 );
@@ -56,9 +54,9 @@ export const primaryFocusBuildRequestOrderedActivitiesSelector = createSelector(
     const orderedActivities: Activity[] = [];
     let currentActivityId = primaryFocusBuildRequestWorkflow.firstActivityId;
     while (currentActivityId) {
-      const activityUuid = currentActivityId.id;
+      const activityUuid = currentActivityId;
       const activity = primaryFocusBuildRequestWorkflow.activities.find(
-        a => a.identity.id === activityUuid
+        a => a.id === activityUuid
       );
       if (!activity) break;
       orderedActivities.push(activity);
@@ -77,11 +75,11 @@ export const selectedServiceProviderSelector = createSelector(
   [factoryServiceProvidersSelector, selectedServiceProviderIdSelector],
   (
     factoryServiceProviders: ServiceProvider[],
-    selectedServiceProviderId: Identity | undefined
+    selectedServiceProviderId: string | undefined
   ): ServiceProvider | undefined => {
     if (!selectedServiceProviderId) return undefined;
     return factoryServiceProviders.find(
-      sp => sp.id.id === selectedServiceProviderId.id
+      sp => sp.id === selectedServiceProviderId
     );
   }
 );

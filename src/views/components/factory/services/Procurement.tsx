@@ -1,6 +1,5 @@
 import React, { useRef, useState, useMemo } from 'react';
 import { Mesh, Euler, Quaternion as ThreeQuaternion } from 'three';
-import { Identity } from '../../../../store/common/identity/types';
 import { ProcurementService } from '../../../../store/factory/services/procurementservice/types';
 
 type OwnProp = {
@@ -8,7 +7,7 @@ type OwnProp = {
 };
 
 type OwnDispatch = {
-  onSelected: (id: Identity) => void;
+  onSelected: (id: string) => void;
 };
 
 type Props = OwnProp & OwnDispatch;

@@ -84,7 +84,8 @@ function BuildRequestDetails(props: Props): JSX.Element {
   }
 
   const {
-    identity,
+    id,
+    displayName,
     created,
     material,
     endShape,
@@ -98,12 +99,10 @@ function BuildRequestDetails(props: Props): JSX.Element {
       return (
         <Card className={classes.internalContainer}>
           <Typography variant="h5" component="h2" className={classes.pos}>
-            {workflow.identity.displayName}
+            {workflow.displayName}
           </Typography>
           {orderedActivities.map(activity => {
-            return (
-              <ActivityDetails key={activity.identity.id} activity={activity} />
-            );
+            return <ActivityDetails key={activity.id} activity={activity} />;
           })}
         </Card>
       );
@@ -123,10 +122,10 @@ function BuildRequestDetails(props: Props): JSX.Element {
           Build Request Details
         </Typography>
         <Typography variant="h5" component="h2">
-          {identity.displayName}
+          {displayName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {identity.id}
+          {id}
         </Typography>
         <Box>
           <Typography color="textPrimary">

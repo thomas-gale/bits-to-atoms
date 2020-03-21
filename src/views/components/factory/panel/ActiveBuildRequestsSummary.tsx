@@ -3,7 +3,6 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import { config } from '../../../../env/config';
 import { RootState, RootDispatch } from '../../../../store';
-import { Identity } from '../../../../store/common/identity/types';
 import { setSelectedPrimaryFocusBuildRequest } from '../../../../store/selected/slice';
 import {
   factoryActiveBuildRequestsSelector,
@@ -22,7 +21,7 @@ function mapState(state: RootState) {
 
 function mapDispatch(dispatch: RootDispatch) {
   return {
-    onActiveBuildRequestSelected: (id: Identity) => {
+    onActiveBuildRequestSelected: (id: string) => {
       dispatch(setSelectedPrimaryFocusBuildRequest(id));
     }
   };
@@ -76,19 +75,19 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
         )}
         {activeBuildRequests.length > 0 ? (
           activeBuildRequests.map(activeBuildRequest => (
-            <div key={activeBuildRequest.identity.id}>
+            <div key={activeBuildRequest.id}>
               <Typography color="textPrimary">
-                {activeBuildRequest.identity.displayName}
+                {activeBuildRequest.displayName}
               </Typography>
               <Typography color="textSecondary" gutterBottom>
-                {activeBuildRequest.identity.id}
+                {activeBuildRequest.id}
               </Typography>
               <Button
                 variant="contained"
                 color="primary"
                 size="small"
                 onClick={_ =>
-                  onActiveBuildRequestSelected(activeBuildRequest.identity)
+                  onActiveBuildRequestSelected(activeBuildRequest.id)
                 }
               >
                 Details

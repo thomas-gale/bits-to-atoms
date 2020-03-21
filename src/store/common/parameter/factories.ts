@@ -1,31 +1,31 @@
 import { NumberParameter, ParameterType, StringParameter } from './types';
-import { createNewIdentity } from '../identity/factories';
+import { createUuid } from '../identity/factories';
 
 export function createNumberParameter({
-  identity = createNewIdentity({
-    displayName: 'default-number-parameter'
-  }),
+  id = createUuid(),
+  displayName = 'default-number-parameter',
   units = '',
   value = 0
 } = {}): NumberParameter {
   return {
-    identity,
     type: ParameterType.Number,
+    id,
+    displayName,
     units,
     value
   };
 }
 
 export function createStringParameter({
-  identity = createNewIdentity({
-    displayName: 'default-string-parameter'
-  }),
+  id = createUuid(),
+  displayName = 'default-string-parameter',
   units = '',
   value = ''
 } = {}): StringParameter {
   return {
-    identity,
     type: ParameterType.String,
+    id,
+    displayName,
     units,
     value
   };

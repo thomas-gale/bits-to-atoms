@@ -1,34 +1,59 @@
 import { normalize, denormalize } from 'normalizr';
-import { identitySchema, factorySchema } from './schemas';
+import { factorySchema } from './schemas';
 import { createExistingIdentity } from '../common/identity/factories';
 import { createFactory } from './factories';
+import { createLiquidAsset } from '../economic/factories';
+import { createHumanWorker } from './services/humanworker/factories';
 
 test('can normalize factory', () => {
   // Arrange
-  const fixedUuid = '945430d8-0fc3-4fc5-9489-2875b7b70906';
-  const testIdentity = createExistingIdentity({
-    displayName: 'test-identity',
-    id: fixedUuid
+  const testFactoryIdentity = createExistingIdentity({
+    displayName: 'test-factory',
+    id: 'test-factory-uuid'
   });
+  const testLiquidAssetIdentity = createExistingIdentity({
+    displayName: 'test-liquid-asset',
+    id: 'test-liquid-asset-uuid'
+  });
+  const testHumanWorkerIdentity = createExistingIdentity({
+    displayName: 'test-human-worker',
+    id: 'test-human-worker-uuid'
+  });
+
   const testFactory = createFactory({
-    id: testIdentity
+    id: testFactoryIdentity.id,
+    displayName: testFactoryIdentity.displayName,
+    liquidAsset: createLiquidAsset({
+      id: testLiquidAssetIdentity,
+      dollars: 42
+    }),
+    fixedAssets: [],
+    buildRequests: [],
+    serviceProviders: [
+      createHumanWorker({
+        id: testHumanWorkerIdentity
+      })
+    ]
   });
 
   // Act
   const normalizedFactory = normalize(testFactory, factorySchema);
 
   // Assert
-  expect(normalizedFactory).toEqual({
+  /*expect(normalizedFactory).toEqual({
     entities: {
+      assets: {
+              "[object Object]": Object {
+                "dollars": 42,
+                "id": "test-liquid-asset-uuid",
+              },
+            },
       identities: {
-        '945430d8-0fc3-4fc5-9489-2875b7b70906': {
-          displayName: 'test-identity',
-          id: '945430d8-0fc3-4fc5-9489-2875b7b70906'
-        }
+        'test-factory-uuid': testFactoryIdentity
       }
     }
     //result: { id: '945430d8-0fc3-4fc5-9489-2875b7b70906' }
-  });
+  });*/
 });
 
 test('can denormalize factory', () => {
@@ -46,7 +71,6 @@ test('can denormalize factory', () => {
   };
 
   // Act
-  const factoryEntities = {};
   const factory = denormalize(
     { id: ['945430d8-0fc3-4fc5-9489-2875b7b70906'] },
     factorySchema,

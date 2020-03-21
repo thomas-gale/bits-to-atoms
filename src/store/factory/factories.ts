@@ -2,7 +2,7 @@ import { FixedAsset } from '../economic/types';
 import { BuildRequest } from '../buildrequest/types';
 import { Factory } from './types';
 
-import { createNewIdentity } from '../common/identity/factories';
+import { createNewIdentity, createUuid } from '../common/identity/factories';
 import { createFloorSpace } from './services/floorspace/factories';
 import { createHumanWorker } from './services/humanworker/factories';
 import { createVector3, createCuboid } from '../common/primitive/factories';
@@ -12,7 +12,8 @@ import { createProcurementService } from './services/procurementservice/factorie
 import { createDispatchService } from './services/dispatchservice/factories';
 
 export function createFactory({
-  id = createNewIdentity({ displayName: 'default-factory' }),
+  id = createUuid(),
+  displayName = 'default-factory',
   liquidAsset = createLiquidAsset(),
   fixedAssets = [] as FixedAsset[],
   buildRequests = [] as BuildRequest[],
@@ -48,6 +49,7 @@ export function createFactory({
 } = {}): Factory {
   return {
     id,
+    displayName,
     liquidAsset,
     fixedAssets,
     buildRequests,

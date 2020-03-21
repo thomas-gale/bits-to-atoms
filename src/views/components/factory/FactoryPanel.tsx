@@ -68,10 +68,10 @@ function FactoryPanel(props: Props): JSX.Element {
           Factory Overview
         </Typography>
         <Typography variant="h5" component="h2">
-          {factory.id.displayName}
+          {factory.displayName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {factory.id.id}
+          {factory.id}
         </Typography>
         <FactoryEconomicSummary />
         <ActiveBuildRequestsSummary />

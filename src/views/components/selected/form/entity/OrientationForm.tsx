@@ -46,7 +46,7 @@ function mapDispatch(dispatch: RootDispatch) {
           parameter: createNumberParameter({
             identity: createExistingIdentity({
               displayName: parameterUpdate.target.name,
-              uuid: parameterUpdate.target.name
+              id: parameterUpdate.target.name
             }),
             units: units,
             value: Number(parameterUpdate.target.value)

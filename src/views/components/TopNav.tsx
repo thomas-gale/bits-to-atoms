@@ -94,7 +94,7 @@ function TopNav(props: Props): JSX.Element {
           </IconButton>
 
           <Typography variant="h6" className={classes.title}>
-            {factory.id.displayName} : {factory.id.id}
+            {factory.displayName} : {factory.id}
           </Typography>
           <IconButton
             color="inherit"

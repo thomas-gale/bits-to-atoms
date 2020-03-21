@@ -11,8 +11,8 @@ const factorySlice = createSlice({
   name: 'factory',
   initialState: createFactory(),
   reducers: {
-    setIdentity(state, action: PayloadAction<Identity>) {
-      state.id = action.payload;
+    setDisplayName(state, action: PayloadAction<string>) {
+      state.displayName = action.payload;
     },
     setLiquidAsset(state, action: PayloadAction<LiquidAsset>) {
       state.liquidAsset = action.payload;
@@ -148,7 +148,7 @@ const factorySlice = createSlice({
 });
 
 export const {
-  setIdentity,
+  setDisplayName,
   setLiquidAsset,
   addActiveBuildRequest,
   updateActiveBuildRequestWorkflow,

@@ -5,11 +5,11 @@ import { createBuildRequest } from '../buildrequest/factories';
 import { BuildRequest } from '../buildrequest/types';
 import { createLiquidAsset } from '../economic/factories';
 import { isAllowedToBidSelector } from '../factory/selectors';
-import { addActiveBuildRequest } from '../factory/slice';
+import { addBuildRequest as addBuildRequestToFactory } from '../factory/slice';
 import { createSimplePolymerMaterial } from '../material/factories';
 import { buildRequestsSelector } from './selectors';
 import {
-  addBuildRequest,
+  addBuildRequest as addBuildRequestToMarket,
   removeBuildRequest,
   requestBidBuildRequest
 } from './slice';
@@ -59,7 +59,7 @@ export function* simpleMarketSaga() {
         config.market.simpleMarketSaga.partValueRange
       );
       yield put(
-        addBuildRequest(
+        addBuildRequestToMarket(
           createBuildRequest({
             displayName: getRandomPartName(),
             material: createSimplePolymerMaterial(),
@@ -92,7 +92,7 @@ export function* buildRequestBidSaga(
     yield put(removeBuildRequest(buildRequest.id));
 
     // Add the Build Request to the Factory's active build requests.
-    yield put(addActiveBuildRequest(buildRequest));
+    yield put(addBuildRequestToFactory(buildRequest));
   }
 }
 

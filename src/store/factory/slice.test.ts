@@ -40,4 +40,8 @@ describe('factory slice', () => {
       expectedState
     );
   });
+
+  it('can add build request', () => {
+    fail();
+  });
 });

@@ -3,7 +3,6 @@ import { delay, put, select, take, takeEvery } from 'redux-saga/effects';
 import { config } from '../../env/config';
 import { BuildRequest } from '../buildrequest/types';
 import { BasicShape } from '../common/topology/types';
-import { createLiquidAsset } from '../economic/factories';
 import { LiquidAsset } from '../economic/types';
 import { MaterialType } from '../material/types';
 import {
@@ -28,10 +27,10 @@ import {
 import { ServiceProvider } from './services/types';
 import {
   acceptFullfillmentOfActivity,
-  addActiveBuildRequest,
+  addBuildRequest,
   offerFullfillmentOfActivity,
   requestFullfillmentOfActivity,
-  setLiquidAssetValue,
+  setLiquidAssetDollars,
   updateActiveBuildRequestWorkflow
 } from './slice';
 
@@ -62,11 +61,8 @@ export function* factoryUpdateTickSaga() {
 
     // Update the store with the current liquid assets.
     yield put(
-      setLiquidAssetValue(
-        createLiquidAsset({
-          dollars:
-            currentLiquidAsset.dollars - currentServiceProviderCostOverPeriod
-        })
+      setLiquidAssetDollars(
+        currentLiquidAsset.dollars - currentServiceProviderCostOverPeriod
       )
     );
   }
@@ -338,5 +334,5 @@ function* buildRequestWorkflowSaga(
 }
 
 export function* factoryWatchAddActiveBuildRequestSaga() {
-  yield takeEvery(addActiveBuildRequest.type, buildRequestWorkflowSaga);
+  yield takeEvery(addBuildRequest.type, buildRequestWorkflowSaga);
 }

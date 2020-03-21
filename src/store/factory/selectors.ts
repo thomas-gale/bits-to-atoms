@@ -16,6 +16,7 @@ export const factorySelector = (state: RootState) => state.factory;
 export const factoryActiveBuildRequestsSelector = createSelector(
   [factorySelector],
   (factory: Factory): BuildRequest[] => {
+    // Denormalise factory build requests.
     return factory.buildRequests;
   }
 );

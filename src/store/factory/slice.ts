@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { normalize, denormalize } from 'normalizr';
+import { normalize } from 'normalizr';
 import { factorySchema } from './schemas';
 
 import { BuildRequest } from '../buildrequest/types';
@@ -7,7 +7,6 @@ import { Parameter } from '../common/parameter/types';
 import { Activity, Workflow } from '../workflow/types';
 import { createFactory } from './factories';
 import { ServiceProvider } from './services/types';
-import { stateContext } from 'react-three-fiber';
 
 const factorySlice = createSlice({
   name: 'factory',
@@ -30,7 +29,7 @@ const factorySlice = createSlice({
         }
       };
     },
-    addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
+    addBuildRequest(state, action: PayloadAction<BuildRequest>) {
       state.buildRequests.push(action.payload);
     },
     updateActiveBuildRequestWorkflow(
@@ -163,7 +162,7 @@ const factorySlice = createSlice({
 export const {
   setDisplayName,
   setLiquidAssetDollars,
-  addActiveBuildRequest,
+  addBuildRequest,
   updateActiveBuildRequestWorkflow,
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity,

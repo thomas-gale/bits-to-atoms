@@ -37,14 +37,14 @@ export const workflowSchema = new schema.Entity(
 );
 
 export const buildRequestSchema = new schema.Entity(
-    'buildRequests',
-    {
-      id: identitySchema,
-      workflow: workflowSchema,
-      firstActivity: activitySchema
-    },
-    {}
-  );
+  'buildRequests',
+  {
+    id: identitySchema,
+    workflow: workflowSchema,
+    firstActivity: activitySchema
+  },
+  {}
+);
 
 export const factorySchema = {
   id: identitySchema,

@@ -26,7 +26,7 @@ test('can normalize factory', () => {
           id: '945430d8-0fc3-4fc5-9489-2875b7b70906'
         }
       }
-    },
+    }
     //result: { id: '945430d8-0fc3-4fc5-9489-2875b7b70906' }
   });
 });
@@ -46,13 +46,17 @@ test('can denormalize factory', () => {
   };
 
   // Act
-  const factoryEntities = {  }
-  const factory = denormalize({ id: ['945430d8-0fc3-4fc5-9489-2875b7b70906'] }, factorySchema, normalizedTestFactory);
+  const factoryEntities = {};
+  const factory = denormalize(
+    { id: ['945430d8-0fc3-4fc5-9489-2875b7b70906'] },
+    factorySchema,
+    normalizedTestFactory
+  );
 
   // Assert
   expect(factory).toEqual({
     id: {
-      "0": '945430d8-0fc3-4fc5-9489-2875b7b70906'
+      '0': '945430d8-0fc3-4fc5-9489-2875b7b70906'
     }
   });
 });

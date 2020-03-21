@@ -31,7 +31,7 @@ import {
   addActiveBuildRequest,
   offerFullfillmentOfActivity,
   requestFullfillmentOfActivity,
-  setLiquidAsset,
+  setLiquidAssetValue,
   updateActiveBuildRequestWorkflow
 } from './slice';
 
@@ -62,7 +62,7 @@ export function* factoryUpdateTickSaga() {
 
     // Update the store with the current liquid assets.
     yield put(
-      setLiquidAsset(
+      setLiquidAssetValue(
         createLiquidAsset({
           dollars:
             currentLiquidAsset.dollars - currentServiceProviderCostOverPeriod

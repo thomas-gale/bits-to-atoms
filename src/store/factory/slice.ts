@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { normalize } from 'normalizr';
+import { normalize, denormalize } from 'normalizr';
 import { factorySchema } from './schemas';
 
 import { BuildRequest } from '../buildrequest/types';
 import { Parameter } from '../common/parameter/types';
-import { LiquidAsset } from '../economic/types';
 import { Activity, Workflow } from '../workflow/types';
 import { createFactory } from './factories';
 import { ServiceProvider } from './services/types';
@@ -14,10 +13,18 @@ const factorySlice = createSlice({
   initialState: normalize(createFactory(), factorySchema),
   reducers: {
     setDisplayName(state, action: PayloadAction<string>) {
-      state.result.id = action.payload;
+      state.result.displayName = action.payload;
     },
-    setLiquidAsset(state, action: PayloadAction<LiquidAsset>) {
-      state.liquidAsset = action.payload;
+    setLiquidAssetDollars(state, action: PayloadAction<number>) {
+      // Do something
+      /*const liquidAsset = denormalize(
+        {
+          liquidAsset: state.result.liquidAsset
+        },
+        factorySchema,
+        state.entities
+      );
+      state.liquidAsset = action.payload;*/
     },
     addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
       state.buildRequests.push(action.payload);
@@ -151,7 +158,7 @@ const factorySlice = createSlice({
 
 export const {
   setDisplayName,
-  setLiquidAsset,
+  setLiquidAssetDollars,
   addActiveBuildRequest,
   updateActiveBuildRequestWorkflow,
   requestFullfillmentOfActivity,

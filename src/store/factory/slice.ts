@@ -7,6 +7,7 @@ import { Parameter } from '../common/parameter/types';
 import { Activity, Workflow } from '../workflow/types';
 import { createFactory } from './factories';
 import { ServiceProvider } from './services/types';
+import { stateContext } from 'react-three-fiber';
 
 const factorySlice = createSlice({
   name: 'factory',
@@ -16,15 +17,18 @@ const factorySlice = createSlice({
       state.result.displayName = action.payload;
     },
     setLiquidAssetDollars(state, action: PayloadAction<number>) {
-      // Do something
-      /*const liquidAsset = denormalize(
-        {
-          liquidAsset: state.result.liquidAsset
-        },
-        factorySchema,
-        state.entities
-      );
-      state.liquidAsset = action.payload;*/
+      state.entities = {
+        ...state.entities,
+        assets: {
+          ...state.entities.assets,
+          [state.result.liquidAsset]: {
+            ...(state.entities.assets
+              ? state.entities.assets[state.result.liquidAsset]
+              : {}),
+            dollars: action.payload
+          }
+        }
+      };
     },
     addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
       state.buildRequests.push(action.payload);

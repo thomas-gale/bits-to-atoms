@@ -1,7 +1,8 @@
 import { normalize } from 'normalizr';
 import { createFactory } from './factories';
 import { factorySchema } from './schemas';
-import { factoryReducer, setDisplayName, setLiquidAssetDollars } from './slice';
+import { factoryReducer, setDisplayName, setLiquidAssetDollars, addBuildRequest } from './slice';
+import { createBuildRequest } from '../buildrequest/factories';
 
 const initialState = normalize(createFactory(), factorySchema);
 
@@ -42,6 +43,26 @@ describe('factory slice', () => {
   });
 
   it('can add build request', () => {
-    fail();
+    const buildRequest = createBuildRequest();
+    const expectedState = {
+      ...initialState,
+      entities: {
+        ...initialState.entities,
+        buildRequests: {
+          ...initialState.entities.buildRequests,
+          [buildRequest.id]: buildRequest
+        }
+      },
+      result: {
+        ...initialState.result,
+        buildRequests: [
+          ...initialState.result.buildRequests,
+          buildRequest.id
+        ]
+      }
+    };
+    expect(factoryReducer(initialState, addBuildRequest(buildRequest))).toEqual(
+      expectedState
+    );
   });
 });

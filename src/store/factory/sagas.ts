@@ -11,7 +11,7 @@ import {
   createWorkflow
 } from '../workflow/factories';
 import {
-  Activity,
+  Activity, 
   TransmutationActivity,
   TransmutationStateType
 } from '../workflow/types';
@@ -31,7 +31,7 @@ import {
   offerFullfillmentOfActivity,
   requestFullfillmentOfActivity,
   setLiquidAssetDollars,
-  updateActiveBuildRequestWorkflow
+  updateBuildRequestWorkflow
 } from './slice';
 
 export function* factoryUpdateTickSaga() {
@@ -271,7 +271,7 @@ function* buildRequestWorkflowSaga(
   );
   // Send out the proposed active build request workflow
   yield put(
-    updateActiveBuildRequestWorkflow({
+    updateBuildRequestWorkflow({
       buildRequestId: buildRequest.id,
       workflow: computedWorkflow
     })

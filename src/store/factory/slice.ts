@@ -30,24 +30,37 @@ const factorySlice = createSlice({
       };
     },
     addBuildRequest(state, action: PayloadAction<BuildRequest>) {
-      state.buildRequests.push(action.payload);
+      state.entities = {
+        ...state.entities,
+        buildRequests: {
+          ...state.entities.buildRequests,
+          [action.payload.id]: action.payload
+        }
+      };
+      state.result = {
+        ...state.result,
+        buildRequests: [
+          ...state.result.buildRequests,
+          action.payload.id
+        ]
+      };
     },
-    updateActiveBuildRequestWorkflow(
+    updateBuildRequestWorkflow(
       state,
       action: PayloadAction<{ buildRequestId: string; workflow: Workflow }>
     ) {
-      const activeBuildRequestIndex = state.buildRequests.findIndex(
-        br => br.id === action.payload.buildRequestId
-      );
-      if (activeBuildRequestIndex === -1) {
+      // TODO: Check if need to denormalise this properly.
+
+      if (state.entities.buildRequests && state.entities.buildRequests.hasOwnProperty(action.payload.buildRequestId)) {
+        state.entities.buildRequests[action.payload.buildRequestId].workflow =
+        action.payload.workflow;
+      } else {
         console.error(
           `Unable to update active build request workflow, build request ${action.payload.buildRequestId} not found`
         );
-        return;
       }
 
-      state.buildRequests[activeBuildRequestIndex].workflow =
-        action.payload.workflow;
+
     },
     requestFullfillmentOfActivity(_state, _action: PayloadAction<Activity>) {
       // This action is to be picked up by middlewear saga for processing.
@@ -163,7 +176,7 @@ export const {
   setDisplayName,
   setLiquidAssetDollars,
   addBuildRequest,
-  updateActiveBuildRequestWorkflow,
+  updateBuildRequestWorkflow,
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity,
   acceptFullfillmentOfActivity,

@@ -5,7 +5,15 @@ export const assetSchema = new schema.Entity('assets');
 
 export const serviceProviderSchema = new schema.Entity('serviceProviders');
 
-export const activitySchema = new schema.Entity('activities');
+export const activitySchema = new schema.Entity('activities',
+{
+  serviceProvider: serviceProviderSchema
+},
+{});
+activitySchema.define({ 
+  previousActivity: activitySchema,
+  nextActivity: activitySchema
+})
 
 export const workflowSchema = new schema.Entity(
   'workflows',

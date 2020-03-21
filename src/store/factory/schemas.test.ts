@@ -10,21 +10,19 @@ import {
 } from '../workflow/factories';
 
 // Arrange for all factory schema tests
-const testActivity1 =  createTransportationActivity({
+const testActivity1 = createTransportationActivity({
   id: 'test-transportation-activity-1-uuid'
 });
-
 const testActivity2 = createTransportationActivity({
   id: 'test-transportation-activity-2-uuid'
-})
+});
+testActivity1.nextActivity = testActivity2;
+testActivity2.previousActivity = testActivity1;
 
 const testWorkflow = createWorkflow({
   id: 'test-build-request-workflow-uuid',
   displayName: 'test-build-request-workflow-uuid',
-  activities: [
-    testActivity1,
-    testActivity2
-  ],
+  activities: [testActivity1, testActivity2],
   firstActivity: testActivity1
 });
 const testBuildRequest = createBuildRequest({
@@ -59,8 +57,14 @@ test('can normalize factory', () => {
   expect(normalizedFactory).toEqual({
     entities: {
       activities: {
-        [testActivity1.id]: testActivity1,
-        [testActivity2.id]: testActivity2,
+        [testActivity1.id]: {
+          ...testActivity1,
+          nextActivity: testActivity2.id
+        },
+        [testActivity2.id]: {
+          ...testActivity2,
+          previousActivity: testActivity1.id
+        }
       },
       assets: {
         'test-liquid-asset-uuid': testFactory.liquidAsset
@@ -75,12 +79,9 @@ test('can normalize factory', () => {
         'test-human-worker-uuid': testFactory.serviceProviders[0]
       },
       workflows: {
-        [testWorkflow.id]: { 
+        [testWorkflow.id]: {
           ...testWorkflow,
-          activities: [
-            testActivity1.id,
-            testActivity2.id
-          ],
+          activities: [testActivity1.id, testActivity2.id],
           firstActivity: testActivity1.id
         }
       }
@@ -101,8 +102,14 @@ test('can denormalize factory', () => {
   const normalizedTestFactory = {
     entities: {
       activities: {
-        [testActivity1.id]: testActivity1,
-        [testActivity2.id]: testActivity2,
+        [testActivity1.id]: {
+          ...testActivity1,
+          nextActivity: testActivity2.id
+        },
+        [testActivity2.id]: {
+          ...testActivity2,
+          previousActivity: testActivity1.id
+        }
       },
       assets: {
         'test-liquid-asset-uuid': createLiquidAsset({
@@ -121,12 +128,9 @@ test('can denormalize factory', () => {
         'test-human-worker-uuid': testHumanService
       },
       workflows: {
-        [testWorkflow.id]: { 
+        [testWorkflow.id]: {
           ...testWorkflow,
-          activities: [
-            testActivity1.id,
-            testActivity2.id
-          ],
+          activities: [testActivity1.id, testActivity2.id],
           firstActivity: testActivity1.id
         }
       }

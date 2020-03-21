@@ -14,11 +14,11 @@ import {
 export function createTransportationActivity({
   id = createUuid(),
   displayName = 'default-transportation-activity',
-  serviceProviderId = undefined,
+  serviceProvider = undefined,
   started = undefined,
   completed = undefined,
-  previousActivityId = undefined,
-  nextActivityId = undefined,
+  previousActivity = undefined,
+  nextActivity = undefined,
   startLocation = createVector3(),
   endLocation = createVector3()
 } = {}): TransportationActivity {
@@ -26,11 +26,11 @@ export function createTransportationActivity({
     type: ActivityType.Transportation,
     id,
     displayName,
-    serviceProviderId,
+    serviceProvider,
     started,
     completed,
-    previousActivityId,
-    nextActivityId,
+    previousActivity,
+    nextActivity,
     startLocation,
     endLocation
   };

@@ -3,6 +3,7 @@ import { Vector3 } from '../common/primitive/types';
 import { BasicShape } from '../common/topology/types';
 import { MaterialType } from '../material/types';
 import { LiquidAsset } from '../economic/types';
+import { ServiceProvider } from '../factory/services/types';
 
 export enum ActivityType {
   Transportation = 'Transportation',
@@ -12,11 +13,11 @@ export enum ActivityType {
 
 interface BaseActivity extends Identity {
   type: ActivityType;
-  serviceProviderId: string | undefined;
+  serviceProvider: ServiceProvider | undefined;
   started: Date | undefined;
   completed: Date | undefined;
-  previousActivityId: string | undefined;
-  nextActivityId: string | undefined;
+  previousActivity: Activity | undefined;
+  nextActivity: Activity | undefined;
 }
 
 export interface TransportationActivity extends BaseActivity {

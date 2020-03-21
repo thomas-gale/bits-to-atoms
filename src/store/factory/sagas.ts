@@ -190,7 +190,7 @@ function* buildRequestWorkflowSaga(
         'Transmutation list complete (current transmutation does not start with basic shape topology)'
       );
       currentTransmutationActivity.displayName = 'Procure Part';
-      computedWorkflow.firstActivityId = currentTransmutationActivity.id;
+      computedWorkflow.firstActivity = currentTransmutationActivity;
       break;
     }
   }
@@ -279,7 +279,7 @@ function* buildRequestWorkflowSaga(
 
   // Start and monitor workflow by accepting fullfillment of fist activity (at this point they should all have enough information to start).
   // Now we manage the execution of the sequential workflow activities.
-  let currentExecutingActivityId = computedWorkflow.firstActivityId;
+  let currentExecutingActivity = computedWorkflow.firstActivity;
 
   while (true) {
     const currentId = currentExecutingActivityId;

@@ -11,7 +11,7 @@ import {
   createWorkflow
 } from '../workflow/factories';
 import {
-  Activity, 
+  Activity,
   TransmutationActivity,
   TransmutationStateType
 } from '../workflow/types';

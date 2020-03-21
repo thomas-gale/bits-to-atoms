@@ -13,7 +13,8 @@ import { ActivityType, Activity } from '../workflow/types';
 import { denormalize } from 'normalizr';
 import { factorySchema } from './schemas';
 
-export const factorySelector = (state: RootState) => denormalize(state.factory.result, factorySchema, state.factory.entities);
+export const factorySelector = (state: RootState) =>
+  denormalize(state.factory.result, factorySchema, state.factory.entities);
 
 export const factoryActiveBuildRequestsSelector = createSelector(
   [factorySelector],

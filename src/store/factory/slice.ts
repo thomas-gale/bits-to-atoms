@@ -39,10 +39,7 @@ const factorySlice = createSlice({
       };
       state.result = {
         ...state.result,
-        buildRequests: [
-          ...state.result.buildRequests,
-          action.payload.id
-        ]
+        buildRequests: [...state.result.buildRequests, action.payload.id]
       };
     },
     updateBuildRequestWorkflow(
@@ -51,16 +48,17 @@ const factorySlice = createSlice({
     ) {
       // TODO: Check if need to denormalise this properly.
 
-      if (state.entities.buildRequests && state.entities.buildRequests.hasOwnProperty(action.payload.buildRequestId)) {
+      if (
+        state.entities.buildRequests &&
+        action.payload.buildRequestId in state.entities.buildRequests
+      ) {
         state.entities.buildRequests[action.payload.buildRequestId].workflow =
-        action.payload.workflow;
+          action.payload.workflow;
       } else {
         console.error(
           `Unable to update active build request workflow, build request ${action.payload.buildRequestId} not found`
         );
       }
-
-
     },
     requestFullfillmentOfActivity(_state, _action: PayloadAction<Activity>) {
       // This action is to be picked up by middlewear saga for processing.

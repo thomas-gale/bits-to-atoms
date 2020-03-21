@@ -3,6 +3,8 @@ import { createLiquidAsset } from '../economic/factories';
 import { createFactory } from './factories';
 import { factorySchema } from './schemas';
 import { createHumanWorker } from './services/humanworker/factories';
+import { createBuildRequest } from '../buildrequest/factories';
+import { createSimplePolymerMaterial } from '../material/factories';
 
 test('can normalize factory', () => {
   // Arrange
@@ -15,7 +17,12 @@ test('can normalize factory', () => {
       dollars: 42
     }),
     fixedAssets: [],
-    buildRequests: [],
+    buildRequests: [
+      createBuildRequest({
+        id: 'test-build-request-uuid',
+        displayName: 'test-build-request'
+      })
+    ],
     serviceProviders: [
       createHumanWorker({
         id: 'test-human-worker-uuid',
@@ -33,6 +40,9 @@ test('can normalize factory', () => {
       assets: {
         'test-liquid-asset-uuid': testFactory.liquidAsset
       },
+      buildRequests: {
+        'test-build-request-uuid': testFactory.buildRequests[0]
+      },
       serviceProviders: {
         'test-human-worker-uuid': testFactory.serviceProviders[0]
       }
@@ -42,7 +52,7 @@ test('can normalize factory', () => {
       displayName: testFactory.displayName,
       liquidAsset: 'test-liquid-asset-uuid',
       fixedAssets: [],
-      buildRequests: [],
+      buildRequests: ['test-build-request-uuid'],
       serviceProviders: ['test-human-worker-uuid']
     }
   });
@@ -50,6 +60,14 @@ test('can normalize factory', () => {
 
 test('can denormalize factory', () => {
   // Arrange
+  const testBuildRequest = createBuildRequest({
+    id: 'test-build-request-uuid',
+    displayName: 'test-build-request'
+  });
+  const testHumanService = createHumanWorker({
+    id: 'test-human-worker-uuid',
+    displayName: 'test-human-worker'
+  })
   const normalizedTestFactory = {
     entities: {
       assets: {
@@ -59,16 +77,11 @@ test('can denormalize factory', () => {
           dollars: 42
         })
       },
+      buildRequests: {
+        'test-build-request-uuid': testBuildRequest
+      },
       serviceProviders: {
-        'test-human-worker-uuid': createHumanWorker({
-          id: 'test-human-worker-uuid',
-          displayName: 'test-human-worker',
-          currentCostPerTime: createLiquidAsset({
-            id: 'human-worker-cost-per-time-uuid',
-            displayName: 'human-worker-cost-per-time',
-            dollars: 1e-6
-          })
-        })
+        'test-human-worker-uuid': testHumanService
       }
     },
     result: {
@@ -76,7 +89,7 @@ test('can denormalize factory', () => {
       displayName: 'test-factory',
       liquidAsset: 'test-liquid-asset-uuid',
       fixedAssets: [],
-      buildRequests: [],
+      buildRequests: ['test-build-request-uuid'],
       serviceProviders: ['test-human-worker-uuid']
     }
   };
@@ -99,17 +112,11 @@ test('can denormalize factory', () => {
         dollars: 42
       }),
       fixedAssets: [],
-      buildRequests: [],
+      buildRequests: [
+        testBuildRequest
+      ],
       serviceProviders: [
-        createHumanWorker({
-          id: 'test-human-worker-uuid',
-          displayName: 'test-human-worker',
-          currentCostPerTime: createLiquidAsset({
-            id: 'human-worker-cost-per-time-uuid',
-            displayName: 'human-worker-cost-per-time',
-            dollars: 1e-6
-          })
-        })
+        testHumanService
       ]
     })
   );

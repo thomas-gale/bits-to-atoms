@@ -5,9 +5,9 @@ import { ServiceProvider } from './services/types';
 
 // TD: This data could do with a spot of Normalizr https://github.com/paularmstrong/normalizr
 export interface Factory {
-  identity: Identity;
+  id: Identity;
   liquidAsset: LiquidAsset;
   fixedAssets: FixedAsset[];
-  activeBuildRequests: BuildRequest[];
+  buildRequests: BuildRequest[];
   serviceProviders: ServiceProvider[];
 }

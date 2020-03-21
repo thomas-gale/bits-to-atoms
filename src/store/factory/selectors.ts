@@ -16,7 +16,7 @@ export const factorySelector = (state: RootState) => state.factory;
 export const factoryActiveBuildRequestsSelector = createSelector(
   [factorySelector],
   (factory: Factory): BuildRequest[] => {
-    return factory.activeBuildRequests;
+    return factory.buildRequests;
   }
 );
 

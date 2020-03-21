@@ -12,19 +12,19 @@ const factorySlice = createSlice({
   initialState: createFactory(),
   reducers: {
     setIdentity(state, action: PayloadAction<Identity>) {
-      state.identity = action.payload;
+      state.id = action.payload;
     },
     setLiquidAsset(state, action: PayloadAction<LiquidAsset>) {
       state.liquidAsset = action.payload;
     },
     addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
-      state.activeBuildRequests.push(action.payload);
+      state.buildRequests.push(action.payload);
     },
     updateActiveBuildRequestWorkflow(
       state,
       action: PayloadAction<{ buildRequestId: Identity; workflow: Workflow }>
     ) {
-      const activeBuildRequestIndex = state.activeBuildRequests.findIndex(
+      const activeBuildRequestIndex = state.buildRequests.findIndex(
         br => br.identity.id === action.payload.buildRequestId.id
       );
       if (activeBuildRequestIndex === -1) {
@@ -34,7 +34,7 @@ const factorySlice = createSlice({
         return;
       }
 
-      state.activeBuildRequests[activeBuildRequestIndex].workflow =
+      state.buildRequests[activeBuildRequestIndex].workflow =
         action.payload.workflow;
     },
     requestFullfillmentOfActivity(_state, _action: PayloadAction<Activity>) {
@@ -68,7 +68,7 @@ const factorySlice = createSlice({
       state,
       action: PayloadAction<{ buildRequestId: Identity; activity: Activity }>
     ) {
-      const activeBuildRequestIndex = state.activeBuildRequests.findIndex(
+      const activeBuildRequestIndex = state.buildRequests.findIndex(
         br => br.identity.id === action.payload.buildRequestId.id
       );
       if (activeBuildRequestIndex === -1) {
@@ -79,7 +79,7 @@ const factorySlice = createSlice({
       }
 
       const currentWorkflow =
-        state.activeBuildRequests[activeBuildRequestIndex].workflow;
+        state.buildRequests[activeBuildRequestIndex].workflow;
 
       if (!currentWorkflow) {
         console.error(
@@ -104,7 +104,7 @@ const factorySlice = createSlice({
         action.payload.activity;
     },
     removeActiveBuildRequest(state, action: PayloadAction<Identity>) {
-      const indexToRemove = state.activeBuildRequests.findIndex(
+      const indexToRemove = state.buildRequests.findIndex(
         br => br.identity.id === action.payload.id
       );
       if (indexToRemove === -1) {
@@ -113,7 +113,7 @@ const factorySlice = createSlice({
         );
         return; // Don't do anything if we can't find that element
       }
-      state.activeBuildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.
+      state.buildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.
     },
     setServiceProviderParameter(
       state,

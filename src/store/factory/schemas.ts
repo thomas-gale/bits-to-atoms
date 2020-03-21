@@ -3,6 +3,22 @@ import { schema } from 'normalizr';
 // Test placing all schemes here. They will need moving to correct directories.
 export const identitySchema = new schema.Entity('identities');
 
+export const assetSchema = new schema.Entity(
+  'assets',
+  {
+    id: identitySchema
+  },
+  {}
+);
+
+export const serviceProviderSchema = new schema.Entity(
+  'serviceProviders',
+  {
+    id: identitySchema
+  },
+  {}
+);
+
 export const activitySchema = new schema.Entity(
   'activities',
   {
@@ -32,5 +48,8 @@ export const buildRequestSchema = new schema.Entity(
 
 export const factorySchema = {
   id: identitySchema,
-  buildRequests: [buildRequestSchema]
+  liquidAsset: assetSchema,
+  fixedAssets: [assetSchema],
+  buildRequests: [buildRequestSchema],
+  serviceProviders: [serviceProviderSchema]
 };

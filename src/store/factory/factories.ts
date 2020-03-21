@@ -12,10 +12,10 @@ import { createProcurementService } from './services/procurementservice/factorie
 import { createDispatchService } from './services/dispatchservice/factories';
 
 export function createFactory({
-  identity = createNewIdentity({ displayName: 'default-factory' }),
+  id = createNewIdentity({ displayName: 'default-factory' }),
   liquidAsset = createLiquidAsset(),
   fixedAssets = [] as FixedAsset[],
-  activeBuildRequests = [] as BuildRequest[],
+  buildRequests = [] as BuildRequest[],
   serviceProviders = [
     createFloorSpace({
       id: createNewIdentity({ displayName: 'Floorspace 1' })
@@ -47,10 +47,10 @@ export function createFactory({
   ]
 } = {}): Factory {
   return {
-    identity,
+    id,
     liquidAsset,
     fixedAssets,
-    activeBuildRequests,
+    buildRequests,
     serviceProviders
   };
 }

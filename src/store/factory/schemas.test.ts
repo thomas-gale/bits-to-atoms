@@ -57,10 +57,10 @@ test('can denormalize factory', () => {
           id: 'test-liquid-asset-uuid',
           displayName: 'test-liquid-asset',
           dollars: 42
-        }),
+        })
       },
       serviceProviders: {
-        'test-human-worker-uuid':  createHumanWorker({
+        'test-human-worker-uuid': createHumanWorker({
           id: 'test-human-worker-uuid',
           displayName: 'test-human-worker',
           currentCostPerTime: createLiquidAsset({
@@ -89,26 +89,28 @@ test('can denormalize factory', () => {
   );
 
   // Assert
-  expect(factory).toEqual(createFactory({
-    id: 'test-factory-uuid',
-    displayName: 'test-factory',
-    liquidAsset: createLiquidAsset({
-      id: 'test-liquid-asset-uuid',
-      displayName: 'test-liquid-asset',
-      dollars: 42
-    }),
-    fixedAssets: [],
-    buildRequests: [],
-    serviceProviders: [
-      createHumanWorker({
-        id: 'test-human-worker-uuid',
-        displayName: 'test-human-worker',
-        currentCostPerTime: createLiquidAsset({
-          id: 'human-worker-cost-per-time-uuid',
-          displayName: 'human-worker-cost-per-time',
-          dollars: 1e-6
+  expect(factory).toEqual(
+    createFactory({
+      id: 'test-factory-uuid',
+      displayName: 'test-factory',
+      liquidAsset: createLiquidAsset({
+        id: 'test-liquid-asset-uuid',
+        displayName: 'test-liquid-asset',
+        dollars: 42
+      }),
+      fixedAssets: [],
+      buildRequests: [],
+      serviceProviders: [
+        createHumanWorker({
+          id: 'test-human-worker-uuid',
+          displayName: 'test-human-worker',
+          currentCostPerTime: createLiquidAsset({
+            id: 'human-worker-cost-per-time-uuid',
+            displayName: 'human-worker-cost-per-time',
+            dollars: 1e-6
+          })
         })
-      })
-    ]
-  }));
+      ]
+    })
+  );
 });

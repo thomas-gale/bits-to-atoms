@@ -7,7 +7,14 @@ export const serviceProviderSchema = new schema.Entity('serviceProviders');
 
 export const activitySchema = new schema.Entity('activities');
 
-export const workflowSchema = new schema.Entity('workflows');
+export const workflowSchema = new schema.Entity(
+  'workflows',
+  {
+    activities: [activitySchema],
+    firstActivity: activitySchema
+  },
+  {}
+);
 
 export const buildRequestSchema = new schema.Entity(
   'buildRequests',
@@ -21,6 +28,6 @@ export const buildRequestSchema = new schema.Entity(
 export const factorySchema = {
   liquidAsset: assetSchema,
   fixedAssets: [assetSchema],
-  buildRequests: [buildRequestSchema],
-  serviceProviders: [serviceProviderSchema]
+  serviceProviders: [serviceProviderSchema],
+  buildRequests: [buildRequestSchema]
 };

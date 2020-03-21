@@ -1,8 +1,9 @@
-import { createUuid } from '../common/identity/factories';
 import { BasicShape } from '../common/topology/types';
+import { BuildRequest } from './types';
+import { Workflow } from '../workflow/types';
+import { createUuid } from '../common/identity/factories';
 import { createLiquidAsset } from '../economic/factories';
 import { createSimplePolymerMaterial } from '../material/factories';
-import { BuildRequest } from './types';
 
 export function createBuildRequest({
   id = createUuid(),
@@ -12,7 +13,7 @@ export function createBuildRequest({
   endShape = BasicShape.Cube,
   scale = 1e-2,
   fixedValue = createLiquidAsset({ dollars: 20 }),
-  workflow = undefined
+  workflow = undefined as Workflow | undefined
 } = {}): BuildRequest {
   return {
     id,

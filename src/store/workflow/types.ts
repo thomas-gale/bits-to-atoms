@@ -63,5 +63,5 @@ export type Activity =
 
 export interface Workflow extends Identity {
   activities: Activity[];
-  firstActivityId: string | undefined;
+  firstActivity: Activity | undefined;
 }

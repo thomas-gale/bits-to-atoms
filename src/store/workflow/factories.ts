@@ -90,12 +90,12 @@ export function createWorkflow({
   id = createUuid(),
   displayName = 'default-workflow',
   activities = [] as Activity[],
-  firstActivityId = undefined
+  firstActivity = undefined as Activity | undefined
 } = {}): Workflow {
   return {
     id,
     displayName,
     activities,
-    firstActivityId
+    firstActivity
   };
 }

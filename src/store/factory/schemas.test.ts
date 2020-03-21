@@ -4,46 +4,85 @@ import { createFactory } from './factories';
 import { factorySchema } from './schemas';
 import { createHumanWorker } from './services/humanworker/factories';
 import { createBuildRequest } from '../buildrequest/factories';
+import {
+  createWorkflow,
+  createTransportationActivity
+} from '../workflow/factories';
+
+// Arrange for all factory schema tests
+const testActivity1 =  createTransportationActivity({
+  id: 'test-transportation-activity-1-uuid'
+});
+
+const testActivity2 = createTransportationActivity({
+  id: 'test-transportation-activity-2-uuid'
+})
+
+const testWorkflow = createWorkflow({
+  id: 'test-build-request-workflow-uuid',
+  displayName: 'test-build-request-workflow-uuid',
+  activities: [
+    testActivity1,
+    testActivity2
+  ],
+  firstActivity: testActivity1
+});
+const testBuildRequest = createBuildRequest({
+  id: 'test-build-request-uuid',
+  displayName: 'test-build-request',
+  workflow: testWorkflow
+});
+
+const testHumanService = createHumanWorker({
+  id: 'test-human-worker-uuid',
+  displayName: 'test-human-worker'
+});
+
+const testFactory = createFactory({
+  id: 'test-factory-uuid',
+  displayName: 'test-factory',
+  liquidAsset: createLiquidAsset({
+    id: 'test-liquid-asset-uuid',
+    displayName: 'test-liquid-asset',
+    dollars: 42
+  }),
+  fixedAssets: [],
+  buildRequests: [testBuildRequest],
+  serviceProviders: [testHumanService]
+});
 
 test('can normalize factory', () => {
-  // Arrange
-  const testFactory = createFactory({
-    id: 'test-factory-uuid',
-    displayName: 'test-factory',
-    liquidAsset: createLiquidAsset({
-      id: 'test-liquid-asset-uuid',
-      displayName: 'test-liquid-asset',
-      dollars: 42
-    }),
-    fixedAssets: [],
-    buildRequests: [
-      createBuildRequest({
-        id: 'test-build-request-uuid',
-        displayName: 'test-build-request'
-      })
-    ],
-    serviceProviders: [
-      createHumanWorker({
-        id: 'test-human-worker-uuid',
-        displayName: 'test-human-worker'
-      })
-    ]
-  });
-
   // Act
   const normalizedFactory = normalize(testFactory, factorySchema);
 
   // Assert
   expect(normalizedFactory).toEqual({
     entities: {
+      activities: {
+        [testActivity1.id]: testActivity1,
+        [testActivity2.id]: testActivity2,
+      },
       assets: {
         'test-liquid-asset-uuid': testFactory.liquidAsset
       },
       buildRequests: {
-        'test-build-request-uuid': testFactory.buildRequests[0]
+        [testBuildRequest.id]: {
+          ...testBuildRequest,
+          workflow: testWorkflow.id
+        }
       },
       serviceProviders: {
         'test-human-worker-uuid': testFactory.serviceProviders[0]
+      },
+      workflows: {
+        [testWorkflow.id]: { 
+          ...testWorkflow,
+          activities: [
+            testActivity1.id,
+            testActivity2.id
+          ],
+          firstActivity: testActivity1.id
+        }
       }
     },
     result: {
@@ -51,7 +90,7 @@ test('can normalize factory', () => {
       displayName: testFactory.displayName,
       liquidAsset: 'test-liquid-asset-uuid',
       fixedAssets: [],
-      buildRequests: ['test-build-request-uuid'],
+      buildRequests: [testBuildRequest.id],
       serviceProviders: ['test-human-worker-uuid']
     }
   });
@@ -59,16 +98,12 @@ test('can normalize factory', () => {
 
 test('can denormalize factory', () => {
   // Arrange
-  const testBuildRequest = createBuildRequest({
-    id: 'test-build-request-uuid',
-    displayName: 'test-build-request'
-  });
-  const testHumanService = createHumanWorker({
-    id: 'test-human-worker-uuid',
-    displayName: 'test-human-worker'
-  });
   const normalizedTestFactory = {
     entities: {
+      activities: {
+        [testActivity1.id]: testActivity1,
+        [testActivity2.id]: testActivity2,
+      },
       assets: {
         'test-liquid-asset-uuid': createLiquidAsset({
           id: 'test-liquid-asset-uuid',
@@ -77,10 +112,23 @@ test('can denormalize factory', () => {
         })
       },
       buildRequests: {
-        'test-build-request-uuid': testBuildRequest
+        [testBuildRequest.id]: {
+          ...testBuildRequest,
+          workflow: testWorkflow.id
+        }
       },
       serviceProviders: {
         'test-human-worker-uuid': testHumanService
+      },
+      workflows: {
+        [testWorkflow.id]: { 
+          ...testWorkflow,
+          activities: [
+            testActivity1.id,
+            testActivity2.id
+          ],
+          firstActivity: testActivity1.id
+        }
       }
     },
     result: {

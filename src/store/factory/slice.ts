@@ -1,4 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { normalize } from 'normalizr';
+import { factorySchema } from './schemas';
+
 import { BuildRequest } from '../buildrequest/types';
 import { Parameter } from '../common/parameter/types';
 import { LiquidAsset } from '../economic/types';
@@ -8,10 +11,10 @@ import { ServiceProvider } from './services/types';
 
 const factorySlice = createSlice({
   name: 'factory',
-  initialState: createFactory(),
+  initialState: normalize(createFactory(), factorySchema),
   reducers: {
     setDisplayName(state, action: PayloadAction<string>) {
-      state.displayName = action.payload;
+      state.result.id = action.payload;
     },
     setLiquidAsset(state, action: PayloadAction<LiquidAsset>) {
       state.liquidAsset = action.payload;

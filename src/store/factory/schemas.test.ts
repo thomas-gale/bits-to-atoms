@@ -4,7 +4,6 @@ import { createFactory } from './factories';
 import { factorySchema } from './schemas';
 import { createHumanWorker } from './services/humanworker/factories';
 import { createBuildRequest } from '../buildrequest/factories';
-import { createSimplePolymerMaterial } from '../material/factories';
 
 test('can normalize factory', () => {
   // Arrange
@@ -67,7 +66,7 @@ test('can denormalize factory', () => {
   const testHumanService = createHumanWorker({
     id: 'test-human-worker-uuid',
     displayName: 'test-human-worker'
-  })
+  });
   const normalizedTestFactory = {
     entities: {
       assets: {
@@ -112,12 +111,8 @@ test('can denormalize factory', () => {
         dollars: 42
       }),
       fixedAssets: [],
-      buildRequests: [
-        testBuildRequest
-      ],
-      serviceProviders: [
-        testHumanService
-      ]
+      buildRequests: [testBuildRequest],
+      serviceProviders: [testHumanService]
     })
   );
 });

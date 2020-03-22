@@ -25,7 +25,6 @@ import {
 } from './services/factories';
 import { ServiceProvider } from './services/types';
 import {
-  acceptFullfillmentOfActivity,
   addBuildRequest,
   offerFullfillmentOfActivity,
   requestFullfillmentOfActivity,
@@ -246,16 +245,22 @@ export function* buildRequestWorkflowSaga(
       transportationFullfillmentOffer.payload.serviceProvider;
 
     // Update and insert the transport activity between the transmutation activities.
-    currentTransmutationActivity.nextActivity = currentTransportActivity;
-    currentTransmutationActivity.nextActivity.previousActivity = currentTransmutationActivity; // CHECK
 
+    // Update Current Transportation
     currentTransportActivity.serviceProvider = proposedTransportServiceProvider;
     currentTransportActivity.previousActivity = currentTransmutationActivity;
     currentTransportActivity.nextActivity =
       currentTransmutationActivity.nextActivity;
     computedWorkflow.activities.push(currentTransportActivity);
 
-    currentTransmutationActivity = currentTransmutationActivity.nextActivity;
+    // Transmutation Before
+    currentTransmutationActivity.nextActivity = currentTransportActivity;
+
+    // Transmutation After
+    currentTransportActivity.nextActivity.previousActivity = currentTransportActivity;
+
+    // Now consider the next transmutation activity
+    currentTransmutationActivity = currentTransportActivity.nextActivity;
   }
 
   // Proposed workflow is now computed.
@@ -270,9 +275,12 @@ export function* buildRequestWorkflowSaga(
     })
   );
 
+  console.log(`Completed workflow early ${computedWorkflow.id}, no execution`);
+  return;
+
   // Start and monitor workflow by accepting fullfillment of fist activity (at this point they should all have enough information to start).
   // Now we manage the execution of the sequential workflow activities.
-  let currentExecutingActivity = computedWorkflow.firstActivity as Activity;
+  /*let currentExecutingActivity = computedWorkflow.firstActivity as Activity;
 
   while (true) {
     /*
@@ -280,6 +288,7 @@ export function* buildRequestWorkflowSaga(
     const currentExecutingActivity = computedWorkflow.activities.find(
       a => a.id === currentId
     );*/
+  /*
     if (
       !currentExecutingActivity ||
       !currentExecutingActivity.serviceProvider
@@ -328,6 +337,7 @@ export function* buildRequestWorkflowSaga(
 
   // Onced completed remove the active build request (Or move to a completed state / section).
   console.log(`Completed workflow ${computedWorkflow.id}`);
+  */
 }
 
 export function* factoryWatchAddActiveBuildRequestSaga() {

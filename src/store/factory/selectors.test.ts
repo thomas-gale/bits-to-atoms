@@ -17,6 +17,7 @@ import {
   factoryServiceProvidersSelector
 } from './selectors';
 import { createHumanWorker } from './services/humanworker/factories';
+import { createFFFPrinter } from './services/fffprinter/factories';
 
 // Initial State
 const testActivity1 = createTransportationActivity();
@@ -31,9 +32,10 @@ const testBuildRequest = createBuildRequest({
   workflow: testWorkflow
 });
 const testHumanServiceProvider = createHumanWorker();
+const testFFFPrinterServiceProvider = createFFFPrinter();
 const startingFactory = createFactory({
   buildRequests: [testBuildRequest],
-  serviceProviders: [testHumanServiceProvider]
+  serviceProviders: [testHumanServiceProvider, testFFFPrinterServiceProvider]
 });
 const baseStoreInitialState = {
   factory: normalize(startingFactory, factorySchema)

@@ -49,6 +49,8 @@ function Factory(props: Props) {
 
   const [cursorPostion, setCursorPosition] = useState(new Vector3(0, 0, 0));
 
+  console.log(servicesProviders);
+
   return (
     <ReactReduxContext.Consumer>
       {({ store }) => (

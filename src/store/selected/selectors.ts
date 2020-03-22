@@ -3,7 +3,7 @@ import { BuildRequest } from '../buildrequest/types';
 import { Cuboid, Quaternion, Vector3 } from '../common/primitive/types';
 import { Entity } from '../factory/entity/types';
 import {
-  factoryActiveBuildRequestsSelector,
+  factoryBuildRequestsSelector,
   factoryServiceProvidersSelector
 } from '../factory/selectors';
 import { ServiceProvider } from '../factory/services/types';
@@ -23,13 +23,13 @@ export const primaryFocusBuildRequestIdSelector = createSelector(
 );
 
 export const primaryFocusBuildRequestSelector = createSelector(
-  [factoryActiveBuildRequestsSelector, primaryFocusBuildRequestIdSelector],
+  [factoryBuildRequestsSelector, primaryFocusBuildRequestIdSelector],
   (
-    factoryActiveBuildRequests: BuildRequest[],
+    factoryBuildRequests: BuildRequest[],
     primaryFocusBuildRequestId: string | undefined
   ): BuildRequest | undefined => {
     if (!primaryFocusBuildRequestId) return undefined;
-    return factoryActiveBuildRequests.find(
+    return factoryBuildRequests.find(
       br => br.id === primaryFocusBuildRequestId
     );
   }
@@ -52,15 +52,10 @@ export const primaryFocusBuildRequestOrderedActivitiesSelector = createSelector(
   ): Activity[] | undefined => {
     if (!primaryFocusBuildRequestWorkflow) return undefined;
     const orderedActivities: Activity[] = [];
-    let currentActivityId = primaryFocusBuildRequestWorkflow.firstActivityId;
-    while (currentActivityId) {
-      const activityUuid = currentActivityId;
-      const activity = primaryFocusBuildRequestWorkflow.activities.find(
-        a => a.id === activityUuid
-      );
-      if (!activity) break;
-      orderedActivities.push(activity);
-      currentActivityId = activity.nextActivityId;
+    let currentActivity = primaryFocusBuildRequestWorkflow.firstActivity;
+    while (currentActivity) {
+      orderedActivities.push(currentActivity);
+      currentActivity = currentActivity.nextActivity;
     }
     return orderedActivities;
   }

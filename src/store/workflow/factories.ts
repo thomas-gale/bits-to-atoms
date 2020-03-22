@@ -10,15 +10,16 @@ import {
   TransportationActivity,
   Workflow
 } from './types';
+import { ServiceProvider } from '../factory/services/types';
 
 export function createTransportationActivity({
   id = createUuid(),
   displayName = 'default-transportation-activity',
-  serviceProvider = undefined,
+  serviceProvider = undefined as ServiceProvider | undefined,
   started = undefined,
   completed = undefined,
-  previousActivity = undefined,
-  nextActivity = undefined,
+  previousActivity = undefined as Activity | undefined,
+  nextActivity = undefined as Activity | undefined,
   startLocation = createVector3(),
   endLocation = createVector3()
 } = {}): TransportationActivity {
@@ -39,11 +40,11 @@ export function createTransportationActivity({
 export function createTransmutationActivity({
   id = createUuid(),
   displayName = 'default-transmutation-activity',
-  serviceProviderId = undefined as string | undefined,
+  serviceProvider = undefined as ServiceProvider | undefined,
   started = undefined as Date | undefined,
   completed = undefined as Date | undefined,
-  previousActivityId = undefined as string | undefined,
-  nextActivityId = undefined as string | undefined,
+  previousActivity = undefined as Activity | undefined,
+  nextActivity = undefined as Activity | undefined,
   material = MaterialType.SimplePolymer,
   startState = undefined as TransmutationState | undefined,
   endState = undefined as TransmutationState | undefined
@@ -52,11 +53,11 @@ export function createTransmutationActivity({
     type: ActivityType.Transmutation,
     id,
     displayName,
-    serviceProviderId,
+    serviceProvider,
     started,
     completed,
-    previousActivityId,
-    nextActivityId,
+    previousActivity,
+    nextActivity,
     material,
     startState,
     endState
@@ -66,22 +67,22 @@ export function createTransmutationActivity({
 export function createStorageActivity({
   id = createUuid(),
   displayName = 'default-storage-activity',
-  serviceProviderId = undefined,
+  serviceProvider = undefined as ServiceProvider | undefined,
   started = undefined,
   completed = undefined,
-  previousActivityId = undefined,
-  nextActivityId = undefined,
+  previousActivity = undefined as Activity | undefined,
+  nextActivity = undefined as Activity | undefined,
   location = createVector3()
 } = {}): StorageActivity {
   return {
     type: ActivityType.Storage,
     id,
     displayName,
-    serviceProviderId,
+    serviceProvider,
     started,
     completed,
-    previousActivityId,
-    nextActivityId,
+    previousActivity,
+    nextActivity,
     location
   };
 }

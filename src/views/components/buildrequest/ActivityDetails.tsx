@@ -65,8 +65,8 @@ function ActivityDetails(props: Props) {
       </Typography>
       <Typography color="textSecondary">
         Assigned Service Provider:{' '}
-        {activity.serviceProviderId
-          ? activity.serviceProviderId
+        {activity.serviceProvider
+          ? activity.serviceProvider
           : 'Not assigned to service provider...'}
       </Typography>
     </Card>

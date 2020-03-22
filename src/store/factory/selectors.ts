@@ -1,78 +1,54 @@
+import { denormalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import { RootState } from '../index';
-import { Factory } from './types';
+import { config } from '../../env/config';
+import { BuildRequest } from '../buildrequest/types';
+import { Identity } from '../common/identity/types';
+import { createLiquidAsset } from '../economic/factories';
 import { EconomicSummary, LiquidAsset } from '../economic/types';
+import { RootState } from '../index';
+import { ActivityType } from '../workflow/types';
+import { factorySchema, FactorySchemaType } from './schemas';
 import {
   ServiceProvider,
   TransmutationServiceProvider
 } from './services/types';
-import { createLiquidAsset } from '../economic/factories';
-import { BuildRequest } from '../buildrequest/types';
-import { config } from '../../env/config';
-import { ActivityType, Activity } from '../workflow/types';
-import { denormalize } from 'normalizr';
-import { factorySchema } from './schemas';
 
-export const factorySelector = (state: RootState) =>
-  denormalize(state.factory.result, factorySchema, state.factory.entities);
+export const factorySelector = (state: RootState): FactorySchemaType =>
+  state.factory;
 
-export const factoryActiveBuildRequestsSelector = createSelector(
+export const factoryIdentitySelector = createSelector(
   [factorySelector],
-  (factory: Factory): BuildRequest[] => {
-    // Denormalise factory build requests.
-    return factory.buildRequests;
+  (factory: FactorySchemaType) => factory.result as Identity
+);
+
+export const factoryLiquidAssetSelector = createSelector(
+  [factorySelector],
+  (factory: FactorySchemaType): LiquidAsset => {
+    return denormalize(
+      {
+        liquidAsset: factory.result.liquidAsset
+      },
+      factorySchema,
+      factory.entities
+    ) as LiquidAsset;
   }
 );
 
-/**
- * Flatten the activity structure into a single array of activities inside all of the
- * Active Build Requests of the factory.
- */
-export const factoryActivitiesSelector = createSelector(
-  [factoryActiveBuildRequestsSelector],
-  (buildRequests: BuildRequest[]): Activity[] => {
-    const activities = [] as Activity[];
-    for (const buildRequest of buildRequests) {
-      if (buildRequest.workflow) {
-        for (const activity of buildRequest.workflow.activities) {
-          activities.push(activity);
-        }
-      }
-    }
-    return activities;
-  }
-);
-
-export const factoryIncompleteActivitiesSelector = createSelector(
-  [factoryActivitiesSelector],
-  (activities: Activity[]): Activity[] =>
-    activities.filter(activity => !activity.completed)
-);
-
-export const factoryUnassignedActivitiesSelector = createSelector(
-  [factoryActivitiesSelector],
-  (activities: Activity[]): Activity[] =>
-    activities.filter(activity => !activity.serviceProviderId)
-);
-
-export const factoryUnAllocatedActivitiesSelector = createSelector(
-  [factoryActiveBuildRequestsSelector],
-  (activeBuildRequests: BuildRequest[]): Activity[] => {
-    // Loop over active build request and each workflow.
-    const unAllocatedActivities = [] as Activity[];
-    activeBuildRequests.forEach(activeBuildRequest => {
-      activeBuildRequest.workflow?.activities.forEach(activity => {
-        if (activity.serviceProviderId === undefined) {
-          unAllocatedActivities.push(activity);
-        }
-      });
-    });
-    return unAllocatedActivities;
+export const factoryBuildRequestsSelector = createSelector(
+  [factorySelector],
+  (factory: FactorySchemaType): BuildRequest[] => {
+    return denormalize(
+      {
+        buildrequests: [...factory.result.buildRequests]
+      },
+      factorySchema,
+      factory.entities
+    ) as BuildRequest[];
   }
 );
 
 export const isAllowedToBidSelector = createSelector(
-  [factoryActiveBuildRequestsSelector],
+  [factoryBuildRequestsSelector],
   (factoryActiveBuildRequests: BuildRequest[]) => {
     return (
       factoryActiveBuildRequests.length < config.factory.maxNumberActiveBuilds
@@ -80,17 +56,16 @@ export const isAllowedToBidSelector = createSelector(
   }
 );
 
-export const factoryLiquidAssetSelector = createSelector(
-  [factorySelector],
-  (factory: Factory): LiquidAsset => {
-    return factory.liquidAsset;
-  }
-);
-
 export const factoryServiceProvidersSelector = createSelector(
   [factorySelector],
-  (factory: Factory): ServiceProvider[] => {
-    return factory.serviceProviders;
+  (factory: FactorySchemaType): ServiceProvider[] => {
+    return denormalize(
+      {
+        serviceProviders: [...factory.result.serviceProviders]
+      },
+      factorySchema,
+      factory.entities
+    ) as ServiceProvider[];
   }
 );
 
@@ -148,3 +123,43 @@ export const factoryEconomicSummarySelector = createSelector(
     };
   }
 );
+
+/*
+export const factoryActivitiesSelector = createSelector(
+  [factorySelector],
+  (factory: FactorySchemaType): Activity[] => {
+    return denormalize({
+      buildrequests: [...factory.result.buildRequests]
+    },
+    factorySchema,
+    factory.entities
+    ) as Activity[]
+  });
+
+export const factoryIncompleteActivitiesSelector = createSelector(
+  [factoryActivitiesSelector],
+  (activities: Activity[]): Activity[] =>
+    activities.filter(activity => !activity.completed)
+);
+
+export const factoryUnassignedActivitiesSelector = createSelector(
+  [factoryActivitiesSelector],
+  (activities: Activity[]): Activity[] =>
+    activities.filter(activity => !activity.serviceProviderId)
+);
+
+export const factoryUnAllocatedActivitiesSelector = createSelector(
+  [factoryActiveBuildRequestsSelector],
+  (activeBuildRequests: BuildRequest[]): Activity[] => {
+    // Loop over active build request and each workflow.
+    const unAllocatedActivities = [] as Activity[];
+    activeBuildRequests.forEach(activeBuildRequest => {
+      activeBuildRequest.workflow?.activities.forEach(activity => {
+        if (activity.serviceProviderId === undefined) {
+          unAllocatedActivities.push(activity);
+        }
+      });
+    });
+    return unAllocatedActivities;
+  }
+);*/

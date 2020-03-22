@@ -17,8 +17,7 @@ import {
 } from '../workflow/types';
 import {
   currentServiceProviderCostPerTimeSelector,
-  factoryLiquidAssetSelector,
-  factoryServiceProvidersSelector
+  factoryLiquidAssetSelector
 } from './selectors';
 import {
   createBasicShapeTransmutationState,
@@ -145,8 +144,8 @@ function* buildRequestWorkflowSaga(
     serviceProvider: ServiceProvider;
     activity: Activity;
   }>;
-  currentTransmutationActivity.serviceProviderId =
-    dispatchOfferServiceProvider.payload.serviceProvider.id;
+  currentTransmutationActivity.serviceProvider =
+    dispatchOfferServiceProvider.payload.serviceProvider;
   computedWorkflow.activities.push(currentTransmutationActivity);
   previousTransmutationActivity = currentTransmutationActivity;
 
@@ -173,11 +172,9 @@ function* buildRequestWorkflowSaga(
       return;
     }
 
-    currentTransmutationActivity.serviceProviderId = proposedServiceProvider.id;
-    currentTransmutationActivity.nextActivityId =
-      previousTransmutationActivity.id;
-    previousTransmutationActivity.previousActivityId =
-      currentTransmutationActivity.id;
+    currentTransmutationActivity.serviceProvider = proposedServiceProvider;
+    currentTransmutationActivity.nextActivity = previousTransmutationActivity;
+    previousTransmutationActivity.previousActivity = currentTransmutationActivity;
     computedWorkflow.activities.push(currentTransmutationActivity);
 
     if (
@@ -196,14 +193,14 @@ function* buildRequestWorkflowSaga(
   }
 
   // 3. Finally assemble the Transportation step search
-  const serviceProviders = (yield select(
-    factoryServiceProvidersSelector
-  )) as ServiceProvider[];
+  //const serviceProviders = (yield select(
+  //  factoryServiceProvidersSelector
+  //)) as ServiceProvider[];
 
   // Current activity is the first activity.
-  while (currentTransmutationActivity.nextActivityId) {
-    const currentTransmutationActivityNextActivityId =
-      currentTransmutationActivity.nextActivityId;
+  while (currentTransmutationActivity.nextActivity) {
+    /*const currentTransmutationActivityNextActivity =
+      currentTransmutationActivity.nextActivity;
     const nextTransmutationActivity = computedWorkflow.activities.find(
       a => a.id === currentTransmutationActivityNextActivityId
     ) as TransmutationActivity;
@@ -212,18 +209,16 @@ function* buildRequestWorkflowSaga(
         'Next activity Id does not have associated activity in the computed workflow activities.'
       );
       break;
-    }
+    }*/
 
-    const currentTransmutationActivityServiceProviderId =
-      currentTransmutationActivity.serviceProviderId;
-    const startTransmutationServiceProvider = serviceProviders.find(
-      sp => sp.id === currentTransmutationActivityServiceProviderId
-    );
-    const nextTransmutationActivityServiceProviderId =
-      nextTransmutationActivity.serviceProviderId;
-    const endTransmutationServiceProvider = serviceProviders.find(
-      sp => sp.id === nextTransmutationActivityServiceProviderId
-    );
+    //const currentTransmutationActivityServiceProviderId =
+    //  currentTransmutationActivity.serviceProviderId;
+    const startTransmutationServiceProvider =
+      currentTransmutationActivity.serviceProvider;
+    //const nextTransmutationActivityServiceProviderId =
+    //  nextTransmutationActivity.serviceProviderId;
+    const endTransmutationServiceProvider =
+      currentTransmutationActivity.nextActivity.serviceProvider;
     if (
       !startTransmutationServiceProvider ||
       !endTransmutationServiceProvider
@@ -251,18 +246,16 @@ function* buildRequestWorkflowSaga(
       transportationFullfillmentOffer.payload.serviceProvider;
 
     // Update and insert the transport activity between the transmutation activities.
-    currentTransmutationActivity.nextActivityId = currentTransportActivity.id;
-    nextTransmutationActivity.previousActivityId =
-      currentTransmutationActivity.id;
+    currentTransmutationActivity.nextActivity = currentTransportActivity;
+    currentTransmutationActivity.nextActivity.previousActivity = currentTransmutationActivity; // CHECK
 
-    currentTransportActivity.serviceProviderId =
-      proposedTransportServiceProvider.id;
-    currentTransportActivity.previousActivityId =
-      currentTransmutationActivity.id;
-    currentTransportActivity.nextActivityId = nextTransmutationActivity.id;
+    currentTransportActivity.serviceProvider = proposedTransportServiceProvider;
+    currentTransportActivity.previousActivity = currentTransmutationActivity;
+    currentTransportActivity.nextActivity =
+      currentTransmutationActivity.nextActivity;
     computedWorkflow.activities.push(currentTransportActivity);
 
-    currentTransmutationActivity = nextTransmutationActivity;
+    currentTransmutationActivity = currentTransmutationActivity.nextActivity;
   }
 
   // Proposed workflow is now computed.
@@ -279,25 +272,26 @@ function* buildRequestWorkflowSaga(
 
   // Start and monitor workflow by accepting fullfillment of fist activity (at this point they should all have enough information to start).
   // Now we manage the execution of the sequential workflow activities.
-  const currentExecutingActivity = computedWorkflow.firstActivity;
+  let currentExecutingActivity = computedWorkflow.firstActivity as Activity;
 
   while (true) {
+    /*
     const currentId = currentExecutingActivityId;
     const currentExecutingActivity = computedWorkflow.activities.find(
       a => a.id === currentId
-    );
+    );*/
     if (
       !currentExecutingActivity ||
-      !currentExecutingActivity.serviceProviderId
+      !currentExecutingActivity.serviceProvider
     ) {
       console.error(
         'Unabled to find current executing activity in computed workflow or the activitiy service provider is undefined'
       );
       break;
     }
-    const currentExecutingServiceProvider = serviceProviders.find(
-      sp => sp.id === currentExecutingActivity.serviceProviderId
-    );
+
+    const currentExecutingServiceProvider =
+      currentExecutingActivity.serviceProvider;
     if (!currentExecutingServiceProvider) {
       console.error(
         'Unabled to find current executing activities service provider'
@@ -325,8 +319,8 @@ function* buildRequestWorkflowSaga(
     );
 
     // Get next activity or break, if we have reached the end.
-    if (!currentExecutingActivity.nextActivityId) break;
-    currentExecutingActivityId = currentExecutingActivity.nextActivityId;
+    if (!currentExecutingActivity.nextActivity) break;
+    currentExecutingActivity = currentExecutingActivity.nextActivity;
   }
 
   // Onced completed remove the active build request (Or move to a completed state / section).

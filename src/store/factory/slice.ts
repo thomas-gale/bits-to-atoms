@@ -83,10 +83,7 @@ const factorySlice = createSlice({
       // From the primary factory saga to confirm that the service provider can go ahead and begin excution.
     },
     updateActivity(state, action: PayloadAction<Activity>) {
-      const normalizedActivity = normalize(
-        action.payload,
-        activitySchema
-      );
+      const normalizedActivity = normalize(action.payload, activitySchema);
       state.entities = {
         ...state.entities,
         ...normalizedActivity.entities

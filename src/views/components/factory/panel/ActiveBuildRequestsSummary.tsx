@@ -5,7 +5,7 @@ import { config } from '../../../../env/config';
 import { RootState, RootDispatch } from '../../../../store';
 import { setSelectedPrimaryFocusBuildRequest } from '../../../../store/selected/slice';
 import {
-  factoryActiveBuildRequestsSelector,
+  factoryBuildRequestsSelector,
   isAllowedToBidSelector
 } from '../../../../store/factory/selectors';
 
@@ -14,7 +14,7 @@ import { Button, Card, Typography, CardContent } from '@material-ui/core';
 
 function mapState(state: RootState) {
   return {
-    activeBuildRequests: factoryActiveBuildRequestsSelector(state),
+    buildRequests: factoryBuildRequestsSelector(state),
     isAllowedToBid: isAllowedToBidSelector(state)
   };
 }
@@ -47,7 +47,7 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
   const classes = useStyles();
 
   const {
-    activeBuildRequests,
+    buildRequests: activeBuildRequests,
     isAllowedToBid,
     onActiveBuildRequestSelected
   } = props;

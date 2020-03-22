@@ -18,7 +18,12 @@ export const factorySelector = (state: RootState): FactorySchemaType =>
 
 export const factoryIdentitySelector = createSelector(
   [factorySelector],
-  (factory: FactorySchemaType) => factory.result as Identity
+  (factory: FactorySchemaType) => {
+    return {
+      id: factory.result.id,
+      displayName: factory.result.displayName
+    } as Identity;
+  }
 );
 
 export const factoryLiquidAssetSelector = createSelector(

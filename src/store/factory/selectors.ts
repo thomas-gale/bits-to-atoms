@@ -35,7 +35,7 @@ export const factoryLiquidAssetSelector = createSelector(
       },
       factorySchema,
       factory.entities
-    ) as LiquidAsset;
+    ).liquidAsset as LiquidAsset;
   }
 );
 
@@ -44,11 +44,11 @@ export const factoryBuildRequestsSelector = createSelector(
   (factory: FactorySchemaType): BuildRequest[] => {
     return denormalize(
       {
-        buildrequests: [...factory.result.buildRequests]
+        buildRequests: [...factory.result.buildRequests]
       },
       factorySchema,
       factory.entities
-    ) as BuildRequest[];
+    ).buildRequests as BuildRequest[];
   }
 );
 

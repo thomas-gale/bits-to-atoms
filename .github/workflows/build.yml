@@ -19,6 +19,9 @@ jobs:
     - name: Resolve Dependencies
       run: yarn
 
+    - name: Run Tests
+      run: yarn test
+
     - name: Build
       run: yarn build
 

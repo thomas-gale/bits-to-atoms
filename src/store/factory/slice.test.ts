@@ -122,7 +122,10 @@ describe('factory slice', () => {
         },
         buildRequests: {
           ...initialState.entities.buildRequests,
-          [buildRequest.id]: buildRequest
+          [buildRequest.id]: {
+            ...buildRequest,
+            workflow: testWorkflow.id
+          }
         },
         workflows: {
           ...initialState.entities.workflows,

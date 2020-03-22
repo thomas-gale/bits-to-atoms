@@ -54,7 +54,9 @@ const factorySlice = createSlice({
         buildRequests: {
           ...state.entities.buildRequests,
           [action.payload.buildRequestId]: {
-            ...(state.entities.buildRequests ? state.entities.buildRequests[action.payload.buildRequestId] : {}),
+            ...(state.entities.buildRequests
+              ? state.entities.buildRequests[action.payload.buildRequestId]
+              : {}),
             workflow: action.payload.workflow.id
           }
         },

@@ -1,41 +1,78 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Identity } from '../common/identity/types';
-import { createFactory } from './factories';
-import { Parameter } from '../common/parameter/types';
+import { normalize } from 'normalizr';
 import { BuildRequest } from '../buildrequest/types';
-import { LiquidAsset } from '../economic/types';
-import { Workflow, Activity } from '../workflow/types';
+import { Parameter } from '../common/parameter/types';
+import { Activity, Workflow } from '../workflow/types';
+import { createFactory } from './factories';
+import { activitySchema, factorySchema, workflowSchema } from './schemas';
 import { ServiceProvider } from './services/types';
 
 const factorySlice = createSlice({
   name: 'factory',
-  initialState: createFactory(),
+  initialState: normalize(createFactory(), factorySchema),
   reducers: {
-    setIdentity(state, action: PayloadAction<Identity>) {
-      state.identity = action.payload;
+    setDisplayName(state, action: PayloadAction<string>) {
+      state.result.displayName = action.payload;
     },
-    setLiquidAsset(state, action: PayloadAction<LiquidAsset>) {
-      state.liquidAsset = action.payload;
+    setLiquidAssetDollars(state, action: PayloadAction<number>) {
+      state.entities = {
+        ...state.entities,
+        assets: {
+          ...state.entities.assets,
+          [state.result.liquidAsset]: {
+            ...(state.entities.assets
+              ? state.entities.assets[state.result.liquidAsset]
+              : {}),
+            dollars: action.payload
+          }
+        }
+      };
     },
-    addActiveBuildRequest(state, action: PayloadAction<BuildRequest>) {
-      state.activeBuildRequests.push(action.payload);
+    addBuildRequest(state, action: PayloadAction<BuildRequest>) {
+      state.entities = {
+        ...state.entities,
+        buildRequests: {
+          ...state.entities.buildRequests,
+          [action.payload.id]: action.payload
+        }
+      };
+      state.result = {
+        ...state.result,
+        buildRequests: [...state.result.buildRequests, action.payload.id]
+      };
     },
-    updateActiveBuildRequestWorkflow(
+    updateBuildRequestWorkflow(
       state,
-      action: PayloadAction<{ buildRequestId: Identity; workflow: Workflow }>
+      action: PayloadAction<{ buildRequestId: string; workflow: Workflow }>
     ) {
-      const activeBuildRequestIndex = state.activeBuildRequests.findIndex(
-        br => br.identity.uuid === action.payload.buildRequestId.uuid
+      const normalizedWorkflow = normalize(
+        action.payload.workflow,
+        workflowSchema
       );
-      if (activeBuildRequestIndex === -1) {
-        console.error(
-          `Unable to update active build request workflow, build request ${action.payload.buildRequestId} not found`
-        );
-        return;
-      }
-
-      state.activeBuildRequests[activeBuildRequestIndex].workflow =
-        action.payload.workflow;
+      state.entities = {
+        ...state.entities,
+        buildRequests: {
+          ...state.entities.buildRequests,
+          [action.payload.buildRequestId]: {
+            ...(state.entities.buildRequests
+              ? state.entities.buildRequests[action.payload.buildRequestId]
+              : {}),
+            workflow: action.payload.workflow.id
+          }
+        },
+        activities: {
+          ...state.entities.activities,
+          ...normalizedWorkflow.entities.activities
+        },
+        serviceProviders: {
+          ...state.entities.serviceProviders,
+          ...normalizedWorkflow.entities.serviceProviders
+        },
+        workflows: {
+          ...state.entities.workflows,
+          ...normalizedWorkflow.entities.workflows
+        }
+      };
     },
     requestFullfillmentOfActivity(_state, _action: PayloadAction<Activity>) {
       // This action is to be picked up by middlewear saga for processing.
@@ -64,99 +101,73 @@ const factorySlice = createSlice({
       // This is trigged by the third step in the Factory build request execution workflow
       // From the primary factory saga to confirm that the service provider can go ahead and begin excution.
     },
-    updateActiveBuildRequestActivity(
-      state,
-      action: PayloadAction<{ buildRequestId: Identity; activity: Activity }>
-    ) {
-      const activeBuildRequestIndex = state.activeBuildRequests.findIndex(
-        br => br.identity.uuid === action.payload.buildRequestId.uuid
-      );
-      if (activeBuildRequestIndex === -1) {
-        console.error(
-          `Unable to update active build request activity, build request ${action.payload.buildRequestId} not found`
-        );
-        return;
-      }
-
-      const currentWorkflow =
-        state.activeBuildRequests[activeBuildRequestIndex].workflow;
-
-      if (!currentWorkflow) {
-        console.error(
-          `Unable to update active build request (${action.payload.buildRequestId}) activity, build request workflow undefined`
-        );
-        return;
-      }
-
-      const activeBuildRequestActivityIndex = currentWorkflow.activities.findIndex(
-        a => a.identity.uuid === action.payload.activity.identity.uuid
-      );
-
-      if (!currentWorkflow.activities[activeBuildRequestActivityIndex]) {
-        console.error(
-          `Unable to update active build request (${action.payload.buildRequestId}) activity, the workflow activity ${action.payload.activity.identity.uuid} not found`
-        );
-        return;
-      }
-
-      // Successfully update the activity.
-      currentWorkflow.activities[activeBuildRequestActivityIndex] =
-        action.payload.activity;
+    updateActivity(state, action: PayloadAction<Activity>) {
+      const normalizedActivity = normalize(action.payload, activitySchema);
+      state.entities = {
+        ...state.entities,
+        ...normalizedActivity.entities
+      };
     },
-    removeActiveBuildRequest(state, action: PayloadAction<Identity>) {
-      const indexToRemove = state.activeBuildRequests.findIndex(
-        br => br.identity.uuid === action.payload.uuid
-      );
-      if (indexToRemove === -1) {
-        console.error(
-          `Unable to remove active build request ${action.payload.uuid}`
-        );
-        return; // Don't do anything if we can't find that element
-      }
-      state.activeBuildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.
+    removeBuildRequest(_state, _action: PayloadAction<string>) {
+      console.error('Not Implemented');
     },
     setServiceProviderParameter(
       state,
       action: PayloadAction<{
-        serviceProviderId: Identity;
+        serviceProviderId: string;
         serviceProviderProperty: string[];
         parameter: Parameter;
       }>
     ) {
-      // Get the associated service provider from the application state.
-      const serviceProvider = state.serviceProviders.find(
-        sp => sp.id.uuid === action.payload.serviceProviderId.uuid
-      );
-      if (!serviceProvider) return;
+      if (
+        state.entities.serviceProviders &&
+        action.payload.serviceProviderId in state.entities.serviceProviders
+      ) {
+        //state.entities.activities[action.payload.id] = action.payload;
 
-      // Make assumption that serviceProviderProperty are 1 or 2 layers deep.
-      // TODO: Replace this with a recursive structure.
-      if (action.payload.serviceProviderProperty.length === 1) {
-        serviceProvider[action.payload.serviceProviderProperty[0]] =
-          action.payload.parameter.value;
-      } else if (action.payload.serviceProviderProperty.length === 2) {
-        serviceProvider[action.payload.serviceProviderProperty[0]][
-          action.payload.serviceProviderProperty[1]
-        ] = action.payload.parameter.value;
+        const serviceProvider =
+          state.entities.serviceProviders[action.payload.serviceProviderId];
+
+        // Make assumption that serviceProviderProperty are 1 or 2 layers deep.
+        // TODO: Replace this with a recursive structure.
+        if (action.payload.serviceProviderProperty.length === 1) {
+          serviceProvider[action.payload.serviceProviderProperty[0]] =
+            action.payload.parameter.value;
+        } else if (action.payload.serviceProviderProperty.length === 2) {
+          serviceProvider[action.payload.serviceProviderProperty[0]][
+            action.payload.serviceProviderProperty[1]
+          ] = action.payload.parameter.value;
+        } else {
+          console.error(
+            'Unable to setServiceProviderParameter (serviceProviderProperty array unexpected depth)'
+          );
+        }
       } else {
         console.error(
-          'Unable to setServiceProviderParameter (serviceProviderProperty array unexpected depth)'
+          `Unable to update service provider parameter, service provider ${action.payload.serviceProviderId} not found`
         );
       }
+      /*
+
+      // Get the associated service provider from the application state.
+      const serviceProvider = state.entities.serviceProviders.find(
+        sp => sp.id === action.payload.serviceProviderId
+      );
+      if (!serviceProvider) return;*/
     }
   }
 });
 
 export const {
-  setIdentity,
-  setLiquidAsset,
-  addActiveBuildRequest,
-  updateActiveBuildRequestWorkflow,
+  setDisplayName,
+  setLiquidAssetDollars,
+  addBuildRequest,
+  updateBuildRequestWorkflow,
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity,
   acceptFullfillmentOfActivity,
-  updateActiveBuildRequestActivity,
-  removeActiveBuildRequest,
+  updateActivity,
+  removeBuildRequest,
   setServiceProviderParameter
 } = factorySlice.actions;
 

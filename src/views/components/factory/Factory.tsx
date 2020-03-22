@@ -66,7 +66,7 @@ function Factory(props: Props) {
             {servicesProviders.map(servicesProvider => {
               return (
                 <ServiceProvider
-                  key={servicesProvider.id.uuid}
+                  key={servicesProvider.id}
                   serviceProvider={servicesProvider}
                 />
               );

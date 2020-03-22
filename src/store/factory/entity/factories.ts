@@ -1,19 +1,21 @@
-import { Entity } from './types';
-import { createNewIdentity } from '../../common/identity/factories';
+import { createUuid } from '../../common/identity/factories';
 import {
-  createVector3,
+  createCuboid,
   createQuaternion,
-  createCuboid
+  createVector3
 } from '../../common/primitive/factories';
+import { Entity } from './types';
 
 export function createEntity({
-  id = createNewIdentity({ displayName: 'default-entity' }),
+  id = createUuid(),
+  displayName = 'default-entity',
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid()
 } = {}): Entity {
   return {
     id,
+    displayName,
     location,
     orientation,
     bounds

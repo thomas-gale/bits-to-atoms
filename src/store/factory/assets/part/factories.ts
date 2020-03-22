@@ -1,14 +1,15 @@
-import { OutputComponent } from './types';
-import { createNewIdentity } from '../../../common/identity/factories';
+import { createUuid } from '../../../common/identity/factories';
 import {
-  createVector3,
+  createCuboid,
   createQuaternion,
-  createCuboid
+  createVector3
 } from '../../../common/primitive/factories';
 import { FixedAssetType } from '../../../economic/types';
+import { OutputComponent } from './types';
 
 export function createOutputComponent({
-  id = createNewIdentity({ displayName: 'default-output-component' }),
+  id = createUuid(),
+  displayName = 'default-output-component',
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid(),
@@ -19,6 +20,7 @@ export function createOutputComponent({
   return {
     type: FixedAssetType.OutputComponent,
     id,
+    displayName,
     location,
     orientation,
     bounds,

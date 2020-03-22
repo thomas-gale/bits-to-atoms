@@ -44,9 +44,9 @@ function ActivityDetails(props: Props) {
       <Typography className={classes.title} color="textSecondary" gutterBottom>
         Activity
       </Typography>
-      <Typography>{activity.identity.displayName}</Typography>
+      <Typography>{activity.displayName}</Typography>
       <Typography className={classes.subTitle} color="textSecondary">
-        {activity.identity.uuid}
+        {activity.id}
       </Typography>
       <Typography color="textSecondary">
         Type: {activity.type.toString()}
@@ -65,8 +65,8 @@ function ActivityDetails(props: Props) {
       </Typography>
       <Typography color="textSecondary">
         Assigned Service Provider:{' '}
-        {activity.serviceProviderId
-          ? activity.serviceProviderId.displayName
+        {activity.serviceProvider
+          ? activity.serviceProvider.displayName
           : 'Not assigned to service provider...'}
       </Typography>
     </Card>

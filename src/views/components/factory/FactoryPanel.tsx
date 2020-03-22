@@ -1,25 +1,23 @@
-import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-
-import { RootState, RootDispatch } from '../../../store';
-import { setMarketFactoryPanelVisibilty } from '../../../store/selected/slice';
-import { factorySelector } from '../../../store/factory/selectors';
-
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
   Card,
-  Typography,
+  CardActions,
   CardContent,
-  CardActions
+  Typography
 } from '@material-ui/core';
-import FactoryEconomicSummary from './panel/FactoryEconomicSummary';
-import ActiveBuildRequestsSummary from './panel/ActiveBuildRequestsSummary';
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { RootDispatch, RootState } from '../../../store';
+import { factoryIdentitySelector } from '../../../store/factory/selectors';
+import { setMarketFactoryPanelVisibilty } from '../../../store/selected/slice';
 import { MarketFactoryPanelVisibilty } from '../../../store/selected/types';
+import ActiveBuildRequestsSummary from './panel/ActiveBuildRequestsSummary';
+import FactoryEconomicSummary from './panel/FactoryEconomicSummary';
 
 function mapState(state: RootState) {
   return {
-    factory: factorySelector(state)
+    factoryIdentity: factoryIdentitySelector(state)
   };
 }
 
@@ -55,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 function FactoryPanel(props: Props): JSX.Element {
   const classes = useStyles();
 
-  const { factory, onCloseClicked } = props;
+  const { factoryIdentity, onCloseClicked } = props;
 
   return (
     <Card className={classes.container}>
@@ -68,10 +66,10 @@ function FactoryPanel(props: Props): JSX.Element {
           Factory Overview
         </Typography>
         <Typography variant="h5" component="h2">
-          {factory.identity.displayName}
+          {factoryIdentity.displayName}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {factory.identity.uuid}
+          {factoryIdentity.id}
         </Typography>
         <FactoryEconomicSummary />
         <ActiveBuildRequestsSummary />

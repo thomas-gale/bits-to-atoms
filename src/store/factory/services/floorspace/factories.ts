@@ -1,19 +1,20 @@
-import { createNewIdentity } from '../../../common/identity/factories';
+import { createUuid } from '../../../common/identity/factories';
 import {
-  createVector3,
+  createCuboid,
   createQuaternion,
-  createCuboid
+  createVector3
 } from '../../../common/primitive/factories';
-import { ServiceType } from '../types';
-import { FloorSpace } from './types';
 import { createLiquidAsset } from '../../../economic/factories';
 import { ActivityType } from '../../../workflow/types';
+import { ServiceType } from '../types';
+import { FloorSpace } from './types';
 
 export const createFloorSpace = ({
+  id = createUuid(),
+  displayName = 'default-floorspace',
   capabilities = [ActivityType.Storage],
   canBid = true,
   currentActivity = undefined,
-  id = createNewIdentity({ displayName: 'default-floorspace' }),
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid({
@@ -24,10 +25,11 @@ export const createFloorSpace = ({
 } = {}): FloorSpace => {
   return {
     type: ServiceType.Floorspace,
+    id,
+    displayName,
     capabilities,
     canBid,
     currentActivity,
-    id,
     location,
     orientation,
     bounds,

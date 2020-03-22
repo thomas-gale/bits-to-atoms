@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
 function BuildRequestElement(props: Props) {
   const classes = useStyles();
   const { isAllowedToBid, onBidClicked } = props;
-  const { identity, created, fixedValue } = props.buildRequest;
+  const { id, displayName, created, fixedValue } = props.buildRequest;
 
   return (
     <Card className={classes.root}>
@@ -57,10 +57,10 @@ function BuildRequestElement(props: Props) {
         Build Request
       </Typography>
       <Typography variant="h5" component="h2">
-        {identity.displayName}
+        {displayName}
       </Typography>
       <Typography className={classes.subTitle} color="textSecondary">
-        {identity.uuid}
+        {id}
       </Typography>
       <Typography color="textSecondary">
         Created: {created.toLocaleTimeString()}

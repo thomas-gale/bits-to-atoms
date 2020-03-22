@@ -3,9 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 
 import { RootState, RootDispatch } from '../../../../../store';
-import { Identity } from '../../../../../store/common/identity/types';
 import { ReduxFormParameterUpdate } from '../../../../../store/selected/types';
-import { createExistingIdentity } from '../../../../../store/common/identity/factories';
 import { createNumberParameter } from '../../../../../store/common/parameter/factories';
 import {
   selectedServiceProviderSelector,
@@ -31,7 +29,7 @@ function mapState(state: RootState) {
 function mapDispatch(dispatch: RootDispatch) {
   return {
     onNumberParameterChange: (
-      selectedServiceProviderId: Identity,
+      selectedServiceProviderId: string,
       serviceProviderProperty: string[],
       parameterUpdate: ReduxFormParameterUpdate,
       units: string
@@ -44,10 +42,8 @@ function mapDispatch(dispatch: RootDispatch) {
           serviceProviderId: selectedServiceProviderId,
           serviceProviderProperty,
           parameter: createNumberParameter({
-            identity: createExistingIdentity({
-              displayName: parameterUpdate.target.name,
-              uuid: parameterUpdate.target.name
-            }),
+            id: parameterUpdate.target.name,
+            displayName: parameterUpdate.target.name,
             units: units,
             value: Number(parameterUpdate.target.value)
           })

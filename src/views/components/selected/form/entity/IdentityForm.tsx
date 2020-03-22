@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../../../../store';
-import { selectedServiceProviderIdSelector } from '../../../../../store/selected/selectors';
+import { selectedServiceProviderSelector } from '../../../../../store/selected/selectors';
 
 import { Typography, makeStyles } from '@material-ui/core';
 
 function mapState(state: RootState) {
   return {
-    selectedId: selectedServiceProviderIdSelector(state)
+    selected: selectedServiceProviderSelector(state)
   };
 }
 
@@ -22,16 +22,16 @@ const useStyles = makeStyles(_ => ({
 }));
 
 function IdentityForm(props: Props) {
-  const { selectedId } = props;
+  const { selected } = props;
   const classes = useStyles();
-  if (!selectedId) return null;
+  if (!selected) return null;
   return (
     <div>
       <Typography variant="h5" component="h2">
-        {selectedId.displayName}
+        {selected.displayName}
       </Typography>
       <Typography className={classes.pos} color="textSecondary">
-        {selectedId.uuid}
+        {selected.id}
       </Typography>
     </div>
   );

@@ -1,26 +1,26 @@
+import { createUuid } from '../../../common/identity/factories';
+import {
+  createCuboid,
+  createQuaternion,
+  createVector3
+} from '../../../common/primitive/factories';
+import { BasicShape } from '../../../common/topology/types';
+import { createLiquidAsset } from '../../../economic/factories';
 import { MaterialType } from '../../../material/types';
+import { ActivityType } from '../../../workflow/types';
+import {
+  createBasicShapeTransmutationState,
+  createTransmutationTransition
+} from '../factories';
 import { ServiceType } from '../types';
 import { FFFPrinter } from './types';
 
-import { createNewIdentity } from '../../../common/identity/factories';
-import {
-  createVector3,
-  createQuaternion,
-  createCuboid
-} from '../../../common/primitive/factories';
-import { createLiquidAsset } from '../../../economic/factories';
-import { BasicShape } from '../../../common/topology/types';
-import { ActivityType } from '../../../workflow/types';
-import {
-  createTransmutationTransition,
-  createBasicShapeTransmutationState
-} from '../factories';
-
 export function createFFFPrinter({
+  id = createUuid(),
+  displayName = 'default-fff-printer',
   capabilities = [ActivityType.Transmutation],
   canBid = true,
   currentActivity = undefined,
-  id = createNewIdentity({ displayName: 'default-fff-printer' }),
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid({
@@ -45,10 +45,11 @@ export function createFFFPrinter({
 } = {}): FFFPrinter {
   return {
     type: ServiceType.FFFPrinter,
+    id,
+    displayName,
     capabilities,
     canBid,
     currentActivity,
-    id,
     location,
     orientation,
     bounds,

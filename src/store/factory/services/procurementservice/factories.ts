@@ -1,27 +1,27 @@
+import { createUuid } from '../../../common/identity/factories';
+import {
+  createCuboid,
+  createQuaternion,
+  createVector3
+} from '../../../common/primitive/factories';
+import { BasicShape } from '../../../common/topology/types';
+import { createLiquidAsset } from '../../../economic/factories';
+import { MaterialType } from '../../../material/types';
+import { ActivityType } from '../../../workflow/types';
+import {
+  createBasicShapeTransmutationState,
+  createLiquidAssetTransmutationState,
+  createTransmutationTransition
+} from '../factories';
 import { ServiceType } from '../types';
 import { ProcurementService } from './types';
-import { ActivityType } from '../../../workflow/types';
-import { BasicShape } from '../../../common/topology/types';
-import { MaterialType } from '../../../material/types';
-
-import { createNewIdentity } from '../../../common/identity/factories';
-import {
-  createVector3,
-  createQuaternion,
-  createCuboid
-} from '../../../common/primitive/factories';
-import { createLiquidAsset } from '../../../economic/factories';
-import {
-  createTransmutationTransition,
-  createBasicShapeTransmutationState,
-  createLiquidAssetTransmutationState
-} from '../factories';
 
 export function createProcurementService({
+  id = createUuid(),
+  displayName = 'default-procurement-service',
   capabilities = [ActivityType.Transmutation],
   canBid = true,
   currentActivity = undefined,
-  id = createNewIdentity({ displayName: 'default-dispatch-service' }),
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid(),
@@ -39,10 +39,11 @@ export function createProcurementService({
 } = {}): ProcurementService {
   return {
     type: ServiceType.Procurement,
+    id,
+    displayName,
     capabilities,
     canBid,
     currentActivity,
-    id,
     location,
     orientation,
     bounds,

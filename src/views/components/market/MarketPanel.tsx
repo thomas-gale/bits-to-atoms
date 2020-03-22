@@ -52,7 +52,7 @@ function MarketPanel(panelProps: Props): JSX.Element {
       y: (cumulativeHeight += elementHeight) - elementHeight,
       height: elementHeight
     })),
-    buildRequest => buildRequest.identity.uuid,
+    buildRequest => buildRequest.id,
     {
       from: { height: 0, opacity: 0 },
       leave: { height: 0, opacity: 0 },

@@ -1,6 +1,3 @@
-import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
   Box,
@@ -8,21 +5,23 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import BusinessIcon from '@material-ui/icons/Business';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import TimelineIcon from '@material-ui/icons/Timeline';
-import BusinessIcon from '@material-ui/icons/Business';
-
-import { RootState, RootDispatch } from '../../store';
+import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { config } from '../../env/config';
-import { MarketFactoryPanelVisibilty } from '../../store/selected/types';
-import { setMarketFactoryPanelVisibilty } from '../../store/selected/slice';
-import { factorySelector } from '../../store/factory/selectors';
+import { RootDispatch, RootState } from '../../store';
+import { factoryIdentitySelector } from '../../store/factory/selectors';
 import { marketFactoryPanelVisibiltySelector } from '../../store/selected/selectors';
+import { setMarketFactoryPanelVisibilty } from '../../store/selected/slice';
+import { MarketFactoryPanelVisibilty } from '../../store/selected/types';
 
 function mapState(state: RootState) {
   return {
     marketFactoryPanelVisibilty: marketFactoryPanelVisibiltySelector(state),
-    factory: factorySelector(state)
+    factoryIdentity: factoryIdentitySelector(state)
   };
 }
 
@@ -60,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 
 function TopNav(props: Props): JSX.Element {
   const classes = useStyles();
-  const { factory } = props;
+  const { factoryIdentity } = props;
 
   return (
     <Box className={classes.container}>
@@ -94,7 +93,7 @@ function TopNav(props: Props): JSX.Element {
           </IconButton>
 
           <Typography variant="h6" className={classes.title}>
-            {factory.identity.displayName} : {factory.identity.uuid}
+            {factoryIdentity.displayName} : {factoryIdentity.id}
           </Typography>
           <IconButton
             color="inherit"

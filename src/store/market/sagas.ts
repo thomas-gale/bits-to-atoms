@@ -1,23 +1,18 @@
-import { delay, put, select, takeEvery } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-
+import { delay, put, select, takeEvery } from 'redux-saga/effects';
 import { config } from '../../env/config';
-import { BuildRequest } from '../buildrequest/types';
-
-import { createNewIdentity } from '../common/identity/factories';
-import { createSimplePolymerMaterial } from '../material/factories';
-import { createLiquidAsset } from '../economic/factories';
 import { createBuildRequest } from '../buildrequest/factories';
-
-import { buildRequestsSelector } from './selectors';
+import { BuildRequest } from '../buildrequest/types';
+import { createLiquidAsset } from '../economic/factories';
 import { isAllowedToBidSelector } from '../factory/selectors';
-
+import { addBuildRequest as addBuildRequestToFactory } from '../factory/slice';
+import { createSimplePolymerMaterial } from '../material/factories';
+import { buildRequestsSelector } from './selectors';
 import {
-  requestBidBuildRequest,
-  addBuildRequest,
-  removeBuildRequest
+  addBuildRequest as addBuildRequestToMarket,
+  removeBuildRequest,
+  requestBidBuildRequest
 } from './slice';
-import { addActiveBuildRequest } from '../factory/slice';
 
 /**
  * Helper function to sample randomly part names.
@@ -57,16 +52,16 @@ export function* simpleMarketSaga() {
       const oldestBuildRequest = buildRequests.reduce((prev, curr) => {
         return prev.created < curr.created ? prev : curr;
       });
-      yield put(removeBuildRequest(oldestBuildRequest.identity));
+      yield put(removeBuildRequest(oldestBuildRequest.id));
     } else {
       // Add a new build request to the market.
       const value = getRandomFromIntRange(
         config.market.simpleMarketSaga.partValueRange
       );
       yield put(
-        addBuildRequest(
+        addBuildRequestToMarket(
           createBuildRequest({
-            identity: createNewIdentity({ displayName: getRandomPartName() }),
+            displayName: getRandomPartName(),
             material: createSimplePolymerMaterial(),
             fixedValue: createLiquidAsset({ dollars: value }),
             scale: value * 0.01
@@ -94,10 +89,10 @@ export function* buildRequestBidSaga(
   // If the factory entity was allowed to bid
   if (isAllowedToBid) {
     // Remove the build request from the list in the Market
-    yield put(removeBuildRequest(buildRequest.identity));
+    yield put(removeBuildRequest(buildRequest.id));
 
     // Add the Build Request to the Factory's active build requests.
-    yield put(addActiveBuildRequest(buildRequest));
+    yield put(addBuildRequestToFactory(buildRequest));
   }
 }
 

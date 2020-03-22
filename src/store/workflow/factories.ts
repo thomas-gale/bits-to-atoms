@@ -1,63 +1,63 @@
-import {
-  ActivityType,
-  TransportationActivity,
-  TransmutationActivity,
-  StorageActivity,
-  Activity,
-  Workflow,
-  TransmutationState
-} from './types';
-import { createNewIdentity } from '../common/identity/factories';
+import { createUuid } from '../common/identity/factories';
 import { createVector3 } from '../common/primitive/factories';
 import { MaterialType } from '../material/types';
-import { Identity } from '../common/identity/types';
+import {
+  Activity,
+  ActivityType,
+  StorageActivity,
+  TransmutationActivity,
+  TransmutationState,
+  TransportationActivity,
+  Workflow
+} from './types';
+import { ServiceProvider } from '../factory/services/types';
 
 export function createTransportationActivity({
-  identity = createNewIdentity({
-    displayName: 'default-transportation-activity'
-  }),
-  serviceProviderId = undefined,
+  id = createUuid(),
+  displayName = 'default-transportation-activity',
+  serviceProvider = undefined as ServiceProvider | undefined,
   started = undefined,
   completed = undefined,
-  previousActivityId = undefined,
-  nextActivityId = undefined,
+  previousActivity = undefined as Activity | undefined,
+  nextActivity = undefined as Activity | undefined,
   startLocation = createVector3(),
   endLocation = createVector3()
 } = {}): TransportationActivity {
   return {
-    identity,
     type: ActivityType.Transportation,
-    serviceProviderId,
+    id,
+    displayName,
+    serviceProvider,
     started,
     completed,
-    previousActivityId,
-    nextActivityId,
+    previousActivity,
+    nextActivity,
     startLocation,
     endLocation
   };
 }
 
 export function createTransmutationActivity({
-  identity = createNewIdentity({
-    displayName: 'default-transmutation-activity'
-  }),
-  serviceProviderId = undefined as Identity | undefined,
+  id = createUuid(),
+  displayName = 'default-transmutation-activity',
+  serviceProvider = undefined as ServiceProvider | undefined,
   started = undefined as Date | undefined,
   completed = undefined as Date | undefined,
-  previousActivityId = undefined as Identity | undefined,
-  nextActivityId = undefined as Identity | undefined,
+  previousActivity = undefined as Activity | undefined,
+  nextActivity = undefined as Activity | undefined,
   material = MaterialType.SimplePolymer,
   startState = undefined as TransmutationState | undefined,
   endState = undefined as TransmutationState | undefined
 } = {}): TransmutationActivity {
   return {
-    identity,
     type: ActivityType.Transmutation,
-    serviceProviderId,
+    id,
+    displayName,
+    serviceProvider,
     started,
     completed,
-    previousActivityId,
-    nextActivityId,
+    previousActivity,
+    nextActivity,
     material,
     startState,
     endState
@@ -65,38 +65,38 @@ export function createTransmutationActivity({
 }
 
 export function createStorageActivity({
-  identity = createNewIdentity({
-    displayName: 'default-storage-activity'
-  }),
-  serviceProviderId = undefined,
+  id = createUuid(),
+  displayName = 'default-storage-activity',
+  serviceProvider = undefined as ServiceProvider | undefined,
   started = undefined,
   completed = undefined,
-  previousActivityId = undefined,
-  nextActivityId = undefined,
+  previousActivity = undefined as Activity | undefined,
+  nextActivity = undefined as Activity | undefined,
   location = createVector3()
 } = {}): StorageActivity {
   return {
-    identity,
     type: ActivityType.Storage,
-    serviceProviderId,
+    id,
+    displayName,
+    serviceProvider,
     started,
     completed,
-    previousActivityId,
-    nextActivityId,
+    previousActivity,
+    nextActivity,
     location
   };
 }
 
 export function createWorkflow({
-  identity = createNewIdentity({
-    displayName: 'default-workflow'
-  }),
+  id = createUuid(),
+  displayName = 'default-workflow',
   activities = [] as Activity[],
-  firstActivityId = undefined
+  firstActivity = undefined as Activity | undefined
 } = {}): Workflow {
   return {
-    identity,
+    id,
+    displayName,
     activities,
-    firstActivityId
+    firstActivity
   };
 }

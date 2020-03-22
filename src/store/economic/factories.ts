@@ -1,30 +1,44 @@
-import { FixedAssetType, LiquidAsset, FixedAsset } from './types';
-import { createEntity } from '../factory/entity/factories';
+import { createUuid } from '../common/identity/factories';
+import {
+  createCuboid,
+  createQuaternion,
+  createVector3
+} from '../common/primitive/factories';
+import { FixedAsset, FixedAssetType, LiquidAsset } from './types';
 
 export const dollarFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD'
 });
 
-export function createLiquidAsset({ dollars = 500 } = {}): LiquidAsset {
+export function createLiquidAsset({
+  id = createUuid(),
+  displayName = 'default-liquid-asset',
+  dollars = 500
+} = {}): LiquidAsset {
   return {
+    id,
+    displayName,
     dollars
   };
 }
 
 export function createFixedAsset({
+  id = createUuid(),
+  displayName = 'default-fixed-asset',
   type = FixedAssetType.Undefined,
   depreciationRate = 0,
-  dollars = 10,
-  entity = createEntity()
+  location = createVector3(),
+  orientation = createQuaternion(),
+  bounds = createCuboid()
 } = {}): FixedAsset {
   return {
+    id,
+    displayName,
     type,
     depreciationRate,
-    dollars,
-    id: entity.id,
-    location: entity.location,
-    orientation: entity.orientation,
-    bounds: entity.bounds
+    location,
+    orientation,
+    bounds
   };
 }

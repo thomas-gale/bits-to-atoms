@@ -1,7 +1,7 @@
 export enum MarketFactoryPanelVisibilty {
-  None,
-  Market,
-  Factory
+  None = 'None',
+  Market = 'Market',
+  Factory = 'Factory'
 }
 
 export type ReduxFormParameterUpdate = {

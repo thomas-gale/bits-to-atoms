@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Market } from './types';
 import { BuildRequest } from '../buildrequest/types';
-import { Identity } from '../common/identity/types';
+import { Market } from './types';
 
 const marketSlice = createSlice({
   name: 'market',
@@ -16,12 +15,12 @@ const marketSlice = createSlice({
     addBuildRequest(state, action: PayloadAction<BuildRequest>) {
       state.buildRequests.push(action.payload);
     },
-    removeBuildRequest(state, action: PayloadAction<Identity>) {
+    removeBuildRequest(state, action: PayloadAction<string>) {
       const indexToRemove = state.buildRequests.findIndex(
-        el => el.identity.uuid === action.payload.uuid
+        el => el.id === action.payload
       );
       if (indexToRemove === -1) {
-        console.error(`Unable to remove build request ${action.payload.uuid}`);
+        console.error(`Unable to remove build request ${action.payload}`);
         return; // Don't do anything if we can't find that element
       }
       state.buildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.

@@ -3,10 +3,9 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import { config } from '../../../../env/config';
 import { RootState, RootDispatch } from '../../../../store';
-import { Identity } from '../../../../store/common/identity/types';
 import { setSelectedPrimaryFocusBuildRequest } from '../../../../store/selected/slice';
 import {
-  factoryActiveBuildRequestsSelector,
+  factoryBuildRequestsSelector,
   isAllowedToBidSelector
 } from '../../../../store/factory/selectors';
 
@@ -15,14 +14,14 @@ import { Button, Card, Typography, CardContent } from '@material-ui/core';
 
 function mapState(state: RootState) {
   return {
-    activeBuildRequests: factoryActiveBuildRequestsSelector(state),
+    buildRequests: factoryBuildRequestsSelector(state),
     isAllowedToBid: isAllowedToBidSelector(state)
   };
 }
 
 function mapDispatch(dispatch: RootDispatch) {
   return {
-    onActiveBuildRequestSelected: (id: Identity) => {
+    onActiveBuildRequestSelected: (id: string) => {
       dispatch(setSelectedPrimaryFocusBuildRequest(id));
     }
   };
@@ -48,7 +47,7 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
   const classes = useStyles();
 
   const {
-    activeBuildRequests,
+    buildRequests: activeBuildRequests,
     isAllowedToBid,
     onActiveBuildRequestSelected
   } = props;
@@ -76,19 +75,19 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
         )}
         {activeBuildRequests.length > 0 ? (
           activeBuildRequests.map(activeBuildRequest => (
-            <div key={activeBuildRequest.identity.uuid}>
+            <div key={activeBuildRequest.id}>
               <Typography color="textPrimary">
-                {activeBuildRequest.identity.displayName}
+                {activeBuildRequest.displayName}
               </Typography>
               <Typography color="textSecondary" gutterBottom>
-                {activeBuildRequest.identity.uuid}
+                {activeBuildRequest.id}
               </Typography>
               <Button
                 variant="contained"
                 color="primary"
                 size="small"
                 onClick={_ =>
-                  onActiveBuildRequestSelected(activeBuildRequest.identity)
+                  onActiveBuildRequestSelected(activeBuildRequest.id)
                 }
               >
                 Details

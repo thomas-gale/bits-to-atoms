@@ -1,14 +1,13 @@
 import React, { useRef, useState, useMemo } from 'react';
 import { Mesh, Euler, Quaternion as ThreeQuaternion } from 'three';
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
-import { Identity } from '../../../../store/common/identity/types';
 
 type OwnProp = {
   humanWorker: HumanWorker;
 };
 
 type OwnDispatch = {
-  onSelected: (id: Identity) => void;
+  onSelected: (id: string) => void;
 };
 
 type Props = OwnProp & OwnDispatch;

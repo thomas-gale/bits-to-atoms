@@ -1,7 +1,7 @@
 import { ServiceType } from '../types';
 import { DispatchService } from './types';
 
-import { createNewIdentity } from '../../../common/identity/factories';
+import { createUuid } from '../../../common/identity/factories';
 import {
   createVector3,
   createQuaternion,
@@ -18,10 +18,11 @@ import {
 } from '../factories';
 
 export function createDispatchService({
+  id = createUuid(),
+  displayName = 'default-dispatch-service',
   capabilities = [ActivityType.Transmutation],
   canBid = true,
   currentActivity = undefined,
-  id = createNewIdentity({ displayName: 'default-dispatch-service' }),
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid(),
@@ -45,10 +46,11 @@ export function createDispatchService({
 } = {}): DispatchService {
   return {
     type: ServiceType.Dispatch,
+    id,
+    displayName,
     capabilities,
     canBid,
     currentActivity,
-    id,
     location,
     orientation,
     bounds,

@@ -5,8 +5,7 @@ export enum ParameterType {
   Number
 }
 
-interface ParameterBase {
-  identity: Identity;
+interface ParameterBase extends Identity {
   type: ParameterType;
   units: string;
 }

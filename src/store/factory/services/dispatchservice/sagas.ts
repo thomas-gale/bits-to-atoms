@@ -34,7 +34,7 @@ function* generateBidWorkflow(
       : undefined;
   if (!dispatchServiceProvider) {
     console.warn(
-      `Unable to generate bid for activity ${activity.identity.uuid}, no dispatch services available`
+      `Unable to generate bid for activity ${activity.id}, no dispatch services available`
     );
     return; // Early return if no service providers available to bid.
   }

@@ -14,7 +14,6 @@ import { FloorSpace } from '../../../../store/factory/services/floorspace/types'
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
 
 import { setSelectedServiceProvider } from '../../../../store/selected/slice';
-import { Identity } from '../../../../store/common/identity/types';
 import { FFFPrinterElement } from './FFFPrinter';
 import { FFFPrinter } from '../../../../store/factory/services/fffprinter/types';
 import { ProcurementElement } from './Procurement';
@@ -28,7 +27,7 @@ function mapState(_: RootState) {
 
 function mapDispatch(dispatch: RootDispatch) {
   return {
-    onSelected: (id: Identity) => {
+    onSelected: (id: string) => {
       dispatch(setSelectedServiceProvider(id));
     }
   };

@@ -20,7 +20,9 @@ jobs:
       run: yarn
 
     - name: Run Tests
-      uses: stefanoeb/jest-action@1.0.2
+      run: yarn test
+      env:
+        CI: true
 
     - name: Build
       run: yarn build

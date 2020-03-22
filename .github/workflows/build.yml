@@ -19,10 +19,15 @@ jobs:
     - name: Resolve Dependencies
       run: yarn
 
-    - name: Run Tests
-      run: yarn test
+    - name: Run Tests with Coverage
+      run: yarn test --coverage --watchAll=false
       env:
         CI: true
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@v1.0.1
+      with:
+        github-token: ${{ secrets.GITHUB_PAT }}
 
     - name: Build
       run: yarn build

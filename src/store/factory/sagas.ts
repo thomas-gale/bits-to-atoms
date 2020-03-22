@@ -63,6 +63,7 @@ export function* factoryUpdateTickSaga() {
         currentLiquidAsset.dollars - currentServiceProviderCostOverPeriod
       )
     );
+    break;
   }
 }
 
@@ -192,30 +193,9 @@ export function* buildRequestWorkflowSaga(
   }
 
   // 3. Finally assemble the Transportation step search
-  //const serviceProviders = (yield select(
-  //  factoryServiceProvidersSelector
-  //)) as ServiceProvider[];
-
-  // Current activity is the first activity.
   while (currentTransmutationActivity.nextActivity) {
-    /*const currentTransmutationActivityNextActivity =
-      currentTransmutationActivity.nextActivity;
-    const nextTransmutationActivity = computedWorkflow.activities.find(
-      a => a.id === currentTransmutationActivityNextActivityId
-    ) as TransmutationActivity;
-    if (!nextTransmutationActivity) {
-      console.error(
-        'Next activity Id does not have associated activity in the computed workflow activities.'
-      );
-      break;
-    }*/
-
-    //const currentTransmutationActivityServiceProviderId =
-    //  currentTransmutationActivity.serviceProviderId;
     const startTransmutationServiceProvider =
       currentTransmutationActivity.serviceProvider;
-    //const nextTransmutationActivityServiceProviderId =
-    //  nextTransmutationActivity.serviceProviderId;
     const endTransmutationServiceProvider =
       currentTransmutationActivity.nextActivity.serviceProvider;
     if (

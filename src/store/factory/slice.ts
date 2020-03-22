@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
-import { factorySchema, workflowSchema, activitySchema } from './schemas';
-
 import { BuildRequest } from '../buildrequest/types';
 import { Parameter } from '../common/parameter/types';
 import { Activity, Workflow } from '../workflow/types';
 import { createFactory } from './factories';
+import { activitySchema, factorySchema, workflowSchema } from './schemas';
 import { ServiceProvider } from './services/types';
 
 const factorySlice = createSlice({
@@ -52,7 +51,25 @@ const factorySlice = createSlice({
       );
       state.entities = {
         ...state.entities,
-        ...normalizedWorkflow.entities
+        buildRequests: {
+          ...state.entities.buildRequests,
+          [action.payload.buildRequestId]: {
+            ...(state.entities.buildRequests ? state.entities.buildRequests[action.payload.buildRequestId] : {}),
+            workflow: action.payload.workflow.id
+          }
+        },
+        activities: {
+          ...state.entities.activities,
+          ...normalizedWorkflow.entities.activities
+        },
+        serviceProviders: {
+          ...state.entities.serviceProviders,
+          ...normalizedWorkflow.entities.serviceProviders
+        },
+        workflows: {
+          ...state.entities.workflows,
+          ...normalizedWorkflow.entities.workflows
+        }
       };
     },
     requestFullfillmentOfActivity(_state, _action: PayloadAction<Activity>) {

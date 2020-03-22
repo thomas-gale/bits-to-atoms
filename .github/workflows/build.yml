@@ -20,7 +20,7 @@ jobs:
       run: yarn
 
     - name: Run Tests
-      run: yarn test
+      uses: stefanoeb/jest-action@1.0.2
 
     - name: Build
       run: yarn build

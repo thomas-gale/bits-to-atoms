@@ -1,13 +1,18 @@
 import { normalize } from 'normalizr';
 import { createFactory } from './factories';
-import { factorySchema } from './schemas';
+import { factorySchema, FactorySchemaType } from './schemas';
 import {
   factoryReducer,
   setDisplayName,
   setLiquidAssetDollars,
-  addBuildRequest
+  addBuildRequest,
+  updateBuildRequestWorkflow
 } from './slice';
 import { createBuildRequest } from '../buildrequest/factories';
+import {
+  createTransportationActivity,
+  createWorkflow
+} from '../workflow/factories';
 
 const initialState = normalize(createFactory(), factorySchema);
 
@@ -66,5 +71,65 @@ describe('factory slice', () => {
     expect(factoryReducer(initialState, addBuildRequest(buildRequest))).toEqual(
       expectedState
     );
+  });
+
+  it('can update build request workflow', () => {
+    // Initial state
+    const buildRequest = createBuildRequest();
+    const initialWorkflowState = {
+      ...initialState,
+      entities: {
+        ...initialState.entities,
+        buildRequests: {
+          ...initialState.entities.buildRequests,
+          [buildRequest.id]: buildRequest
+        }
+      },
+      result: {
+        ...initialState.result,
+        buildRequests: [...initialState.result.buildRequests, buildRequest.id]
+      }
+    } as FactorySchemaType;
+
+    // Expected state.
+    const testActivity = createTransportationActivity();
+    const testWorkflow = createWorkflow({
+      activities: [testActivity],
+      firstActivity: testActivity
+    });
+    const expectedState = {
+      ...initialWorkflowState,
+      entities: {
+        ...initialWorkflowState.entities,
+        activities: {
+          ...initialWorkflowState.entities.activities,
+          [testActivity.id]: testActivity
+        },
+        buildRequests: {
+          ...initialWorkflowState.entities.buildRequests,
+          [buildRequest.id]: buildRequest
+        },
+        workflows: {
+          ...initialWorkflowState.entities.workflows,
+          [testWorkflow.id]: {
+            ...testWorkflow,
+            activities: [testActivity.id],
+            firstActivity: testActivity.id
+          }
+        }
+      },
+      result: {
+        ...initialWorkflowState.result
+      }
+    };
+    expect(
+      factoryReducer(
+        initialWorkflowState,
+        updateBuildRequestWorkflow({
+          buildRequestId: buildRequest.id,
+          workflow: testWorkflow
+        })
+      )
+    ).toEqual(expectedState);
   });
 });

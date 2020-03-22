@@ -279,7 +279,7 @@ function* buildRequestWorkflowSaga(
 
   // Start and monitor workflow by accepting fullfillment of fist activity (at this point they should all have enough information to start).
   // Now we manage the execution of the sequential workflow activities.
-  let currentExecutingActivity = computedWorkflow.firstActivity;
+  const currentExecutingActivity = computedWorkflow.firstActivity;
 
   while (true) {
     const currentId = currentExecutingActivityId;

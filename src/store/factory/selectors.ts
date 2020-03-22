@@ -70,7 +70,7 @@ export const factoryServiceProvidersSelector = createSelector(
       },
       factorySchema,
       factory.entities
-    ) as ServiceProvider[];
+    ).serviceProviders as ServiceProvider[];
   }
 );
 

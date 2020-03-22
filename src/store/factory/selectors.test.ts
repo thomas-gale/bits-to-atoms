@@ -5,7 +5,8 @@ import { Identity } from '../common/identity/types';
 import { createTransmutationActivity, createTransportationActivity, createWorkflow } from '../workflow/factories';
 import { createFactory } from './factories';
 import { factorySchema } from './schemas';
-import { factoryBuildRequestsSelector, factoryIdentitySelector, factoryLiquidAssetSelector, factorySelector } from './selectors';
+import { factoryBuildRequestsSelector, factoryIdentitySelector, factoryLiquidAssetSelector, factorySelector, factoryServiceProvidersSelector } from './selectors';
+import { createHumanWorker } from './services/humanworker/factories';
 
 // Initial State
 const testActivity1 = createTransportationActivity();
@@ -16,11 +17,13 @@ const testWorkflow = createWorkflow({
     activities: [testActivity1, testActivity2],
     firstActivity: testActivity1
 });
-const buildRequest = createBuildRequest({
+const testBuildRequest = createBuildRequest({
     workflow: testWorkflow
 });
+const testHumanServiceProvider = createHumanWorker();
 const startingFactory = createFactory({
-    buildRequests: [buildRequest]
+    buildRequests: [testBuildRequest],
+    serviceProviders: [testHumanServiceProvider]
 });
 const baseStoreInitialState = {
   factory: normalize(startingFactory, factorySchema)
@@ -41,5 +44,8 @@ describe('factory selectors', () => {
   });
   it('should return the factory build requests', () => {
     expect(factoryBuildRequestsSelector(baseStoreInitialState)).toEqual(startingFactory.buildRequests);
+  });
+  it('should return the factory service providers', () => {
+    expect(factoryServiceProvidersSelector(baseStoreInitialState)).toEqual(startingFactory.serviceProviders);
   });
 });

@@ -1,53 +1,57 @@
 import { normalize } from 'normalizr';
 import { createFactory } from './factories';
-import { factorySchema, FactorySchemaType } from './schemas';
+import { factorySchema, FactorySchemaType, activitySchema } from './schemas';
 import {
   factoryReducer,
   setDisplayName,
   setLiquidAssetDollars,
   addBuildRequest,
-  updateBuildRequestWorkflow
+  updateBuildRequestWorkflow,
+  updateActivity
 } from './slice';
 import { createBuildRequest } from '../buildrequest/factories';
 import {
   createTransportationActivity,
   createWorkflow
 } from '../workflow/factories';
+import { Activity } from '../workflow/types';
 
-const initialState = normalize(createFactory(), factorySchema);
+const baseInitialState = normalize(createFactory(), factorySchema);
 
 describe('factory slice', () => {
   it('should return the initial state', () => {
-    expect(factoryReducer(initialState, { type: {} })).toEqual(initialState);
+    expect(factoryReducer(baseInitialState, { type: {} })).toEqual(baseInitialState);
   });
 
   it('can set display name', () => {
     const expectedState = {
-      ...initialState,
-      result: { ...initialState.result, displayName: 'test-display-name' }
+      ...baseInitialState,
+      result: { ...baseInitialState.result, displayName: 'test-display-name' }
     };
+
     expect(
-      factoryReducer(initialState, setDisplayName('test-display-name'))
+      factoryReducer(baseInitialState, setDisplayName('test-display-name'))
     ).toEqual(expectedState);
   });
 
   it('can set liquid asset dollars', () => {
     const expectedState = {
-      ...initialState,
+      ...baseInitialState,
       entities: {
-        ...initialState.entities,
+        ...baseInitialState.entities,
         assets: {
-          ...initialState.entities.assets,
-          [initialState.result.liquidAsset]: {
-            ...(initialState.entities.assets
-              ? initialState.entities.assets[initialState.result.liquidAsset]
+          ...baseInitialState.entities.assets,
+          [baseInitialState.result.liquidAsset]: {
+            ...(baseInitialState.entities.assets
+              ? baseInitialState.entities.assets[baseInitialState.result.liquidAsset]
               : {}),
             dollars: 12345
           }
         }
       }
     };
-    expect(factoryReducer(initialState, setLiquidAssetDollars(12345))).toEqual(
+    
+    expect(factoryReducer(baseInitialState, setLiquidAssetDollars(12345))).toEqual(
       expectedState
     );
   });
@@ -55,20 +59,21 @@ describe('factory slice', () => {
   it('can add build request', () => {
     const buildRequest = createBuildRequest();
     const expectedState = {
-      ...initialState,
+      ...baseInitialState,
       entities: {
-        ...initialState.entities,
+        ...baseInitialState.entities,
         buildRequests: {
-          ...initialState.entities.buildRequests,
+          ...baseInitialState.entities.buildRequests,
           [buildRequest.id]: buildRequest
         }
       },
       result: {
-        ...initialState.result,
-        buildRequests: [...initialState.result.buildRequests, buildRequest.id]
+        ...baseInitialState.result,
+        buildRequests: [...baseInitialState.result.buildRequests, buildRequest.id]
       }
     };
-    expect(factoryReducer(initialState, addBuildRequest(buildRequest))).toEqual(
+
+    expect(factoryReducer(baseInitialState, addBuildRequest(buildRequest))).toEqual(
       expectedState
     );
   });
@@ -76,18 +81,18 @@ describe('factory slice', () => {
   it('can update build request workflow', () => {
     // Initial state
     const buildRequest = createBuildRequest();
-    const initialWorkflowState = {
-      ...initialState,
+    const initialState = {
+      ...baseInitialState,
       entities: {
-        ...initialState.entities,
+        ...baseInitialState.entities,
         buildRequests: {
-          ...initialState.entities.buildRequests,
+          ...baseInitialState.entities.buildRequests,
           [buildRequest.id]: buildRequest
         }
       },
       result: {
-        ...initialState.result,
-        buildRequests: [...initialState.result.buildRequests, buildRequest.id]
+        ...baseInitialState.result,
+        buildRequests: [...baseInitialState.result.buildRequests, buildRequest.id]
       }
     } as FactorySchemaType;
 
@@ -98,19 +103,19 @@ describe('factory slice', () => {
       firstActivity: testActivity
     });
     const expectedState = {
-      ...initialWorkflowState,
+      ...initialState,
       entities: {
-        ...initialWorkflowState.entities,
+        ...initialState.entities,
         activities: {
-          ...initialWorkflowState.entities.activities,
+          ...initialState.entities.activities,
           [testActivity.id]: testActivity
         },
         buildRequests: {
-          ...initialWorkflowState.entities.buildRequests,
+          ...initialState.entities.buildRequests,
           [buildRequest.id]: buildRequest
         },
         workflows: {
-          ...initialWorkflowState.entities.workflows,
+          ...initialState.entities.workflows,
           [testWorkflow.id]: {
             ...testWorkflow,
             activities: [testActivity.id],
@@ -119,16 +124,57 @@ describe('factory slice', () => {
         }
       },
       result: {
-        ...initialWorkflowState.result
+        ...initialState.result
       }
     };
+
     expect(
       factoryReducer(
-        initialWorkflowState,
+        initialState,
         updateBuildRequestWorkflow({
           buildRequestId: buildRequest.id,
           workflow: testWorkflow
         })
+      )
+    ).toEqual(expectedState);
+  });
+
+  it('can update activity', () => {
+    // Initial State
+    const testActivity = createTransportationActivity();
+    const testWorkflow = createWorkflow({
+      activities: [testActivity],
+      firstActivity: testActivity
+    });
+    const buildRequest = createBuildRequest({
+      workflow: testWorkflow
+    });
+    const initialState = normalize(createFactory({
+      buildRequests: [
+        buildRequest
+      ]
+    }), factorySchema);
+
+    // Expected State
+    const updatedTestActivity = {
+      ...testActivity,
+      displayName: 'new-test-activity-name',
+      started: new Date()
+    } as Activity;
+    const normUpdatedTestActivity = normalize(updatedTestActivity, activitySchema);
+
+    const expectedState = {
+      ...initialState,
+      entities: {
+        ...initialState.entities,
+        ...normUpdatedTestActivity.entities
+      }
+    }
+
+    expect(
+      factoryReducer(
+        initialState,
+        updateActivity(updatedTestActivity)
       )
     ).toEqual(expectedState);
   });

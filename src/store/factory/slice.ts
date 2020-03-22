@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
-import { factorySchema, workflowSchema } from './schemas';
+import { factorySchema, workflowSchema, activitySchema } from './schemas';
 
 import { BuildRequest } from '../buildrequest/types';
 import { Parameter } from '../common/parameter/types';
@@ -83,16 +83,14 @@ const factorySlice = createSlice({
       // From the primary factory saga to confirm that the service provider can go ahead and begin excution.
     },
     updateActivity(state, action: PayloadAction<Activity>) {
-      if (
-        state.entities.activities &&
-        action.payload.id in state.entities.activities
-      ) {
-        state.entities.activities[action.payload.id] = action.payload;
-      } else {
-        console.error(
-          `Unable to update activity, activity ${action.payload.id} not found`
-        );
-      }
+      const normalizedActivity = normalize(
+        action.payload,
+        activitySchema
+      );
+      state.entities = {
+        ...state.entities,
+        ...normalizedActivity.entities
+      };
     },
     removeBuildRequest(state, action: PayloadAction<string>) {
       //

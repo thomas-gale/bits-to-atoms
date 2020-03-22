@@ -63,7 +63,6 @@ export function* factoryUpdateTickSaga() {
         currentLiquidAsset.dollars - currentServiceProviderCostOverPeriod
       )
     );
-    break;
   }
 }
 

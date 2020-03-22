@@ -46,9 +46,11 @@ export type FactorySchemaType = NormalizedSchema<
   {
     [key: string]:
       | {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           [key: string]: any;
         }
       | undefined;
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   any
 >;

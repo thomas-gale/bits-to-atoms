@@ -97,7 +97,7 @@ function* triggerRequestFullfillmentOfActivity(activity: Activity) {
  * Primary workflow for handling the creation of the workflows which drive the factory.
  * @param addedActiveBuildRequest Build Request just added to the active list
  */
-function* buildRequestWorkflowSaga(
+export function* buildRequestWorkflowSaga(
   addedActiveBuildRequest: PayloadAction<BuildRequest>
 ) {
   const { payload: buildRequest } = addedActiveBuildRequest;
@@ -321,6 +321,9 @@ function* buildRequestWorkflowSaga(
     // Get next activity or break, if we have reached the end.
     if (!currentExecutingActivity.nextActivity) break;
     currentExecutingActivity = currentExecutingActivity.nextActivity;
+
+    // Test Break for now
+    break;
   }
 
   // Onced completed remove the active build request (Or move to a completed state / section).

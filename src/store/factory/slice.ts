@@ -89,20 +89,8 @@ const factorySlice = createSlice({
         ...normalizedActivity.entities
       };
     },
-    removeBuildRequest(state, action: PayloadAction<string>) {
-      //
+    removeBuildRequest(_state, _action: PayloadAction<string>) {
       console.error('Not Implemented');
-      /*
-      const indexToRemove = state.buildRequests.findIndex(
-        br => br.id === action.payload
-      );
-      if (indexToRemove === -1) {
-        console.error(
-          `Unable to remove active build request ${action.payload}`
-        );
-        return; // Don't do anything if we can't find that element
-      }
-      state.buildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.*/
     },
     setServiceProviderParameter(
       state,

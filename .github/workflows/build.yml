@@ -20,7 +20,7 @@ jobs:
       run: yarn
 
     - name: Run Tests with Coverage
-      run: yarn test --coverage --watchAll=false
+      run: yarn test:ci
       env:
         CI: true
 

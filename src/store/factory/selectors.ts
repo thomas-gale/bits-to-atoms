@@ -22,8 +22,8 @@ const factoryDisplayNameSelector = (state: RootState) =>
   state.factory.result.displayName as string | undefined;
 const factoryLiquidAssetIdSelector = (state: RootState) =>
   state.factory.result.liquidAsset as string | undefined;
-const factoryFixedAssetsIdsSelector = (state: RootState) =>
-  state.factory.result.fixedAssets as string[] | undefined;
+//const factoryFixedAssetsIdsSelector = (state: RootState) =>
+//  state.factory.result.fixedAssets as string[] | undefined;
 const factoryBuildRequestsIdsSelector = (state: RootState) =>
   state.factory.result.buildRequests as string[] | undefined;
 const factoryServiceProvidersIdsSelector = (state: RootState) =>
@@ -39,20 +39,6 @@ const factoryEntitiesServiceProvidersSelector = (state: RootState) =>
   state.factory.entities.serviceProviders as FactorySchemaType | undefined;
 const factoryEntitiesWorkflowsSelector = (state: RootState) =>
   state.factory.entities.workflows as FactorySchemaType | undefined;
-
-/*
-export const factoryStructuredSelector = createStructuredSelector<FactorySchemaType, FactorySchemaType>({
-  entities: createStructuredSelector<FactorySchemaType, any>({
-    activities: factoryEntitiesActivitiesSelector,
-    assets: factoryEntitiesAssetsSelector,
-    buildRequests: factoryEntitiesBuildRequestsSelector,
-    serviceProviders: factoryEntitiesServiceProvidersSelector,
-    workflows: factoryEntitiesWorkflowsSelector,
-  }),
-  result: createStructuredSelector({
-
-  })
-});*/
 
 export const factoryIdentitySelector = createSelector(
   [factoryIdSelector, factoryDisplayNameSelector],
@@ -193,43 +179,3 @@ export const factoryEconomicSummarySelector = createSelector(
     };
   }
 );
-
-/*
-export const factoryActivitiesSelector = createSelector(
-  [factorySelector],
-  (factory: FactorySchemaType): Activity[] => {
-    return denormalize({
-      buildrequests: [...factory.result.buildRequests]
-    },
-    factorySchema,
-    factory.entities
-    ) as Activity[]
-  });
-
-export const factoryIncompleteActivitiesSelector = createSelector(
-  [factoryActivitiesSelector],
-  (activities: Activity[]): Activity[] =>
-    activities.filter(activity => !activity.completed)
-);
-
-export const factoryUnassignedActivitiesSelector = createSelector(
-  [factoryActivitiesSelector],
-  (activities: Activity[]): Activity[] =>
-    activities.filter(activity => !activity.serviceProviderId)
-);
-
-export const factoryUnAllocatedActivitiesSelector = createSelector(
-  [factoryActiveBuildRequestsSelector],
-  (activeBuildRequests: BuildRequest[]): Activity[] => {
-    // Loop over active build request and each workflow.
-    const unAllocatedActivities = [] as Activity[];
-    activeBuildRequests.forEach(activeBuildRequest => {
-      activeBuildRequest.workflow?.activities.forEach(activity => {
-        if (activity.serviceProviderId === undefined) {
-          unAllocatedActivities.push(activity);
-        }
-      });
-    });
-    return unAllocatedActivities;
-  }
-);*/

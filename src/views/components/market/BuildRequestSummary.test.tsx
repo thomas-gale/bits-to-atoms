@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { render, waitForElement } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { rootReducer } from '../../../store';
@@ -26,5 +26,7 @@ test('loads and displays build summary that can bid', async () => {
 
   // Assert
   expect(getByText(buildRequest.id)).toHaveTextContent(buildRequest.id);
-  expect(getByText(buildRequest.displayName)).toHaveTextContent(buildRequest.displayName);
+  expect(getByText(buildRequest.displayName)).toHaveTextContent(
+    buildRequest.displayName
+  );
 });

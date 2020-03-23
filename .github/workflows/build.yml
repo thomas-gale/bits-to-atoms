@@ -29,6 +29,10 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Fix Coverage Paths for SonarCloud
+      working-directory: ./coverage
+      run: sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' lcov.info
+
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.1
       with:

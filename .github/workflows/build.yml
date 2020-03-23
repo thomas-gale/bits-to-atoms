@@ -29,6 +29,12 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
     - name: Build
       run: yarn build
 
@@ -38,7 +44,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}
 
     - name: Configure the CNAME for GitHub Pages
-      run: yarn config-cname
+      run: echo bitstoatoms.io > build/CNAME
 
     - name: Deploy GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.3.0

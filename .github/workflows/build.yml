@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      run: |
+        git fetch --unshallow
 
     - name: Setup Node
       uses: actions/setup-node@v1.1.0

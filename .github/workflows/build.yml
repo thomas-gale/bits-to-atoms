@@ -34,9 +34,7 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: SonarCloud Report File Preparation
-      run: |
-        sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' coverage/lcov.info
-        sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' test-report.xml
+      run: sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' coverage/lcov.info
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.1

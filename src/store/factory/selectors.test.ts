@@ -13,7 +13,6 @@ import {
   factoryBuildRequestsSelector,
   factoryIdentitySelector,
   factoryLiquidAssetSelector,
-  factorySelector,
   factoryServiceProvidersSelector
 } from './selectors';
 import { createHumanWorker } from './services/humanworker/factories';
@@ -42,11 +41,6 @@ const baseStoreInitialState = {
 } as RootState;
 
 describe('factory selectors', () => {
-  it('should return the factory normalised state slice', () => {
-    expect(factorySelector(baseStoreInitialState)).toEqual(
-      baseStoreInitialState.factory
-    );
-  });
   it('should return the factory identity', () => {
     expect(factoryIdentitySelector(baseStoreInitialState)).toEqual({
       id: startingFactory.id,

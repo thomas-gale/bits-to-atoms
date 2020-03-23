@@ -13,41 +13,101 @@ import {
   TransmutationServiceProvider
 } from './services/types';
 
-export const factorySelector = (state: RootState): FactorySchemaType =>
-  state.factory;
+/*export const factorySelector = (state: RootState): FactorySchemaType =>
+  state.factory;*/
+
+const factoryIdSelector = (state: RootState) =>
+  state.factory.result.id as string | undefined;
+const factoryDisplayNameSelector = (state: RootState) =>
+  state.factory.result.displayName as string | undefined;
+const factoryLiquidAssetIdSelector = (state: RootState) =>
+  state.factory.result.liquidAsset as string | undefined;
+const factoryFixedAssetsIdsSelector = (state: RootState) =>
+  state.factory.result.fixedAssets as string[] | undefined;
+const factoryBuildRequestsIdsSelector = (state: RootState) =>
+  state.factory.result.buildRequests as string[] | undefined;
+const factoryServiceProvidersIdsSelector = (state: RootState) =>
+  state.factory.result.serviceProviders as string[] | undefined;
+
+const factoryEntitiesActivitiesSelector = (state: RootState) =>
+  state.factory.entities.activities as FactorySchemaType | undefined;
+const factoryEntitiesAssetsSelector = (state: RootState) =>
+  state.factory.entities.assets as FactorySchemaType | undefined;
+const factoryEntitiesBuildRequestsSelector = (state: RootState) =>
+  state.factory.entities.buildRequests as FactorySchemaType | undefined;
+const factoryEntitiesServiceProvidersSelector = (state: RootState) =>
+  state.factory.entities.serviceProviders as FactorySchemaType | undefined;
+const factoryEntitiesWorkflowsSelector = (state: RootState) =>
+  state.factory.entities.workflows as FactorySchemaType | undefined;
+
+/*
+export const factoryStructuredSelector = createStructuredSelector<FactorySchemaType, FactorySchemaType>({
+  entities: createStructuredSelector<FactorySchemaType, any>({
+    activities: factoryEntitiesActivitiesSelector,
+    assets: factoryEntitiesAssetsSelector,
+    buildRequests: factoryEntitiesBuildRequestsSelector,
+    serviceProviders: factoryEntitiesServiceProvidersSelector,
+    workflows: factoryEntitiesWorkflowsSelector,
+  }),
+  result: createStructuredSelector({
+
+  })
+});*/
 
 export const factoryIdentitySelector = createSelector(
-  [factorySelector],
-  (factory: FactorySchemaType) => {
+  [factoryIdSelector, factoryDisplayNameSelector],
+  (factoryId: string | undefined, factoryDisplayName: string | undefined) => {
     return {
-      id: factory.result.id,
-      displayName: factory.result.displayName
+      id: factoryId ? factoryId : 'undefined',
+      displayName: factoryDisplayName ? factoryDisplayName : 'undefined'
     } as Identity;
   }
 );
 
 export const factoryLiquidAssetSelector = createSelector(
-  [factorySelector],
-  (factory: FactorySchemaType): LiquidAsset => {
+  [factoryLiquidAssetIdSelector, factoryEntitiesAssetsSelector],
+  (
+    factoryLiquidAssetId: string | undefined,
+    factoryEntitiesAssets: FactorySchemaType | undefined
+  ): LiquidAsset => {
     return denormalize(
       {
-        liquidAsset: factory.result.liquidAsset
+        liquidAsset: factoryLiquidAssetId
       },
       factorySchema,
-      factory.entities
+      {
+        assets: factoryEntitiesAssets
+      }
     ).liquidAsset as LiquidAsset;
   }
 );
 
 export const factoryBuildRequestsSelector = createSelector(
-  [factorySelector],
-  (factory: FactorySchemaType): BuildRequest[] => {
+  [
+    factoryBuildRequestsIdsSelector,
+    factoryEntitiesActivitiesSelector,
+    factoryEntitiesBuildRequestsSelector,
+    factoryEntitiesServiceProvidersSelector,
+    factoryEntitiesWorkflowsSelector
+  ],
+  (
+    factoryBuildRequestsIds: string[] | undefined,
+    factoryEntitiesActivities: FactorySchemaType | undefined,
+    factoryEntitiesBuildRequests: FactorySchemaType | undefined,
+    factoryEntitiesServiceProviders: FactorySchemaType | undefined,
+    factoryEntitiesWorkflows: FactorySchemaType | undefined
+  ): BuildRequest[] => {
     return denormalize(
       {
-        buildRequests: [...factory.result.buildRequests]
+        buildRequests: factoryBuildRequestsIds
       },
       factorySchema,
-      factory.entities
+      {
+        activities: factoryEntitiesActivities,
+        buildRequests: factoryEntitiesBuildRequests,
+        serviceProviders: factoryEntitiesServiceProviders,
+        workflows: factoryEntitiesWorkflows
+      }
     ).buildRequests as BuildRequest[];
   }
 );
@@ -62,14 +122,19 @@ export const isAllowedToBidSelector = createSelector(
 );
 
 export const factoryServiceProvidersSelector = createSelector(
-  [factorySelector],
-  (factory: FactorySchemaType): ServiceProvider[] => {
+  [factoryServiceProvidersIdsSelector, factoryEntitiesServiceProvidersSelector],
+  (
+    factoryServiceProvidersIds: string[] | undefined,
+    factoryEntitiesServiceProviders: FactorySchemaType | undefined
+  ): ServiceProvider[] => {
     return denormalize(
       {
-        serviceProviders: [...factory.result.serviceProviders]
+        serviceProviders: factoryServiceProvidersIds
       },
       factorySchema,
-      factory.entities
+      {
+        serviceProviders: factoryEntitiesServiceProviders
+      }
     ).serviceProviders as ServiceProvider[];
   }
 );

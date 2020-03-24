@@ -8,12 +8,14 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import BusinessIcon from '@material-ui/icons/Business';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import InfoIcon from '@material-ui/icons/Info';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { config } from '../../env/config';
 import { RootDispatch, RootState } from '../../store';
 import { factoryIdentitySelector } from '../../store/factory/selectors';
+import { showInformationOverlay } from '../../store/information/slice';
 import { marketFactoryPanelVisibiltySelector } from '../../store/selected/selectors';
 import { setMarketFactoryPanelVisibilty } from '../../store/selected/slice';
 import { MarketFactoryPanelVisibilty } from '../../store/selected/types';
@@ -37,6 +39,9 @@ function mapDispatch(dispatch: RootDispatch) {
         setMarketFactoryPanelVisibilty(MarketFactoryPanelVisibilty.Market)
       );
     },
+    onShowInfoPanel: () => {
+      dispatch(showInformationOverlay());
+    },
   };
 }
 
@@ -59,7 +64,13 @@ const useStyles = makeStyles((theme) => ({
 
 function TopNav(props: Props): JSX.Element {
   const classes = useStyles();
-  const { factoryIdentity } = props;
+  const {
+    marketFactoryPanelVisibilty,
+    factoryIdentity,
+    onFactoryClicked,
+    onMarketClicked,
+    onShowInfoPanel,
+  } = props;
 
   return (
     <Box className={classes.container}>
@@ -71,10 +82,10 @@ function TopNav(props: Props): JSX.Element {
             color="inherit"
             aria-label="factory"
             disabled={
-              props.marketFactoryPanelVisibilty ===
+              marketFactoryPanelVisibilty ===
               MarketFactoryPanelVisibilty.Factory
             }
-            onClick={props.onFactoryClicked}
+            onClick={onFactoryClicked}
           >
             <BusinessIcon />
           </IconButton>
@@ -84,10 +95,9 @@ function TopNav(props: Props): JSX.Element {
             color="inherit"
             aria-label="market"
             disabled={
-              props.marketFactoryPanelVisibilty ===
-              MarketFactoryPanelVisibilty.Market
+              marketFactoryPanelVisibilty === MarketFactoryPanelVisibilty.Market
             }
-            onClick={props.onMarketClicked}
+            onClick={onMarketClicked}
           >
             <TimelineIcon />
           </IconButton>
@@ -101,6 +111,13 @@ function TopNav(props: Props): JSX.Element {
             href={config.topNav.gitHubURL}
           >
             <GitHubIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="info"
+            onClick={onShowInfoPanel}
+          >
+            <InfoIcon />
           </IconButton>
         </Toolbar>
       </AppBar>

@@ -20,6 +20,7 @@ import {
   serviceProvidersWatchFactoryOpenActivitiesSaga,
   serviceProvidersWatchAcceptFullfillmentOfActivitiesSaga,
 } from './factory/services/sagas';
+import { informationReducer } from './information/slice';
 
 function* rootSaga() {
   yield all([
@@ -38,6 +39,7 @@ export const rootReducer = combineReducers({
   market: marketReducer,
   factory: factoryReducer,
   selected: selectedReducer,
+  information: informationReducer,
   form: formReducer,
 });
 

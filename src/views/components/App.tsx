@@ -1,37 +1,46 @@
+import { Backdrop, Box } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { SizeMe } from 'react-sizeme';
-
-import { makeStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-
-import Factory from './factory/Factory';
-import TopNav from './TopNav';
-import MarketPanel from './market/MarketPanel';
-import SelectedPanel from './selected/SelectedPanel';
-import FactoryPanel from './factory/FactoryPanel';
-
-import { RootState } from '../../store';
+import { RootDispatch, RootState } from '../../store';
+import { informationOverlayVisibleSelector } from '../../store/information/selectors';
+import { hideInformationOverlay } from '../../store/information/slice';
 import {
   marketFactoryPanelVisibiltySelector,
   primaryFocusBuildRequestSelector,
 } from '../../store/selected/selectors';
 import { MarketFactoryPanelVisibilty } from '../../store/selected/types';
 import BuildRequestDetails from './buildrequest/BuildRequestDetails';
+import Factory from './factory/Factory';
+import FactoryPanel from './factory/FactoryPanel';
+import { InformationOverlay } from './information/InformationOverlay';
+import MarketPanel from './market/MarketPanel';
+import SelectedPanel from './selected/SelectedPanel';
+import TopNav from './TopNav';
 
 function mapState(state: RootState) {
   return {
+    informationOverlayVisible: informationOverlayVisibleSelector(state),
     marketFactoryPanelVisibilty: marketFactoryPanelVisibiltySelector(state),
     primaryFocusBuildRequest: primaryFocusBuildRequestSelector(state),
   };
 }
 
-const connector = connect(mapState);
+function mapDispatch(dispatch: RootDispatch) {
+  return {
+    onHideInfoPanel: () => {
+      dispatch(hideInformationOverlay());
+    },
+  };
+}
+
+const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles((_) => ({
+const useStyles = makeStyles((theme) => ({
   '@global': {
     '*::-webkit-scrollbar': {
       width: '0.4em',
@@ -48,6 +57,11 @@ const useStyles = makeStyles((_) => ({
     margin: 0,
     height: '100vh',
     width: '100vw',
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+    pointerEvents: 'auto',
   },
   uiOverlay: {
     position: 'fixed' /* Sit on top of the page content */,
@@ -69,7 +83,12 @@ const useStyles = makeStyles((_) => ({
 function App(props: Props): JSX.Element {
   const classes = useStyles();
 
-  const { marketFactoryPanelVisibilty, primaryFocusBuildRequest } = props;
+  const {
+    informationOverlayVisible,
+    marketFactoryPanelVisibilty,
+    primaryFocusBuildRequest,
+    onHideInfoPanel,
+  } = props;
 
   const MarketFactoryPanel = () => {
     switch (marketFactoryPanelVisibilty) {
@@ -130,6 +149,13 @@ function App(props: Props): JSX.Element {
             </div>
           </Grid>
         </Grid>
+        <Backdrop
+          className={classes.backdrop}
+          open={informationOverlayVisible}
+          onClick={onHideInfoPanel}
+        >
+          <InformationOverlay />
+        </Backdrop>
       </Box>
     </Box>
   );

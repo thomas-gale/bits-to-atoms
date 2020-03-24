@@ -3,35 +3,35 @@ import {
   BasicShapeTransmutationState,
   TransmutationStateType,
   LiquidAssetTransmutationState,
-  TransmutationState
+  TransmutationState,
 } from '../../workflow/types';
 import { TransmutationTransition } from './types';
 import { createLiquidAsset } from '../../economic/factories';
 
 export function createBasicShapeTransmutationState({
-  shape = BasicShape.Cube
+  shape = BasicShape.Cube,
 } = {}): BasicShapeTransmutationState {
   return {
     type: TransmutationStateType.BasicShapeType,
-    shape
+    shape,
   };
 }
 
 export function createLiquidAssetTransmutationState({
-  liquidAsset = createLiquidAsset()
+  liquidAsset = createLiquidAsset(),
 } = {}): LiquidAssetTransmutationState {
   return {
     type: TransmutationStateType.LiquidAssetType,
-    liquidAsset
+    liquidAsset,
   };
 }
 
 export function createTransmutationTransition({
   start = createBasicShapeTransmutationState() as TransmutationState,
-  end = createBasicShapeTransmutationState() as TransmutationState
+  end = createBasicShapeTransmutationState() as TransmutationState,
 } = {}): TransmutationTransition {
   return {
     start,
-    end
+    end,
   };
 }

@@ -6,7 +6,7 @@ import { DispatchService } from './types';
 import { Activity, ActivityType } from '../../../workflow/types';
 import {
   requestFullfillmentOfActivity,
-  offerFullfillmentOfActivity
+  offerFullfillmentOfActivity,
 } from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 
@@ -20,13 +20,13 @@ function* generateBidWorkflow(
     factoryServiceProvidersSelector
   )) as ServiceProvider[];
   const dispatchServiceProviders = serviceProviders.filter(
-    sp => sp.type === ServiceType.Dispatch
+    (sp) => sp.type === ServiceType.Dispatch
   ) as DispatchService[];
 
   // Grab the first service provider that can bid.
   // TD: In the future service providers should be able to bid on future tasks to append to a buffer.
   const availableDispatchServiceProviders = dispatchServiceProviders.filter(
-    psp => psp.canBid
+    (psp) => psp.canBid
   );
   const dispatchServiceProvider =
     availableDispatchServiceProviders.length > 0
@@ -46,7 +46,7 @@ function* generateBidWorkflow(
     yield put(
       offerFullfillmentOfActivity({
         serviceProvider: dispatchServiceProvider,
-        activity: activity
+        activity: activity,
       })
     );
   }

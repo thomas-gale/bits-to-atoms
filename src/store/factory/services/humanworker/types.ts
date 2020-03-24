@@ -1,7 +1,7 @@
 import {
   TransportServiceProvider,
   TransmutationServiceProvider,
-  ServiceType
+  ServiceType,
 } from '../types';
 
 export interface HumanWorker

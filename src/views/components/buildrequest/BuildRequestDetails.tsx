@@ -5,7 +5,7 @@ import { RootState, RootDispatch } from '../../../store';
 import { unSelectPrimaryFocusBuildRequest } from '../../../store/selected/slice';
 import {
   primaryFocusBuildRequestSelector,
-  primaryFocusBuildRequestOrderedActivitiesSelector
+  primaryFocusBuildRequestOrderedActivitiesSelector,
 } from '../../../store/selected/selectors';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,14 +15,14 @@ import {
   Typography,
   CardContent,
   CardActions,
-  Box
+  Box,
 } from '@material-ui/core';
 import ActivityDetails from './ActivityDetails';
 
 function mapState(state: RootState) {
   return {
     buildRequest: primaryFocusBuildRequestSelector(state),
-    orderedActivities: primaryFocusBuildRequestOrderedActivitiesSelector(state)
+    orderedActivities: primaryFocusBuildRequestOrderedActivitiesSelector(state),
   };
 }
 
@@ -30,7 +30,7 @@ function mapDispatch(dispatch: RootDispatch) {
   return {
     onCloseClicked: () => {
       dispatch(unSelectPrimaryFocusBuildRequest());
-    }
+    },
   };
 }
 
@@ -38,23 +38,23 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     margin: theme.spacing(2),
     flexGrow: 1,
     overflow: 'auto',
-    maxHeight: '80vh' // Couldn't find a nicer way. Be cool if I could reference the max height of
+    maxHeight: '80vh', // Couldn't find a nicer way. Be cool if I could reference the max height of
   },
   internalContainer: {
     margin: theme.spacing(1),
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   title: {
-    fontSize: 14
+    fontSize: 14,
   },
   pos: {
-    marginBottom: 12
-  }
+    marginBottom: 12,
+  },
 }));
 
 function BuildRequestDetails(props: Props): JSX.Element {
@@ -91,7 +91,7 @@ function BuildRequestDetails(props: Props): JSX.Element {
     endShape,
     scale,
     fixedValue,
-    workflow
+    workflow,
   } = buildRequest;
 
   const WorkflowsCardContent = () => {
@@ -101,7 +101,7 @@ function BuildRequestDetails(props: Props): JSX.Element {
           <Typography variant="h5" component="h2" className={classes.pos}>
             {workflow.displayName}
           </Typography>
-          {orderedActivities.map(activity => {
+          {orderedActivities.map((activity) => {
             return <ActivityDetails key={activity.id} activity={activity} />;
           })}
         </Card>

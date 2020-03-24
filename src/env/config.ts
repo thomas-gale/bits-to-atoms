@@ -1,6 +1,6 @@
 export const config = {
   topNav: {
-    gitHubURL: 'https://github.com/ThomasGale/bits-to-atoms'
+    gitHubURL: 'https://github.com/ThomasGale/bits-to-atoms',
   },
   market: {
     simpleMarketSaga: {
@@ -12,21 +12,21 @@ export const config = {
         'thingamajig',
         'doohickey',
         'doofery',
-        'thatthing'
+        'thatthing',
       ],
       partValueRange: {
         min: 5,
-        max: 10
+        max: 10,
       },
       maxNumberOpenRequests: 3,
       processingDelayRange: {
         min: 10000,
-        max: 20000
-      }
-    }
+        max: 20000,
+      },
+    },
   },
   factory: {
     updatePeriodMs: 1000,
-    maxNumberActiveBuilds: 1
-  }
+    maxNumberActiveBuilds: 1,
+  },
 };

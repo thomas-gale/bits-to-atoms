@@ -12,7 +12,7 @@ function mapDispatch(dispatch: RootDispatch) {
   return {
     onBidClicked: (buildRequest: BuildRequest) => {
       dispatch(requestBidBuildRequest(buildRequest));
-    }
+    },
   };
 }
 
@@ -25,25 +25,25 @@ interface OwnProps {
 
 type Props = ConnectedProps<typeof connector> & OwnProps;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
     width: '100%',
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   title: {
-    fontSize: 14
+    fontSize: 14,
   },
   subTitle: {
     fontSize: 11,
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   footer: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   comment: {
-    fontSize: 11
-  }
+    fontSize: 11,
+  },
 }));
 
 function BuildRequestElement(props: Props) {
@@ -79,7 +79,7 @@ function BuildRequestElement(props: Props) {
             variant="contained"
             color="primary"
             size="small"
-            onClick={_ => onBidClicked(props.buildRequest)}
+            onClick={(_) => onBidClicked(props.buildRequest)}
             disabled={!isAllowedToBid}
           >
             Bid

@@ -6,15 +6,15 @@ import { createHumanWorker } from './services/humanworker/factories';
 import { createBuildRequest } from '../buildrequest/factories';
 import {
   createWorkflow,
-  createTransportationActivity
+  createTransportationActivity,
 } from '../workflow/factories';
 
 // Arrange for all factory schema tests
 const testActivity1 = createTransportationActivity({
-  id: 'test-transportation-activity-1-uuid'
+  id: 'test-transportation-activity-1-uuid',
 });
 const testActivity2 = createTransportationActivity({
-  id: 'test-transportation-activity-2-uuid'
+  id: 'test-transportation-activity-2-uuid',
 });
 testActivity1.nextActivity = testActivity2;
 testActivity2.previousActivity = testActivity1;
@@ -23,17 +23,17 @@ const testWorkflow = createWorkflow({
   id: 'test-build-request-workflow-uuid',
   displayName: 'test-build-request-workflow-uuid',
   activities: [testActivity1, testActivity2],
-  firstActivity: testActivity1
+  firstActivity: testActivity1,
 });
 const testBuildRequest = createBuildRequest({
   id: 'test-build-request-uuid',
   displayName: 'test-build-request',
-  workflow: testWorkflow
+  workflow: testWorkflow,
 });
 
 const testHumanService = createHumanWorker({
   id: 'test-human-worker-uuid',
-  displayName: 'test-human-worker'
+  displayName: 'test-human-worker',
 });
 
 const testFactory = createFactory({
@@ -42,11 +42,11 @@ const testFactory = createFactory({
   liquidAsset: createLiquidAsset({
     id: 'test-liquid-asset-uuid',
     displayName: 'test-liquid-asset',
-    dollars: 42
+    dollars: 42,
   }),
   fixedAssets: [],
   buildRequests: [testBuildRequest],
-  serviceProviders: [testHumanService]
+  serviceProviders: [testHumanService],
 });
 
 test('can normalize factory', () => {
@@ -59,32 +59,32 @@ test('can normalize factory', () => {
       activities: {
         [testActivity1.id]: {
           ...testActivity1,
-          nextActivity: testActivity2.id
+          nextActivity: testActivity2.id,
         },
         [testActivity2.id]: {
           ...testActivity2,
-          previousActivity: testActivity1.id
-        }
+          previousActivity: testActivity1.id,
+        },
       },
       assets: {
-        'test-liquid-asset-uuid': testFactory.liquidAsset
+        'test-liquid-asset-uuid': testFactory.liquidAsset,
       },
       buildRequests: {
         [testBuildRequest.id]: {
           ...testBuildRequest,
-          workflow: testWorkflow.id
-        }
+          workflow: testWorkflow.id,
+        },
       },
       serviceProviders: {
-        'test-human-worker-uuid': testFactory.serviceProviders[0]
+        'test-human-worker-uuid': testFactory.serviceProviders[0],
       },
       workflows: {
         [testWorkflow.id]: {
           ...testWorkflow,
           activities: [testActivity1.id, testActivity2.id],
-          firstActivity: testActivity1.id
-        }
-      }
+          firstActivity: testActivity1.id,
+        },
+      },
     },
     result: {
       id: testFactory.id,
@@ -92,8 +92,8 @@ test('can normalize factory', () => {
       liquidAsset: 'test-liquid-asset-uuid',
       fixedAssets: [],
       buildRequests: [testBuildRequest.id],
-      serviceProviders: ['test-human-worker-uuid']
-    }
+      serviceProviders: ['test-human-worker-uuid'],
+    },
   });
 });
 
@@ -104,36 +104,36 @@ test('can denormalize factory', () => {
       activities: {
         [testActivity1.id]: {
           ...testActivity1,
-          nextActivity: testActivity2.id
+          nextActivity: testActivity2.id,
         },
         [testActivity2.id]: {
           ...testActivity2,
-          previousActivity: testActivity1.id
-        }
+          previousActivity: testActivity1.id,
+        },
       },
       assets: {
         'test-liquid-asset-uuid': createLiquidAsset({
           id: 'test-liquid-asset-uuid',
           displayName: 'test-liquid-asset',
-          dollars: 42
-        })
+          dollars: 42,
+        }),
       },
       buildRequests: {
         [testBuildRequest.id]: {
           ...testBuildRequest,
-          workflow: testWorkflow.id
-        }
+          workflow: testWorkflow.id,
+        },
       },
       serviceProviders: {
-        'test-human-worker-uuid': testHumanService
+        'test-human-worker-uuid': testHumanService,
       },
       workflows: {
         [testWorkflow.id]: {
           ...testWorkflow,
           activities: [testActivity1.id, testActivity2.id],
-          firstActivity: testActivity1.id
-        }
-      }
+          firstActivity: testActivity1.id,
+        },
+      },
     },
     result: {
       id: 'test-factory-uuid',
@@ -141,8 +141,8 @@ test('can denormalize factory', () => {
       liquidAsset: 'test-liquid-asset-uuid',
       fixedAssets: [],
       buildRequests: ['test-build-request-uuid'],
-      serviceProviders: ['test-human-worker-uuid']
-    }
+      serviceProviders: ['test-human-worker-uuid'],
+    },
   };
 
   // Act
@@ -160,11 +160,11 @@ test('can denormalize factory', () => {
       liquidAsset: createLiquidAsset({
         id: 'test-liquid-asset-uuid',
         displayName: 'test-liquid-asset',
-        dollars: 42
+        dollars: 42,
       }),
       fixedAssets: [],
       buildRequests: [testBuildRequest],
-      serviceProviders: [testHumanService]
+      serviceProviders: [testHumanService],
     })
   );
 });

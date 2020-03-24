@@ -5,14 +5,14 @@ export function createNumberParameter({
   id = createUuid(),
   displayName = 'default-number-parameter',
   units = '',
-  value = 0
+  value = 0,
 } = {}): NumberParameter {
   return {
     type: ParameterType.Number,
     id,
     displayName,
     units,
-    value
+    value,
   };
 }
 
@@ -20,13 +20,13 @@ export function createStringParameter({
   id = createUuid(),
   displayName = 'default-string-parameter',
   units = '',
-  value = ''
+  value = '',
 } = {}): StringParameter {
   return {
     type: ParameterType.String,
     id,
     displayName,
     units,
-    value
+    value,
   };
 }

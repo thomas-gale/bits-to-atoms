@@ -2,7 +2,7 @@ import { createUuid } from '../../../common/identity/factories';
 import {
   createCuboid,
   createQuaternion,
-  createVector3
+  createVector3,
 } from '../../../common/primitive/factories';
 import { BasicShape } from '../../../common/topology/types';
 import { createLiquidAsset } from '../../../economic/factories';
@@ -10,7 +10,7 @@ import { MaterialType } from '../../../material/types';
 import { ActivityType } from '../../../workflow/types';
 import {
   createBasicShapeTransmutationState,
-  createTransmutationTransition
+  createTransmutationTransition,
 } from '../factories';
 import { ServiceType } from '../types';
 import { FFFPrinter } from './types';
@@ -25,23 +25,23 @@ export function createFFFPrinter({
   orientation = createQuaternion(),
   bounds = createCuboid({
     min: createVector3({ x: -0.5, y: -0.5 }),
-    max: createVector3({ x: 0.5, y: 0.5, z: 1.0 })
+    max: createVector3({ x: 0.5, y: 0.5, z: 1.0 }),
   }),
   currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
   supportedTransmutationTransitions = [
     createTransmutationTransition({
       start: createBasicShapeTransmutationState({ shape: BasicShape.Spool }),
-      end: createBasicShapeTransmutationState({ shape: BasicShape.RoughCube })
+      end: createBasicShapeTransmutationState({ shape: BasicShape.RoughCube }),
     }),
     createTransmutationTransition({
       start: createBasicShapeTransmutationState({ shape: BasicShape.Spool }),
       end: createBasicShapeTransmutationState({
-        shape: BasicShape.RoughCylinder
-      })
-    })
+        shape: BasicShape.RoughCylinder,
+      }),
+    }),
   ],
   supportedMaterials = [MaterialType.SimplePolymer],
-  outputVolume = createCuboid()
+  outputVolume = createCuboid(),
 } = {}): FFFPrinter {
   return {
     type: ServiceType.FFFPrinter,
@@ -56,6 +56,6 @@ export function createFFFPrinter({
     currentCostPerTime,
     supportedTransmutationTransitions,
     supportedMaterials,
-    outputVolume
+    outputVolume,
   };
 }

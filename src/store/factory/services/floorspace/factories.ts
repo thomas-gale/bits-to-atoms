@@ -2,7 +2,7 @@ import { createUuid } from '../../../common/identity/factories';
 import {
   createCuboid,
   createQuaternion,
-  createVector3
+  createVector3,
 } from '../../../common/primitive/factories';
 import { createLiquidAsset } from '../../../economic/factories';
 import { ActivityType } from '../../../workflow/types';
@@ -19,9 +19,9 @@ export const createFloorSpace = ({
   orientation = createQuaternion(),
   bounds = createCuboid({
     min: createVector3({ x: -4, y: -2 }),
-    max: createVector3({ x: 4, y: 2, z: 2 })
+    max: createVector3({ x: 4, y: 2, z: 2 }),
   }),
-  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 })
+  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
 } = {}): FloorSpace => {
   return {
     type: ServiceType.Floorspace,
@@ -33,6 +33,6 @@ export const createFloorSpace = ({
     location,
     orientation,
     bounds,
-    currentCostPerTime
+    currentCostPerTime,
   };
 };

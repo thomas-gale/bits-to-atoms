@@ -7,7 +7,7 @@ import { Typography, makeStyles } from '@material-ui/core';
 
 function mapState(state: RootState) {
   return {
-    selected: selectedServiceProviderSelector(state)
+    selected: selectedServiceProviderSelector(state),
   };
 }
 
@@ -15,10 +15,10 @@ const connector = connect(mapState);
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(_ => ({
+const useStyles = makeStyles((_) => ({
   pos: {
-    marginBottom: 12
-  }
+    marginBottom: 12,
+  },
 }));
 
 function IdentityForm(props: Props) {

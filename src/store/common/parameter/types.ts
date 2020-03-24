@@ -2,7 +2,7 @@ import { Identity } from '../identity/types';
 
 export enum ParameterType {
   String,
-  Number
+  Number,
 }
 
 interface ParameterBase extends Identity {

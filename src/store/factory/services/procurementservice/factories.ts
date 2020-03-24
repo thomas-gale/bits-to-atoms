@@ -2,7 +2,7 @@ import { createUuid } from '../../../common/identity/factories';
 import {
   createCuboid,
   createQuaternion,
-  createVector3
+  createVector3,
 } from '../../../common/primitive/factories';
 import { BasicShape } from '../../../common/topology/types';
 import { createLiquidAsset } from '../../../economic/factories';
@@ -11,7 +11,7 @@ import { ActivityType } from '../../../workflow/types';
 import {
   createBasicShapeTransmutationState,
   createLiquidAssetTransmutationState,
-  createTransmutationTransition
+  createTransmutationTransition,
 } from '../factories';
 import { ServiceType } from '../types';
 import { ProcurementService } from './types';
@@ -29,13 +29,13 @@ export function createProcurementService({
   supportedTransmutationTransitions = [
     createTransmutationTransition({
       start: createLiquidAssetTransmutationState({
-        liquidAsset: createLiquidAsset({ dollars: 2 })
+        liquidAsset: createLiquidAsset({ dollars: 2 }),
       }),
-      end: createBasicShapeTransmutationState({ shape: BasicShape.Spool })
-    })
+      end: createBasicShapeTransmutationState({ shape: BasicShape.Spool }),
+    }),
   ],
   supportedMaterials = [MaterialType.SimplePolymer],
-  outputVolume = undefined
+  outputVolume = undefined,
 } = {}): ProcurementService {
   return {
     type: ServiceType.Procurement,
@@ -50,6 +50,6 @@ export function createProcurementService({
     currentCostPerTime,
     supportedTransmutationTransitions,
     supportedMaterials,
-    outputVolume
+    outputVolume,
   };
 }

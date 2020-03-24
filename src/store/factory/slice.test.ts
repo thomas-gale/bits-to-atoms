@@ -7,12 +7,12 @@ import {
   setLiquidAssetDollars,
   addBuildRequest,
   updateBuildRequestWorkflow,
-  updateActivity
+  updateActivity,
 } from './slice';
 import { createBuildRequest } from '../buildrequest/factories';
 import {
   createTransportationActivity,
-  createWorkflow
+  createWorkflow,
 } from '../workflow/factories';
 import { Activity } from '../workflow/types';
 
@@ -28,7 +28,7 @@ describe('factory slice', () => {
   it('can set display name', () => {
     const expectedState = {
       ...baseInitialState,
-      result: { ...baseInitialState.result, displayName: 'test-display-name' }
+      result: { ...baseInitialState.result, displayName: 'test-display-name' },
     };
 
     expect(
@@ -49,10 +49,10 @@ describe('factory slice', () => {
                   baseInitialState.result.liquidAsset
                 ]
               : {}),
-            dollars: 12345
-          }
-        }
-      }
+            dollars: 12345,
+          },
+        },
+      },
     };
 
     expect(
@@ -68,16 +68,16 @@ describe('factory slice', () => {
         ...baseInitialState.entities,
         buildRequests: {
           ...baseInitialState.entities.buildRequests,
-          [buildRequest.id]: buildRequest
-        }
+          [buildRequest.id]: buildRequest,
+        },
       },
       result: {
         ...baseInitialState.result,
         buildRequests: [
           ...baseInitialState.result.buildRequests,
-          buildRequest.id
-        ]
-      }
+          buildRequest.id,
+        ],
+      },
     };
 
     expect(
@@ -94,23 +94,23 @@ describe('factory slice', () => {
         ...baseInitialState.entities,
         buildRequests: {
           ...baseInitialState.entities.buildRequests,
-          [buildRequest.id]: buildRequest
-        }
+          [buildRequest.id]: buildRequest,
+        },
       },
       result: {
         ...baseInitialState.result,
         buildRequests: [
           ...baseInitialState.result.buildRequests,
-          buildRequest.id
-        ]
-      }
+          buildRequest.id,
+        ],
+      },
     } as FactorySchemaType;
 
     // Expected state.
     const testActivity = createTransportationActivity();
     const testWorkflow = createWorkflow({
       activities: [testActivity],
-      firstActivity: testActivity
+      firstActivity: testActivity,
     });
     const expectedState = {
       ...initialState,
@@ -118,27 +118,27 @@ describe('factory slice', () => {
         ...initialState.entities,
         activities: {
           ...initialState.entities.activities,
-          [testActivity.id]: testActivity
+          [testActivity.id]: testActivity,
         },
         buildRequests: {
           ...initialState.entities.buildRequests,
           [buildRequest.id]: {
             ...buildRequest,
-            workflow: testWorkflow.id
-          }
+            workflow: testWorkflow.id,
+          },
         },
         workflows: {
           ...initialState.entities.workflows,
           [testWorkflow.id]: {
             ...testWorkflow,
             activities: [testActivity.id],
-            firstActivity: testActivity.id
-          }
-        }
+            firstActivity: testActivity.id,
+          },
+        },
       },
       result: {
-        ...initialState.result
-      }
+        ...initialState.result,
+      },
     };
 
     expect(
@@ -146,7 +146,7 @@ describe('factory slice', () => {
         initialState,
         updateBuildRequestWorkflow({
           buildRequestId: buildRequest.id,
-          workflow: testWorkflow
+          workflow: testWorkflow,
         })
       )
     ).toEqual(expectedState);
@@ -157,14 +157,14 @@ describe('factory slice', () => {
     const testActivity = createTransportationActivity();
     const testWorkflow = createWorkflow({
       activities: [testActivity],
-      firstActivity: testActivity
+      firstActivity: testActivity,
     });
     const buildRequest = createBuildRequest({
-      workflow: testWorkflow
+      workflow: testWorkflow,
     });
     const initialState = normalize(
       createFactory({
-        buildRequests: [buildRequest]
+        buildRequests: [buildRequest],
       }),
       factorySchema
     );
@@ -173,7 +173,7 @@ describe('factory slice', () => {
     const updatedTestActivity = {
       ...testActivity,
       displayName: 'new-test-activity-name',
-      started: new Date()
+      started: new Date(),
     } as Activity;
     const normUpdatedTestActivity = normalize(
       updatedTestActivity,
@@ -184,8 +184,8 @@ describe('factory slice', () => {
       ...initialState,
       entities: {
         ...initialState.entities,
-        ...normUpdatedTestActivity.entities
-      }
+        ...normUpdatedTestActivity.entities,
+      },
     };
 
     expect(

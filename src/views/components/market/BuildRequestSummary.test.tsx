@@ -11,7 +11,7 @@ test('loads and displays build summary that can bid', async () => {
   const isAllowedToBid = true;
   const buildRequest = createBuildRequest();
   const store = configureStore({
-    reducer: rootReducer
+    reducer: rootReducer,
   });
 
   // Act

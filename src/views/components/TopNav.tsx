@@ -3,7 +3,7 @@ import {
   Box,
   IconButton,
   Toolbar,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import BusinessIcon from '@material-ui/icons/Business';
@@ -21,7 +21,7 @@ import { MarketFactoryPanelVisibilty } from '../../store/selected/types';
 function mapState(state: RootState) {
   return {
     marketFactoryPanelVisibilty: marketFactoryPanelVisibiltySelector(state),
-    factoryIdentity: factoryIdentitySelector(state)
+    factoryIdentity: factoryIdentitySelector(state),
   };
 }
 
@@ -36,7 +36,7 @@ function mapDispatch(dispatch: RootDispatch) {
       dispatch(
         setMarketFactoryPanelVisibilty(MarketFactoryPanelVisibilty.Market)
       );
-    }
+    },
   };
 }
 
@@ -44,17 +44,17 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(2),
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 
 function TopNav(props: Props): JSX.Element {

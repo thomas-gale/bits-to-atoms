@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
 import {
   simpleMarketSaga,
-  watchRequestAddBuildRequestSaga
+  watchRequestAddBuildRequestSaga,
 } from './market/sagas';
 
 import { reducer as formReducer } from 'redux-form';
@@ -14,11 +14,11 @@ import { factoryReducer } from './factory/slice';
 import { selectedReducer } from './selected/slice';
 import {
   factoryUpdateTickSaga,
-  factoryWatchAddActiveBuildRequestSaga
+  factoryWatchAddActiveBuildRequestSaga,
 } from './factory/sagas';
 import {
   serviceProvidersWatchFactoryOpenActivitiesSaga,
-  serviceProvidersWatchAcceptFullfillmentOfActivitiesSaga
+  serviceProvidersWatchAcceptFullfillmentOfActivitiesSaga,
 } from './factory/services/sagas';
 
 function* rootSaga() {
@@ -28,7 +28,7 @@ function* rootSaga() {
     fork(factoryUpdateTickSaga),
     fork(factoryWatchAddActiveBuildRequestSaga),
     fork(serviceProvidersWatchFactoryOpenActivitiesSaga),
-    fork(serviceProvidersWatchAcceptFullfillmentOfActivitiesSaga)
+    fork(serviceProvidersWatchAcceptFullfillmentOfActivitiesSaga),
   ]);
 }
 
@@ -38,14 +38,14 @@ export const rootReducer = combineReducers({
   market: marketReducer,
   factory: factoryReducer,
   selected: selectedReducer,
-  form: formReducer
+  form: formReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: [sagaMiddleware] as const
+  middleware: [sagaMiddleware] as const,
 });
 
 sagaMiddleware.run(rootSaga);

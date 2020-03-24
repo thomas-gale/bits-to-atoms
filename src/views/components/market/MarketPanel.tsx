@@ -13,7 +13,7 @@ import BuildRequest from './BuildRequestSummary';
 function mapState(state: RootState) {
   return {
     buildRequests: buildRequestsSelector(state),
-    isAllowedToBid: isAllowedToBidSelector(state)
+    isAllowedToBid: isAllowedToBidSelector(state),
   };
 }
 
@@ -24,18 +24,18 @@ type Props = ConnectedProps<typeof connector> & {
   height: number | null;
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(2),
     flexGrow: 1,
     width: '100%',
     overflow: 'auto',
-    maxHeight: '80vh' // Couldn't find a nicer way. Be cool if I could reference the max height of
+    maxHeight: '80vh', // Couldn't find a nicer way. Be cool if I could reference the max height of
   },
   card: {
     position: 'absolute',
-    paddingRight: theme.spacing(4)
-  }
+    paddingRight: theme.spacing(4),
+  },
 }));
 
 function MarketPanel(panelProps: Props): JSX.Element {
@@ -47,18 +47,18 @@ function MarketPanel(panelProps: Props): JSX.Element {
 
   let cumulativeHeight = 0; // Cumulative height
   const transBuildRequests = useTransition(
-    buildRequests.map(buildRequest => ({
+    buildRequests.map((buildRequest) => ({
       ...buildRequest,
       y: (cumulativeHeight += elementHeight) - elementHeight,
-      height: elementHeight
+      height: elementHeight,
     })),
-    buildRequest => buildRequest.id,
+    (buildRequest) => buildRequest.id,
     {
       from: { height: 0, opacity: 0 },
       leave: { height: 0, opacity: 0 },
       enter: ({ y, height }) => ({ y, height, opacity: 1 }),
       update: ({ y, height }) => ({ y, height }),
-      config: { tension: 500 }
+      config: { tension: 500 },
     }
   );
 
@@ -76,7 +76,7 @@ function MarketPanel(panelProps: Props): JSX.Element {
             ),
             opacity: props.opacity,
             height: props.height,
-            width: width === null ? undefined : width
+            width: width === null ? undefined : width,
           }}
         >
           <BuildRequest isAllowedToBid={isAllowedToBid} buildRequest={item} />

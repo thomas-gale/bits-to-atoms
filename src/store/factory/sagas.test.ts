@@ -7,19 +7,19 @@ describe('factory sagas', () => {
   it('should execute the build request workflow saga when build request added', async () => {
     // Arrange
     const buildRequest = createBuildRequest({
-      displayName: 'test-build-request'
+      displayName: 'test-build-request',
     });
     const dispatched = [];
 
     // Act
     await runSaga(
       {
-        dispatch: action => dispatched.push(action)
+        dispatch: (action) => dispatched.push(action),
       },
       buildRequestWorkflowSaga,
       {
         type: addBuildRequest.type,
-        payload: buildRequest
+        payload: buildRequest,
       }
     );
 

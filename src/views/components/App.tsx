@@ -15,7 +15,7 @@ import FactoryPanel from './factory/FactoryPanel';
 import { RootState } from '../../store';
 import {
   marketFactoryPanelVisibiltySelector,
-  primaryFocusBuildRequestSelector
+  primaryFocusBuildRequestSelector,
 } from '../../store/selected/selectors';
 import { MarketFactoryPanelVisibilty } from '../../store/selected/types';
 import BuildRequestDetails from './buildrequest/BuildRequestDetails';
@@ -23,7 +23,7 @@ import BuildRequestDetails from './buildrequest/BuildRequestDetails';
 function mapState(state: RootState) {
   return {
     marketFactoryPanelVisibilty: marketFactoryPanelVisibiltySelector(state),
-    primaryFocusBuildRequest: primaryFocusBuildRequestSelector(state)
+    primaryFocusBuildRequest: primaryFocusBuildRequestSelector(state),
   };
 }
 
@@ -31,23 +31,23 @@ const connector = connect(mapState);
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(_ => ({
+const useStyles = makeStyles((_) => ({
   '@global': {
     '*::-webkit-scrollbar': {
-      width: '0.4em'
+      width: '0.4em',
     },
     '*::-webkit-scrollbar-track': {
-      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)',
     },
     '*::-webkit-scrollbar-thumb': {
       backgroundColor: 'rgba(0,0,0,.1)',
-      outline: '1px solid slategrey'
-    }
+      outline: '1px solid slategrey',
+    },
   },
   fullScreen: {
     margin: 0,
     height: '100vh',
-    width: '100vw'
+    width: '100vw',
   },
   uiOverlay: {
     position: 'fixed' /* Sit on top of the page content */,
@@ -56,14 +56,14 @@ const useStyles = makeStyles(_ => ({
     right: 0,
     pointerEvents: 'none',
     height: '100vh',
-    maxHeight: '100vh'
+    maxHeight: '100vh',
   },
   uiPrimaryGridContainer: {
-    justify: 'flex-start'
+    justify: 'flex-start',
   },
   uiPrimaryGridElement: {
-    pointerEvents: 'auto'
-  }
+    pointerEvents: 'auto',
+  },
 }));
 
 function App(props: Props): JSX.Element {

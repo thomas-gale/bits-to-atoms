@@ -10,7 +10,7 @@ import { ActivityType } from '../workflow/types';
 import { factorySchema, FactorySchemaType } from './schemas';
 import {
   ServiceProvider,
-  TransmutationServiceProvider
+  TransmutationServiceProvider,
 } from './services/types';
 
 /*export const factorySelector = (state: RootState): FactorySchemaType =>
@@ -45,7 +45,7 @@ export const factoryIdentitySelector = createSelector(
   (factoryId: string | undefined, factoryDisplayName: string | undefined) => {
     return {
       id: factoryId ? factoryId : 'undefined',
-      displayName: factoryDisplayName ? factoryDisplayName : 'undefined'
+      displayName: factoryDisplayName ? factoryDisplayName : 'undefined',
     } as Identity;
   }
 );
@@ -58,11 +58,11 @@ export const factoryLiquidAssetSelector = createSelector(
   ): LiquidAsset => {
     return denormalize(
       {
-        liquidAsset: factoryLiquidAssetId
+        liquidAsset: factoryLiquidAssetId,
       },
       factorySchema,
       {
-        assets: factoryEntitiesAssets
+        assets: factoryEntitiesAssets,
       }
     ).liquidAsset as LiquidAsset;
   }
@@ -74,7 +74,7 @@ export const factoryBuildRequestsSelector = createSelector(
     factoryEntitiesActivitiesSelector,
     factoryEntitiesBuildRequestsSelector,
     factoryEntitiesServiceProvidersSelector,
-    factoryEntitiesWorkflowsSelector
+    factoryEntitiesWorkflowsSelector,
   ],
   (
     factoryBuildRequestsIds: string[] | undefined,
@@ -85,14 +85,14 @@ export const factoryBuildRequestsSelector = createSelector(
   ): BuildRequest[] => {
     return denormalize(
       {
-        buildRequests: factoryBuildRequestsIds
+        buildRequests: factoryBuildRequestsIds,
       },
       factorySchema,
       {
         activities: factoryEntitiesActivities,
         buildRequests: factoryEntitiesBuildRequests,
         serviceProviders: factoryEntitiesServiceProviders,
-        workflows: factoryEntitiesWorkflows
+        workflows: factoryEntitiesWorkflows,
       }
     ).buildRequests as BuildRequest[];
   }
@@ -115,11 +115,11 @@ export const factoryServiceProvidersSelector = createSelector(
   ): ServiceProvider[] => {
     return denormalize(
       {
-        serviceProviders: factoryServiceProvidersIds
+        serviceProviders: factoryServiceProvidersIds,
       },
       factorySchema,
       {
-        serviceProviders: factoryEntitiesServiceProviders
+        serviceProviders: factoryEntitiesServiceProviders,
       }
     ).serviceProviders as ServiceProvider[];
   }
@@ -131,8 +131,8 @@ export const factoryTransmutationServiceProvidersSelector = createSelector(
     factoryServiceProviders: ServiceProvider[]
   ): TransmutationServiceProvider[] => {
     return factoryServiceProviders.filter(
-      sp =>
-        sp.capabilities.find(cap => cap === ActivityType.Transmutation) !==
+      (sp) =>
+        sp.capabilities.find((cap) => cap === ActivityType.Transmutation) !==
         undefined
     ) as TransmutationServiceProvider[];
   }
@@ -142,7 +142,7 @@ export const currentServiceProviderCostPerTimeSelector = createSelector(
   [factoryServiceProvidersSelector],
   (serviceProviders: ServiceProvider[]): LiquidAsset => {
     let currentServiceProvidersCostPerSecond = 0;
-    serviceProviders.forEach(p => {
+    serviceProviders.forEach((p) => {
       currentServiceProvidersCostPerSecond += p.currentCostPerTime.dollars;
     });
     return createLiquidAsset({ dollars: currentServiceProvidersCostPerSecond });
@@ -166,16 +166,16 @@ export const factoryEconomicSummarySelector = createSelector(
 
     // Compute total service provider cost per second
     let currentServiceProvidersCostPerSecond = 0;
-    serviceProviders.forEach(p => {
+    serviceProviders.forEach((p) => {
       currentServiceProvidersCostPerSecond += p.currentCostPerTime.dollars;
     });
 
     return {
       currentAssetsValue: liquidAsset,
       totalOut: createLiquidAsset({
-        dollars: currentServiceProvidersCostPerSecond
+        dollars: currentServiceProvidersCostPerSecond,
       }),
-      totalIn: createLiquidAsset({ dollars: 0 })
+      totalIn: createLiquidAsset({ dollars: 0 }),
     };
   }
 );

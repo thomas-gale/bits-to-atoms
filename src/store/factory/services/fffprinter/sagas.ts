@@ -4,11 +4,11 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import {
   Activity,
   ActivityType,
-  TransmutationStateType
+  TransmutationStateType,
 } from '../../../workflow/types';
 import {
   requestFullfillmentOfActivity,
-  offerFullfillmentOfActivity
+  offerFullfillmentOfActivity,
 } from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
@@ -25,13 +25,13 @@ function* generateBidWorkflow(
     factoryServiceProvidersSelector
   )) as ServiceProvider[];
   const fffPrinterServiceProviders = serviceProviders.filter(
-    sp => sp.type === ServiceType.FFFPrinter
+    (sp) => sp.type === ServiceType.FFFPrinter
   ) as FFFPrinter[];
 
   // Grab the first service provider that can bid.
   // TD: In the future service providers should be able to bid on future tasks to append to a buffer.
   const availableFFFPrinterServiceProviders = fffPrinterServiceProviders.filter(
-    fffpsp => fffpsp.canBid
+    (fffpsp) => fffpsp.canBid
   );
   const fffPrinterServiceProvider =
     availableFFFPrinterServiceProviders.length > 0
@@ -48,7 +48,7 @@ function* generateBidWorkflow(
     // Check for each transition if the printer's end state is BasicShape, the action has an end state that is also BasicShape and that the printer can
     // offer the shape required.
     const chosenTopologyTransition = fffPrinterServiceProvider.supportedTransmutationTransitions.find(
-      transition =>
+      (transition) =>
         transition.end.type === TransmutationStateType.BasicShapeType &&
         activity.endState &&
         activity.endState.type === TransmutationStateType.BasicShapeType &&
@@ -63,12 +63,12 @@ function* generateBidWorkflow(
         TransmutationStateType.BasicShapeType
       ) {
         activity.startState = createBasicShapeTransmutationState({
-          shape: chosenTopologyTransition.start.shape
+          shape: chosenTopologyTransition.start.shape,
         });
         yield put(
           offerFullfillmentOfActivity({
             serviceProvider: fffPrinterServiceProvider,
-            activity: activity
+            activity: activity,
           })
         );
       } else {

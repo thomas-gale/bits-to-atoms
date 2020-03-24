@@ -32,7 +32,7 @@ export function SmoothOrbitCamera(props: {
     springyCameraPos: [
       cameraTarget ? cameraTarget.position.x : camera.position.x,
       cameraTarget ? cameraTarget.position.y : camera.position.y,
-      cameraTarget ? cameraTarget.position.z : camera.position.z
+      cameraTarget ? cameraTarget.position.z : camera.position.z,
     ],
     springyCameraLookAt: [
       cameraTarget
@@ -49,14 +49,14 @@ export function SmoothOrbitCamera(props: {
         ? cameraTarget.lookAt.z
         : orbitRef.current
         ? orbitRef.current.target.z
-        : 0
+        : 0,
     ],
     onStart: () => {
       setCameraMoving(true);
     },
     onRest: () => {
       setCameraMoving(false);
-    }
+    },
   });
 
   useFrame(() => {

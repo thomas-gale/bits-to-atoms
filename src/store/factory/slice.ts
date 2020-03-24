@@ -23,9 +23,9 @@ const factorySlice = createSlice({
             ...(state.entities.assets
               ? state.entities.assets[state.result.liquidAsset]
               : {}),
-            dollars: action.payload
-          }
-        }
+            dollars: action.payload,
+          },
+        },
       };
     },
     addBuildRequest(state, action: PayloadAction<BuildRequest>) {
@@ -33,12 +33,12 @@ const factorySlice = createSlice({
         ...state.entities,
         buildRequests: {
           ...state.entities.buildRequests,
-          [action.payload.id]: action.payload
-        }
+          [action.payload.id]: action.payload,
+        },
       };
       state.result = {
         ...state.result,
-        buildRequests: [...state.result.buildRequests, action.payload.id]
+        buildRequests: [...state.result.buildRequests, action.payload.id],
       };
     },
     updateBuildRequestWorkflow(
@@ -57,21 +57,21 @@ const factorySlice = createSlice({
             ...(state.entities.buildRequests
               ? state.entities.buildRequests[action.payload.buildRequestId]
               : {}),
-            workflow: action.payload.workflow.id
-          }
+            workflow: action.payload.workflow.id,
+          },
         },
         activities: {
           ...state.entities.activities,
-          ...normalizedWorkflow.entities.activities
+          ...normalizedWorkflow.entities.activities,
         },
         serviceProviders: {
           ...state.entities.serviceProviders,
-          ...normalizedWorkflow.entities.serviceProviders
+          ...normalizedWorkflow.entities.serviceProviders,
         },
         workflows: {
           ...state.entities.workflows,
-          ...normalizedWorkflow.entities.workflows
-        }
+          ...normalizedWorkflow.entities.workflows,
+        },
       };
     },
     requestFullfillmentOfActivity(_state, _action: PayloadAction<Activity>) {
@@ -105,7 +105,7 @@ const factorySlice = createSlice({
       const normalizedActivity = normalize(action.payload, activitySchema);
       state.entities = {
         ...state.entities,
-        ...normalizedActivity.entities
+        ...normalizedActivity.entities,
       };
     },
     removeBuildRequest(_state, _action: PayloadAction<string>) {
@@ -154,8 +154,8 @@ const factorySlice = createSlice({
         sp => sp.id === action.payload.serviceProviderId
       );
       if (!serviceProvider) return;*/
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -168,7 +168,7 @@ export const {
   acceptFullfillmentOfActivity,
   updateActivity,
   removeBuildRequest,
-  setServiceProviderParameter
+  setServiceProviderParameter,
 } = factorySlice.actions;
 
 export const factoryReducer = factorySlice.reducer;

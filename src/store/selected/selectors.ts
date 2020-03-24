@@ -4,7 +4,7 @@ import { Cuboid, Quaternion, Vector3 } from '../common/primitive/types';
 import { Entity } from '../factory/entity/types';
 import {
   factoryBuildRequestsSelector,
-  factoryServiceProvidersSelector
+  factoryServiceProvidersSelector,
 } from '../factory/selectors';
 import { ServiceProvider } from '../factory/services/types';
 import { RootState } from '../index';
@@ -14,12 +14,12 @@ export const selectedSelector = (state: RootState) => state.selected;
 
 export const marketFactoryPanelVisibiltySelector = createSelector(
   [selectedSelector],
-  selected => selected.marketFactoryPanelVisibilty
+  (selected) => selected.marketFactoryPanelVisibilty
 );
 
 export const primaryFocusBuildRequestIdSelector = createSelector(
   [selectedSelector],
-  selected => selected.primaryFocusBuildRequestId
+  (selected) => selected.primaryFocusBuildRequestId
 );
 
 export const primaryFocusBuildRequestSelector = createSelector(
@@ -30,7 +30,7 @@ export const primaryFocusBuildRequestSelector = createSelector(
   ): BuildRequest | undefined => {
     if (!primaryFocusBuildRequestId) return undefined;
     return factoryBuildRequests.find(
-      br => br.id === primaryFocusBuildRequestId
+      (br) => br.id === primaryFocusBuildRequestId
     );
   }
 );
@@ -63,7 +63,7 @@ export const primaryFocusBuildRequestOrderedActivitiesSelector = createSelector(
 
 export const selectedServiceProviderIdSelector = createSelector(
   [selectedSelector],
-  selected => selected.selectedServiceProviderId
+  (selected) => selected.selectedServiceProviderId
 );
 
 export const selectedServiceProviderSelector = createSelector(
@@ -74,7 +74,7 @@ export const selectedServiceProviderSelector = createSelector(
   ): ServiceProvider | undefined => {
     if (!selectedServiceProviderId) return undefined;
     return factoryServiceProviders.find(
-      sp => sp.id === selectedServiceProviderId
+      (sp) => sp.id === selectedServiceProviderId
     );
   }
 );

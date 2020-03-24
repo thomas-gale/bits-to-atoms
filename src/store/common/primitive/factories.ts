@@ -4,7 +4,7 @@ export function createVector3({ x = 0, y = 0, z = 0 } = {}): Vector3 {
   return {
     x,
     y,
-    z
+    z,
   };
 }
 
@@ -12,22 +12,22 @@ export function createQuaternion({
   x = 0,
   y = 0,
   z = 0,
-  w = 1
+  w = 1,
 } = {}): Quaternion {
   return {
     x,
     y,
     z,
-    w
+    w,
   };
 }
 
 export function createCuboid({
   min = createVector3(),
-  max = createVector3({ x: 1, y: 1, z: 1 })
+  max = createVector3({ x: 1, y: 1, z: 1 }),
 } = {}): Cuboid {
   return {
     min,
-    max
+    max,
   };
 }

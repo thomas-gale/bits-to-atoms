@@ -5,7 +5,7 @@ import { LiquidAsset } from '../../economic/types';
 import {
   ActivityType,
   Activity,
-  TransmutationState
+  TransmutationState,
 } from '../../workflow/types';
 
 export enum ServiceType {
@@ -13,7 +13,7 @@ export enum ServiceType {
   Floorspace = 'Floorspace',
   HumanWorker = 'HumanWorker',
   FFFPrinter = 'FFFPrinter',
-  Dispatch = 'Dispatch'
+  Dispatch = 'Dispatch',
 }
 
 // This any is required to allow arbitary mapping from Serivce provider parameters in UI forms to object values.

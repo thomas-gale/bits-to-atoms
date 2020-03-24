@@ -6,7 +6,7 @@ import { RootState, RootDispatch } from '../../../../store';
 import { setSelectedPrimaryFocusBuildRequest } from '../../../../store/selected/slice';
 import {
   factoryBuildRequestsSelector,
-  isAllowedToBidSelector
+  isAllowedToBidSelector,
 } from '../../../../store/factory/selectors';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +15,7 @@ import { Button, Card, Typography, CardContent } from '@material-ui/core';
 function mapState(state: RootState) {
   return {
     buildRequests: factoryBuildRequestsSelector(state),
-    isAllowedToBid: isAllowedToBidSelector(state)
+    isAllowedToBid: isAllowedToBidSelector(state),
   };
 }
 
@@ -23,7 +23,7 @@ function mapDispatch(dispatch: RootDispatch) {
   return {
     onActiveBuildRequestSelected: (id: string) => {
       dispatch(setSelectedPrimaryFocusBuildRequest(id));
-    }
+    },
   };
 }
 
@@ -31,16 +31,16 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(_theme => ({
+const useStyles = makeStyles((_theme) => ({
   container: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   title: {
-    fontSize: 14
+    fontSize: 14,
   },
   comment: {
-    fontSize: 12
-  }
+    fontSize: 12,
+  },
 }));
 
 function ActiveBuildRequestsSummary(props: Props): JSX.Element {
@@ -49,7 +49,7 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
   const {
     buildRequests: activeBuildRequests,
     isAllowedToBid,
-    onActiveBuildRequestSelected
+    onActiveBuildRequestSelected,
   } = props;
 
   return (
@@ -74,7 +74,7 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
           <div />
         )}
         {activeBuildRequests.length > 0 ? (
-          activeBuildRequests.map(activeBuildRequest => (
+          activeBuildRequests.map((activeBuildRequest) => (
             <div key={activeBuildRequest.id}>
               <Typography color="textPrimary">
                 {activeBuildRequest.displayName}
@@ -86,7 +86,7 @@ function ActiveBuildRequestsSummary(props: Props): JSX.Element {
                 variant="contained"
                 color="primary"
                 size="small"
-                onClick={_ =>
+                onClick={(_) =>
                   onActiveBuildRequestSelected(activeBuildRequest.id)
                 }
               >

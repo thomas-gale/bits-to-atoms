@@ -5,12 +5,12 @@ import {
   Activity,
   ActivityType,
   TransmutationStateType,
-  TransmutationActivity
+  TransmutationActivity,
 } from '../../../workflow/types';
 import {
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity,
-  acceptFullfillmentOfActivity
+  acceptFullfillmentOfActivity,
 } from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
@@ -26,13 +26,13 @@ function* generateBidWorkflow(
     factoryServiceProvidersSelector
   )) as ServiceProvider[];
   const procurementServiceProviders = serviceProviders.filter(
-    sp => sp.type === ServiceType.Procurement
+    (sp) => sp.type === ServiceType.Procurement
   ) as ProcurementService[];
 
   // Grab the first service provider that can bid.
   // TD: In the future service providers should be able to bid on future tasks to append to a buffer.
   const availableProcurementServiceProviders = procurementServiceProviders.filter(
-    psp => psp.canBid
+    (psp) => psp.canBid
   );
   const procurementServiceProvider =
     availableProcurementServiceProviders.length > 0
@@ -49,7 +49,7 @@ function* generateBidWorkflow(
     // Check for each transition if the procurement services's end state is BasicShape, the action has an end state that is also BasicShape and that the service can
     // offer the shape required.
     const chosenTopologyTransition = procurementServiceProvider.supportedTransmutationTransitions.find(
-      transition =>
+      (transition) =>
         transition.end.type === TransmutationStateType.BasicShapeType &&
         activity.endState &&
         activity.endState.type === TransmutationStateType.BasicShapeType &&
@@ -67,7 +67,7 @@ function* generateBidWorkflow(
         yield put(
           offerFullfillmentOfActivity({
             serviceProvider: procurementServiceProvider,
-            activity: activity
+            activity: activity,
           })
         );
       } else {

@@ -31,11 +31,11 @@ export function BasePlane(props: Props): JSX.Element {
       receiveShadow
       position={[0, 0, -0.1]}
       ref={mesh}
-      onPointerMove={e => {
+      onPointerMove={(e) => {
         e.stopPropagation();
         onHover(e);
       }}
-      onClick={e => {
+      onClick={(e) => {
         e.stopPropagation();
         onSelected();
       }}

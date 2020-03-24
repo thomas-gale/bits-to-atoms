@@ -2,7 +2,7 @@ import { createUuid } from '../../../common/identity/factories';
 import {
   createCuboid,
   createQuaternion,
-  createVector3
+  createVector3,
 } from '../../../common/primitive/factories';
 import { BasicShape } from '../../../common/topology/types';
 import { createLiquidAsset } from '../../../economic/factories';
@@ -10,7 +10,7 @@ import { MaterialType } from '../../../material/types';
 import { ActivityType } from '../../../workflow/types';
 import {
   createBasicShapeTransmutationState,
-  createTransmutationTransition
+  createTransmutationTransition,
 } from '../factories';
 import { ServiceType } from '../types';
 import { HumanWorker } from './types';
@@ -25,7 +25,7 @@ export function createHumanWorker({
   orientation = createQuaternion(),
   bounds = createCuboid({
     min: createVector3({ x: -0.2, y: -0.2 }),
-    max: createVector3({ x: 0.2, y: 0.2, z: 1.5 })
+    max: createVector3({ x: 0.2, y: 0.2, z: 1.5 }),
   }),
   currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
   capactityMass = 5,
@@ -33,21 +33,21 @@ export function createHumanWorker({
   supportedTransmutationTransitions = [
     createTransmutationTransition({
       start: createBasicShapeTransmutationState({
-        shape: BasicShape.RoughCube
+        shape: BasicShape.RoughCube,
       }),
-      end: createBasicShapeTransmutationState({ shape: BasicShape.Cube })
+      end: createBasicShapeTransmutationState({ shape: BasicShape.Cube }),
     }),
     createTransmutationTransition({
       start: createBasicShapeTransmutationState({
-        shape: BasicShape.RoughCylinder
+        shape: BasicShape.RoughCylinder,
       }),
       end: createBasicShapeTransmutationState({
-        shape: BasicShape.Cylinder
-      })
-    })
+        shape: BasicShape.Cylinder,
+      }),
+    }),
   ],
   supportedMaterials = [MaterialType.SimplePolymer],
-  outputVolume = createCuboid()
+  outputVolume = createCuboid(),
 } = {}): HumanWorker {
   return {
     type: ServiceType.HumanWorker,
@@ -64,6 +64,6 @@ export function createHumanWorker({
     movementVelocity,
     supportedTransmutationTransitions,
     supportedMaterials,
-    outputVolume
+    outputVolume,
   };
 }

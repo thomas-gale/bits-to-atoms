@@ -5,7 +5,7 @@ import { createUuid } from '../../../common/identity/factories';
 import {
   createVector3,
   createQuaternion,
-  createCuboid
+  createCuboid,
 } from '../../../common/primitive/factories';
 import { createLiquidAsset } from '../../../economic/factories';
 import { ActivityType } from '../../../workflow/types';
@@ -14,7 +14,7 @@ import { MaterialType } from '../../../material/types';
 import {
   createTransmutationTransition,
   createBasicShapeTransmutationState,
-  createLiquidAssetTransmutationState
+  createLiquidAssetTransmutationState,
 } from '../factories';
 
 export function createDispatchService({
@@ -31,18 +31,18 @@ export function createDispatchService({
     createTransmutationTransition({
       start: createBasicShapeTransmutationState({ shape: BasicShape.Cube }),
       end: createLiquidAssetTransmutationState({
-        liquidAsset: createLiquidAsset({ dollars: 5 })
-      })
+        liquidAsset: createLiquidAsset({ dollars: 5 }),
+      }),
     }),
     createTransmutationTransition({
       start: createBasicShapeTransmutationState({ shape: BasicShape.Cylinder }),
       end: createLiquidAssetTransmutationState({
-        liquidAsset: createLiquidAsset({ dollars: 10 })
-      })
-    })
+        liquidAsset: createLiquidAsset({ dollars: 10 }),
+      }),
+    }),
   ],
   supportedMaterials = [MaterialType.SimplePolymer],
-  outputVolume = undefined
+  outputVolume = undefined,
 } = {}): DispatchService {
   return {
     type: ServiceType.Dispatch,
@@ -57,6 +57,6 @@ export function createDispatchService({
     currentCostPerTime,
     supportedTransmutationTransitions,
     supportedMaterials,
-    outputVolume
+    outputVolume,
   };
 }

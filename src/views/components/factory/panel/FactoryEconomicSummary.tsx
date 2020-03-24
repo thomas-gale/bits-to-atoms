@@ -10,7 +10,7 @@ import { dollarFormatter } from '../../../../store/economic/factories';
 
 function mapState(state: RootState) {
   return {
-    factoryEconomicSummary: factoryEconomicSummarySelector(state)
+    factoryEconomicSummary: factoryEconomicSummarySelector(state),
   };
 }
 
@@ -22,13 +22,13 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-const useStyles = makeStyles(_theme => ({
+const useStyles = makeStyles((_theme) => ({
   container: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   title: {
-    fontSize: 14
-  }
+    fontSize: 14,
+  },
 }));
 
 function FactoryEconomicSummary(props: Props): JSX.Element {

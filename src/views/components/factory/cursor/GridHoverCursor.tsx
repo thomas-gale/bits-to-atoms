@@ -28,7 +28,7 @@ export function GridHoverCursor(props: Props): JSX.Element {
   }, [gridSize, x, y]);
 
   const { springycursorPostion } = useSpring({
-    springycursorPostion: [target.x, target.y, target.z]
+    springycursorPostion: [target.x, target.y, target.z],
   });
 
   return (

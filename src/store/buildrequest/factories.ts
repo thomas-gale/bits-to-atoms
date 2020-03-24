@@ -13,7 +13,7 @@ export function createBuildRequest({
   endShape = BasicShape.Cube,
   scale = 1e-2,
   fixedValue = createLiquidAsset({ dollars: 20 }),
-  workflow = undefined as Workflow | undefined
+  workflow = undefined as Workflow | undefined,
 } = {}): BuildRequest {
   return {
     id,
@@ -23,6 +23,6 @@ export function createBuildRequest({
     endShape,
     scale,
     fixedValue,
-    workflow
+    workflow,
   };
 }

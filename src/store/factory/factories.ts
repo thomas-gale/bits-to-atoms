@@ -18,33 +18,33 @@ export function createFactory({
   buildRequests = [] as BuildRequest[],
   serviceProviders = [
     createFloorSpace({
-      displayName: 'Floorspace 1'
+      displayName: 'Floorspace 1',
     }),
     createProcurementService({
       displayName: 'Procurement 1',
       location: createVector3({ x: -3, y: 2.5 }),
       bounds: createCuboid({
         min: createVector3({ x: -1, y: -0.5 }),
-        max: createVector3({ x: 1, y: 0.5, z: 0.1 })
-      })
+        max: createVector3({ x: 1, y: 0.5, z: 0.1 }),
+      }),
     }),
     createHumanWorker({
       displayName: 'Human 1',
-      location: createVector3({ x: 3, y: 1 })
+      location: createVector3({ x: 3, y: 1 }),
     }),
     createFFFPrinter({
       displayName: 'Printer 1',
-      location: createVector3({ x: 0, y: -1 })
+      location: createVector3({ x: 0, y: -1 }),
     }),
     createDispatchService({
       displayName: 'Dispatch 1',
       location: createVector3({ x: 3, y: 2.5 }),
       bounds: createCuboid({
         min: createVector3({ x: -1, y: -0.5 }),
-        max: createVector3({ x: 1, y: 0.5, z: 0.1 })
-      })
-    })
-  ]
+        max: createVector3({ x: 1, y: 0.5, z: 0.1 }),
+      }),
+    }),
+  ],
 } = {}): Factory {
   return {
     id,
@@ -52,6 +52,6 @@ export function createFactory({
     liquidAsset,
     fixedAssets,
     buildRequests,
-    serviceProviders
+    serviceProviders,
   };
 }

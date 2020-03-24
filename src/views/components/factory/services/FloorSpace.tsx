@@ -41,7 +41,7 @@ export function FloorSpaceElement(props: Props): JSX.Element {
       position={[location.x, location.y, location.z - thickness / 2]}
       rotation={eulerRotation}
       ref={mesh}
-      onClick={e => {
+      onClick={(e) => {
         e.stopPropagation();
         props.onSelected(id);
       }}
@@ -51,7 +51,7 @@ export function FloorSpaceElement(props: Props): JSX.Element {
         args={[
           bounds.max.x - bounds.min.x,
           bounds.max.y - bounds.min.y,
-          thickness
+          thickness,
         ]}
       />
       <meshStandardMaterial attach="material" color={'grey'} />

@@ -2,24 +2,24 @@ import { createUuid } from '../common/identity/factories';
 import {
   createCuboid,
   createQuaternion,
-  createVector3
+  createVector3,
 } from '../common/primitive/factories';
 import { FixedAsset, FixedAssetType, LiquidAsset } from './types';
 
 export const dollarFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
-  currency: 'USD'
+  currency: 'USD',
 });
 
 export function createLiquidAsset({
   id = createUuid(),
   displayName = 'default-liquid-asset',
-  dollars = 500
+  dollars = 500,
 } = {}): LiquidAsset {
   return {
     id,
     displayName,
-    dollars
+    dollars,
   };
 }
 
@@ -30,7 +30,7 @@ export function createFixedAsset({
   depreciationRate = 0,
   location = createVector3(),
   orientation = createQuaternion(),
-  bounds = createCuboid()
+  bounds = createCuboid(),
 } = {}): FixedAsset {
   return {
     id,
@@ -39,6 +39,6 @@ export function createFixedAsset({
     depreciationRate,
     location,
     orientation,
-    bounds
+    bounds,
   };
 }

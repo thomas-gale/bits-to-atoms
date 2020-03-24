@@ -8,7 +8,7 @@ import {
   TransmutationActivity,
   TransmutationState,
   TransportationActivity,
-  Workflow
+  Workflow,
 } from './types';
 import { ServiceProvider } from '../factory/services/types';
 
@@ -21,7 +21,7 @@ export function createTransportationActivity({
   previousActivity = undefined as Activity | undefined,
   nextActivity = undefined as Activity | undefined,
   startLocation = createVector3(),
-  endLocation = createVector3()
+  endLocation = createVector3(),
 } = {}): TransportationActivity {
   return {
     type: ActivityType.Transportation,
@@ -33,7 +33,7 @@ export function createTransportationActivity({
     previousActivity,
     nextActivity,
     startLocation,
-    endLocation
+    endLocation,
   };
 }
 
@@ -47,7 +47,7 @@ export function createTransmutationActivity({
   nextActivity = undefined as Activity | undefined,
   material = MaterialType.SimplePolymer,
   startState = undefined as TransmutationState | undefined,
-  endState = undefined as TransmutationState | undefined
+  endState = undefined as TransmutationState | undefined,
 } = {}): TransmutationActivity {
   return {
     type: ActivityType.Transmutation,
@@ -60,7 +60,7 @@ export function createTransmutationActivity({
     nextActivity,
     material,
     startState,
-    endState
+    endState,
   };
 }
 
@@ -72,7 +72,7 @@ export function createStorageActivity({
   completed = undefined,
   previousActivity = undefined as Activity | undefined,
   nextActivity = undefined as Activity | undefined,
-  location = createVector3()
+  location = createVector3(),
 } = {}): StorageActivity {
   return {
     type: ActivityType.Storage,
@@ -83,7 +83,7 @@ export function createStorageActivity({
     completed,
     previousActivity,
     nextActivity,
-    location
+    location,
   };
 }
 
@@ -91,12 +91,12 @@ export function createWorkflow({
   id = createUuid(),
   displayName = 'default-workflow',
   activities = [] as Activity[],
-  firstActivity = undefined as Activity | undefined
+  firstActivity = undefined as Activity | undefined,
 } = {}): Workflow {
   return {
     id,
     displayName,
     activities,
-    firstActivity
+    firstActivity,
   };
 }

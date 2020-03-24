@@ -7,7 +7,7 @@ import { ReduxFormParameterUpdate } from '../../../../../store/selected/types';
 import { createNumberParameter } from '../../../../../store/common/parameter/factories';
 import {
   selectedServiceProviderSelector,
-  selectedServiceProviderLocationSelector
+  selectedServiceProviderLocationSelector,
 } from '../../../../../store/selected/selectors';
 import { setServiceProviderParameter } from '../../../../../store/factory/slice';
 
@@ -22,7 +22,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 function mapState(state: RootState) {
   return {
     selectedServiceProvider: selectedServiceProviderSelector(state),
-    initialValues: selectedServiceProviderLocationSelector(state)
+    initialValues: selectedServiceProviderLocationSelector(state),
   };
 }
 
@@ -45,11 +45,11 @@ function mapDispatch(dispatch: RootDispatch) {
             id: parameterUpdate.target.name,
             displayName: parameterUpdate.target.name,
             units: units,
-            value: Number(parameterUpdate.target.value)
-          })
+            value: Number(parameterUpdate.target.value),
+          }),
         })
       );
-    }
+    },
   };
 }
 
@@ -65,7 +65,7 @@ function LocationForm(props: Props & InjectedFormProps<{}, Props>) {
   const fixedProps = {
     title: 'Location',
     name: 'location',
-    units: 'm'
+    units: 'm',
   };
 
   return (
@@ -80,7 +80,7 @@ function LocationForm(props: Props & InjectedFormProps<{}, Props>) {
       <ExpansionPanelDetails>
         <form>
           <Grid container>
-            {Object.keys(selectedServiceProvider.location).map(key => {
+            {Object.keys(selectedServiceProvider.location).map((key) => {
               return (
                 <Grid key={key} item xs={4}>
                   <Field
@@ -111,6 +111,6 @@ function LocationForm(props: Props & InjectedFormProps<{}, Props>) {
 export default connector(
   reduxForm<{}, Props>({
     form: 'locationForm',
-    enableReinitialize: true
+    enableReinitialize: true,
   })(LocationForm)
 );

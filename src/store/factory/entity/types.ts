@@ -3,7 +3,7 @@ import {
   Vector3,
   Quaternion,
   Cuboid,
-  LooseObject
+  LooseObject,
 } from '../../common/primitive/types';
 
 export interface Entity<T = never>

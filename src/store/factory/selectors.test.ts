@@ -5,7 +5,7 @@ import { Identity } from '../common/identity/types';
 import {
   createTransmutationActivity,
   createTransportationActivity,
-  createWorkflow
+  createWorkflow,
 } from '../workflow/factories';
 import { createFactory } from './factories';
 import { factorySchema } from './schemas';
@@ -13,7 +13,7 @@ import {
   factoryBuildRequestsSelector,
   factoryIdentitySelector,
   factoryLiquidAssetSelector,
-  factoryServiceProvidersSelector
+  factoryServiceProvidersSelector,
 } from './selectors';
 import { createHumanWorker } from './services/humanworker/factories';
 import { createFFFPrinter } from './services/fffprinter/factories';
@@ -25,26 +25,26 @@ testActivity1.nextActivity = testActivity2;
 testActivity2.previousActivity = testActivity1;
 const testWorkflow = createWorkflow({
   activities: [testActivity1, testActivity2],
-  firstActivity: testActivity1
+  firstActivity: testActivity1,
 });
 const testBuildRequest = createBuildRequest({
-  workflow: testWorkflow
+  workflow: testWorkflow,
 });
 const testHumanServiceProvider = createHumanWorker();
 const testFFFPrinterServiceProvider = createFFFPrinter();
 const startingFactory = createFactory({
   buildRequests: [testBuildRequest],
-  serviceProviders: [testHumanServiceProvider, testFFFPrinterServiceProvider]
+  serviceProviders: [testHumanServiceProvider, testFFFPrinterServiceProvider],
 });
 const baseStoreInitialState = {
-  factory: normalize(startingFactory, factorySchema)
+  factory: normalize(startingFactory, factorySchema),
 } as RootState;
 
 describe('factory selectors', () => {
   it('should return the factory identity', () => {
     expect(factoryIdentitySelector(baseStoreInitialState)).toEqual({
       id: startingFactory.id,
-      displayName: startingFactory.displayName
+      displayName: startingFactory.displayName,
     } as Identity);
   });
   it('should return the factory liquid asset', () => {

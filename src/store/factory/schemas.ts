@@ -8,20 +8,20 @@ export const serviceProviderSchema = new schema.Entity('serviceProviders');
 export const activitySchema = new schema.Entity(
   'activities',
   {
-    serviceProvider: serviceProviderSchema
+    serviceProvider: serviceProviderSchema,
   },
   {}
 );
 activitySchema.define({
   previousActivity: activitySchema,
-  nextActivity: activitySchema
+  nextActivity: activitySchema,
 });
 
 export const workflowSchema = new schema.Entity(
   'workflows',
   {
     activities: [activitySchema],
-    firstActivity: activitySchema
+    firstActivity: activitySchema,
   },
   {}
 );
@@ -30,7 +30,7 @@ export const buildRequestSchema = new schema.Entity(
   'buildRequests',
   {
     workflow: workflowSchema,
-    firstActivity: activitySchema
+    firstActivity: activitySchema,
   },
   {}
 );
@@ -39,7 +39,7 @@ export const factorySchema = {
   liquidAsset: assetSchema,
   fixedAssets: [assetSchema],
   serviceProviders: [serviceProviderSchema],
-  buildRequests: [buildRequestSchema]
+  buildRequests: [buildRequestSchema],
 };
 
 export type FactorySchemaType = NormalizedSchema<

@@ -6,12 +6,12 @@ import {
   ActivityType,
   TransmutationStateType,
   TransmutationActivity,
-  TransportationActivity
+  TransportationActivity,
 } from '../../../workflow/types';
 import {
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity,
-  acceptFullfillmentOfActivity
+  acceptFullfillmentOfActivity,
 } from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
@@ -28,13 +28,13 @@ function* generateBidWorkflow(
     factoryServiceProvidersSelector
   )) as ServiceProvider[];
   const humanServiceProviders = serviceProviders.filter(
-    sp => sp.type === ServiceType.HumanWorker
+    (sp) => sp.type === ServiceType.HumanWorker
   ) as HumanWorker[];
 
   // Grab the first service provider that can bid.
   // TD: In the future service providers should be able to bid on future tasks to append to a buffer.
   const availableHumanServiceProviders = humanServiceProviders.filter(
-    hsp => hsp.canBid
+    (hsp) => hsp.canBid
   );
   const humanServiceProvider =
     availableHumanServiceProviders.length > 0
@@ -54,14 +54,14 @@ function* generateBidWorkflow(
     yield put(
       offerFullfillmentOfActivity({
         serviceProvider: humanServiceProvider,
-        activity: activity
+        activity: activity,
       })
     );
   } else if (activity.type === ActivityType.Transmutation) {
     // Check for each transition if the human worker's end state is BasicShape, the action has an end state that is also BasicShape and that the service can
     // offer the shape required.
     const chosenTopologyTransition = humanServiceProvider.supportedTransmutationTransitions.find(
-      transition =>
+      (transition) =>
         transition.end.type === TransmutationStateType.BasicShapeType &&
         activity.endState &&
         activity.endState.type === TransmutationStateType.BasicShapeType &&
@@ -76,12 +76,12 @@ function* generateBidWorkflow(
         TransmutationStateType.BasicShapeType
       ) {
         activity.startState = createBasicShapeTransmutationState({
-          shape: chosenTopologyTransition.start.shape
+          shape: chosenTopologyTransition.start.shape,
         });
         yield put(
           offerFullfillmentOfActivity({
             serviceProvider: humanServiceProvider,
-            activity: activity
+            activity: activity,
           })
         );
       } else {

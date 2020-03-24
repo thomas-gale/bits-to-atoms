@@ -7,11 +7,11 @@ export function CreateCameraTarget({
   screenSpaceBounds = new THREE.Box2(
     new THREE.Vector2(-4, -4),
     new THREE.Vector2(4, 4)
-  )
+  ),
 } = {}): CameraTarget {
   return {
     position,
     lookAt,
-    screenSpaceBounds
+    screenSpaceBounds,
   };
 }

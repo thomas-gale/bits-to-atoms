@@ -6,7 +6,7 @@ const marketSlice = createSlice({
   name: 'market',
   initialState: {
     visible: true,
-    buildRequests: []
+    buildRequests: [],
   } as Market,
   reducers: {
     requestBidBuildRequest(_state, _action: PayloadAction<BuildRequest>) {
@@ -17,21 +17,21 @@ const marketSlice = createSlice({
     },
     removeBuildRequest(state, action: PayloadAction<string>) {
       const indexToRemove = state.buildRequests.findIndex(
-        el => el.id === action.payload
+        (el) => el.id === action.payload
       );
       if (indexToRemove === -1) {
         console.error(`Unable to remove build request ${action.payload}`);
         return; // Don't do anything if we can't find that element
       }
       state.buildRequests.splice(indexToRemove, 1); // Remove the element that has a matching index.
-    }
-  }
+    },
+  },
 });
 
 export const {
   requestBidBuildRequest,
   addBuildRequest,
-  removeBuildRequest
+  removeBuildRequest,
 } = marketSlice.actions;
 
 export const marketReducer = marketSlice.reducer;

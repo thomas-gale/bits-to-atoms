@@ -1,7 +1,7 @@
 import { LiquidAsset } from '../economic/types';
 
 export enum MaterialType {
-  SimplePolymer = 'SimplePolymer'
+  SimplePolymer = 'SimplePolymer',
 }
 
 export interface Material {

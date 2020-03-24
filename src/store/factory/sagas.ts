@@ -8,20 +8,20 @@ import { MaterialType } from '../material/types';
 import {
   createTransmutationActivity,
   createTransportationActivity,
-  createWorkflow
+  createWorkflow,
 } from '../workflow/factories';
 import {
   Activity,
   TransmutationActivity,
-  TransmutationStateType
+  TransmutationStateType,
 } from '../workflow/types';
 import {
   currentServiceProviderCostPerTimeSelector,
-  factoryLiquidAssetSelector
+  factoryLiquidAssetSelector,
 } from './selectors';
 import {
   createBasicShapeTransmutationState,
-  createLiquidAssetTransmutationState
+  createLiquidAssetTransmutationState,
 } from './services/factories';
 import { ServiceProvider } from './services/types';
 import {
@@ -29,7 +29,7 @@ import {
   offerFullfillmentOfActivity,
   requestFullfillmentOfActivity,
   setLiquidAssetDollars,
-  updateBuildRequestWorkflow
+  updateBuildRequestWorkflow,
 } from './slice';
 
 export function* factoryUpdateTickSaga() {
@@ -124,7 +124,7 @@ export function* buildRequestWorkflowSaga(
 
   // Current topological output shape in workflow generation
   let currentTopologyState = createBasicShapeTransmutationState({
-    shape: buildRequest.endShape
+    shape: buildRequest.endShape,
   });
   let previousTransmutationActivity: Activity;
   let currentTransmutationActivity: Activity;
@@ -134,8 +134,8 @@ export function* buildRequestWorkflowSaga(
     displayName: 'Dispatch Part',
     startState: currentTopologyState,
     endState: createLiquidAssetTransmutationState({
-      liquidAsset: buildRequest.fixedValue
-    })
+      liquidAsset: buildRequest.fixedValue,
+    }),
   });
   const dispatchOfferServiceProvider = (yield triggerRequestFullfillmentOfActivity(
     currentTransmutationActivity
@@ -152,7 +152,7 @@ export function* buildRequestWorkflowSaga(
   while (true) {
     currentTransmutationActivity = createTransmutationActivity({
       displayName: 'Transmute Part',
-      endState: currentTopologyState
+      endState: currentTopologyState,
     });
     const transmutationFullfillmentOffer = (yield triggerRequestFullfillmentOfActivity(
       currentTransmutationActivity
@@ -210,7 +210,7 @@ export function* buildRequestWorkflowSaga(
     const currentTransportActivity = createTransportationActivity({
       displayName: 'Transport Part',
       startLocation: startTransmutationServiceProvider.location,
-      endLocation: endTransmutationServiceProvider.location
+      endLocation: endTransmutationServiceProvider.location,
     });
     const transportationFullfillmentOffer = (yield triggerRequestFullfillmentOfActivity(
       currentTransportActivity
@@ -250,7 +250,7 @@ export function* buildRequestWorkflowSaga(
   yield put(
     updateBuildRequestWorkflow({
       buildRequestId: buildRequest.id,
-      workflow: computedWorkflow
+      workflow: computedWorkflow,
     })
   );
 

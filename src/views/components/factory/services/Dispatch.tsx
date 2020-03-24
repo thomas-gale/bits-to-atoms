@@ -39,7 +39,7 @@ export function DispatchElement(props: Props): JSX.Element {
       position={[location.x, location.y, location.z]}
       rotation={eulerRotation}
       ref={mesh}
-      onClick={e => {
+      onClick={(e) => {
         e.stopPropagation();
         props.onSelected(id);
       }}
@@ -49,7 +49,7 @@ export function DispatchElement(props: Props): JSX.Element {
         args={[
           bounds.max.x - bounds.min.x,
           bounds.max.y - bounds.min.y,
-          bounds.max.z - bounds.min.z
+          bounds.max.z - bounds.min.z,
         ]}
       />
       <meshStandardMaterial attach="material" color={'grey'} />

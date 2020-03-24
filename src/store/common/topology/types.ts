@@ -7,5 +7,5 @@ export enum BasicShape {
   RoughCube = 'RoughCube',
   Cube = 'Cube',
   RoughCylinder = 'RoughCylinder',
-  Cylinder = 'Cylinder'
+  Cylinder = 'Cylinder',
 }

@@ -11,7 +11,7 @@ import { buildRequestsSelector } from './selectors';
 import {
   addBuildRequest as addBuildRequestToMarket,
   removeBuildRequest,
-  requestBidBuildRequest
+  requestBidBuildRequest,
 } from './slice';
 
 /**
@@ -19,7 +19,7 @@ import {
  * @param partNames
  */
 function getRandomPartName({
-  partNames = config.market.simpleMarketSaga.partNames
+  partNames = config.market.simpleMarketSaga.partNames,
 } = {}) {
   return partNames[Math.floor(Math.random() * partNames.length)];
 }
@@ -64,7 +64,7 @@ export function* simpleMarketSaga() {
             displayName: getRandomPartName(),
             material: createSimplePolymerMaterial(),
             fixedValue: createLiquidAsset({ dollars: value }),
-            scale: value * 0.01
+            scale: value * 0.01,
           })
         )
       );

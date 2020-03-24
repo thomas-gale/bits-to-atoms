@@ -1,7 +1,7 @@
 import { RootState } from '..';
 import {
   marketFactoryPanelVisibiltySelector,
-  primaryFocusBuildRequestIdSelector
+  primaryFocusBuildRequestIdSelector,
 } from './selectors';
 import { MarketFactoryPanelVisibilty } from './types';
 
@@ -10,8 +10,8 @@ const baseStoreInitialState = {
   selected: {
     marketFactoryPanelVisibilty: MarketFactoryPanelVisibilty.Market,
     primaryFocusBuildRequestId: undefined as string | undefined,
-    selectedServiceProviderId: undefined as string | undefined
-  }
+    selectedServiceProviderId: undefined as string | undefined,
+  },
 } as RootState;
 
 describe('selected selectors', () => {
@@ -27,8 +27,8 @@ describe('selected selectors', () => {
       ...baseStoreInitialState,
       selected: {
         ...baseStoreInitialState.selected,
-        primaryFocusBuildRequestId: testPrimaryFocusBuildRequestId
-      }
+        primaryFocusBuildRequestId: testPrimaryFocusBuildRequestId,
+      },
     };
     expect(primaryFocusBuildRequestIdSelector(initialState)).toEqual(
       testPrimaryFocusBuildRequestId

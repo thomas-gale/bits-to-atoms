@@ -40,7 +40,7 @@ export const selectedEntityCameraTargetSelector = createSelector(
     return {
       position: cameraPosition,
       lookAt: cameraLookAt,
-      screenSpaceBounds: cameraScreenSpaceBounds
+      screenSpaceBounds: cameraScreenSpaceBounds,
     };
   }
 );

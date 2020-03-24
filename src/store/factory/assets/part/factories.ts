@@ -2,7 +2,7 @@ import { createUuid } from '../../../common/identity/factories';
 import {
   createCuboid,
   createQuaternion,
-  createVector3
+  createVector3,
 } from '../../../common/primitive/factories';
 import { FixedAssetType } from '../../../economic/types';
 import { OutputComponent } from './types';
@@ -15,7 +15,7 @@ export function createOutputComponent({
   bounds = createCuboid(),
   buildRequestUuid = '',
   depreciationRate = 0,
-  dollars = 50
+  dollars = 50,
 } = {}): OutputComponent {
   return {
     type: FixedAssetType.OutputComponent,
@@ -26,6 +26,6 @@ export function createOutputComponent({
     bounds,
     buildRequestUuid,
     depreciationRate,
-    dollars
+    dollars,
   };
 }

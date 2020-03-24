@@ -3,7 +3,7 @@ import { createNumberParameter } from '../../../common/parameter/factories';
 import {
   createCuboid,
   createQuaternion,
-  createVector3
+  createVector3,
 } from '../../../common/primitive/factories';
 import { FixedAssetType } from '../../../economic/types';
 import { createSimplePolymerMaterial } from '../../../material/factories';
@@ -19,15 +19,15 @@ export function createSimplePolymerSpool({
   spoolLength = createNumberParameter({
     displayName: 'Spool Length',
     units: 'm',
-    value: 10
+    value: 10,
   }),
   spoolDiameter = createNumberParameter({
     displayName: 'Spool Diameter',
     units: 'mm',
-    value: 1
+    value: 1,
   }),
   depreciationRate = 0,
-  dollars = 10
+  dollars = 10,
 } = {}): SimplePolymerSpool {
   return {
     id,
@@ -40,6 +40,6 @@ export function createSimplePolymerSpool({
     spoolLength,
     spoolDiameter,
     depreciationRate,
-    dollars
+    dollars,
   };
 }

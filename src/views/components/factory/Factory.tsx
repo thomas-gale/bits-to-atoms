@@ -6,7 +6,7 @@ import {
   ReactReduxContext,
   Provider,
   connect,
-  ConnectedProps
+  ConnectedProps,
 } from 'react-redux';
 import { RootState, RootDispatch } from '../../../store';
 import { unSelectServiceProvider } from '../../../store/selected/slice';
@@ -22,7 +22,7 @@ import ServiceProvider from './services/ServiceProvider';
 function mapState(state: RootState) {
   return {
     cameraTarget: selectedEntityCameraTargetSelector(state),
-    servicesProviders: factoryServiceProvidersSelector(state)
+    servicesProviders: factoryServiceProvidersSelector(state),
   };
 }
 
@@ -36,7 +36,7 @@ function mapDispatch(dispatch: RootDispatch) {
     },
     onOutputRegionSelected: () => {
       console.log('Output region selected');
-    }
+    },
   };
 }
 
@@ -59,11 +59,11 @@ function Factory(props: Props) {
             <BasePlane
               largeX={100}
               largeY={100}
-              onHover={args => setCursorPosition(args.point)}
+              onHover={(args) => setCursorPosition(args.point)}
               onSelected={onBasePlaneSelected}
             />
             <GridHoverCursor gridSize={1} position={cursorPostion} />
-            {servicesProviders.map(servicesProvider => {
+            {servicesProviders.map((servicesProvider) => {
               return (
                 <ServiceProvider
                   key={servicesProvider.id}

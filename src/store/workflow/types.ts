@@ -8,7 +8,7 @@ import { ServiceProvider } from '../factory/services/types';
 export enum ActivityType {
   Transportation = 'Transportation',
   Transmutation = 'Transmutation',
-  Storage = 'Storage'
+  Storage = 'Storage',
 }
 
 interface BaseActivity extends Identity {
@@ -28,7 +28,7 @@ export interface TransportationActivity extends BaseActivity {
 
 export enum TransmutationStateType {
   BasicShapeType = 'BasicShapeType',
-  LiquidAssetType = 'LiquidAssetType'
+  LiquidAssetType = 'LiquidAssetType',
 }
 
 export interface BasicShapeTransmutationState {

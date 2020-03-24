@@ -8,7 +8,7 @@ import { HumanWorkerElement } from './HumanWorker';
 
 import {
   ServiceProvider,
-  ServiceType
+  ServiceType,
 } from '../../../../store/factory/services/types';
 import { FloorSpace } from '../../../../store/factory/services/floorspace/types';
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
@@ -29,7 +29,7 @@ function mapDispatch(dispatch: RootDispatch) {
   return {
     onSelected: (id: string) => {
       dispatch(setSelectedServiceProvider(id));
-    }
+    },
   };
 }
 type OwnProps = {
@@ -92,7 +92,7 @@ function ServiceProviderElement(props: Props): JSX.Element {
         <mesh
           position={[location.x, location.y, location.z]}
           ref={mesh}
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation();
             props.onSelected(id);
           }}

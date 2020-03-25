@@ -44,12 +44,14 @@ jobs:
       uses: coverallsapp/github-action@v1.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel: true
         path-to-lcov: ./coverage/lcov.info
 
     - name: e2e Test Coverage to Coveralls
       uses: coverallsapp/github-action@v1.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel-finished: true
         path-to-lcov: ./.nyc_coverage/lcov.info
 
     - name: SonarCloud Report File Preparation

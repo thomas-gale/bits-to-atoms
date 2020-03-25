@@ -35,7 +35,7 @@ jobs:
         start: yarn start:instrumented
       env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Generate Cypress Coverage
       run: yarn cypress:coverage

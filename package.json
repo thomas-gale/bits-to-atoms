@@ -45,6 +45,7 @@
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --ci --coverage --watchAll=false",
+    "cypress": "cypress open",
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",
     "eject": "react-scripts eject"
@@ -68,6 +69,7 @@
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.24.0",
     "coveralls": "^3.0.11",
+    "cypress": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-react": "^1.1.7",

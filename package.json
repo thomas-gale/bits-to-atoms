@@ -45,9 +45,10 @@
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --ci --coverage --watchAll=false",
-    "cypress": "cypress open",
-    "lint": "eslint ./src/**",
-    "lint:fix": "eslint ./src/** --fix",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --record --key",
+    "lint": "eslint ./src/** ./cypress/**",
+    "lint:fix": "eslint ./src/** ./cypress/** --fix",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -73,6 +74,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-react": "^1.1.7",
+    "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-flowtype": "^4.7.0",
     "eslint-plugin-prettier": "^3.1.2",
     "prettier": "^2.0.2"

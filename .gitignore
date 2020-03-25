@@ -22,5 +22,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Ignore jest-sonar-reporter output.
+# jest-sonar-reporter output.
 test-report.xml
+
+# cypress output
+cypress/videos/
+cypress/screenshots/

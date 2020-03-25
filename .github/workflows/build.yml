@@ -39,7 +39,7 @@ jobs:
 
     - name: Merge Coverage Reports
       run: |
-        cp coverage/coverage-final.json .nyc_output/coverage-unit-tests.json
+        cp jest_coverage/coverage-final.json .nyc_output/coverage-unit-tests.json
         yarn nyc report --reporter=lcov --report-dir=.nyc_output
 
     - name: Test Coverage to Coveralls

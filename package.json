@@ -44,7 +44,7 @@
     "build": "react-scripts build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
-    "test:ci": "react-scripts test --ci --coverage --watchAll=false",
+    "test:ci": "react-scripts test --ci --coverage --coverageDirectory=jest_coverage --watchAll=false",
     "start:instrumented": "react-scripts -r @cypress/instrument-cra start",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",

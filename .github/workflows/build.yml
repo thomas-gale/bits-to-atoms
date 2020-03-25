@@ -50,12 +50,12 @@ jobs:
       uses: coverallsapp/github-action@v1.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./nyc_coverage/lcov.info
+        path-to-lcov: ./.nyc_coverage/lcov.info
 
     - name: SonarCloud Report File Preparation
       run: |
         sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' coverage/lcov.info
-        sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' nyc_coverage/lcov.info
+        sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' .nyc_coverage/lcov.info
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.1

@@ -40,7 +40,7 @@ jobs:
     - name: Merge Coverage Reports
       run: |
         cp coverage/coverage-final.json .nyc_output/coverage-unit-tests.json
-        nyc report --reporter=lcov --report-dir=.nyc_output
+        yarn nyc report --reporter=lcov --report-dir=.nyc_output
 
     - name: Test Coverage to Coveralls
       uses: coverallsapp/github-action@v1.0.1

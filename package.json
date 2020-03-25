@@ -47,8 +47,7 @@
     "test:ci": "react-scripts test --ci --coverage --watchAll=false",
     "start:instrumented": "react-scripts -r @cypress/instrument-cra start",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --record --key",
-    "cypress:coverage": "nyc report --reporter=lcov --report-dir=.nyc_coverage",
+    "cypress:run": "cypress run",
     "lint": "eslint ./src/** ./cypress/**",
     "lint:fix": "eslint ./src/** ./cypress/** --fix",
     "eject": "react-scripts eject"

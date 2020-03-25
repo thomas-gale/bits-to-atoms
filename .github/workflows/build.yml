@@ -37,24 +37,20 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Generate Cypress Coverage
-      run: yarn cypress:coverage
-
     - name: Merge Coverage Reports
       run: |
         cp coverage/coverage-final.json .nyc_output/coverage-unit-tests.json
-        yarn nyc merge .nyc_output\ .nyc_output\coverage.json
-        yarn nyc report --reporter=lcov --report-dir=.nyc_coverage
+        nyc report --reporter=lcov --report-dir=.nyc_output
 
     - name: Test Coverage to Coveralls
       uses: coverallsapp/github-action@v1.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: .nyc_coverage/lcov.info
+        path-to-lcov: .nyc_output/lcov.info
 
     - name: SonarCloud Report File Preparation
       run: |
-        sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' .nyc_coverage/lcov.info
+        sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' .nyc_output/lcov.info
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.1

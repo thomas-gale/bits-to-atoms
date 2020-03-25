@@ -51,8 +51,14 @@ jobs:
       uses: coverallsapp/github-action@v1.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
+        parallel: true
         path-to-lcov: ./.nyc_coverage/lcov.info
+
+    - name: Coveralls Complete
+      uses: coverallsapp/github-action@v1.0.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel-finished: true
 
     - name: SonarCloud Report File Preparation
       run: |

@@ -7,7 +7,7 @@ on:
 
 jobs:
   pipeline:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
 
     steps:
     - name: Checkout
@@ -23,18 +23,39 @@ jobs:
     - name: Resolve Dependencies
       run: yarn
 
-    - name: Run Tests with Coverage
+    - name: Run Unit Tests with Coverage
       run: yarn test:ci
       env:
         CI: true
 
-    - name: Coveralls
+    - name: Cypress e2e Tests
+      uses: cypress-io/github-action@v1.16.1
+      with:
+        record: true
+        start: yarn start:instrumented
+      env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
+
+    - name: Generate Cypress Coverage
+      run: yarn cypress:coverage
+
+    - name: Unit Test Coverage to Coveralls
       uses: coverallsapp/github-action@v1.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./coverage/lcov.info
+
+    - name: e2e Test Coverage to Coveralls
+      uses: coverallsapp/github-action@v1.0.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./nyc_coverage/lcov.info
 
     - name: SonarCloud Report File Preparation
-      run: sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' coverage/lcov.info
+      run: |
+        sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' coverage/lcov.info
+        sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' nyc_coverage/lcov.info
 
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v1.1

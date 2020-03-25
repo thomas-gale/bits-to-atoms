@@ -28,3 +28,7 @@ test-report.xml
 # cypress output
 cypress/videos/
 cypress/screenshots/
+
+# cypress coverage from nyc
+.nyc_output/
+.nyc_coverage/

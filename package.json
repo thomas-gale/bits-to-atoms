@@ -45,8 +45,10 @@
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --ci --coverage --watchAll=false",
+    "start:instrumented": "react-scripts -r @cypress/instrument-cra start",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --record --key",
+    "cypress:coverage": "nyc report --reporter=lcov --report-dir=.nyc_coverage",
     "lint": "eslint ./src/** ./cypress/**",
     "lint:fix": "eslint ./src/** ./cypress/** --fix",
     "eject": "react-scripts eject"
@@ -67,6 +69,8 @@
     ]
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^1.14.0",
+    "@cypress/instrument-cra": "^1.1.0",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.24.0",
     "coveralls": "^3.0.11",
@@ -77,6 +81,8 @@
     "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-flowtype": "^4.7.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "istanbul-lib-coverage": "^3.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^2.0.2"
   }
 }

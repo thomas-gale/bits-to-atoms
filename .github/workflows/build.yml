@@ -6,7 +6,7 @@ on:
     - master
 
 jobs:
-  pipeline:
+  test-release: 
     runs-on: ubuntu-16.04
 
     steps:
@@ -22,49 +22,12 @@ jobs:
 
     - name: Resolve Dependencies
       run: yarn
-
-    - name: Run Unit Tests with Coverage
-      run: yarn test:ci
-      env:
-        CI: true
-
-    - name: Cypress e2e Tests
-      uses: cypress-io/github-action@v1.16.1
-      with:
-        record: true
-        start: yarn start:instrumented
-      env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Merge Coverage Reports
-      run: |
-        cp jest_coverage/coverage-final.json .nyc_output/coverage-unit-tests.json
-        yarn nyc report --reporter=lcov --report-dir=.nyc_output
-
-    - name: Test Coverage to Coveralls
-      uses: coverallsapp/github-action@v1.0.1
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: .nyc_output/lcov.info
-
-    - name: SonarCloud Report File Preparation
-      run: |
-        sed -i 's/\/home\/runner\/work\/bits-to-atoms\/bits-to-atoms\//\/github\/workspace\//g' .nyc_output/lcov.info
-
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@v1.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-    - name: Build
-      run: yarn build
-
+  
     - name: Generate Release
       uses: cycjimmy/semantic-release-action@v2.1.3
       id: semantic
       with:
+        dry_run: true
         # You can specify specifying version range for the extra plugins if you prefer.
         extra_plugins: |
           @semantic-release/changelog@3.0.0
@@ -80,14 +43,3 @@ jobs:
         echo ${{ steps.semantic.outputs.new_release_minor_version }}
         echo ${{ steps.semantic.outputs.new_release_patch_version }}
         cat package.json
-
-    - name: Configure the CNAME for GitHub Pages
-      run: echo bitstoatoms.io > build/CNAME
-
-    - name: Deploy GitHub Pages
-      uses: crazy-max/ghaction-github-pages@v1.3.0
-      with:
-        build_dir: build
-      env:
-        GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
-    

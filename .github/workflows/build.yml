@@ -27,7 +27,6 @@ jobs:
       uses: cycjimmy/semantic-release-action@v2.1.3
       id: semantic
       with:
-        dry_run: true
         # You can specify specifying version range for the extra plugins if you prefer.
         extra_plugins: |
           @semantic-release/changelog@3.0.0

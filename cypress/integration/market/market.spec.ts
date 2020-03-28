@@ -12,7 +12,6 @@ context('Market', () => {
     // Act
     cy.wait(100);
     cy.contains('Build Request').parent().find('button').click();  
-    cy.wait(100);
   });
 
 });

@@ -4,14 +4,13 @@ context('Market', () => {
   });
 
   it('get the first build request summary', () => {
-    cy.wait(100);
-    cy.contains('Build Request');  
+    cy.wait(100); // eslint-disable-line cypress/no-unnecessary-waiting
+    cy.contains('Build Request');
   });
 
   it('bid on first build request summary', () => {
     // Act
-    cy.wait(100);
-    cy.contains('Build Request').parent().find('button').click();  
+    cy.wait(100); // eslint-disable-line cypress/no-unnecessary-waiting
+    cy.contains('Build Request').parent().find('button').click();
   });
-
 });

@@ -67,7 +67,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}
 
-    - name: Update package.json if New Release Published
+    - name: Update package.json if new Release Generated
       if: steps.semantic.outputs.new_release_published == 'true'
       run: |
         git config --global user.name ${{ secrets.GIT_USER_NAME }}

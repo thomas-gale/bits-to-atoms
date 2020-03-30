@@ -5,12 +5,12 @@ context('Factory', () => {
 
   it('view information overview', () => {
     cy.get('[aria-label="info"]').click();
-    cy.get('.MuiBox-root > .MuiTypography-root');
+    cy.get('[id="InformationOverlay"]');
   });
 
   it('dismiss information overview', () => {
     cy.get('[aria-label="info"]').click();
-    cy.get('.MuiBackdrop-root').click('left');
+    cy.get('[id="InformationOverlay"]').click('left');
     cy.get('canvas').click();
   });
 });

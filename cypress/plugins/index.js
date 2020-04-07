@@ -21,5 +21,5 @@ module.exports = (on, config) => {
   on('task', () => {
     require('@percy/cypress/task')(); // eslint-disable-line @typescript-eslint/no-var-requires
     require('@cypress/code-coverage/task')(); // eslint-disable-line @typescript-eslint/no-var-requires
-  }); 
+  });
 };

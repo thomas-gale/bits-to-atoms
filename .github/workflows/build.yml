@@ -33,7 +33,7 @@ jobs:
       with:
         record: true
         start: yarn start:instrumented
-        command-prefix: 'percy exec -- npx'
+        command-prefix: 'yarn percy exec -- yarn'
       env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}

@@ -11,7 +11,6 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
-let percyHealthCheck = require('@percy/cypress/task')
 
 /**
  * @type {Cypress.PluginConfig}
@@ -19,6 +18,8 @@ let percyHealthCheck = require('@percy/cypress/task')
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  on('task', require('@cypress/code-coverage/task')); // eslint-disable-line @typescript-eslint/no-var-requires
-  on('task', percyHealthCheck); // eslint-disable-line @typescript-eslint/no-var-requires
+  on('task', () => {
+    require('@percy/cypress/task')(); // eslint-disable-line @typescript-eslint/no-var-requires
+    require('@cypress/code-coverage/task')(); // eslint-disable-line @typescript-eslint/no-var-requires
+  }); 
 };

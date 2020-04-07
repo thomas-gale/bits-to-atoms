@@ -5,6 +5,8 @@ context('Window', () => {
 
   it('get the global window object', () => {
     cy.window().should('have.property', 'top');
+    // Take a snapshot for visual diffing
+    cy.percySnapshot();
   });
 
   it('get the document object', () => {

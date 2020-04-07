@@ -33,8 +33,10 @@ jobs:
       with:
         record: true
         start: yarn start:instrumented
+        command-prefix: 'percy exec -- npx'
       env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Merge Coverage Reports

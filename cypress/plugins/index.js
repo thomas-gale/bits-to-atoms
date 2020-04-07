@@ -19,4 +19,5 @@ module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
   on('task', require('@cypress/code-coverage/task')); // eslint-disable-line @typescript-eslint/no-var-requires
+  on('task', require('@percy/cypress/task')); // eslint-disable-line @typescript-eslint/no-var-requires
 };

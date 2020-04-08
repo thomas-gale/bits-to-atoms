@@ -32,9 +32,8 @@ jobs:
       uses: cypress-io/github-action@v1
       with:
         record: true
-        #start: yarn start:instrumented
-        start: yarn start
-        command-prefix: 'percy exec -- yarn'
+        start: yarn start:instrumented
+        command-prefix: 'percy exec -- npx'
       env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}

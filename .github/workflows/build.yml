@@ -29,11 +29,11 @@ jobs:
         CI: true
 
     - name: Cypress e2e Tests
-      uses: cypress-io/github-action@v1.16.1
+      uses: cypress-io/github-action@v1
       with:
         record: true
         start: yarn start:instrumented
-        command-prefix: 'yarn percy exec -- yarn'
+        command-prefix: 'percy exec -- yarn'
       env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}

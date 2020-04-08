@@ -31,7 +31,7 @@ jobs:
     - name: Cypress e2e Tests
       uses: cypress-io/github-action@v1
       with:
-        record: true
+        # record: true
         start: yarn start:instrumented
         command-prefix: 'percy exec -- yarn'
       env:

@@ -115,17 +115,17 @@ function* executeTransmutationActivity(
   humanWorker: HumanWorker,
   transmutationActivity: TransmutationActivity
 ) {
-   // Started timestamp.
-   transmutationActivity.started = new Date();
+  // Started timestamp.
+  transmutationActivity.started = new Date();
 
-   console.log(
-     `Human worker service ${humanWorker.id} starting to execute transmutation activity ${transmutationActivity.id}`
-   );
-   yield delay(1000);
- 
-   // Completed timestamp and update.
-   transmutationActivity.completed = new Date();
-   yield put(updateActivity(transmutationActivity));
+  console.log(
+    `Human worker service ${humanWorker.id} starting to execute transmutation activity ${transmutationActivity.id}`
+  );
+  yield delay(1000);
+
+  // Completed timestamp and update.
+  transmutationActivity.completed = new Date();
+  yield put(updateActivity(transmutationActivity));
 }
 
 function* executeActivityWorkflow(

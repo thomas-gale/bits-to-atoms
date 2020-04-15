@@ -279,7 +279,10 @@ export function* buildRequestWorkflowSaga(
       const updateActivityAction = (yield take(
         updateActivity.type
       )) as PayloadAction<Activity>;
-      if (updateActivityAction.payload.id === currentExecutingActivity.id && updateActivityAction.payload.completed)
+      if (
+        updateActivityAction.payload.id === currentExecutingActivity.id &&
+        updateActivityAction.payload.completed
+      )
         break;
     }
 
@@ -287,7 +290,7 @@ export function* buildRequestWorkflowSaga(
     if (!currentExecutingActivity.nextActivity) break;
     currentExecutingActivity = currentExecutingActivity.nextActivity;
   }
-  
+
   // Onced completed remove the active build request (Or move to a completed state / section).
   console.log(`Completed workflow ${computedWorkflow.id}`);
 }

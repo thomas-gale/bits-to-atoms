@@ -93,19 +93,19 @@ function* executeActivityWorkflow(
   const serviceProvider = action.payload.serviceProvider as FFFPrinter;
   const activity = action.payload.activity as TransmutationActivity;
 
-   // Started timestamp.
-   activity.started = new Date();
+  // Started timestamp.
+  activity.started = new Date();
 
-   // Interact with virtual market and exchange the factory liquid asset for the material fixed asset to add to worshop.
-   // Somehow assign the material fixed asset to this active activity / build request?
-   console.log(
-     `FFF printer service ${serviceProvider.id} starting to execute transmutation activity ${activity.id}`
-   );
-   yield delay(1000);
- 
-   // Completed timestamp and update.
-   activity.completed = new Date();
-   yield put(updateActivity(activity));
+  // Interact with virtual market and exchange the factory liquid asset for the material fixed asset to add to worshop.
+  // Somehow assign the material fixed asset to this active activity / build request?
+  console.log(
+    `FFF printer service ${serviceProvider.id} starting to execute transmutation activity ${activity.id}`
+  );
+  yield delay(1000);
+
+  // Completed timestamp and update.
+  activity.completed = new Date();
+  yield put(updateActivity(activity));
 }
 
 export function* watchRequestFufillmentOfActivitySaga() {

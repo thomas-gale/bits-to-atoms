@@ -5,6 +5,7 @@ context('Factory', () => {
 
   it('can click in center of factory view', () => {
     cy.get('canvas').click('center');
+    cy.percySnapshot();
   });
 
   it('can orbit camera of factory view', () => {

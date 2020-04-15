@@ -1,14 +1,17 @@
-import { takeEvery, select, put } from 'redux-saga/effects';
+import { takeEvery, select, put, delay } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import {
   Activity,
   ActivityType,
   TransmutationStateType,
+  TransmutationActivity,
 } from '../../../workflow/types';
 import {
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity,
+  acceptFullfillmentOfActivity,
+  updateActivity,
 } from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
@@ -80,6 +83,35 @@ function* generateBidWorkflow(
   }
 }
 
+function* executeActivityWorkflow(
+  action: PayloadAction<{
+    serviceProvider: ServiceProvider;
+    activity: Activity;
+  }>
+) {
+  if (action.payload.serviceProvider.type !== ServiceType.FFFPrinter) return;
+  const serviceProvider = action.payload.serviceProvider as FFFPrinter;
+  const activity = action.payload.activity as TransmutationActivity;
+
+   // Started timestamp.
+   activity.started = new Date();
+
+   // Interact with virtual market and exchange the factory liquid asset for the material fixed asset to add to worshop.
+   // Somehow assign the material fixed asset to this active activity / build request?
+   console.log(
+     `FFF printer service ${serviceProvider.id} starting to execute transmutation activity ${activity.id}`
+   );
+   yield delay(1000);
+ 
+   // Completed timestamp and update.
+   activity.completed = new Date();
+   yield put(updateActivity(activity));
+}
+
 export function* watchRequestFufillmentOfActivitySaga() {
   yield takeEvery(requestFullfillmentOfActivity.type, generateBidWorkflow);
+}
+
+export function* watchAcceptFullfillmentOfActivitySaga() {
+  yield takeEvery(acceptFullfillmentOfActivity.type, executeActivityWorkflow);
 }

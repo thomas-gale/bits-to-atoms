@@ -30,6 +30,8 @@ import {
   requestFullfillmentOfActivity,
   setLiquidAssetDollars,
   updateBuildRequestWorkflow,
+  acceptFullfillmentOfActivity,
+  updateActivity,
 } from './slice';
 
 export function* factoryUpdateTickSaga() {
@@ -224,7 +226,6 @@ export function* buildRequestWorkflowSaga(
       transportationFullfillmentOffer.payload.serviceProvider;
 
     // Update and insert the transport activity between the transmutation activities.
-
     // Update Current Transportation
     currentTransportActivity.serviceProvider = proposedTransportServiceProvider;
     currentTransportActivity.previousActivity = currentTransmutationActivity;
@@ -246,7 +247,8 @@ export function* buildRequestWorkflowSaga(
   console.log(
     `Proposed workflow computed! Id: ${computedWorkflow.id} with ${computedWorkflow.activities.length} steps`
   );
-  // Send out the proposed active build request workflow
+
+  // Send out the computed build request workflow
   yield put(
     updateBuildRequestWorkflow({
       buildRequestId: buildRequest.id,
@@ -254,69 +256,40 @@ export function* buildRequestWorkflowSaga(
     })
   );
 
-  console.log(`Completed workflow early ${computedWorkflow.id}, no execution`);
-  return;
-
-  // Start and monitor workflow by accepting fullfillment of fist activity (at this point they should all have enough information to start).
-  // Now we manage the execution of the sequential workflow activities.
-  /*let currentExecutingActivity = computedWorkflow.firstActivity as Activity;
-
+  // Now the execution phase can begin
+  // Simply loop through the activities in the workflow, triggering execution and waiting till completion.
+  let currentExecutingActivity = computedWorkflow.firstActivity as Activity;
   while (true) {
-    /*
-    const currentId = currentExecutingActivityId;
-    const currentExecutingActivity = computedWorkflow.activities.find(
-      a => a.id === currentId
-    );*/
-  /*
-    if (
-      !currentExecutingActivity ||
-      !currentExecutingActivity.serviceProvider
-    ) {
-      console.error(
-        'Unabled to find current executing activity in computed workflow or the activitiy service provider is undefined'
-      );
-      break;
-    }
-
-    const currentExecutingServiceProvider =
-      currentExecutingActivity.serviceProvider;
-    if (!currentExecutingServiceProvider) {
+    // Start the activity.
+    if (!currentExecutingActivity.serviceProvider) {
       console.error(
         'Unabled to find current executing activities service provider'
       );
       break;
     }
-
-    // Start the activity.
-    console.log(
-      `Starting activity ${currentExecutingActivity.id} in workflow ${computedWorkflow.id}`
-    );
     yield put(
       acceptFullfillmentOfActivity({
-        serviceProvider: currentExecutingServiceProvider,
-        activity: currentExecutingActivity
+        serviceProvider: currentExecutingActivity.serviceProvider,
+        activity: currentExecutingActivity,
       })
     );
 
     // Wait for the activity to complete.
-
-    // TODO: while true take
-
-    console.log(
-      `Completed activity ${currentExecutingActivity.id} in workflow ${computedWorkflow.id}`
-    );
+    while (true) {
+      const updateActivityAction = (yield take(
+        updateActivity.type
+      )) as PayloadAction<Activity>;
+      if (updateActivityAction.payload.id === currentExecutingActivity.id && updateActivityAction.payload.completed)
+        break;
+    }
 
     // Get next activity or break, if we have reached the end.
     if (!currentExecutingActivity.nextActivity) break;
     currentExecutingActivity = currentExecutingActivity.nextActivity;
-
-    // Test Break for now
-    break;
   }
-
+  
   // Onced completed remove the active build request (Or move to a completed state / section).
   console.log(`Completed workflow ${computedWorkflow.id}`);
-  */
 }
 
 export function* factoryWatchAddActiveBuildRequestSaga() {

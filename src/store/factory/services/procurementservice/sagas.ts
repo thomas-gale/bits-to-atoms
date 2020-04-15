@@ -11,6 +11,7 @@ import {
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity,
   acceptFullfillmentOfActivity,
+  updateActivity,
 } from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
@@ -88,19 +89,19 @@ function* executeActivityWorkflow(
   if (action.payload.serviceProvider.type !== ServiceType.Procurement) return;
   const serviceProvider = action.payload.serviceProvider as ProcurementService;
   const activity = action.payload.activity as TransmutationActivity;
+  // Started timestamp.
+  activity.started = new Date();
 
+  // Interact with virtual market and exchange the factory liquid asset for the material fixed asset to add to worshop.
+  // Somehow assign the material fixed asset to this active activity / build request?
   console.log(
     `Procurement service ${serviceProvider.id} starting to execute transmutation activity ${activity.id}`
   );
-
-  // Interact with virtual market and exchange the factory liquid asset for the material fixed asset to add to worshop.
-
-  // Somehow assign the material fixed asset to this active activity / build request?
   yield delay(1000);
 
-  console.log(
-    `Procurement service ${serviceProvider.id} completed transmutation activity ${activity.id}`
-  );
+  // Completed timestamp and update.
+  activity.completed = new Date();
+  yield put(updateActivity(activity));
 }
 
 export function* watchRequestFufillmentOfActivitySaga() {

@@ -12,6 +12,7 @@ import {
   requestFullfillmentOfActivity,
   offerFullfillmentOfActivity,
   acceptFullfillmentOfActivity,
+  updateActivity,
 } from '../../slice';
 import { factoryServiceProvidersSelector } from '../../selectors';
 import { ServiceProvider, ServiceType } from '../types';
@@ -97,30 +98,34 @@ function* executeTransportationActivity(
   humanWorker: HumanWorker,
   transportationActivity: TransportationActivity
 ) {
+  // Started timestamp.
+  transportationActivity.started = new Date();
+
   console.log(
     `Human worker service ${humanWorker.id} starting to execute transportation activity ${transportationActivity.id}`
   );
-
   yield delay(1000);
 
-  console.log(
-    `Human worker service ${humanWorker.id} completed transportation activity ${transportationActivity.id}`
-  );
+  // Completed timestamp and update.
+  transportationActivity.completed = new Date();
+  yield put(updateActivity(transportationActivity));
 }
 
 function* executeTransmutationActivity(
   humanWorker: HumanWorker,
   transmutationActivity: TransmutationActivity
 ) {
-  console.log(
-    `Human worker service ${humanWorker.id} starting to execute transmutation activity ${transmutationActivity.id}`
-  );
+   // Started timestamp.
+   transmutationActivity.started = new Date();
 
-  yield delay(1000);
-
-  console.log(
-    `Human worker service ${humanWorker.id} completed transmutation activity ${transmutationActivity.id}`
-  );
+   console.log(
+     `Human worker service ${humanWorker.id} starting to execute transmutation activity ${transmutationActivity.id}`
+   );
+   yield delay(1000);
+ 
+   // Completed timestamp and update.
+   transmutationActivity.completed = new Date();
+   yield put(updateActivity(transmutationActivity));
 }
 
 function* executeActivityWorkflow(

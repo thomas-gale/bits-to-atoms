@@ -105,7 +105,14 @@ const factorySlice = createSlice({
       const normalizedActivity = normalize(action.payload, activitySchema);
       state.entities = {
         ...state.entities,
-        ...normalizedActivity.entities,
+        activities: {
+          ...state.entities.activities,
+          ...normalizedActivity.entities.activities,
+        },
+        serviceProviders: {
+          ...state.entities.serviceProviders,
+          ...normalizedActivity.entities.serviceProviders,
+        },
       };
     },
     removeBuildRequest(_state, _action: PayloadAction<string>) {

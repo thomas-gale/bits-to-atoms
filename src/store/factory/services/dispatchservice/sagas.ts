@@ -1,14 +1,19 @@
-import { takeEvery, select, put } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-
+import { delay, put, select, takeEvery } from 'redux-saga/effects';
+import {
+  Activity,
+  ActivityType,
+  TransmutationActivity,
+} from '../../../workflow/types';
+import { factoryServiceProvidersSelector } from '../../selectors';
+import {
+  acceptFullfillmentOfActivity,
+  offerFullfillmentOfActivity,
+  requestFullfillmentOfActivity,
+  updateActivity,
+} from '../../slice';
 import { ServiceProvider, ServiceType } from '../types';
 import { DispatchService } from './types';
-import { Activity, ActivityType } from '../../../workflow/types';
-import {
-  requestFullfillmentOfActivity,
-  offerFullfillmentOfActivity,
-} from '../../slice';
-import { factoryServiceProvidersSelector } from '../../selectors';
 
 function* generateBidWorkflow(
   requestFufillmentOfActivity: PayloadAction<Activity>
@@ -52,6 +57,35 @@ function* generateBidWorkflow(
   }
 }
 
+function* executeActivityWorkflow(
+  action: PayloadAction<{
+    serviceProvider: ServiceProvider;
+    activity: Activity;
+  }>
+) {
+  if (action.payload.serviceProvider.type !== ServiceType.Dispatch) return;
+  const serviceProvider = action.payload.serviceProvider as DispatchService;
+  const activity = action.payload.activity as TransmutationActivity;
+
+  // Started timestamp.
+  activity.started = new Date();
+
+  // Interact with virtual market and exchange the factory liquid asset for the material fixed asset to add to worshop.
+  // Somehow assign the material fixed asset to this active activity / build request?
+  console.log(
+    `Dispatch service ${serviceProvider.id} starting to execute transmutation activity ${activity.id}`
+  );
+  yield delay(1000);
+
+  // Completed timestamp and update.
+  activity.completed = new Date();
+  yield put(updateActivity(activity));
+}
+
 export function* watchRequestFufillmentOfActivitySaga() {
   yield takeEvery(requestFullfillmentOfActivity.type, generateBidWorkflow);
+}
+
+export function* watchAcceptFullfillmentOfActivitySaga() {
+  yield takeEvery(acceptFullfillmentOfActivity.type, executeActivityWorkflow);
 }

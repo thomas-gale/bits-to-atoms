@@ -1,10 +1,10 @@
 export const config = {
   topNav: {
-    gitHubURL: 'https://github.com/ThomasGale/bits-to-atoms',
+    gitHubURL: 'https://github.com/thomas-gale/bits-to-atoms',
   },
   information: {
     gitHubAPILatestReleaseEndPoint:
-      'https://api.github.com/repos/thomasgale/bits-to-atoms/releases/latest',
+      'https://api.github.com/repos/thomas-gale/bits-to-atoms/releases/latest',
   },
   market: {
     simpleMarketSaga: {

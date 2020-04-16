@@ -48,16 +48,18 @@ function FactoryEconomicSummary(props: Props): JSX.Element {
         <Typography color="textPrimary">
           Liquid Assets:{' '}
           {dollarFormatter.format(
-            factoryEconomicSummary.currentAssetsValue.dollars
+            factoryEconomicSummary.currentAssetsValue.value.dollars
           )}
         </Typography>
         <Typography color="textPrimary">
           Total In:{' '}
-          {dollarFormatter.format(factoryEconomicSummary.totalIn.dollars)}
+          {dollarFormatter.format(factoryEconomicSummary.totalIn.value.dollars)}
         </Typography>
         <Typography color="textPrimary">
           Total Out:{' '}
-          {dollarFormatter.format(factoryEconomicSummary.totalOut.dollars)}
+          {dollarFormatter.format(
+            factoryEconomicSummary.totalOut.value.dollars
+          )}
         </Typography>
       </CardContent>
     </Card>

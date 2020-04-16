@@ -12,7 +12,7 @@ export function createBuildRequest({
   material = createSimplePolymerMaterial(),
   endShape = BasicShape.Cube,
   scale = 1e-2,
-  fixedValue = createLiquidAsset({ dollars: 20 }),
+  fixedValue = createLiquidAsset({ value: { dollars: 20 } }),
   workflow = undefined as Workflow | undefined,
 } = {}): BuildRequest {
   return {

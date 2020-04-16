@@ -87,7 +87,7 @@ function BuildRequestElement(props: Props) {
         </Grid>
         <Grid item>
           <Typography color="textSecondary">
-            Value: ${fixedValue.dollars}
+            Value: ${fixedValue.value.dollars}
           </Typography>
         </Grid>
       </Grid>

@@ -63,7 +63,7 @@ export function* simpleMarketSaga() {
           createBuildRequest({
             displayName: getRandomPartName(),
             material: createSimplePolymerMaterial(),
-            fixedValue: createLiquidAsset({ dollars: value }),
+            fixedValue: createLiquidAsset({ value: { dollars: value } }),
             scale: value * 0.01,
           })
         )

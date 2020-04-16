@@ -21,7 +21,7 @@ export const createFloorSpace = ({
     min: createVector3({ x: -4, y: -2 }),
     max: createVector3({ x: 4, y: 2, z: 2 }),
   }),
-  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
+  currentCostPerTime = createLiquidAsset({ value: { dollars: 1e-6 } }),
 } = {}): FloorSpace => {
   return {
     type: ServiceType.Floorspace,

@@ -57,12 +57,12 @@ export function* factoryUpdateTickSaga() {
       currentServiceProviderCostPerTimeSelector
     )) as LiquidAsset;
     const currentServiceProviderCostOverPeriod =
-      currentServiceProviderCostPerTime.dollars * updateDelayMs;
+      currentServiceProviderCostPerTime.value.dollars * updateDelayMs;
 
     // Update the store with the current liquid assets.
     yield put(
       setLiquidAssetDollars(
-        currentLiquidAsset.dollars - currentServiceProviderCostOverPeriod
+        currentLiquidAsset.value.dollars - currentServiceProviderCostOverPeriod
       )
     );
   }

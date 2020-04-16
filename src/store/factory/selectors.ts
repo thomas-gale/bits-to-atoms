@@ -143,9 +143,12 @@ export const currentServiceProviderCostPerTimeSelector = createSelector(
   (serviceProviders: ServiceProvider[]): LiquidAsset => {
     let currentServiceProvidersCostPerSecond = 0;
     serviceProviders.forEach((p) => {
-      currentServiceProvidersCostPerSecond += p.currentCostPerTime.dollars;
+      currentServiceProvidersCostPerSecond +=
+        p.currentCostPerTime.value.dollars;
     });
-    return createLiquidAsset({ dollars: currentServiceProvidersCostPerSecond });
+    return createLiquidAsset({
+      value: { dollars: currentServiceProvidersCostPerSecond },
+    });
   }
 );
 
@@ -167,15 +170,16 @@ export const factoryEconomicSummarySelector = createSelector(
     // Compute total service provider cost per second
     let currentServiceProvidersCostPerSecond = 0;
     serviceProviders.forEach((p) => {
-      currentServiceProvidersCostPerSecond += p.currentCostPerTime.dollars;
+      currentServiceProvidersCostPerSecond +=
+        p.currentCostPerTime.value.dollars;
     });
 
     return {
       currentAssetsValue: liquidAsset,
       totalOut: createLiquidAsset({
-        dollars: currentServiceProvidersCostPerSecond,
+        value: { dollars: currentServiceProvidersCostPerSecond },
       }),
-      totalIn: createLiquidAsset({ dollars: 0 }),
+      totalIn: createLiquidAsset({ value: { dollars: 0 } }),
     };
   }
 );

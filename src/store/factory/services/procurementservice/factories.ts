@@ -25,11 +25,11 @@ export function createProcurementService({
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid(),
-  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
+  currentCostPerTime = createLiquidAsset({ value: { dollars: 1e-6 } }),
   supportedTransmutationTransitions = [
     createTransmutationTransition({
       start: createLiquidAssetTransmutationState({
-        liquidAsset: createLiquidAsset({ dollars: 2 }),
+        liquidAsset: createLiquidAsset({ value: { dollars: 2 } }),
       }),
       end: createBasicShapeTransmutationState({ shape: BasicShape.Spool }),
     }),

@@ -26,18 +26,18 @@ export function createDispatchService({
   location = createVector3(),
   orientation = createQuaternion(),
   bounds = createCuboid(),
-  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
+  currentCostPerTime = createLiquidAsset({ value: { dollars: 1e-6 } }),
   supportedTransmutationTransitions = [
     createTransmutationTransition({
       start: createBasicShapeTransmutationState({ shape: BasicShape.Cube }),
       end: createLiquidAssetTransmutationState({
-        liquidAsset: createLiquidAsset({ dollars: 5 }),
+        liquidAsset: createLiquidAsset({ value: { dollars: 5 } }),
       }),
     }),
     createTransmutationTransition({
       start: createBasicShapeTransmutationState({ shape: BasicShape.Cylinder }),
       end: createLiquidAssetTransmutationState({
-        liquidAsset: createLiquidAsset({ dollars: 10 }),
+        liquidAsset: createLiquidAsset({ value: { dollars: 10 } }),
       }),
     }),
   ],

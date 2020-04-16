@@ -132,7 +132,7 @@ function BuildRequestDetails(props: Props): JSX.Element {
             Created: {created.toLocaleTimeString()}
           </Typography>
           <Typography color="textPrimary">
-            Value: ${fixedValue.dollars}
+            Value: ${fixedValue.value.dollars}
           </Typography>
           <Typography color="textPrimary">
             Material: {material.type.toString()}

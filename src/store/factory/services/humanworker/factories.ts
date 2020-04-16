@@ -27,7 +27,7 @@ export function createHumanWorker({
     min: createVector3({ x: -0.2, y: -0.2 }),
     max: createVector3({ x: 0.2, y: 0.2, z: 1.5 }),
   }),
-  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
+  currentCostPerTime = createLiquidAsset({ value: { dollars: 1e-6 } }),
   capactityMass = 5,
   movementVelocity = 0.5,
   supportedTransmutationTransitions = [

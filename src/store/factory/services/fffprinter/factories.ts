@@ -27,7 +27,7 @@ export function createFFFPrinter({
     min: createVector3({ x: -0.5, y: -0.5 }),
     max: createVector3({ x: 0.5, y: 0.5, z: 1.0 }),
   }),
-  currentCostPerTime = createLiquidAsset({ dollars: 1e-6 }),
+  currentCostPerTime = createLiquidAsset({ value: { dollars: 1e-6 } }),
   supportedTransmutationTransitions = [
     createTransmutationTransition({
       start: createBasicShapeTransmutationState({ shape: BasicShape.Spool }),

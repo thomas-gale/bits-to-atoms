@@ -32,7 +32,7 @@ jobs:
       uses: cypress-io/github-action@v2
       with:
         record: true
-        start: yarn start:instrumented && wait-on http://localhost:3000
+        start: yarn start:instrumented
         command-prefix: 'percy exec -- npx'
       env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}

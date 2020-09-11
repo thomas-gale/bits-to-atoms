@@ -1,5 +1,6 @@
-import React, { useRef, useState, useMemo } from 'react';
-import { Mesh, Euler, Quaternion as ThreeQuaternion } from 'three';
+import React, { useState, useMemo, Suspense } from 'react';
+import { Euler, Quaternion as ThreeQuaternion } from 'three';
+import HumanModel from './models/Human.gltf';
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
 
 type OwnProp = {
@@ -13,9 +14,7 @@ type OwnDispatch = {
 type Props = OwnProp & OwnDispatch;
 
 export function HumanWorkerElement(props: Props): JSX.Element {
-  const mesh = useRef<Mesh>();
-
-  const { id, location, orientation, bounds } = props.humanWorker;
+  const { id, location, orientation } = props.humanWorker;
 
   // React hooks for converting the Quaterion into Euler angles.
   const [eulerRotation, setEulerRotation] = useState<Euler>(new Euler(0, 0, 0));
@@ -33,26 +32,15 @@ export function HumanWorkerElement(props: Props): JSX.Element {
   }, [orientation]);
 
   return (
-    <mesh
-      castShadow
-      receiveShadow
-      position={[location.x, location.y, location.z]}
-      rotation={eulerRotation}
-      ref={mesh}
-      onClick={(e) => {
-        e.stopPropagation();
-        props.onSelected(id);
-      }}
-    >
-      <boxBufferGeometry
-        attach="geometry"
-        args={[
-          bounds.max.x - bounds.min.x,
-          bounds.max.y - bounds.min.y,
-          bounds.max.z - bounds.min.z,
-        ]}
+    <Suspense fallback={null}>
+      <HumanModel
+        position={[location.x, location.y, location.z]}
+        rotation={eulerRotation}
+        onClick={(e) => {
+          e.stopPropagation();
+          props.onSelected(id);
+        }}
       />
-      <meshStandardMaterial attach="material" color={'pink'} />
-    </mesh>
+    </Suspense>
   );
 }

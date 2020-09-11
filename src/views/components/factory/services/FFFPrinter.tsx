@@ -1,6 +1,6 @@
 import React, { useMemo, useState, Suspense } from 'react';
 import { Euler, Quaternion as ThreeQuaternion } from 'three';
-import Printer3D from './models/3DPrinter.gltf';
+import PrinterModel from './models/3DPrinter.gltf';
 import { FFFPrinter } from '../../../../store/factory/services/fffprinter/types';
 
 type OwnProp = {
@@ -33,7 +33,7 @@ export function FFFPrinterElement(props: Props): JSX.Element {
 
   return (
     <Suspense fallback={null}>
-      <Printer3D
+      <PrinterModel
         position={[location.x, location.y, location.z]}
         rotation={eulerRotation}
         onClick={(e) => {

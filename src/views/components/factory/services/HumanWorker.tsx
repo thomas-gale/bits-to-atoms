@@ -1,6 +1,6 @@
 import React, { useState, useMemo, Suspense } from 'react';
 import { Euler, Quaternion as ThreeQuaternion } from 'three';
-import HumanModel from './models/Human.gltf';
+import HumanWorkerModel from './models/HumanWorker.gltf';
 import { HumanWorker } from '../../../../store/factory/services/humanworker/types';
 
 type OwnProp = {
@@ -33,7 +33,7 @@ export function HumanWorkerElement(props: Props): JSX.Element {
 
   return (
     <Suspense fallback={null}>
-      <HumanModel
+      <HumanWorkerModel
         position={[location.x, location.y, location.z]}
         rotation={eulerRotation}
         onClick={(e) => {

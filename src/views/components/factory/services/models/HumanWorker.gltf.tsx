@@ -18,7 +18,10 @@ type GLTFResult = GLTF & {
 
 export default function Model(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>();
-  const { nodes, materials } = useLoader<GLTFResult>(GLTFLoader, '/Human.gltf');
+  const { nodes, materials } = useLoader<GLTFResult>(
+    GLTFLoader,
+    '/HumanWorker.gltf'
+  );
   return (
     <group ref={group} {...props} dispose={null}>
       <mesh

@@ -27,7 +27,7 @@ export default function Model(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>();
   const { nodes, materials } = useLoader<GLTFResult>(
     GLTFLoader,
-    '/3DPrinter.gltf'
+    '/FFFPrinter.gltf'
   );
   return (
     <group ref={group} {...props} dispose={null}>

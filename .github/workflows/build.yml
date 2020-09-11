@@ -32,9 +32,8 @@ jobs:
       uses: cypress-io/github-action@v2
       with:
         record: true
-        start: yarn start:instrumented
+        start: yarn start:instrumented && wait-on http://localhost:3000
         command-prefix: 'percy exec -- npx'
-        config: pageLoadTimeout=100000
       env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}

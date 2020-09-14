@@ -6,6 +6,8 @@ import * as THREE from 'three';
 import React, { useRef } from 'react';
 import { useLoader } from 'react-three-fiber';
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useIpfsGltfLoader } from '../../../../../store/ipfs/use-ipfs-gltf-loader';
+import { ModelProxy } from './ModelProxy';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -18,16 +20,26 @@ type GLTFResult = GLTF & {
 
 export default function Model(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>();
-  const { nodes, materials } = useLoader<GLTFResult>(
+
+  const result = useIpfsGltfLoader<GLTFResult>(
+    'QmQZDpCFgiUtZwzi3UUKWUHUS44kqA25z8SKoo98MrLaPS'
+  );
+
+  /*const { nodes, materials } = useLoader<GLTFResult>(
     GLTFLoader,
     '/HumanWorker.gltf'
-  );
-  return (
-    <group ref={group} {...props} dispose={null}>
-      <mesh
-        material={materials._defaultMat}
-        geometry={nodes.mergedBlocks.geometry}
-      />
-    </group>
-  );
+  );*/
+
+  if (result) {
+    return (
+      <group ref={group} {...props} dispose={null}>
+        <mesh
+          material={result.materials._defaultMat}
+          geometry={result.nodes.mergedBlocks.geometry}
+        />
+      </group>
+    );
+  } else {
+    return ModelProxy();
+  }
 }

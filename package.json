@@ -75,6 +75,7 @@
     "@testing-library/dom": "^7.24.1",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^11.0.2",
+    "@testing-library/react-hooks": "^3.4.1",
     "@testing-library/user-event": "^12.1.4",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
@@ -90,6 +91,7 @@
     "istanbul-lib-coverage": "^3.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.2",
+    "react-test-renderer": "^16.13.1",
     "wait-on": "^5.2.0"
   }
 }

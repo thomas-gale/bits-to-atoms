@@ -4,8 +4,8 @@ context('Window', () => {
   });
 
   it('get the global window object', () => {
-    cy.percySnapshot('Started App');
     cy.window().should('have.property', 'top');
+    cy.percySnapshot('Started App');
   });
 
   it('get the document object', () => {

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Vector3 } from 'three';
 import { Canvas } from 'react-three-fiber';
 
@@ -47,16 +47,7 @@ const connector = connect(mapState, mapDispatch);
 type Props = ConnectedProps<typeof connector>;
 
 function Factory(props: Props) {
-  const [ipfscontextvalue, setConextValueIpfs] = useState<undefined | any>(
-    undefined
-  );
   const { ipfs } = useIpfsFactory();
-  useEffect(() => {
-    setConextValueIpfs(ipfs);
-  }, [ipfs]);
-
-  //const getIpfsContextValue = useCallback(() => )
-
   const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
   const [cursorPostion, setCursorPosition] = useState(new Vector3(0, 0, 0));
 
@@ -65,7 +56,7 @@ function Factory(props: Props) {
       {({ store }) => (
         <Canvas shadowMap>
           <Provider store={store}>
-            <IpfsContext.Provider value={ipfscontextvalue}>
+            <IpfsContext.Provider value={ipfs}>
               <SmoothOrbitCamera cameraTarget={cameraTarget} />
               <Lighting />
               <BasePlane

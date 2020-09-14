@@ -18,7 +18,9 @@ jobs:
         git fetch --unshallow
 
     - name: Setup Node
-      uses: actions/setup-node@v1.1.0
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: '14'
 
     - name: Resolve Dependencies
       run: yarn

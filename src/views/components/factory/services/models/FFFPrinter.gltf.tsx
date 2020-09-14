@@ -23,28 +23,76 @@ type GLTFResult = GLTF & {
   };
 };
 
+// Taken from https://github.com/react-spring/react-three-fiber/blob/fec915980278ba041b458d9dffb26a7747ec7bce/src/hooks.ts
+const blackList = [
+  'id',
+  'uuid',
+  'type',
+  'children',
+  'parent',
+  'matrix',
+  'matrixWorld',
+  'matrixWorldNeedsUpdate',
+  'modelViewMatrix',
+  'normalMatrix',
+];
+
+// Taken from https://github.com/react-spring/react-three-fiber/blob/fec915980278ba041b458d9dffb26a7747ec7bce/src/hooks.ts
+function prune(props: any) {
+  const reducedProps = { ...props };
+  // Remove black listed props
+  blackList.forEach((name) => delete reducedProps[name]);
+  // Remove functions
+  Object.keys(reducedProps).forEach(
+    (name) =>
+      typeof reducedProps[name] === 'function' && delete reducedProps[name]
+  );
+  // Prune materials and geometries
+  if (reducedProps.material)
+    reducedProps.material = prune(reducedProps.material);
+  if (reducedProps.geometry)
+    reducedProps.geometry = prune(reducedProps.geometry);
+  // Return cleansed object
+  return reducedProps;
+}
+
+// Experimental modification
 export default function Model(props: JSX.IntrinsicElements['group'] | any) {
   const group = useRef<THREE.Group>();
   const { model } = props;
 
   // New From Model Data
-  const [gltf, setgltf] = useState<any | undefined>(undefined);
-  const [newNodes, setNewNodes] = useState<any | undefined>(undefined);
-  const [newMaterials, setNewMaterials] = useState<any | undefined>(undefined);
+  //const [gltf, setgltf] = useState<any | undefined>(undefined);
+  const [nodes, setNewNodes] = useState<any | undefined>(undefined);
+  const [materials, setNewMaterials] = useState<any | undefined>(undefined);
 
   useEffect(() => {
     const loadGLTF = async () => {
-      // Option 1
       const loader = new GLTFLoader();
+
+      // This has to be deprecated at some point!
+      // Taken from  https://github.com/react-spring/react-three-fiber/blob/fec915980278ba041b458d9dffb26a7747ec7bce/src/hooks.ts
+
       // We are just assuming a single chunk
       loader.parse(model[0], '', (gltf: GLTF) => {
-        setgltf(gltf);
-      });
+        let data: any = {};
+        data = gltf;
 
-      // Option 2
-      //const { nodes, materials } = useLoader<GLTFResult>(GLTFLoader, model[0]);
-      //newNodes(nodes);
-      //newMaterials(materials);
+        data.__$ = [];
+        // Nodes and materials are better
+        data.nodes = {};
+        data.materials = {};
+        data.scene.traverse((obj: any) => {
+          data.__$.push(prune(obj));
+          if (obj.name) data.nodes = { ...data.nodes, [obj.name]: obj };
+          if (obj.material && !data.materials[obj.material.name])
+            data.materials[obj.material.name] = obj.material;
+        });
+
+        // Pass data out of closure.
+        setNewNodes(data.nodes);
+        setNewMaterials(data.materials);
+      });
     };
     loadGLTF();
   }, [model]);
@@ -56,29 +104,37 @@ export default function Model(props: JSX.IntrinsicElements['group'] | any) {
   //);
 
   // Original
-  const { nodes, materials } = useLoader<GLTFResult>(
+  /*const { nodes, materials } = useLoader<GLTFResult>(
     GLTFLoader,
     '/FFFPrinter.gltf'
-  );
+  );*/
 
-  return (
-    <group ref={group} {...props} dispose={null}>
-      <mesh
-        material={materials.custom2}
-        geometry={nodes.mergedBlocks_1_0.geometry}
-      />
-      <mesh
-        material={materials.custom1}
-        geometry={nodes.mergedBlocks_1_1.geometry}
-      />
-      <mesh
-        material={materials.custom3}
-        geometry={nodes.mergedBlocks_1_2.geometry}
-      />
-      <mesh
-        material={materials._defaultMat}
-        geometry={nodes.mergedBlocks_1_3.geometry}
-      />
-    </group>
-  );
+  if (nodes && materials) {
+    return (
+      <group ref={group} {...props} dispose={null}>
+        <mesh
+          material={materials.custom2}
+          geometry={nodes.mergedBlocks_1_0.geometry}
+        />
+        <mesh
+          material={materials.custom1}
+          geometry={nodes.mergedBlocks_1_1.geometry}
+        />
+        <mesh
+          material={materials.custom3}
+          geometry={nodes.mergedBlocks_1_2.geometry}
+        />
+        <mesh
+          material={materials._defaultMat}
+          geometry={nodes.mergedBlocks_1_3.geometry}
+        />
+      </group>
+    );
+  } else {
+    return (
+      <mesh>
+        <boxBufferGeometry attach="geometry" />
+      </mesh>
+    );
+  }
 }

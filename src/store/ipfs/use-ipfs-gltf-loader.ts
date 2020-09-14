@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import useIpfsFactory from './use-ipfs-factory';
+import { IpfsContext } from '../../views/components/factory/Factory';
 
 // Taken from https://github.com/react-spring/react-three-fiber/blob/fec915980278ba041b458d9dffb26a7747ec7bce/src/hooks.ts
 const blackList = [
@@ -45,15 +45,14 @@ export const useIpfsGltfLoader = <T extends BaseGLTFResult>(
   modelCID: string
 ): T | undefined => {
   // Experimental file loading from ipfs
-  const { ipfs } = useIpfsFactory();
+  const ipfs = useContext(IpfsContext);
 
   // Downloaded model chunks.
   const [model, setModel] = useState<any | undefined>(undefined);
 
   useEffect(() => {
     // This won't run untill ipfs is defined.
-    if (!ipfs) return;
-    const downloadModel = async () => {
+    const downloadModel = async (ipfs: any) => {
       const chunks = [];
       for await (const chunk of ipfs.cat(modelCID)) {
         chunks.push(chunk);
@@ -62,7 +61,7 @@ export const useIpfsGltfLoader = <T extends BaseGLTFResult>(
       console.log('All chunks downloaded! length: ' + chunks.length);
       setModel(chunks);
     };
-    if (ipfs) downloadModel();
+    if (ipfs) downloadModel(ipfs);
   }, [ipfs, modelCID]);
 
   // New From Model Data

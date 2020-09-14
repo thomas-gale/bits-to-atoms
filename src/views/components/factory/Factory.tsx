@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Vector3 } from 'three';
 import { Canvas } from 'react-three-fiber';
 
@@ -18,6 +18,7 @@ import { GridHoverCursor } from './cursor/GridHoverCursor';
 import { Lighting } from './base/Lighting';
 import { BasePlane } from './base/BasePlane';
 import ServiceProvider from './services/ServiceProvider';
+import useIpfsFactory from '../../../store/ipfs/use-ipfs-factory';
 
 function mapState(state: RootState) {
   return {
@@ -40,13 +41,23 @@ function mapDispatch(dispatch: RootDispatch) {
   };
 }
 
-const connector = connect(mapState, mapDispatch);
+export const IpfsContext = React.createContext(undefined);
 
+const connector = connect(mapState, mapDispatch);
 type Props = ConnectedProps<typeof connector>;
 
 function Factory(props: Props) {
-  const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
+  const [ipfscontextvalue, setConextValueIpfs] = useState<undefined | any>(
+    undefined
+  );
+  const { ipfs } = useIpfsFactory();
+  useEffect(() => {
+    setConextValueIpfs(ipfs);
+  }, [ipfs]);
 
+  //const getIpfsContextValue = useCallback(() => )
+
+  const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
   const [cursorPostion, setCursorPosition] = useState(new Vector3(0, 0, 0));
 
   return (
@@ -54,23 +65,25 @@ function Factory(props: Props) {
       {({ store }) => (
         <Canvas shadowMap>
           <Provider store={store}>
-            <SmoothOrbitCamera cameraTarget={cameraTarget} />
-            <Lighting />
-            <BasePlane
-              largeX={100}
-              largeY={100}
-              onHover={(args) => setCursorPosition(args.point)}
-              onSelected={onBasePlaneSelected}
-            />
-            <GridHoverCursor gridSize={1} position={cursorPostion} />
-            {servicesProviders.map((servicesProvider) => {
-              return (
-                <ServiceProvider
-                  key={servicesProvider.id}
-                  serviceProvider={servicesProvider}
-                />
-              );
-            })}
+            <IpfsContext.Provider value={ipfscontextvalue}>
+              <SmoothOrbitCamera cameraTarget={cameraTarget} />
+              <Lighting />
+              <BasePlane
+                largeX={100}
+                largeY={100}
+                onHover={(args) => setCursorPosition(args.point)}
+                onSelected={onBasePlaneSelected}
+              />
+              <GridHoverCursor gridSize={1} position={cursorPostion} />
+              {servicesProviders.map((servicesProvider) => {
+                return (
+                  <ServiceProvider
+                    key={servicesProvider.id}
+                    serviceProvider={servicesProvider}
+                  />
+                );
+              })}
+            </IpfsContext.Provider>
           </Provider>
         </Canvas>
       )}

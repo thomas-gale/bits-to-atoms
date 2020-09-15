@@ -18,7 +18,7 @@ import { GridHoverCursor } from './cursor/GridHoverCursor';
 import { Lighting } from './base/Lighting';
 import { BasePlane } from './base/BasePlane';
 import ServiceProvider from './services/ServiceProvider';
-import useIpfsFactory from '../../../store/ipfs/use-ipfs-factory';
+import { IpfsContext } from '../../../store/ipfs/IpfsContext';
 
 function mapState(state: RootState) {
   return {
@@ -41,42 +41,43 @@ function mapDispatch(dispatch: RootDispatch) {
   };
 }
 
-export const IpfsContext = React.createContext(undefined);
-
 const connector = connect(mapState, mapDispatch);
 type Props = ConnectedProps<typeof connector>;
 
 function Factory(props: Props) {
-  const { ipfs } = useIpfsFactory();
   const { cameraTarget, servicesProviders, onBasePlaneSelected } = props;
   const [cursorPostion, setCursorPosition] = useState(new Vector3(0, 0, 0));
 
   return (
     <ReactReduxContext.Consumer>
       {({ store }) => (
-        <Canvas shadowMap>
-          <Provider store={store}>
-            <IpfsContext.Provider value={ipfs}>
-              <SmoothOrbitCamera cameraTarget={cameraTarget} />
-              <Lighting />
-              <BasePlane
-                largeX={100}
-                largeY={100}
-                onHover={(args) => setCursorPosition(args.point)}
-                onSelected={onBasePlaneSelected}
-              />
-              <GridHoverCursor gridSize={1} position={cursorPostion} />
-              {servicesProviders.map((servicesProvider) => {
-                return (
-                  <ServiceProvider
-                    key={servicesProvider.id}
-                    serviceProvider={servicesProvider}
+        <IpfsContext.Consumer>
+          {(ipfs) => (
+            <Canvas shadowMap>
+              <Provider store={store}>
+                <IpfsContext.Provider value={ipfs}>
+                  <SmoothOrbitCamera cameraTarget={cameraTarget} />
+                  <Lighting />
+                  <BasePlane
+                    largeX={100}
+                    largeY={100}
+                    onHover={(args) => setCursorPosition(args.point)}
+                    onSelected={onBasePlaneSelected}
                   />
-                );
-              })}
-            </IpfsContext.Provider>
-          </Provider>
-        </Canvas>
+                  <GridHoverCursor gridSize={1} position={cursorPostion} />
+                  {servicesProviders.map((servicesProvider) => {
+                    return (
+                      <ServiceProvider
+                        key={servicesProvider.id}
+                        serviceProvider={servicesProvider}
+                      />
+                    );
+                  })}
+                </IpfsContext.Provider>
+              </Provider>
+            </Canvas>
+          )}
+        </IpfsContext.Consumer>
       )}
     </ReactReduxContext.Consumer>
   );

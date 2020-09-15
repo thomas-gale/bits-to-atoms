@@ -19,6 +19,8 @@ import { InformationOverlay } from './information/InformationOverlay';
 import MarketPanel from './market/MarketPanel';
 import SelectedPanel from './selected/SelectedPanel';
 import TopNav from './TopNav';
+import useIpfsFactory from '../../store/ipfs/use-ipfs-factory';
+import { IpfsContext } from '../../store/ipfs/IpfsContext';
 
 function mapState(state: RootState) {
   return {
@@ -82,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App(props: Props): JSX.Element {
   const classes = useStyles();
+  const { ipfs } = useIpfsFactory();
 
   const {
     informationOverlayVisible,
@@ -132,32 +135,34 @@ function App(props: Props): JSX.Element {
   };
 
   return (
-    <Box className={classes.fullScreen}>
-      <Factory />
-      <Box className={classes.uiOverlay}>
-        <Grid container className={classes.uiPrimaryGridContainer}>
-          <Grid item xs={12}>
-            <div className={classes.uiPrimaryGridElement}>
-              <TopNav />
-            </div>
+    <IpfsContext.Provider value={ipfs}>
+      <Box className={classes.fullScreen}>
+        <Factory />
+        <Box className={classes.uiOverlay}>
+          <Grid container className={classes.uiPrimaryGridContainer}>
+            <Grid item xs={12}>
+              <div className={classes.uiPrimaryGridElement}>
+                <TopNav />
+              </div>
+            </Grid>
+            <MarketFactoryPanel />
+            <PrimaryFocusPanel />
+            <Grid item xs={3}>
+              <div className={classes.uiPrimaryGridElement}>
+                <SelectedPanel />
+              </div>
+            </Grid>
           </Grid>
-          <MarketFactoryPanel />
-          <PrimaryFocusPanel />
-          <Grid item xs={3}>
-            <div className={classes.uiPrimaryGridElement}>
-              <SelectedPanel />
-            </div>
-          </Grid>
-        </Grid>
-        <Backdrop
-          className={classes.backdrop}
-          open={informationOverlayVisible}
-          onClick={onHideInfoPanel}
-        >
-          <InformationOverlay />
-        </Backdrop>
+          <Backdrop
+            className={classes.backdrop}
+            open={informationOverlayVisible}
+            onClick={onHideInfoPanel}
+          >
+            <InformationOverlay />
+          </Backdrop>
+        </Box>
       </Box>
-    </Box>
+    </IpfsContext.Provider>
   );
 }
 

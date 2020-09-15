@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { IpfsContext } from '../../views/components/factory/Factory';
+import { IpfsContext } from './IpfsContext';
 
 // Taken from https://github.com/react-spring/react-three-fiber/blob/fec915980278ba041b458d9dffb26a7747ec7bce/src/hooks.ts
 const blackList = [

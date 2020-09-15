@@ -24,6 +24,8 @@
     "ipfs-http-client": "^46.0.0",
     "minimist": "^1.2.2",
     "normalizr": "^3.6.0",
+    "orbit-db": "^0.26.0-rc2",
+    "orbit-db-store": "3.x",
     "react": "^16.13.1",
     "react-dom": "^16.13.0",
     "react-markdown": "^4.3.1",

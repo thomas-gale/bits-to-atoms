@@ -21,11 +21,8 @@ import SelectedPanel from './selected/SelectedPanel';
 import TopNav from './TopNav';
 import useIpfsFactory from '../../store/ipfs/use-ipfs-factory';
 import { IpfsContext } from '../../store/ipfs/IpfsContext';
-import {
-  useOrbitDb,
-  useOrbitKeyValueDb,
-} from '../../store/orbitdb/use-orbitdb';
-import { OrbitKVDbContext } from '../../store/orbitdb/OrbitKVDbContext';
+import Gun from 'gun/gun';
+import { GunContext } from '../../store/gun/GunContext';
 
 function mapState(state: RootState) {
   return {
@@ -90,8 +87,10 @@ const useStyles = makeStyles((theme) => ({
 function App(props: Props): JSX.Element {
   const classes = useStyles();
   const { ipfs } = useIpfsFactory();
-  const orbitDb = useOrbitDb(ipfs);
-  const kvDb = useOrbitKeyValueDb(orbitDb, 'test-database');
+  const gun = Gun();
+
+  //const orbitDb = useOrbitDb(ipfs);
+  //const kvDb = useOrbitKeyValueDb(orbitDb, 'test-database');
 
   const {
     informationOverlayVisible,
@@ -143,7 +142,7 @@ function App(props: Props): JSX.Element {
 
   return (
     <IpfsContext.Provider value={ipfs}>
-      <OrbitKVDbContext.Provider value={kvDb}>
+      <GunContext.Provider value={gun}>
         <Box className={classes.fullScreen}>
           <Factory />
           <Box className={classes.uiOverlay}>
@@ -170,7 +169,7 @@ function App(props: Props): JSX.Element {
             </Backdrop>
           </Box>
         </Box>
-      </OrbitKVDbContext.Provider>
+      </GunContext.Provider>
     </IpfsContext.Provider>
   );
 }

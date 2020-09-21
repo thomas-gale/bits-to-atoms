@@ -1,3 +1,6 @@
 import React from 'react';
+import Gun from 'gun/gun';
 
-export const OrbitKVDbContext = React.createContext<undefined | any>(undefined);
+export const OrbitKVDbContext = React.createContext<
+  undefined | ReturnType<typeof Gun>
+>(undefined);

@@ -85,7 +85,7 @@
     "bufferutil": "^4.0.1",
     "coveralls": "^3.0.11",
     "cypress": "^5.1.0",
-    "eslint": "^7.9.0",
+    "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-cypress": "^2.10.3",
@@ -95,7 +95,7 @@
     "istanbul-lib-coverage": "^3.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.2",
-    "react-scripts": "^4.0.0-next.98",
+    "react-scripts": "^3.4.1",
     "react-test-renderer": "^16.13.1",
     "utf-8-validate": "^5.0.2"
   }

@@ -5,5 +5,6 @@ export interface User {
 }
 
 export interface Textile {
+  detailsVisible: boolean;
   user: undefined | User;
 }

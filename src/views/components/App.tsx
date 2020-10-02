@@ -5,6 +5,8 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { SizeMe } from 'react-sizeme';
 import { RootDispatch, RootState } from '../../store';
+import { userIdentityDetailsOverlayVisibleSelector } from '../../store/textile/selectors';
+import { hideUserDetails } from '../../store/textile/slice';
 import { informationOverlayVisibleSelector } from '../../store/information/selectors';
 import { hideInformationOverlay } from '../../store/information/slice';
 import {
@@ -16,6 +18,7 @@ import BuildRequestDetails from './buildrequest/BuildRequestDetails';
 import Factory from './factory/Factory';
 import FactoryPanel from './factory/FactoryPanel';
 import { InformationOverlay } from './information/InformationOverlay';
+import UserDetailsOverlay from './textile/UserDetailsOverlay';
 import MarketPanel from './market/MarketPanel';
 import SelectedPanel from './selected/SelectedPanel';
 import TopNav from './TopNav';
@@ -25,6 +28,9 @@ import { IpfsContext } from '../../store/ipfs/IpfsContext';
 function mapState(state: RootState) {
   return {
     informationOverlayVisible: informationOverlayVisibleSelector(state),
+    userIdentityDetailsOverlayVisible: userIdentityDetailsOverlayVisibleSelector(
+      state
+    ),
     marketFactoryPanelVisibilty: marketFactoryPanelVisibiltySelector(state),
     primaryFocusBuildRequest: primaryFocusBuildRequestSelector(state),
   };
@@ -34,6 +40,9 @@ function mapDispatch(dispatch: RootDispatch) {
   return {
     onHideInfoPanel: () => {
       dispatch(hideInformationOverlay());
+    },
+    onHideUserDetailsPanel: () => {
+      dispatch(hideUserDetails());
     },
   };
 }
@@ -88,9 +97,11 @@ function App(props: Props): JSX.Element {
 
   const {
     informationOverlayVisible,
+    userIdentityDetailsOverlayVisible,
     marketFactoryPanelVisibilty,
     primaryFocusBuildRequest,
     onHideInfoPanel,
+    onHideUserDetailsPanel,
   } = props;
 
   const MarketFactoryPanel = () => {
@@ -159,6 +170,13 @@ function App(props: Props): JSX.Element {
             onClick={onHideInfoPanel}
           >
             <InformationOverlay />
+          </Backdrop>
+          <Backdrop
+            className={classes.backdrop}
+            open={userIdentityDetailsOverlayVisible}
+            onClick={onHideUserDetailsPanel}
+          >
+            <UserDetailsOverlay />
           </Backdrop>
         </Box>
       </Box>

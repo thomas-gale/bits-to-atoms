@@ -9,11 +9,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import BusinessIcon from '@material-ui/icons/Business';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import InfoIcon from '@material-ui/icons/Info';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { config } from '../../env/config';
 import { RootDispatch, RootState } from '../../store';
+import { showUserDetails } from '../../store/textile/slice';
 import { factoryIdentitySelector } from '../../store/factory/selectors';
 import { showInformationOverlay } from '../../store/information/slice';
 import { marketFactoryPanelVisibiltySelector } from '../../store/selected/selectors';
@@ -41,6 +43,9 @@ function mapDispatch(dispatch: RootDispatch) {
     },
     onShowInfoPanel: () => {
       dispatch(showInformationOverlay());
+    },
+    onShowUserInfo: () => {
+      dispatch(showUserDetails());
     },
   };
 }
@@ -70,6 +75,7 @@ function TopNav(props: Props): JSX.Element {
     onFactoryClicked,
     onMarketClicked,
     onShowInfoPanel,
+    onShowUserInfo,
   } = props;
 
   return (
@@ -118,6 +124,13 @@ function TopNav(props: Props): JSX.Element {
             onClick={onShowInfoPanel}
           >
             <InfoIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="user"
+            onClick={onShowUserInfo}
+          >
+            <AccountCircleIcon />
           </IconButton>
         </Toolbar>
       </AppBar>

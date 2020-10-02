@@ -1,8 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { normalize } from 'normalizr';
-import { BuildRequest } from '../buildrequest/types';
-import { Parameter } from '../common/parameter/types';
-import { Activity, Workflow } from '../workflow/types';
 import { createTextile } from './factories';
 import { User } from './types';
 

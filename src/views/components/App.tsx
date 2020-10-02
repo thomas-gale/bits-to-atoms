@@ -1,7 +1,7 @@
 import { Backdrop, Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { SizeMe } from 'react-sizeme';
 import { RootDispatch, RootState } from '../../store';
@@ -21,8 +21,7 @@ import SelectedPanel from './selected/SelectedPanel';
 import TopNav from './TopNav';
 import useIpfsFactory from '../../store/ipfs/use-ipfs-factory';
 import { IpfsContext } from '../../store/ipfs/IpfsContext';
-import Gun from 'gun/gun';
-import { GunContext } from '../../store/gun/GunContext';
+import { generateIdentity } from '../../store/textile/user-identity-sagas';
 
 function mapState(state: RootState) {
   return {
@@ -87,10 +86,18 @@ const useStyles = makeStyles((theme) => ({
 function App(props: Props): JSX.Element {
   const classes = useStyles();
   const { ipfs } = useIpfsFactory();
-  const gun = Gun();
 
   //const orbitDb = useOrbitDb(ipfs);
   //const kvDb = useOrbitKeyValueDb(orbitDb, 'test-database');
+
+  const [user, setUser] = useState<undefined | any>(undefined);
+
+  useEffect(() => {
+    const gen = async () => {
+      setUser(await generateIdentity());
+    };
+    gen();
+  }, [user]);
 
   const {
     informationOverlayVisible,
@@ -142,34 +149,32 @@ function App(props: Props): JSX.Element {
 
   return (
     <IpfsContext.Provider value={ipfs}>
-      <GunContext.Provider value={gun}>
-        <Box className={classes.fullScreen}>
-          <Factory />
-          <Box className={classes.uiOverlay}>
-            <Grid container className={classes.uiPrimaryGridContainer}>
-              <Grid item xs={12}>
-                <div className={classes.uiPrimaryGridElement}>
-                  <TopNav />
-                </div>
-              </Grid>
-              <MarketFactoryPanel />
-              <PrimaryFocusPanel />
-              <Grid item xs={3}>
-                <div className={classes.uiPrimaryGridElement}>
-                  <SelectedPanel />
-                </div>
-              </Grid>
+      <Box className={classes.fullScreen}>
+        <Factory />
+        <Box className={classes.uiOverlay}>
+          <Grid container className={classes.uiPrimaryGridContainer}>
+            <Grid item xs={12}>
+              <div className={classes.uiPrimaryGridElement}>
+                <TopNav />
+              </div>
             </Grid>
-            <Backdrop
-              className={classes.backdrop}
-              open={informationOverlayVisible}
-              onClick={onHideInfoPanel}
-            >
-              <InformationOverlay />
-            </Backdrop>
-          </Box>
+            <MarketFactoryPanel />
+            <PrimaryFocusPanel />
+            <Grid item xs={3}>
+              <div className={classes.uiPrimaryGridElement}>
+                <SelectedPanel />
+              </div>
+            </Grid>
+          </Grid>
+          <Backdrop
+            className={classes.backdrop}
+            open={informationOverlayVisible}
+            onClick={onHideInfoPanel}
+          >
+            <InformationOverlay />
+          </Backdrop>
         </Box>
-      </GunContext.Provider>
+      </Box>
     </IpfsContext.Provider>
   );
 }

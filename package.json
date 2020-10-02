@@ -32,7 +32,6 @@
     "react-dom": "^16.13.0",
     "react-markdown": "^4.3.1",
     "react-redux": "^7.2.0",
-    "react-scripts": "^3.4.1",
     "react-sizeme": "^2.6.12",
     "react-spring": "^8.0.27",
     "react-three-fiber": "^4.2.21",
@@ -49,7 +48,6 @@
     "build": "react-scripts build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
-    "test:config": "react-scripts test -- --testEnvironment=node",
     "test:ci": "react-scripts test --ci --coverage --coverageDirectory=jest_coverage --watchAll=false",
     "start:instrumented": "react-scripts -r @cypress/instrument-cra start",
     "cypress:open": "cypress open",
@@ -87,7 +85,7 @@
     "bufferutil": "^4.0.1",
     "coveralls": "^3.0.11",
     "cypress": "^5.1.0",
-    "eslint": "^6.6.0",
+    "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-cypress": "^2.10.3",
@@ -95,13 +93,10 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.2",
     "istanbul-lib-coverage": "^3.0.0",
-    "multibase": "^0.7.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.2",
+    "react-scripts": "^4.0.0-next.98",
     "react-test-renderer": "^16.13.1",
-    "text-encoding": "^0.7.0",
-    "utf-8-validate": "^5.0.2",
-    "wait-on": "^5.2.0",
-    "web-encoding": "^1.0.4"
+    "utf-8-validate": "^5.0.2"
   }
 }

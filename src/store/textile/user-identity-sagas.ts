@@ -1,7 +1,6 @@
 import { PrivateKey } from '@textile/hub';
-import { call, put } from 'redux-saga/effects';
+import { put } from 'redux-saga/effects';
 import { setUser } from './slice';
-
 /**
  * Runs a simple fixed market simulation.
  * Parts are randomly added and removed after a certain time.

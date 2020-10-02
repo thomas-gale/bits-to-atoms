@@ -3,12 +3,16 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
+
+import { generateIdentitySaga } from './textile/user-identity-sagas';
+
 import {
   simpleMarketSaga,
   watchRequestAddBuildRequestSaga,
 } from './market/sagas';
 
 import { reducer as formReducer } from 'redux-form';
+import { textileReducer } from './textile/slice';
 import { marketReducer } from './market/slice';
 import { factoryReducer } from './factory/slice';
 import { selectedReducer } from './selected/slice';
@@ -24,6 +28,7 @@ import { informationReducer } from './information/slice';
 
 function* rootSaga() {
   yield all([
+    fork(generateIdentitySaga),
     fork(simpleMarketSaga),
     fork(watchRequestAddBuildRequestSaga),
     fork(factoryUpdateTickSaga),
@@ -36,6 +41,7 @@ function* rootSaga() {
 const sagaMiddleware = createSagaMiddleware();
 
 export const rootReducer = combineReducers({
+  textile: textileReducer,
   market: marketReducer,
   factory: factoryReducer,
   selected: selectedReducer,

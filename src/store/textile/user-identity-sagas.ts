@@ -7,10 +7,10 @@ import { setUser } from './slice';
  * Parts are randomly added and removed after a certain time.
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function* generateIdentity() {
-  console.log('Generating user identity');
+export function* generateIdentitySaga() {
+  console.log('Generating user identity...');
 
-  const privateKey: PrivateKey = yield call(PrivateKey.fromRandom);
+  const privateKey: PrivateKey = PrivateKey.fromRandom();
 
   /** Convert to string. */
   //const identityString = identity.toString();
@@ -23,4 +23,6 @@ export function* generateIdentity() {
       privateKey,
     })
   );
+
+  //console.log('Complete generating user identity: ' + privateKey.pubKey);
 }

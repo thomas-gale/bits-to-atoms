@@ -1,6 +1,6 @@
 context('Market', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000', { timeout: 60000 });
+    cy.visit('http://localhost:3000', { timeout: 120000 });
   });
 
   it('get the first build request summary', () => {

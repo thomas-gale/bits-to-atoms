@@ -1,6 +1,6 @@
 context('Factory', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000', { timeout: 60000 });
+    cy.visit('http://localhost:3000', { timeout: 12:0000 });
   });
 
   it('view information overview', () => {

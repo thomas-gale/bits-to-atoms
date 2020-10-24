@@ -1,6 +1,6 @@
 context('Window', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000', { timeout: 60000 });
+    cy.visit('http://localhost:3000', { timeout: 120000 });
     cy.wait(100); // eslint-disable-line cypress/no-unnecessary-waiting
   });
 

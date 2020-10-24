@@ -7,7 +7,7 @@ type OwnProp = {
   position: Vector3;
 };
 
-type OwnDispatch = {};
+type OwnDispatch = unknown;
 
 type Props = OwnProp & OwnDispatch;
 

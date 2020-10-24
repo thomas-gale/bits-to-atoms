@@ -57,7 +57,7 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-function LocationForm(props: Props & InjectedFormProps<{}, Props>) {
+function LocationForm(props: Props & InjectedFormProps<unknown, Props>) {
   const { selectedServiceProvider, onNumberParameterChange } = props;
 
   if (!selectedServiceProvider) return <div />;
@@ -109,7 +109,7 @@ function LocationForm(props: Props & InjectedFormProps<{}, Props>) {
 }
 
 export default connector(
-  reduxForm<{}, Props>({
+  reduxForm<unknown, Props>({
     form: 'locationForm',
     enableReinitialize: true,
   })(LocationForm)

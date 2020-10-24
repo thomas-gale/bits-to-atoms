@@ -57,7 +57,7 @@ const connector = connect(mapState, mapDispatch);
 
 type Props = ConnectedProps<typeof connector>;
 
-function OrientationForm(props: Props & InjectedFormProps<{}, Props>) {
+function OrientationForm(props: Props & InjectedFormProps<unknown, Props>) {
   const { selectedServiceProvider, onNumberParameterChange } = props;
 
   if (!selectedServiceProvider) return <div />;
@@ -109,7 +109,7 @@ function OrientationForm(props: Props & InjectedFormProps<{}, Props>) {
 }
 
 export default connector(
-  reduxForm<{}, Props>({
+  reduxForm<unknown, Props>({
     form: 'orientationForm',
     enableReinitialize: true,
   })(OrientationForm)

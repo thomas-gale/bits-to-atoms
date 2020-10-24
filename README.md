@@ -33,6 +33,7 @@
 - React (react-spring)
 - Redux (redux-saga, reselect, redux-form)
 - Three (react-three-fiber)
+- IPFS / Textile for P2P storage and database
 
 ## Semantic Release
 Following [angular conventions](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular)  

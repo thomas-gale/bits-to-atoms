@@ -6,9 +6,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { CameraTarget } from '../../../../store/factory/camera/types';
 
 // A few linter disables required to convince React / Typescript to use the OrbitControls.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface IntrinsicElements {
       // eslint-disable-next-line no-undef
       orbitControls: ReactThreeFiber.Node<OrbitControls, typeof OrbitControls>;

@@ -36,6 +36,7 @@ export function FFFPrinterElement(props: Props): JSX.Element {
       <FFFPrinterModel
         position={[location.x, location.y, location.z]}
         rotation={eulerRotation}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onClick={(e: any) => {
           e.stopPropagation();
           props.onSelected(id);

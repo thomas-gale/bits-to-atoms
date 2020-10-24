@@ -1,6 +1,7 @@
 import Ipfs from 'ipfs';
 import { useEffect, useState } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let ipfs: any = null;
 
 /*
@@ -43,6 +44,7 @@ export default function useIpfsFactory() {
     return function cleanup() {
       if (ipfs && ipfs.stop) {
         console.log('Stopping IPFS');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ipfs.stop().catch((err: any) => console.error(err));
         ipfs = null;
         setIpfsReady(false);

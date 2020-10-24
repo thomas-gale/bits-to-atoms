@@ -34,7 +34,7 @@ jobs:
         CI: true
 
     - name: Cypress e2e Tests
-      uses: cypress-io/github-action@v2
+      uses: cypress-io/github-action@v2.3.3
       with:
         record: true
         start: yarn start:instrumented

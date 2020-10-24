@@ -17,6 +17,7 @@
 - Services providers could become financially autonomous competitive *objective maximising* entities
 - Desired emergent behaviour: trustless, competitive and nimble micro-transactions in the micro-markets of the micro-factory!
 - Can we interface with:
+	- Identity using Texile for public/private key based system
 	- Payments API (fiat / crypto)
 	- Autonomous organisation systems (Aragon)
 	- Factory 'boundary services':

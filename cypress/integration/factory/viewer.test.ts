@@ -1,6 +1,6 @@
 context('Factory', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
+    cy.visit('http://localhost:3000', { timeout: 60000 });
   });
 
   it('can click in center of factory view', () => {

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Client, Identity, ThreadID } from '@textile/hub';
 import { createTextile } from './factories';
+import { Collection } from './types';
 
 const textileSlice = createSlice({
   name: 'textile',
@@ -24,6 +25,9 @@ const textileSlice = createSlice({
     setThread(state, action: PayloadAction<ThreadID>) {
       state.thread = action.payload;
     },
+    setCollections(state, action: PayloadAction<Collection[]>) {
+      state.collections = action.payload;
+    },
   },
 });
 
@@ -34,6 +38,7 @@ export const {
   setToken,
   setClient,
   setThread,
+  setCollections,
 } = textileSlice.actions;
 
 export const textileReducer = textileSlice.reducer;

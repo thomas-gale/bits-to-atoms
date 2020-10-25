@@ -18,6 +18,8 @@ export const createTextile = ({
   token = '',
   client = undefined as undefined | Client,
   thread = undefined as undefined | ThreadID,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  collections = undefined as undefined | any,
 } = {}): Textile => {
   return {
     detailsVisible,
@@ -25,5 +27,6 @@ export const createTextile = ({
     token,
     client,
     thread,
+    collections,
   };
 };

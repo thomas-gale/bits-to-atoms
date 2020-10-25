@@ -2,7 +2,14 @@ import { Client, Identity, PrivateKey } from '@textile/hub';
 import { call, put } from 'redux-saga/effects';
 import { createUuid } from '../common/identity/factories';
 import { createInsecureKey, createThreadID } from './factories';
-import { setIdentity, setClient, setThread, setToken } from './slice';
+import {
+  setIdentity,
+  setClient,
+  setThread,
+  setToken,
+  setCollections,
+} from './slice';
+import { Collection } from './types';
 
 function getRandomInt(min: number, max: number): number {
   min = Math.ceil(min);
@@ -52,6 +59,13 @@ export function* existingThreadDb(client: Client) {
 
   // Update store with thread id.
   yield put(setThread(threadID));
+
+  const collections: Collection[] = yield call(
+    async () => await client.listCollections(threadID)
+  );
+
+  // Update store with collections
+  yield put(setCollections(collections));
 
   // Create new DB
   /*yield call(async () => {

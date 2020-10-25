@@ -4,10 +4,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
 
-import {
-  experimentalTextileSaga,
-  generateIdentitySaga,
-} from './textile/user-identity-sagas';
+import { experimentalTextileSaga } from './textile/user-identity-sagas';
 
 import {
   simpleMarketSaga,

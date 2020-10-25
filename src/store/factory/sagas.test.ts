@@ -1,8 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import { buildRequestWorkflowSaga } from './sagas';
 import { createBuildRequest } from '../buildrequest/factories';
-import { addBuildRequest, requestFullfillmentOfActivity } from './slice';
-import { call } from 'redux-saga/effects';
+import { addBuildRequest } from './slice';
 
 describe('factory sagas', () => {
   it('first step in build request workflow is request transmutation', () => {

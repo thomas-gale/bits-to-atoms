@@ -47,8 +47,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy": "gh-pages -d build",
-    "test": "react-scripts test",
-    "test:ci": "react-scripts test --ci --coverage --coverageDirectory=jest_coverage --watchAll=false",
+    "test": "react-scripts test --runInBand --detectOpenHandles",
+    "test:ci": "react-scripts test --ci --coverage --coverageDirectory=jest_coverage --watchAll=false --runInBand --detectOpenHandles",
     "start:instrumented": "react-scripts -r tgale-instrument-cra start",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
@@ -96,6 +96,7 @@
     "prettier": "^2.0.2",
     "react-scripts": "^4.0.0",
     "react-test-renderer": "^16.13.1",
+    "redux-saga-test-plan": "^4.0.1",
     "tgale-instrument-cra": "4.0.0-alpha.1",
     "utf-8-validate": "^5.0.2"
   }

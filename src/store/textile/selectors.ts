@@ -6,4 +6,4 @@ export const userIdentityDetailsOverlayVisibleSelector = (
 
 export const userIdentityPublicKeySelector = (
   state: RootState
-): string | undefined => state.textile.user?.privateKey.toString();
+): string | undefined => state.textile.user?.identity.toString();

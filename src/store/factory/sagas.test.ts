@@ -1,29 +1,31 @@
-import { runSaga } from 'redux-saga';
+import { expectSaga } from 'redux-saga-test-plan';
 import { buildRequestWorkflowSaga } from './sagas';
 import { createBuildRequest } from '../buildrequest/factories';
-import { addBuildRequest } from './slice';
+import { addBuildRequest, requestFullfillmentOfActivity } from './slice';
+import { call } from 'redux-saga/effects';
 
 describe('factory sagas', () => {
-  it('should execute the build request workflow saga when build request added', async () => {
+  it('first step in build request workflow is request transmutation', () => {
     // Arrange
     const buildRequest = createBuildRequest({
       displayName: 'test-build-request',
     });
-    const dispatched = [];
 
     // Act
-    await runSaga(
-      {
-        dispatch: (action) => dispatched.push(action),
-      },
-      buildRequestWorkflowSaga,
-      {
-        type: addBuildRequest.type,
-        payload: buildRequest,
-      }
-    );
-
-    // Assert
-    expect(dispatched).toHaveLength(1);
+    // http://redux-saga-test-plan.jeremyfairbank.com/unit-testing/
+    // http://redux-saga-test-plan.jeremyfairbank.com/integration-testing/partial-matching.html
+    expectSaga(buildRequestWorkflowSaga, {
+      type: addBuildRequest.type,
+      payload: buildRequest,
+    })
+      .put.like({
+        action: {
+          type: 'factory/requestFullfillmentOfActivity',
+          payload: {
+            type: 'Transmutation',
+          },
+        },
+      })
+      .silentRun();
   });
 });

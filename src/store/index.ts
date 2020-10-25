@@ -4,7 +4,10 @@ import { combineReducers } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
 
-import { generateIdentitySaga } from './textile/user-identity-sagas';
+import {
+  experimentalTextileSaga,
+  generateIdentitySaga,
+} from './textile/user-identity-sagas';
 
 import {
   simpleMarketSaga,
@@ -28,7 +31,7 @@ import { informationReducer } from './information/slice';
 
 function* rootSaga() {
   yield all([
-    fork(generateIdentitySaga),
+    fork(experimentalTextileSaga),
     fork(simpleMarketSaga),
     fork(watchRequestAddBuildRequestSaga),
     fork(factoryUpdateTickSaga),

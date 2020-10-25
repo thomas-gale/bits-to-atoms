@@ -15,6 +15,9 @@ const textileSlice = createSlice({
     setUser(state, action: PayloadAction<User>) {
       state.user = action.payload;
     },
+    setToken(state, action: PayloadAction<string>) {
+      state.token = action.payload;
+    },
   },
 });
 
@@ -22,6 +25,7 @@ export const {
   showUserDetails,
   hideUserDetails,
   setUser,
+  setToken,
 } = textileSlice.actions;
 
 export const textileReducer = textileSlice.reducer;

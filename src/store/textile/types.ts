@@ -1,10 +1,11 @@
-import { PrivateKey } from '@textile/hub';
+import { Identity } from '@textile/hub';
 
 export interface User {
-  privateKey: PrivateKey;
+  identity: Identity;
 }
 
 export interface Textile {
   detailsVisible: boolean;
   user: undefined | User;
+  token: string;
 }

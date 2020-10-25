@@ -1,6 +1,6 @@
-import { KeyInfo } from '@textile/hub';
+import { Client, Identity, KeyInfo, ThreadID } from '@textile/hub';
 import { config } from '../../env/config';
-import { Textile, User } from './types';
+import { Textile } from './types';
 
 export const createInsecureKey = (): KeyInfo => {
   return {
@@ -8,14 +8,22 @@ export const createInsecureKey = (): KeyInfo => {
   };
 };
 
+export const createThreadID = (): ThreadID => {
+  return ThreadID.fromString(config.textile.threadId);
+};
+
 export const createTextile = ({
   detailsVisible = false,
-  user = undefined as undefined | User,
+  identity = undefined as undefined | Identity,
   token = '',
+  client = undefined as undefined | Client,
+  thread = undefined as undefined | ThreadID,
 } = {}): Textile => {
   return {
     detailsVisible,
-    user,
+    identity,
     token,
+    client,
+    thread,
   };
 };

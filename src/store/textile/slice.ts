@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Client, Identity, ThreadID } from '@textile/hub';
 import { createTextile } from './factories';
-import { User } from './types';
 
 const textileSlice = createSlice({
   name: 'textile',
@@ -12,11 +12,17 @@ const textileSlice = createSlice({
     hideUserDetails(state, _: PayloadAction) {
       state.detailsVisible = false;
     },
-    setUser(state, action: PayloadAction<User>) {
-      state.user = action.payload;
+    setIdentity(state, action: PayloadAction<Identity>) {
+      state.identity = action.payload;
     },
     setToken(state, action: PayloadAction<string>) {
       state.token = action.payload;
+    },
+    setClient(state, action: PayloadAction<Client>) {
+      state.client = action.payload;
+    },
+    setThread(state, action: PayloadAction<ThreadID>) {
+      state.thread = action.payload;
     },
   },
 });
@@ -24,8 +30,10 @@ const textileSlice = createSlice({
 export const {
   showUserDetails,
   hideUserDetails,
-  setUser,
+  setIdentity,
   setToken,
+  setClient,
+  setThread,
 } = textileSlice.actions;
 
 export const textileReducer = textileSlice.reducer;

@@ -1,16 +1,18 @@
 import { expectSaga } from 'redux-saga-test-plan';
-import { setToken, setUser } from './slice';
+import { setIdentity, setClient, setThread, setToken } from './slice';
 import {
   experimentalTextileSaga,
   generateIdentitySaga,
 } from './user-identity-sagas';
 
+jest.setTimeout(100000);
+
 describe('textile sagas', () => {
-  it('should run the generate identity saga', () => {
+  it.skip('should run the generate identity saga', () => {
     // Act / Assert
     return expectSaga(generateIdentitySaga)
       .put.like({
-        action: { type: setUser.type },
+        action: { type: setIdentity.type },
       })
       .run();
   });
@@ -18,11 +20,17 @@ describe('textile sagas', () => {
     // Act / Assert
     return expectSaga(experimentalTextileSaga)
       .put.like({
-        action: { type: setUser.type },
+        action: { type: setIdentity.type },
       })
       .put.like({
         action: { type: setToken.type },
       })
-      .run(1000);
+      .put.like({
+        action: { type: setClient.type },
+      })
+      .put.like({
+        action: { type: setThread.type },
+      })
+      .run(100000);
   });
 });

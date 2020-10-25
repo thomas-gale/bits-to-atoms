@@ -1,11 +1,9 @@
-import { Identity } from '@textile/hub';
-
-export interface User {
-  identity: Identity;
-}
+import { Client, Identity, ThreadID } from '@textile/hub';
 
 export interface Textile {
   detailsVisible: boolean;
-  user: undefined | User;
+  identity: undefined | Identity;
   token: string;
+  client: undefined | Client;
+  thread: undefined | ThreadID;
 }

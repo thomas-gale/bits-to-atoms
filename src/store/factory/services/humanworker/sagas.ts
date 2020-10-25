@@ -104,7 +104,7 @@ function* executeTransportationActivity(
   console.log(
     `Human worker service ${humanWorker.id} starting to execute transportation activity ${transportationActivity.id}`
   );
-  yield delay(1000);
+  yield delay(10);
 
   // Completed timestamp and update.
   transportationActivity.completed = new Date();
@@ -121,7 +121,7 @@ function* executeTransmutationActivity(
   console.log(
     `Human worker service ${humanWorker.id} starting to execute transmutation activity ${transmutationActivity.id}`
   );
-  yield delay(1000);
+  yield delay(10);
 
   // Completed timestamp and update.
   transmutationActivity.completed = new Date();

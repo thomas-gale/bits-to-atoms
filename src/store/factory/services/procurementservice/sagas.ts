@@ -97,7 +97,7 @@ function* executeActivityWorkflow(
   console.log(
     `Procurement service ${serviceProvider.id} starting to execute transmutation activity ${activity.id}`
   );
-  yield delay(1000);
+  yield delay(10);
 
   // Completed timestamp and update.
   activity.completed = new Date();

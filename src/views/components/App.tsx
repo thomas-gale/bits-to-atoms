@@ -5,7 +5,10 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { SizeMe } from 'react-sizeme';
 import { RootDispatch, RootState } from '../../store';
-import { userIdentityDetailsOverlayVisibleSelector } from '../../store/textile/selectors';
+import {
+  isHostSelector,
+  userIdentityDetailsOverlayVisibleSelector,
+} from '../../store/textile/selectors';
 import { hideUserDetails } from '../../store/textile/slice';
 import { informationOverlayVisibleSelector } from '../../store/information/selectors';
 import { hideInformationOverlay } from '../../store/information/slice';
@@ -24,9 +27,11 @@ import SelectedPanel from './selected/SelectedPanel';
 import TopNav from './TopNav';
 import useIpfsFactory from '../../store/ipfs/use-ipfs-factory';
 import { IpfsContext } from '../../store/ipfs/IpfsContext';
+import SetIsHostOverlay from './textile/SetIsHostOverlay';
 
 function mapState(state: RootState) {
   return {
+    isHost: isHostSelector(state),
     informationOverlayVisible: informationOverlayVisibleSelector(state),
     userIdentityDetailsOverlayVisible: userIdentityDetailsOverlayVisibleSelector(
       state
@@ -96,6 +101,7 @@ function App(props: Props): JSX.Element {
   const { ipfs } = useIpfsFactory();
 
   const {
+    isHost,
     informationOverlayVisible,
     userIdentityDetailsOverlayVisible,
     marketFactoryPanelVisibilty,
@@ -145,42 +151,57 @@ function App(props: Props): JSX.Element {
     }
   };
 
-  return (
-    <IpfsContext.Provider value={ipfs}>
-      <Box className={classes.fullScreen}>
-        <Factory />
-        <Box className={classes.uiOverlay}>
-          <Grid container className={classes.uiPrimaryGridContainer}>
-            <Grid item xs={12}>
-              <div className={classes.uiPrimaryGridElement}>
-                <TopNav />
-              </div>
-            </Grid>
-            <MarketFactoryPanel />
-            <PrimaryFocusPanel />
-            <Grid item xs={3}>
-              <div className={classes.uiPrimaryGridElement}>
-                <SelectedPanel />
-              </div>
-            </Grid>
+  // Initial state.
+  if (isHost == undefined) {
+    return (
+      <Box className={classes.uiOverlay}>
+        <Grid container className={classes.uiPrimaryGridContainer}>
+          <Grid item xs={12}>
+            <div className={classes.uiPrimaryGridElement}>
+              <SetIsHostOverlay />
+            </div>
           </Grid>
-          <Backdrop
-            className={classes.backdrop}
-            open={informationOverlayVisible}
-            onClick={onHideInfoPanel}
-          >
-            <InformationOverlay />
-          </Backdrop>
-          <Backdrop
-            className={classes.backdrop}
-            open={userIdentityDetailsOverlayVisible}
-            onClick={onHideUserDetailsPanel}
-          >
-            <UserDetailsOverlay />
-          </Backdrop>
-        </Box>
+        </Grid>
       </Box>
-    </IpfsContext.Provider>
+    );
+  }
+
+  return (
+    <Box className={classes.fullScreen}>
+      <IpfsContext.Provider value={ipfs}>
+        <Factory />
+      </IpfsContext.Provider>
+      <Box className={classes.uiOverlay}>
+        <Grid container className={classes.uiPrimaryGridContainer}>
+          <Grid item xs={12}>
+            <div className={classes.uiPrimaryGridElement}>
+              <TopNav />
+            </div>
+          </Grid>
+          <MarketFactoryPanel />
+          <PrimaryFocusPanel />
+          <Grid item xs={3}>
+            <div className={classes.uiPrimaryGridElement}>
+              <SelectedPanel />
+            </div>
+          </Grid>
+        </Grid>
+        <Backdrop
+          className={classes.backdrop}
+          open={informationOverlayVisible}
+          onClick={onHideInfoPanel}
+        >
+          <InformationOverlay />
+        </Backdrop>
+        <Backdrop
+          className={classes.backdrop}
+          open={userIdentityDetailsOverlayVisible}
+          onClick={onHideUserDetailsPanel}
+        >
+          <UserDetailsOverlay />
+        </Backdrop>
+      </Box>
+    </Box>
   );
 }
 

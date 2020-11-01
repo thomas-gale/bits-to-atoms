@@ -13,6 +13,7 @@ export const createThreadID = (): ThreadID => {
 };
 
 export const createTextile = ({
+  isHost = undefined as undefined | boolean,
   detailsVisible = false,
   identity = undefined as undefined | Identity,
   token = '',
@@ -22,6 +23,7 @@ export const createTextile = ({
   collections = undefined as undefined | any,
 } = {}): Textile => {
   return {
+    isHost,
     detailsVisible,
     identity,
     token,

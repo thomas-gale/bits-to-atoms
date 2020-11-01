@@ -1,25 +1,55 @@
 import { Client, ThreadID } from '@textile/hub';
+import { createSelector } from 'reselect';
 import { RootState } from '..';
-import { Collection } from './types';
+import { Collection, Textile } from './types';
 
-export const userIdentityDetailsOverlayVisibleSelector = (
-  state: RootState
-): boolean => state.textile.detailsVisible;
+export const textileSelector = (state: RootState): Textile => state.textile;
 
-export const identityPublicKeySelector = (
-  state: RootState
-): string | undefined => state.textile?.identity?.toString();
+export const isHostSelector = createSelector(
+  [textileSelector],
+  (textile: Textile): undefined | boolean => {
+    return textile.isHost;
+  }
+);
 
-export const tokenSelector = (state: RootState): string | undefined =>
-  state.textile?.token;
+export const userIdentityDetailsOverlayVisibleSelector = createSelector(
+  [textileSelector],
+  (textile: Textile): boolean => {
+    return textile.detailsVisible;
+  }
+);
 
-export const clientSelector = (state: RootState): Client | undefined =>
-  state.textile?.client;
+export const identityPublicKeySelector = createSelector(
+  [textileSelector],
+  (textile: Textile): string | undefined => {
+    return textile.identity?.toString();
+  }
+);
 
-export const threadSelector = (state: RootState): ThreadID | undefined =>
-  state.textile?.thread;
+export const tokenSelector = createSelector(
+  [textileSelector],
+  (textile: Textile): string | undefined => {
+    return textile.token;
+  }
+);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const collectionsSelector = (
-  state: RootState
-): Collection[] | undefined => state.textile?.collections;
+export const clientSelector = createSelector(
+  [textileSelector],
+  (textile: Textile): Client | undefined => {
+    return textile.client;
+  }
+);
+
+export const threadSelector = createSelector(
+  [textileSelector],
+  (textile: Textile): ThreadID | undefined => {
+    return textile.thread;
+  }
+);
+
+export const collectionsSelector = createSelector(
+  [textileSelector],
+  (textile: Textile): Collection[] | undefined => {
+    return textile.collections;
+  }
+);

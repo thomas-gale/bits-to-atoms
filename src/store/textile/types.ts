@@ -10,6 +10,7 @@ export interface Collection {
 }
 
 export interface Textile {
+  isHost: undefined | boolean;
   detailsVisible: boolean;
   identity: undefined | Identity;
   token: string;

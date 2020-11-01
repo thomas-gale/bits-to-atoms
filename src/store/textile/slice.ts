@@ -7,6 +7,9 @@ const textileSlice = createSlice({
   name: 'textile',
   initialState: createTextile(),
   reducers: {
+    setHost(state, action: PayloadAction<boolean>) {
+      state.isHost = action.payload;
+    },
     showUserDetails(state, _: PayloadAction) {
       state.detailsVisible = true;
     },
@@ -32,6 +35,7 @@ const textileSlice = createSlice({
 });
 
 export const {
+  setHost,
   showUserDetails,
   hideUserDetails,
   setIdentity,
